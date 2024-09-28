@@ -1,0 +1,24 @@
+* {
+    margin: 0;
+    direction: rtl;
+}
+
+.menu :where(li ul) {
+    margin-inline-start: 0rem !important;
+}
+
+.btn:is(input[type="radio"]):checked {
+    background-color: #0369a1 !important;
+    color: white !important;
+    border-color: #0369a1 !important;
+}
+
+.input:has(> input[disabled]), .input-disabled, .input:disabled, .input[disabled] {
+    border-color: white !important;
+    background-color: white !important;
+}
+
+.tab:is(input[type="radio"]) {
+    border-bottom-right-radius: 9999px !important;
+    border-bottom-left-radius: 9999px !important;
+}
