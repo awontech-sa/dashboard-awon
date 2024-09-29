@@ -38,7 +38,7 @@ class ProjectsController extends Controller
         $dashboard = Projects::all();
         $project = Projects::findOrFail($id);
 
-        return view('tech-projects.project', ['project' => $project, 'chart' => $viewChart,
+        return view('tech-projects.index', ['project' => $project, 'chart' => $viewChart,
         'dashboard' => $dashboard]);
     }
 }
