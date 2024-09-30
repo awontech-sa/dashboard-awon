@@ -79,6 +79,11 @@
             <div role="tabpanel" class="tab-content p-6">
                 @include('tech-projects.project-level')
             </div>
+
+            <input type="radio" name="my_tabs_2" role="tab" class="tab checked:rounded-full" aria-label="06" />
+            <div role="tabpanel" class="tab-content p-6">
+                @include('tech-projects.project-code')
+            </div>
         </div>
     </section>
 </main>
