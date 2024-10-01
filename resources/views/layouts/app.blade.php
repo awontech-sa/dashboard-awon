@@ -20,6 +20,29 @@
     <!-- start navbar -->
     <div class="navbar bg-base-100">
         <div class="navbar-start flex gap-x-28">
+            <div class="dropdown block lg:hidden xl:hidden">
+                <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="h-5 w-5"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h7" />
+                    </svg>
+                </div>
+                <ul
+                    tabindex="0"
+                    class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                    <li><a>Homepage</a></li>
+                    <li><a>Portfolio</a></li>
+                    <li><a>About</a></li>
+                </ul>
+            </div>
             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
             <div class="flex items-center mt-6 gap-x-3">
                 <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
@@ -30,12 +53,11 @@
     <!-- end navbar -->
 
     <!-- start drawer -->
-    <div class="drawer drawer-open">
+    <div class="drawer lg:drawer-open">
         <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
         <div class="drawer-content bg-[#F8FAFB] flex flex-col items-center justify-center w-full">
-            <label for="my-drawer-2" class="w-auto
-            2xl:w-full
-            xl:w-full">
+            <!-- Page content here -->
+            <label for="my-drawer-2" class="w-full">
                 @yield('content')
             </label>
             {!! $chart->script() !!}
@@ -43,6 +65,7 @@
         <div class="drawer-side">
             <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
             <ul class="menu bg-white shadow-2xl text-base-content m min-h-full w-80 p-4">
+                <!-- Sidebar content here -->
                 <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
