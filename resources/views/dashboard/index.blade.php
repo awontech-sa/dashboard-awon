@@ -1,11 +1,15 @@
   @extends('layouts.app')
   @section('content')
   <main class="font-['Tajawal'] w-[1071px] h-full px-16
-  2xl:w-auto">
+  lg:w-auto
+  xl:w-[1071px]
+  2xl:w-[1071px]">
     <section class="grid grid-cols-4 gap-x-32
-    xl:gap-x-28
-    2xl:gap-x-3">
+    lg:grid-cols-2 lg:gap-x-4 lg:w-fit lg:gap-y-4 lg:mt-6 lg:mr-56
+    xl:gap-x-28 xl:grid-cols-4
+    2xl:gap-x-3 2xl:grid-cols-4 2xl:w-auto">
       <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
+      xl:w-64 xl:h-36
       2xl:w-auto">
         <div class="flex justify-evenly pt-6
         2xl:justify-between 2xl:pl-10 2xl:pr-6">
@@ -62,48 +66,102 @@
     </section>
 
     <section class="grid grid-cols-3 mt-6 gap-x-36
+    lg:gap-x-5 lg:w-fit lg:mr-56
     xl:gap-x-[7.5rem]
-    2xl:gap-x-3">
+    2xl:gap-x-3 2xl:w-auto">
       <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+      lg:w-[10.2rem]
+      xl:w-[340px]
       2xl:w-auto">
-        <div class="flex justify-between px-9 py-6">
-          <p class="font-bold text-base">عدد المشاريع المدعومة</p>
-          <x-fas-tools class="text-gray-500 w-6 h-6" />
+        <div class="flex justify-between px-9 py-6
+        xl:px-9 xl:py-6
+        2xl:px-9 2xl:py-6
+        lg:px-2 lg:py-3">
+          <p class="font-bold text-base
+          xl:text-base
+          2xl:text-base
+          lg:text-[0.6rem]">عدد المشاريع المدعومة</p>
+          <x-fas-tools class="text-gray-500 w-6 h-6
+          xl:w-6 xl:h-6
+          2xl:w-6 2xl:h-6
+          lg:w-4 lg:h-4" />
         </div>
-        <div class="px-7">
-          <h1 class="font-bold text-3xl">{{ $support_projects->count() }}</h1>
-          <small class="text-sm font-normal">مشروع</small>
+        <div class="px-7
+        lg:px-2">
+          <h1 class="font-bold text-3xl
+          xl:text-3xl
+          2xl:text-3xl
+          lg:text-base">{{ $support_projects->count() }}</h1>
+          <small class="text-sm font-normal
+          xl:text-sm
+          lg:text-[0.6rem]">مشروع</small>
         </div>
       </div>
 
       <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+      lg:w-[10.2rem]
+      xl:w-[340px]
       2xl:w-auto">
-        <div class="flex justify-between px-9 py-6">
-          <p class="font-bold text-base">عدد المستفيدين من الجهات</p>
-          <x-far-building class="text-gray-500 w-6 h-6" />
+        <div class="flex justify-between px-9 py-6
+        xl:px-9 xl:py-6
+        2xl:px-9 2xl:py-6
+        lg:px-2 lg:py-3">
+          <p class="font-bold text-base
+          xl:text-base
+          2xl:text-base
+          lg:text-[0.6rem]">عدد المستفيدين من الجهات</p>
+          <x-far-building class="text-gray-500 w-6 h-6
+          lg:w-4 lg:h-4" />
         </div>
-        <div class="px-7">
-          <h1 class="font-bold text-3xl">{{ $benef_projects->count() }}</h1>
-          <small class="text-sm font-normal">جهة</small>
+        <div class="px-7
+        2xl:px-2
+        lg:px-2">
+          <h1 class="font-bold text-3xl
+          xl:text-3xl
+          2xl:text-3xl
+          lg:text-base">{{ $benef_projects->count() }}</h1>
+          <small class="text-sm font-normal
+          xl:text-sm
+          2xl:text-sm
+          lg:text-[0.6rem]">جهة</small>
         </div>
       </div>
 
       <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+      lg:w-[10.2rem]
+      xl:w-[340px]
       2xl:w-auto">
-        <div class="flex justify-between px-9 py-6">
-          <p class="font-bold text-base">عدد المستفيدين من الأفراد</p>
-          <x-fas-person class="text-gray-500 w-6 h-6" />
+        <div class="flex justify-between px-9 py-6
+        xl:px-9 xl:py-6
+        2xl:px-9 2xl:py-6
+        lg:px-2 lg:py-3">
+          <p class="font-bold text-base
+          xl:text-base
+          2xl:text-base
+          lg:text-[0.6rem]">عدد المستفيدين من الأفراد</p>
+          <x-fas-person class="text-gray-500 w-6 h-6
+          xl:w-6 xl:h-6
+          2xl:w-6 2xl:h-6
+          lg:w-4 lg:h-4" />
         </div>
-        <div class="px-7">
-          <h1 class="font-bold text-3xl">0</h1>
-          <small class="text-sm font-normal">فرد</small>
+        <div class="px-7
+        lg:px-2">
+          <h1 class="font-bold text-3xl
+          xl:text-3xl
+          2xl:text-3xl
+          lg:text-base">0</h1>
+          <small class="text-sm font-normal
+          xl:text-sm
+          2xl:text-sm
+          lg:text-[0.6rem]">فرد</small>
         </div>
       </div>
     </section>
 
     <section class="grid grid-cols-2 w-[1071px] h-[296px] my-7 gap-x-[27px]
-    xl:gap-x-0
-    2xl:w-auto">
+    lg:grid-cols-1
+    xl:gap-x-0 xl:grid-cols-2
+    2xl:w-auto 2xl:grid-cols-2">
       <div class="w-[516px] h-[296px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
       2xl:w-auto">
         <div class="flex justify-between py-6">

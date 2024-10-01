@@ -22,3 +22,15 @@
     border-bottom-right-radius: 9999px !important;
     border-bottom-left-radius: 9999px !important;
 }
+
+@media (min-width: 1536px) { 
+    .drawer-content {
+        min-width: auto !important;
+    }
+ }
+
+@media (min-width: 1280px) { 
+    .drawer-content {
+        min-width: auto !important;
+    }
+ }

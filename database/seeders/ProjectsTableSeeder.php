@@ -77,7 +77,7 @@ class ProjectsTableSeeder extends Seeder
             'p_date_end' => '2024-08-06',
             'p_remaining' => 'تم الانتهاء منه',
             'p_description' => 'منصة الكترونية تصنع الثقة بين المستقلين و طالبي الخدمات المتنوعة ، و تلبي احتياجاتهم بأعلى معايير الجودة',
-            'p_files' => json_encode(['value' => 'فرصة.pdf']),
+            'p_files' => json_encode([['value' => 'فرصة.pdf']]),
             'p_comment' => 'منتهي غالباً، ولكن يوجد جزء متوقف على 
 بيانات من طرفهم، وللآن لم يتم تزويدنا بها',
             'p_level' => 'البرمجة',
@@ -96,7 +96,7 @@ class ProjectsTableSeeder extends Seeder
             'p_date_end' => null,
             'p_remaining' => 'تم الانتهاء منه',
             'p_description' => 'منصة الكترونية تصنع الثقة بين المستقلين و طالبي الخدمات المتنوعة ، و تلبي احتياجاتهم بأعلى معايير الجودة',
-            'p_files' => json_encode(['value' => 'فرصة.pdf']),
+            'p_files' => json_encode([['value' => 'فرصة.pdf']]),
             'p_comment' => null,
             'p_level' => 'البرمجة',
             'p_web' => 'https://forsa-stg.awontech.sa',
