@@ -4,8 +4,8 @@
         @if($project->p_files != null)
         @foreach(json_decode($project->p_files) as $key => $value)
             <div class="w-[52rem] h-[4.1rem] rounded bg-white flex justify-between">
-                <p class="p-4">{{ basename($value) }}</p>
-                <a class="btn btn-md bg-sky-200 text-sky-600 border-sky-600 m-2" href="{{ $value }}" download="">لعرض الملف</a>
+                <p class="p-4">{{ basename($value->value) }}</p>
+                <a class="btn btn-md bg-sky-200 text-sky-600 border-sky-600 m-2" href="{{ $value->value }}" download="">لعرض الملف</a>
             </div>
         @endforeach
         @endif

@@ -9,9 +9,11 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        User::factory()->create([
-            'email' => 'admin@awontech.sa',
-            'password' => encrypt('123')
+        $this->call([
+            ProjectsTableSeeder::class,
+            MemberTableSeeder::class,
+            RoleTableSeeder::class,
+            ProjectTeamTableSeeder::class
         ]);
     }
 }
