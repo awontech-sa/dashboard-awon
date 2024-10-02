@@ -3,8 +3,9 @@
 <main class="font-['Tajawal'] w-[1071px] h-full px-16
   2xl:w-auto">
   <section class="grid grid-cols-4 gap-x-32
-    xl:gap-x-28
-    2xl:gap-x-3">
+  lg:grid-cols-2 lg:gap-x-4 lg:w-fit lg:gap-y-4
+    xl:gap-x-28 xl:grid-cols-4
+    2xl:gap-x-3 2xl:grid-cols-4 2xl:w-auto">
     <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
       2xl:w-auto">
       <div class="flex justify-evenly pt-6
@@ -62,39 +63,84 @@
   </section>
 
   <section class="grid grid-cols-3 mt-6 gap-x-36
-    xl:gap-x-[7.5rem]
-    2xl:gap-x-3">
+  lg:gap-x-2 lg:w-fit
+    xl:gap-x-[7.5rem] xl:w-auto
+    2xl:gap-x-3 2xl:w-auto">
     <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+    xl:w-[340px]
+    lg:w-48
       2xl:w-auto">
-      <div class="flex justify-between px-9 py-6">
-        <p class="font-bold text-base">عدد المشاريع المدعومة</p>
-        <x-fas-tools class="text-gray-500 w-6 h-6" />
+      <div class="flex justify-between px-9 py-6
+      2xl:py-6 2xl:flex 2xl:px-9
+      xl:py-6 xl:flex xl:px-9
+      lg:py-3 lg:px-4">
+        <p class="font-bold text-base
+        xl:text-base
+        2xl:text-base
+        lg:text-sm">عدد المشاريع المدعومة</p>
+        <x-fas-tools class="text-gray-500 w-6 h-6
+        xl:w-6 xl:h-6
+        2xl:w-6 2xl:h-6
+        lg:w-5 lg:h-5" />
       </div>
-      <div class="px-7">
+      <div class="px-7
+      xl:px-7
+      2xl:px-7
+      lg:px-4">
         <h1 class="font-bold text-3xl">{{ $support_projects->count() }}</h1>
         <small class="text-sm font-normal">مشروع</small>
       </div>
     </div>
 
     <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+    xl:w-[340px]
+    lg:w-48
       2xl:w-auto">
-      <div class="flex justify-between px-9 py-6">
-        <p class="font-bold text-base">عدد المستفيدين من الجهات</p>
-        <x-far-building class="text-gray-500 w-6 h-6" />
+      <div class="flex justify-between px-9 py-6
+      2xl:py-6 2xl:flex 2xl:px-9
+      xl:py-6 xl:flex xl:px-9
+      lg:py-3 lg:px-4">
+        <p class="font-bold text-base
+        xl:text-base
+        2xl:text-base
+        lg:text-sm">عدد المستفيدين من الجهات</p>
+        <x-far-building class="text-gray-500 w-6 h-6
+        xl:w-6 xl:h-6
+        2xl:w-6 2xl:h-6
+        lg:w-5 lg:h-5" />
       </div>
-      <div class="px-7">
+      <div class="px-7
+      xl:px-7
+      2xl:px-7
+      lg:px-4">
         <h1 class="font-bold text-3xl">{{ $benef_projects->count() }}</h1>
         <small class="text-sm font-normal">جهة</small>
       </div>
     </div>
 
+
+
     <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
+    xl:w-[340px]
+    lg:w-48
       2xl:w-auto">
-      <div class="flex justify-between px-9 py-6">
-        <p class="font-bold text-base">عدد المستفيدين من الأفراد</p>
-        <x-fas-person class="text-gray-500 w-6 h-6" />
+      <div class="flex justify-between px-9 py-6
+      2xl:py-6 2xl:flex 2xl:px-9
+      xl:py-6 xl:flex xl:px-9
+      lg:py-3 lg:px-4">
+        <p class="font-bold text-base
+        xl:text-base
+        2xl:text-base
+        lg:text-sm">عدد المستفيدين من الأفراد</p>
+        <x-fas-person class="text-gray-500 w-6 h-6
+        xl:w-6 xl:h-6
+        2xl:w-6 2xl:h-6
+        lg:w-5 lg:h-5" />
       </div>
-      <div class="px-7">
+      <div class="px-7
+      xl:px-7
+      2xl:px-7
+      lg:px-4">
         <h1 class="font-bold text-3xl">0</h1>
         <small class="text-sm font-normal">فرد</small>
       </div>
