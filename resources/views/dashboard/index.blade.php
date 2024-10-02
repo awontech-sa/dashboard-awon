@@ -1,216 +1,82 @@
 @extends('layouts.app')
 @section('content')
-<main class="font-['Tajawal'] w-[1071px] h-full px-16
-  2xl:w-auto">
-  <section class="grid grid-cols-4 gap-x-32
-  lg:grid-cols-2 lg:gap-x-4 lg:w-fit lg:gap-y-4
-    xl:gap-x-28 xl:grid-cols-4
-    2xl:gap-x-3 2xl:grid-cols-4 2xl:w-auto">
-    <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
-      2xl:w-auto">
-      <div class="flex justify-evenly pt-6
-        2xl:justify-between 2xl:pl-10 2xl:pr-6">
-        <p class="font-bold text-base">إجمالي عدد المشاريع</p>
-        <x-fas-diagram-project class="text-gray-500 w-6 h-6" />
-      </div>
-      <div class="px-7 py-6">
-        <h1 class="font-bold text-3xl">{{ $dashboard->count() }}</h1>
-        <small class="text-sm font-normal">مشروع</small>
-      </div>
-    </div>
-
-    <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
-      2xl:w-auto">
-      <div class="flex justify-evenly pt-6
-        2xl:justify-between 2xl:pl-10 2xl:pr-6">
-        <p class="font-bold text-base">عدد المشاريع المكتملة</p>
-        <x-far-check-circle class="text-gray-500 w-6 h-6" />
-      </div>
-      <div class="px-7 py-6">
-        <h1 class="font-bold text-3xl">{{ $completed_projects->count() }}</h1>
-        <small class="text-sm font-normal">مشروع</small>
-        <span class="indicator-item float-left badge bg-green-200 text-green-800 py-1 px-2 text-center">75%</span>
-      </div>
-    </div>
-
-    <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
-      2xl:w-auto">
-      <div class="flex justify-evenly pt-6
-        2xl:justify-between 2xl:pl-10 2xl:pr-6">
-        <p class="font-bold text-base">عدد المشاريع المعلقة</p>
-        <x-far-clock class="text-gray-500 w-6 h-6" />
-      </div>
-      <div class="px-7 py-6">
-        <h1 class="font-bold text-3xl">{{ $stopped_projects->count() }}</h1>
-        <small class="text-sm font-normal">مشروع</small>
-        <span class="indicator-item float-left badge bg-gray-200 text-gray-600 py-1 px-2 text-center">25%</span>
-      </div>
-    </div>
-
-    <div class="w-64 h-36 bg-white border-2 border-[#ECEEF6] rounded-md
-      2xl:w-auto">
-      <div class="flex justify-evenly pt-6
-        2xl:justify-between 2xl:pl-10 2xl:pr-6">
-        <p class="font-bold text-base">عدد المشاريع قيد التنفيذ</p>
-        <x-fas-tools class="text-gray-500 w-6 h-6" />
-      </div>
-      <div class="px-7 py-6">
-        <h1 class="font-bold text-3xl">{{ $progress_projects->count() }}</h1>
-        <small class="text-sm font-normal">مشروع</small>
-        <span class="indicator-item float-left badge bg-orange-200 text-orange-600 py-1 px-2 text-center">25%</span>
-      </div>
-    </div>
-  </section>
-
-  <section class="grid grid-cols-3 mt-6 gap-x-36
-  lg:gap-x-2 lg:w-fit
-    xl:gap-x-[7.5rem] xl:w-auto
-    2xl:gap-x-3 2xl:w-auto">
-    <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
-    xl:w-[340px]
-    lg:w-48
-      2xl:w-auto">
-      <div class="flex justify-between px-9 py-6
-      2xl:py-6 2xl:flex 2xl:px-9
-      xl:py-6 xl:flex xl:px-9
-      lg:py-3 lg:px-4">
-        <p class="font-bold text-base
-        xl:text-base
-        2xl:text-base
-        lg:text-sm">عدد المشاريع المدعومة</p>
-        <x-fas-tools class="text-gray-500 w-6 h-6
-        xl:w-6 xl:h-6
-        2xl:w-6 2xl:h-6
-        lg:w-5 lg:h-5" />
-      </div>
-      <div class="px-7
-      xl:px-7
-      2xl:px-7
-      lg:px-4">
-        <h1 class="font-bold text-3xl">{{ $support_projects->count() }}</h1>
-        <small class="text-sm font-normal">مشروع</small>
-      </div>
-    </div>
-
-    <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
-    xl:w-[340px]
-    lg:w-48
-      2xl:w-auto">
-      <div class="flex justify-between px-9 py-6
-      2xl:py-6 2xl:flex 2xl:px-9
-      xl:py-6 xl:flex xl:px-9
-      lg:py-3 lg:px-4">
-        <p class="font-bold text-base
-        xl:text-base
-        2xl:text-base
-        lg:text-sm">عدد المستفيدين من الجهات</p>
-        <x-far-building class="text-gray-500 w-6 h-6
-        xl:w-6 xl:h-6
-        2xl:w-6 2xl:h-6
-        lg:w-5 lg:h-5" />
-      </div>
-      <div class="px-7
-      xl:px-7
-      2xl:px-7
-      lg:px-4">
-        <h1 class="font-bold text-3xl">{{ $benef_projects->count() }}</h1>
-        <small class="text-sm font-normal">جهة</small>
-      </div>
-    </div>
-
-
-
-    <div class="w-[340px] h-[139px] bg-white border-2 border-[#ECEEF6] rounded-md
-    xl:w-[340px]
-    lg:w-48
-      2xl:w-auto">
-      <div class="flex justify-between px-9 py-6
-      2xl:py-6 2xl:flex 2xl:px-9
-      xl:py-6 xl:flex xl:px-9
-      lg:py-3 lg:px-4">
-        <p class="font-bold text-base
-        xl:text-base
-        2xl:text-base
-        lg:text-sm">عدد المستفيدين من الأفراد</p>
-        <x-fas-person class="text-gray-500 w-6 h-6
-        xl:w-6 xl:h-6
-        2xl:w-6 2xl:h-6
-        lg:w-5 lg:h-5" />
-      </div>
-      <div class="px-7
-      xl:px-7
-      2xl:px-7
-      lg:px-4">
-        <h1 class="font-bold text-3xl">0</h1>
-        <small class="text-sm font-normal">فرد</small>
-      </div>
-    </div>
-  </section>
-
-  <section class="grid grid-cols-2 w-[1071px] h-[296px] my-7 gap-x-[27px]
-    xl:gap-x-0
+<div>
+  <section class="grid grid-cols-4 gap-x-[1.6rem] w-[67rem] pr-[3.75rem]
+  md:pr-2 md:gap-x-1
+  lg:pr-0 lg:gap-x-[1.6rem]
+  2xl:w-auto 2xl:pr-[3.75rem] 2xl:gap-x-[1.6rem]
+  xl:w-[67rem] xl:pr-[3.75rem] xl:gap-x-[1.6rem]">
+    <!-- start all projects -->
+    <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
+    xl:w-[15.5rem]
     2xl:w-auto">
-    <div class="w-[516px] h-[296px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
-      2xl:w-auto">
-      <div class="flex justify-between py-6">
-        <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
-        <a href="" class="link text-blue-600">عرض الكل ←</a>
+      <div class="flex justify-around items-center font-['Tajawal'] pt-6">
+        <p class="text-base font-bold">إجمالي عدد المشاريع</p>
+        <img src="{{ asset("assets/icons/all_projects.png") }}" alt="all-project icon" class="w-6 h-6" />
       </div>
-      <div class="w-[475px] grid gap-y-6
-        2xl:w-auto">
-        <div class="grid grid-cols-3 items-center">
-          <p>سخي</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>نظام إدارة المحتوى</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>فرصة</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>وعي</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
+      <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
+      2xl:pr-[5.2rem]
+      xl:pr-[1.3rem]">
+        <p class="font-bold text-3xl">{{ $dashboard->count() }}</p>
+        <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
+    <!-- end all projects squre -->
 
-    <div class="w-[516px] h-[296px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
-      2xl:w-auto">
-      <div class="flex justify-between py-6">
-        <p class="font-bold text-base">إجمالي دخل المشاريع</p>
-        <a href="" class="link text-blue-600">عرض الكل ←</a>
+    <!-- start completed projects -->
+    <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
+    xl:w-[15.5rem]
+    2xl:w-auto">
+      <div class="flex justify-around items-center font-['Tajawal'] pt-6">
+        <p class="text-base font-bold">عدد المشاريع المكتملة</p>
+        <img src="{{ asset("assets/icons/completed_projects.png") }}" alt="all-project icon" class="w-6 h-6" />
       </div>
-      <div class="flex">
-        <div class="w-[475px] grid gap-y-6">
-          <div class="grid grid-cols-2 gap-x-4 items-center">
-            <p>سخي</p>
-            <p class="text-gray-500">50%</p>
-          </div>
-          <div class="grid grid-cols-2 gap-x-4 items-center">
-            <p>نظام إدارة المحتوى</p>
-            <p class="text-gray-500">22.5%</p>
-          </div>
-          <div class="grid grid-cols-2 gap-x-4 items-center">
-            <p>فرصة</p>
-            <p class="text-gray-500">30.8%</p>
-          </div>
-          <div class="grid grid-cols-2 gap-x-4 items-center">
-            <p>وعي</p>
-            <p class="text-gray-500">8.1%</p>
-          </div>
-        </div>
-        <div class="w-52 h-52">
-          {!! $chart->container() !!}
-        </div>
+      <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
+      2xl:pr-[5.2rem]
+      xl:pr-[1.3rem]">
+        <p class="font-bold text-3xl">{{ $completed_projects->count() }}</p>
+        <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
+    <!-- end completed projects -->
+
+    <!-- start stopped projects -->
+    <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
+    xl:w-[15.5rem]
+    2xl:w-auto">
+      <div class="flex justify-around items-center font-['Tajawal'] pt-6">
+        <p class="text-base font-bold">عدد المشاريع المعلقة</p>
+        <img src="{{ asset("assets/icons/stopped_projects.png") }}" alt="all-project icon" class="w-6 h-6" />
+      </div>
+      <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
+      2xl:pr-[5.2rem]
+      xl:pr-[1.3rem]">
+        <p class="font-bold text-3xl">{{ $stopped_projects->count() }}</p>
+        <small class="text-sm font-normal text-gray-500">مشروع</small>
+      </div>
+    </div>
+    <!-- end stopped projects -->
+
+    <!-- start in progress projects -->
+    <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
+    xl:w-[15.5rem]
+    2xl:w-auto">
+      <div class="flex justify-around items-center font-['Tajawal'] pt-6">
+        <p class="text-base font-bold">عدد المشاريع قيد التنفيذ</p>
+        <img src="{{ asset("assets/icons/progress.png") }}" alt="all-project icon" class="w-6 h-6" />
+      </div>
+      <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
+      2xl:pr-[5.2rem]
+      xl:pr-[1.3rem]">
+        <p class="font-bold text-3xl">{{ $progress_projects->count() }}</p>
+        <small class="text-sm font-normal text-gray-500">مشروع</small>
+      </div>
+    </div>
+    <!-- end in progress projects -->
   </section>
-</main>
+
+  <section></section>
+
+  <section></section>
+</div>
 @endsection

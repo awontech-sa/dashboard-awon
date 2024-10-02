@@ -22,35 +22,7 @@
 
 <body>
     <div class="w-full flex h-svh max-h-svh">
-        <div class="flex h-full flex-1 flex-col">
-            <!-- Main Content Area-->
-            <div class="flex h-full flex-col overflow-y-scroll bg-[#F8FAFB]">
-                <div class="sticky top-0 w-full">
-                    <!-- Header -->
-                    <div class="navbar bg-base-100">
-                        <div class="navbar-start flex gap-x-28">
-                            <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
-                            <div class="flex items-center mt-6 gap-x-3">
-                                <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
-                                <input type="text" class="font-['Tajawal']" name="search" id="search" placeholder="ابحث باسم المشروع..." />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="my-auto">
-                    <!-- Content -->
-                    @yield('content')
-                    {!! $chart->script() !!}
-                </div>
-            </div>
-            <div class="sticky top-0 block bg-pink-500 py-5
-            lg:hidden
-            xl:hidden
-            2xl:hidden">
-                <h1 class="text-center text-xl">Bottom Navigation</h1>
-            </div>
-        </div>
-        <div class="hidden h-full flex-[0.3] lg:contents">
+        <div class="h-full flex-[0.3] contents">
             <!-- Right Sidebar -->
             <ul class="menu bg-white text-base-content m min-h-full w-80 p-4">
                 <!-- Sidebar content here -->
@@ -84,7 +56,29 @@
                 </li>
             </ul>
         </div>
-    </div>
+
+        <div class="flex h-full flex-1 flex-col">
+            <!-- Main Content Area-->
+            <div class="flex h-full flex-col overflow-y-scroll bg-[#F8FAFB]">
+                <div class="sticky top-0 w-full">
+                    <!-- Header -->
+                    <div class="navbar bg-base-100">
+                        <div class="navbar-start flex gap-x-28">
+                            <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
+                            <div class="flex items-center mt-6 gap-x-3">
+                                <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
+                                <input type="text" class="font-['Tajawal']" name="search" id="search" placeholder="ابحث باسم المشروع..." />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="my-auto">
+                    <!-- Content -->
+                    @yield('content')
+                    {!! $chart->script() !!}
+                </div>
+            </div>
+        </div>
 </body>
 
 </html>
