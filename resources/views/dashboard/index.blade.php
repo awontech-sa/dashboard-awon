@@ -2,10 +2,10 @@
 @section('content')
 <div>
   <section class="grid grid-cols-4 gap-x-[1.6rem] w-[67rem] pr-[3.75rem]
-  md:pr-2 md:gap-x-1
-  lg:pr-0 lg:gap-x-[1.6rem]
-  2xl:w-auto 2xl:pr-[3.75rem] 2xl:gap-x-[1.6rem]
-  xl:w-[67rem] xl:pr-[3.75rem] xl:gap-x-[1.6rem]">
+  md:grid-cols-2 md:w-auto md:gap-x-0 md:gap-y-4
+  lg:pr-0 lg:gap-x-[1.6rem] lg:grid-cols-4
+  2xl:w-auto 2xl:pr-[3.75rem] 2xl:gap-x-[1.6rem] 2xl:grid-cols-4
+  xl:w-[67rem] xl:pr-[3.75rem] xl:gap-x-[1.6rem] xl:grid-cols-4">
     <!-- start all projects -->
     <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
     xl:w-[15.5rem]

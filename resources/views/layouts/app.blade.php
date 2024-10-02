@@ -22,7 +22,7 @@
 
 <body>
     <div class="w-full flex h-svh max-h-svh">
-        <div class="h-full flex-[0.3] contents">
+        <div class="hidden h-full flex-[0.3] lg:contents">
             <!-- Right Sidebar -->
             <ul class="menu bg-white text-base-content m min-h-full w-80 p-4">
                 <!-- Sidebar content here -->
@@ -78,7 +78,8 @@
                     {!! $chart->script() !!}
                 </div>
             </div>
-        </div>
+            
+    </div>
 </body>
 
 </html>
