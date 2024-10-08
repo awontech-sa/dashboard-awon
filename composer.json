@@ -9,6 +9,7 @@
         "blade-ui-kit/blade-icons": "^1.7",
         "consoletvs/charts": "6.*",
         "laravel/framework": "^11.9",
+        "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "owenvoke/blade-fontawesome": "^2.6"
     },

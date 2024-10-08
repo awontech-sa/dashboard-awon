@@ -21,11 +21,14 @@
 </head>
 
 <body>
-    <div class="w-full flex h-svh max-h-svh">
-        <div class="hidden h-full flex-[0.3] lg:contents">
-            <!-- Right Sidebar -->
+    <div class="w-full grid h-svh max-h-svh
+    2xl:flex
+    xl:flex
+    lg:flex">
+        <div class="hidden h-full flex-[0.3]
+        2xl:contents
+        xl:contents">
             <ul class="menu bg-white text-base-content m min-h-full w-80 p-4">
-                <!-- Sidebar content here -->
                 <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
@@ -57,29 +60,63 @@
             </ul>
         </div>
 
-        <div class="flex h-full flex-1 flex-col">
-            <!-- Main Content Area-->
-            <div class="flex h-full flex-col overflow-y-scroll bg-[#F8FAFB]">
+        <div class="w-full">
+            <div class="bg-[#F8FAFB] h-full">
                 <div class="sticky top-0 w-full">
-                    <!-- Header -->
-                    <div class="navbar bg-base-100">
-                        <div class="navbar-start flex gap-x-28">
+                    <div class="navbar bg-base-100 hidden
+                    2xl:block
+                    xl:block">
+                        <div class="navbar-start gap-x-28 flex">
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
-                            <div class="flex items-center mt-6 gap-x-3">
+                            <!-- <div class="flex items-center mt-6 gap-x-3">
                                 <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
                                 <input type="text" class="font-['Tajawal']" name="search" id="search" placeholder="ابحث باسم المشروع..." />
-                            </div>
+                            </div> -->
                         </div>
                     </div>
+                    <nav class="navbar bg-body-tertiary block
+                    2xl:hidden
+                    xl:hidden">
+                        <div class="container-fluid">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                                <div class="offcanvas-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
+                                        <li class="nav-item">
+                                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Dropdown
+                                            </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Action</a></li>
+                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                                <li>
+                                                    <hr class="dropdown-divider">
+                                                </li>
+                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
+
                 </div>
-                <div class="my-auto">
-                    <!-- Content -->
+                <div class="pt-11">
                     @yield('content')
                     {!! $chart->script() !!}
                 </div>
             </div>
-            
-    </div>
+
+        </div>
 </body>
 
 </html>
