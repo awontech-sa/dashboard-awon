@@ -21,7 +21,7 @@
 </head>
 
 <body>
-    <div class="w-full grid h-svh max-h-svh
+    <div class="grid
     2xl:flex
     xl:flex
     lg:flex">

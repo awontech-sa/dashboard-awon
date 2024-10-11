@@ -7,18 +7,24 @@
     margin-inline-start: 0rem !important;
 }
 
-.btn:is(input[type="radio"]):checked {
-    background-color: #0369a1 !important;
+.tabs-boxed :is(input:checked) {
+    background-color: #137EA4 !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-radius: 9999px !important;
     color: white !important;
-    border-color: #0369a1 !important;
-}
-
-.input:has(> input[disabled]), .input-disabled, .input:disabled, .input[disabled] {
-    border-color: white !important;
-    background-color: white !important;
+    text-align: center !important;
+    padding: 4px !important;
+    border-color: #137EA4 !important;
 }
 
 .tab:is(input[type="radio"]) {
-    border-bottom-right-radius: 9999px !important;
-    border-bottom-left-radius: 9999px !important;
+    width: 32px !important;
+    height: 32px !important;
+    border-color: #A1AEBE;
+    border-radius: 9999px !important;
+    background-color: white;
+    border-width: 2px;
+    padding: 2px !important;
+    text-align: center !important;
 }
