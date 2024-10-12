@@ -81,16 +81,16 @@
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
             <div role="tabpanel" class="tab-content">
-                <!-- @include('tech-projects.project-level') -->
+                @include('tech-projects.project-level')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
             <div role="tabpanel" class="tab-content">
-                <!-- @include('tech-projects.project-code') -->
+                @include('tech-projects.project-code')
             </div>
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
             <div role="tabpanel" class="tab-content">
-                <!-- @include('tech-projects.project-team') -->
+                @include('tech-projects.project-team')
             </div>
         </div>
     </section>
