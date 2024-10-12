@@ -110,7 +110,7 @@
                     </nav>
 
                 </div>
-                <div class="pt-11">
+                <div class="pt-11 pb-52">
                     @yield('content')
                     {!! $chart->script() !!}
                 </div>

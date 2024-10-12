@@ -71,7 +71,7 @@
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
             <div role="tabpanel" class="tab-content">
-                <!-- @include('tech-projects.project-files') -->
+                @include('tech-projects.project-files')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
