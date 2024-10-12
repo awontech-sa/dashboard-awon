@@ -66,7 +66,7 @@
                 class="tab"
                 aria-label="02" />
             <div role="tabpanel" class="tab-content">
-                <!-- @include('tech-projects.financial-data') -->
+                @include('tech-projects.financial-data')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />

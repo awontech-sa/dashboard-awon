@@ -14,7 +14,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'معلق',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2022-09-01',
             'p_date_end' => null,
             'p_remaining' => null,
@@ -24,7 +24,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => 'https://awontech.sa/home',
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "عون التقنية"
         ]);
 
         Projects::query()->create([
@@ -32,7 +33,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2024/07/16',
             'p_date_end' => '2024/10/01',
             'p_remaining' => 'منتهي جزئيًا',
@@ -42,7 +43,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => 'https://dashboard.awontech.sa/',
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "عون التقنية"
         ]);
 
         Projects::query()->create([
@@ -50,7 +52,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2022-09-01',
             'p_date_end' => null,
             'p_remaining' => null,
@@ -64,7 +66,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => null,
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "عون التقنية"
         ]);
 
         Projects::query()->create([
@@ -72,7 +75,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2023-11-06',
             'p_date_end' => '2024-08-06',
             'p_remaining' => 'تم الانتهاء منه',
@@ -83,7 +86,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => 'https://forsa-stg.awontech.sa',
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "جهة خارجة"
         ]);
 
         Projects::query()->create([
@@ -91,7 +95,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'مكتمل',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2023-09-01',
             'p_date_end' => null,
             'p_remaining' => 'تم الانتهاء منه',
@@ -101,7 +105,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => 'https://forsa-stg.awontech.sa',
             'p_ios' => 'https://apps.apple.com/us/app/%D8%AA%D8%B7%D8%A8%D9%8A%D9%82-%D9%88%D8%B9%D9%8A/id6473122987',
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "جهة خارجة"
         ]);
 
         Projects::query()->create([
@@ -109,7 +114,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 0,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2024-01-01',
             'p_date_end' => '2025-01-01',
             'p_remaining' => 'قيد التنفيذ',
@@ -119,7 +124,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => null,
             'p_web' => 'https://hidayaa.org',
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "جهة خارجة"
         ]);
 
         Projects::query()->create([
@@ -127,7 +133,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 1,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 1,
             'p_date_start' => '2023-01-01',
             'p_date_end' => null,
             'p_remaining' => 'منتهي جزئيا تبقى حل المشاكل لنظام أبل',
@@ -144,7 +150,7 @@ class ProjectsTableSeeder extends Seeder
             'p_name' => 'تطبيق مكة السياحي',
             'p_status' => 'قيد التنفيذ',
             'p_support' => 0,
-            'p_type_beneficiaries' => null,
+            'p_type_beneficiaries' => "فرد",
             'p_num_beneficiaries' => 1,
             'p_date_start' => '2024-09-01',
             'p_date_end' => null,
@@ -155,7 +161,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'تصميم واجهات المستخدم',
             'p_web' => null,
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "عون التقنية"
         ]);
 
         Projects::query()->create([
@@ -163,7 +170,7 @@ class ProjectsTableSeeder extends Seeder
             'p_status' => 'قيد التنفيذ',
             'p_support' => 1,
             'p_type_beneficiaries' => 'جهة',
-            'p_num_beneficiaries' => 11,
+            'p_num_beneficiaries' => 9,
             'p_date_start' => '2023-12-11',
             'p_date_end' => null,
             'p_remaining' => 'قيد التعديل والتطوير حسب متطلبات كل جمعية',
@@ -173,7 +180,8 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'تصميم واجهات المستخدم',
             'p_web' => null,
             'p_ios' => null,
-            'p_android' => null
+            'p_android' => null,
+            'p_support_entity' => "جهة خارجة"
         ]);
     }
 }
