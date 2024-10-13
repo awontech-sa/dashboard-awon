@@ -13,111 +13,111 @@ class ProjectTeamTableSeeder extends Seeder
     public function run(): void
     {
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 1,
-            'role_id' => 1
+            'projects_id' => 1,
+            'members_id' => 1,
+            'roles_id' => 1
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 1,
-            'role_id' => 2
+            'projects_id' => 1,
+            'members_id' => 1,
+            'roles_id' => 2
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 1,
-            'role_id' => 4
+            'projects_id' => 1,
+            'members_id' => 1,
+            'roles_id' => 4
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 2,
-            'role_id' => 1
+            'projects_id' => 1,
+            'members_id' => 2,
+            'roles_id' => 1
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 2,
-            'role_id' => 2
+            'projects_id' => 1,
+            'members_id' => 2,
+            'roles_id' => 2
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 2,
-            'role_id' => 4
+            'projects_id' => 1,
+            'members_id' => 2,
+            'roles_id' => 4
         ]);
         TeamProject::query()->create([
-            'project_id' => 1,
-            'member_id' => 3,
-            'role_id' => 3
+            'projects_id' => 1,
+            'members_id' => 3,
+            'roles_id' => 3
         ]);
         // لوحة تحكم عون
         TeamProject::query()->create([
-            'project_id' => 2,
-            'member_id' => 1,
-            'role_id' => 2
+            'projects_id' => 2,
+            'members_id' => 1,
+            'roles_id' => 2
         ]);
         TeamProject::query()->create([
-            'project_id' => 2,
-            'member_id' => 2,
-            'role_id' => 1
+            'projects_id' => 2,
+            'members_id' => 2,
+            'roles_id' => 1
         ]);
         TeamProject::query()->create([
-            'project_id' => 2,
-            'member_id' => 3,
-            'role_id' => 3
+            'projects_id' => 2,
+            'members_id' => 3,
+            'roles_id' => 3
         ]);
         // تطبيق سخي
         TeamProject::query()->create([
-            'project_id' => 3,
-            'member_id' => 4,
-            'role_id' => 6
+            'projects_id' => 3,
+            'members_id' => 4,
+            'roles_id' => 6
         ]);
         // نظام فرصة
         TeamProject::query()->create([
-            'project_id' => 4,
-            'member_id' => 1,
-            'role_id' => 5
+            'projects_id' => 4,
+            'members_id' => 1,
+            'roles_id' => 5
         ]);
         TeamProject::query()->create([
-            'project_id' => 4,
-            'member_id' => 2,
-            'role_id' => 4
+            'projects_id' => 4,
+            'members_id' => 2,
+            'roles_id' => 4
         ]);
         // تطبيق وعي
         TeamProject::query()->create([
-            'project_id' => 5,
-            'member_id' => 1,
-            'role_id' => 6
+            'projects_id' => 5,
+            'members_id' => 1,
+            'roles_id' => 6
         ]);
         TeamProject::query()->create([
-            'project_id' => 5,
-            'member_id' => 1,
-            'role_id' => 5
+            'projects_id' => 5,
+            'members_id' => 1,
+            'roles_id' => 5
         ]);
         // إدارة منصات مركز الهدى
         TeamProject::query()->create([
-            'project_id' => 6,
-            'member_id' => 1,
-            'role_id' => 4
+            'projects_id' => 6,
+            'members_id' => 1,
+            'roles_id' => 4
         ]);
         TeamProject::query()->create([
-            'project_id' => 6,
-            'member_id' => 2,
-            'role_id' => 4
+            'projects_id' => 6,
+            'members_id' => 2,
+            'roles_id' => 4
         ]);
         // الدليل الرقمي
         TeamProject::query()->create([
-            'project_id' => 7,
-            'member_id' => 1,
-            'role_id' => 5
+            'projects_id' => 7,
+            'members_id' => 1,
+            'roles_id' => 5
         ]);
         TeamProject::query()->create([
-            'project_id' => 7,
-            'member_id' => 3,
-            'role_id' => 3
+            'projects_id' => 7,
+            'members_id' => 3,
+            'roles_id' => 3
         ]);
         // تطبيق مكة السياحي
         TeamProject::query()->create([
-            'project_id' => 8,
-            'member_id' => 2,
-            'role_id' => 1
+            'projects_id' => 8,
+            'members_id' => 2,
+            'roles_id' => 1
         ]);
     }
 }
