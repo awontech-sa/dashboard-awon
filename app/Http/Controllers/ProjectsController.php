@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projects;
-use App\Models\Roles;
 use App\Models\TeamProject;
 use App\Services\ViewChartService;
 
@@ -46,31 +45,12 @@ class ProjectsController extends Controller
         $dashboard = Projects::all();
         $project = Projects::findOrFail($id);
 
-        // Get members with their roles where the project ID matches the given ID
-        // $membersWithRoles = $project->members()
-        //     ->distinct()  // Add distinct to avoid duplication
-        //     ->with(['roles' => function ($query) use ($id) {
-        //         $query->where('team_project.projects_id', $id);
-        //     }])
-        //     ->get();
-        // $membersWithRoles = $project->members()
-        //     ->select('members.id', 'members.m_name') // Select only necessary columns
-        //     ->with(['roles' => function ($query) use ($id) {
-        //         $query->select('roles.id', 'roles.r_role') // Select only necessary columns from roles
-        //             ->where('team_project.projects_id', $id);
-        //     }])
-        //     ->distinct() // Ensure distinct members and roles are fetched
-        //     ->get();
         $membersWithRoles = TeamProject::join('members', 'team_project.members_id', '=', 'members.id')
-            ->join('roles', 'team_project.roles_id', '=', 'roles.id')
-            ->select('members.m_name', 'roles.r_role as role_name')
+            ->join('employee_roles', 'team_project.roles_id', '=', 'employee_roles.id')
+            ->select('members.m_name', 'employee_roles.r_role as role_name')
             ->where('team_project.projects_id', $id)  // Assuming $id is the project ID
             ->distinct()
             ->get();
-
-
-
-
 
         return view('tech-projects.index', [
             'project' => $project,
