@@ -10,6 +10,7 @@ use App\Http\Controllers\ForgotPasswordController;
 // start auth routes
 Route::get('/login', [AuthController::class, 'index']);
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 // end auth routes
 
 //start forgot password route
@@ -21,12 +22,11 @@ Route::post('/reset-password-post', [ForgotPasswordController::class, 'submitRes
 
 // start role route
 Route::group(['middleware' => 'role'], function () {
-    Route::get('/admin/panel', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('/employee/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
+    Route::get('admin/panel', [AdminController::class, 'index'])->name('admin.dashboard');
+    Route::get('admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
+    Route::get('employee/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
 });
 // end role route
-
-
 
 Route::get('/', [ProjectsController::class, 'index'])->name('home');
 Route::get('/tech-projects/{id}', [ProjectsController::class, 'techProjects'])->name('tech');

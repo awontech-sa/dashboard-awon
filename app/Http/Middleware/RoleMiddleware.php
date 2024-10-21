@@ -21,14 +21,15 @@ class RoleMiddleware
             $user = Auth::user();
             $currentUrl = $request->url();
 
-            if ($user->hasRole('Admin') && $currentUrl !== url('/admin/panel')) {
-                return redirect('/admin/panel');
+            if ($user->hasRole('Admin')) {
+                if ($currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users')) {
+                    return redirect()->route('admin.dashboard');
+                }
             }
 
             if ($user->hasRole('Employee') && $currentUrl !== url('/employee/panel')) {
-                return redirect('/employee/panel');
+                return redirect()->route('employee.dashboard');
             }
-
         }
 
         return $next($request);

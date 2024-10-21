@@ -43,10 +43,10 @@ class AuthController extends Controller
         });
     }
 
-    // public function logout(Request $request)
-    // {
-    //     $request->user()->tokens()->delete();
+    public function logout()
+    {
+        Auth::logout();
 
-    //     return ["message" => 'Logged out successfully'];
-    // }
+        return redirect('login');
+    }
 }
