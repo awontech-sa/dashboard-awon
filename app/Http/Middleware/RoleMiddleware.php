@@ -22,7 +22,7 @@ class RoleMiddleware
             $currentUrl = $request->url();
 
             if ($user->hasRole('Admin')) {
-                if ($currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users')) {
+                if ($currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url('/admin/settings')) {
                     return redirect()->route('admin.dashboard');
                 }
             }
