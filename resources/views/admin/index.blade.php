@@ -20,7 +20,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $dashboard->count() }}</p>
+        <p class="font-bold text-3xl">{{ count($dashboard) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -37,7 +37,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $completed_projects->count() }}</p>
+        <p class="font-bold text-3xl">{{ count($completed_projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>

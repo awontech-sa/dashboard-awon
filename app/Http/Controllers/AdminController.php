@@ -51,24 +51,8 @@ class AdminController extends Controller
 
         $viewChart = $this->viewChartService->getProjectsIncome();
 
-        $dashboard = Projects::all();
-        $completed_projects = Projects::where('p_status', 'مكتمل')->get();
-        $stopped_projects = Projects::where('p_status', 'معلق')->get();
-        $progress_projects = Projects::where('p_status', 'قيد التنفيذ')->get();
-        $support_projects = Projects::where('p_support', '1')->get();
-        $benef_projects = Projects::where('p_type_beneficiaries', 'جهة')->get();
 
-
-        return view('setting', [
-            'admin' => $admin,
-            'chart' => $viewChart,
-            'dashboard' => $dashboard,
-            'completed_projects' => $completed_projects,
-            'stopped_projects' => $stopped_projects,
-            'progress_projects' => $progress_projects,
-            'support_projects' => $support_projects,
-            'benef_projects' => $benef_projects
-        ]);
+        return view('setting', ['admin' => $admin, 'chart' => $viewChart]);
     }
 
     public function updateSetting(Request $request)
@@ -77,7 +61,7 @@ class AdminController extends Controller
 
         /** @var \App\Models\User */
         $admin = Auth::user();
-        
+
         $user = User::FindOrFail($admin->id);
 
         $user->name = $request->input('name');
@@ -92,5 +76,23 @@ class AdminController extends Controller
         $user->save();
 
         return view('setting', ['admin' => $user, 'chart' => $viewChart]);
+    }
+
+    public function showUsers()
+    {
+        $admin = Auth::user();
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+
+        $users = User::all();
+        return view('admin.users', ['admin' => $admin, 'chart' => $viewChart, 'users' => $users
+        ]);
+    }
+
+    public function showPowers()
+    {
+        $admin = Auth::user();
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        return view('admin.powers', ['admin' => $admin, 'chart' => $viewChart]);
     }
 }

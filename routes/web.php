@@ -28,6 +28,7 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::get('admin/settings', [AdminController::class, 'showSetting'])->name('setting.show');
     Route::put('admin/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
+    Route::get('admin/powers', [AdminController::class, 'showPowers'])->name('powers.show');
     // end admin routes
 
     Route::get('employee/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');

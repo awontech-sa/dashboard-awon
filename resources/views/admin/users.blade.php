@@ -10,6 +10,7 @@
                 <th>الاسم</th>
                 <th>البريد الالكتروني</th>
                 <th>المنصب</th>
+                <th>الصلاحيات</th>
             </tr>
         </thead>
         <tbody>
@@ -18,7 +19,10 @@
                 <th>{{ $user->id }}</th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->role }}</td>
+                <td>{{ $user->position }}</td>
+                <td>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show') }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                </td>
             </tr>
             @endforeach
         </tbody>
