@@ -31,7 +31,10 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('admin/powers', [AdminController::class, 'showPowers'])->name('powers.show');
     // end admin routes
 
+    // start employee routes
     Route::get('employee/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
+    Route::get('employee/profile', [EmployeeController::class, 'show'])->name('profile.show');
+    // end employee routes
 });
 // end role route
 

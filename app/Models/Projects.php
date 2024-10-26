@@ -17,8 +17,13 @@ class Projects extends Model
             ->withPivot('roles_id');
     }
 
-    public function roles()
+    // public function roles()
+    // {
+    //     return $this->hasMany(Roles::class);
+    // }
+
+    public function users()
     {
-        return $this->hasMany(Roles::class);
+        return $this->belongsToMany(User::class);
     }
 }

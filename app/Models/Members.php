@@ -12,11 +12,11 @@ class Members extends Model
 
     protected $table = 'members';
 
-    public function roles()
-    {
-        return $this->belongsToMany(Roles::class, 'team_project')
-            ->withPivot('projects_id');
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Roles::class, 'team_project')
+    //         ->withPivot('projects_id');
+    // }
 
     public function projects()
     {

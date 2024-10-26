@@ -22,14 +22,18 @@ class RoleMiddleware
             $currentUrl = $request->url();
 
             if ($user->hasRole('Admin')) {
-                if ($currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url('/admin/settings')
-                && $currentUrl !== url('/admin/powers')) {
+                if (
+                    $currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url('/admin/settings')
+                    && $currentUrl !== url('/admin/powers')
+                ) {
                     return redirect()->route('admin.dashboard');
                 }
             }
 
-            if ($user->hasRole('Employee') && $currentUrl !== url('/employee/panel')) {
-                return redirect()->route('employee.dashboard');
+            if ($user->hasRole('Employee')) {
+                if ($currentUrl !== url('/employee/panel') && $currentUrl !== url('employee/profile')) {
+                    return redirect()->route('employee.dashboard');
+                }
             }
         }
 
