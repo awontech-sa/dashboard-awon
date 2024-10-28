@@ -6,7 +6,6 @@ use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\GeneralSettingsController;
 
 // start auth routes
 Route::get('/login', [AuthController::class, 'index']);
@@ -15,11 +14,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 // end auth routes
 
 //start forgot password route
-Route::get('/forgot-password', [ForgotPasswordController::class, 'Index'])->name('forgot.password');
-Route::post('/forgot-password-post', [ForgotPasswordController::class, 'submitForgotPasswordForm'])->name('forgot.password.post');
-Route::get('/reset-password/{token}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.form');
-Route::post('/reset-password-post', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');
-//start forgot password route
+Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.password');  // Show forgot password form
+Route::post('/verification', [ForgotPasswordController::class, 'verification'])->name('verification');  // Send verification OTP
+Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('otp.verify');  // Verify OTP and generate token
+// Route::get('/reset-password', [ForgotPasswordController::class, 'showResetPasswordForm']);
+Route::get('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.form');
+Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');  // Submit new password
+//end forgot password route
 
 // start role route
 Route::group(['middleware' => 'role'], function () {

@@ -6,7 +6,7 @@
 
 <section class="login-form" dir="rtl">
     <img src="{{ asset("assets/images/logo-2.png") }}" class="w-52 absolute top-4 right-8" alt="logo" />
-    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2" action="{{ route('forgot.password.post') }}" method="POST" id="forgot">
+    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2" action="{{ route('verification') }}" method="POST" id="forgot">
         @csrf
         <h1 class="text-[32px] text-cyan-700 font-medium mt-[5.64rem] mr-[7.58rem]">استعادة كلمة المرور</h1>
         <div class="grid gap-y-5 mt-[4.6rem] mr-10">

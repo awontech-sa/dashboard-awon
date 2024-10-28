@@ -11,8 +11,11 @@ $email = $data->email;
 
 <section class="login-form" dir="rtl">
     <img src="{{ asset("assets/images/logo-2.png") }}" class="w-52 absolute top-4 right-8" alt="logo" />
-    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2" action="{{route('reset.password.post')}}" method="POST" id="forgotpassword">
+    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2" action="{{ route('reset.password.post') }}" method="POST" id="forgotpassword">
         @csrf
+        <input type="hidden" name="email" value="{{ $email }}">
+        <input type="hidden" name="token" value="{{ $token }}">
+
         <h1 class="text-xl text-cyan-700 font-medium mt-[5.64rem] mr-[10.1rem]">إعادة تعيين كلمة المرور</h1>
         <div class="my-4 mx-[5.6rem]">
             <label class="font-medium text-base text-gray-500">رجاءاً قم بتعبئة البيانات التالية لإعادة تعيين كلمة المرور</label>

@@ -29,11 +29,11 @@ class AdminUserSeeder extends Seeder
         ]);
         $omar->assignRole('admin');
 
-        $omar = User::create([
+        $lujain = User::create([
             'name' => 'لجين صلاح',
             'email' => 'lujain@awontech.sa',
             'password' => bcrypt('123'),
         ]);
-        $omar->assignRole('employee');
+        $lujain->assignRole('employee');
     }
 }
