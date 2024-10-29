@@ -101,9 +101,7 @@ class ForgotPasswordController extends Controller
 
             DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 
-            return redirect('/login');
-        } else {
-            return back()->withInput()->with('error_message', 'حدث خطأ!');
+            return redirect('/login')->with('register_success', 'Your password has been changed!');
         }
     }
 }

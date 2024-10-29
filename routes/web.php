@@ -19,7 +19,7 @@ Route::post('/verification', [ForgotPasswordController::class, 'verification'])-
 Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('otp.verify');  // Verify OTP and generate token
 // Route::get('/reset-password', [ForgotPasswordController::class, 'showResetPasswordForm']);
 Route::get('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.form');
-Route::post('/reset-password', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');  // Submit new password
+Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');  // Submit new password
 //end forgot password route
 
 // start role route

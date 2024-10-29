@@ -18,9 +18,9 @@ $email = $data->email;
     @endif
 
     <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2 relative z-0"
-        action="{{ route('reset.password.post') }}" method="POST" id="forgotpassword">
+        action="{{ route('reset.password.post', ['token' => $data->token, 'email' => $email]) }}" method="POST" id="forgotpassword">
         @csrf
-
+        
         <h1 class="text-xl text-cyan-700 font-medium mt-[5.64rem] mr-[10.1rem]">إعادة تعيين كلمة المرور</h1>
 
         <div class="my-4 mx-[5.6rem]">
