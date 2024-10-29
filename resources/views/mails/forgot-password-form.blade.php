@@ -11,28 +11,43 @@ $email = $data->email;
 
 <section class="login-form" dir="rtl">
     <img src="{{ asset("assets/images/logo-2.png") }}" class="w-52 absolute top-4 right-8" alt="logo" />
-    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2" action="{{ route('reset.password.post') }}" method="POST" id="forgotpassword">
+
+    <!-- Display General Error Message as an Overlay -->
+    @if (session('error_message'))
+    @include('layouts.error-message')
+    @endif
+
+    <form class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2 relative z-0"
+        action="{{ route('reset.password.post') }}" method="POST" id="forgotpassword">
         @csrf
-        <input type="hidden" name="email" value="{{ $email }}">
-        <input type="hidden" name="token" value="{{ $token }}">
 
         <h1 class="text-xl text-cyan-700 font-medium mt-[5.64rem] mr-[10.1rem]">إعادة تعيين كلمة المرور</h1>
+
         <div class="my-4 mx-[5.6rem]">
             <label class="font-medium text-base text-gray-500">رجاءاً قم بتعبئة البيانات التالية لإعادة تعيين كلمة المرور</label>
         </div>
 
+        <!-- New Password Field -->
         <div class="grid gap-y-5 mt-[2.3rem] mr-8">
-            <label for="password">كلمة المرور الجديدة *</label>
+            <label for="new_password">كلمة المرور الجديدة *</label>
             <input type="password" class="input border-gray-500 w-[453px]" name="new_password" id="new_password" required />
+            @error('new_password')
+            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
+        <!-- Confirm Password Field -->
         <div class="grid gap-y-5 mt-5 mr-10">
-            <label for="password">تأكيد كلمة المرور الجديدة *</label>
-            <input type="password" class="input border-gray-500 w-[453px]" name="confirm_password" id="confirm_password" required />
+            <label for="confirm_password">تأكيد كلمة المرور الجديدة *</label>
+            <input type="password" class="input border-gray-500 w-[453px]" name="new_password_confirmation" id="new_password_confirmation" required />
+            @error('new_password_confirmation')
+            <div class="text-red-500 text-sm mt-1">{{ $message }}</div>
+            @enderror
         </div>
 
+        <!-- Submit Button -->
         <div class="mx-32 my-4">
-            <button class="btn btn-wide bg-cyan-700 text-white font-medium text-base">إعادة تعيين كلمة المرور</button>
+            <button type="submit" class="btn btn-wide bg-cyan-700 text-white font-medium text-base">إعادة تعيين كلمة المرور</button>
         </div>
     </form>
 </section>
@@ -48,5 +63,6 @@ $email = $data->email;
         display: flex;
         justify-content: center;
         align-items: center;
+        position: relative;
     }
 </style>

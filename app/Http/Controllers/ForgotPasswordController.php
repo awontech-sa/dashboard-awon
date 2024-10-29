@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\NewPasswordRequest;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -85,10 +84,8 @@ class ForgotPasswordController extends Controller
         return view('mails.forgot-password-form', ['token' => $token, 'email' => $email]);
     }
 
-    // Submit the form to reset the password
     public function submitResetPasswordForm(Request $request)
     {
-
         $updatePassword = DB::table('password_reset_tokens')->where([
             'email' => $request->email,
             'token' => $request->token,
@@ -98,12 +95,15 @@ class ForgotPasswordController extends Controller
             return back()->withInput()->with('error_message', 'Invalid token!');
         }
 
-        // Update user password
-        User::where('email', $request->email)->update(['password' => Hash::make($request->new_password)]);
+        if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $request->new_password)) {
 
-        // Delete the token after successful password reset
-        DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+            User::where('email', $request->email)->update(['password' => Hash::make($request->new_password)]);
 
-        return redirect('/login')->with('register_success', 'Your password has been changed!');
+            DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
+
+            return redirect('/login');
+        } else {
+            return back()->withInput()->with('error_message', 'حدث خطأ!');
+        }
     }
 }

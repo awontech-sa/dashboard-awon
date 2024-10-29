@@ -21,14 +21,15 @@ class AuthController extends Controller
     public function login(LoginRequest $request)
     {
         $data = $request->validated();
-
+        
         $user = User::where('email', $data['email'])->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
+        if (! $user || Hash::check($data['password'], $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
+
 
         $token = $user->createToken('token-name')->plainTextToken;
 
