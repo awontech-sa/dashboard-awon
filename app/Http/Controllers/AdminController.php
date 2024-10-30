@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserRequest;
 use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
@@ -68,45 +70,38 @@ class AdminController extends Controller
         ]);
     }
 
-    public function updateSetting(Request $request)
+    public function updateSetting(UserRequest $request)
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        /** @var \App\Models\User */
         $admin = Auth::user();
+        $user = User::findOrFail($admin->id);
 
-        $user = User::FindOrFail($admin->id);
+        // Use fill for simple fields
+        $user->fill($request->only(['name', 'email', 'position', 'phone_number', 'x', 'linkedin']));
 
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->password = $request->input('password');
-        $user->position = $request->input('position');
-        $user->phone_number = $request->input('phone-number');
-        $user->x = $request->input('x');
-        $user->linkedin = $request->input('linkedin');
+        // Update password if provided
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
 
-        if ($request->has('profile-image')) {
+        // Handle profile image upload
+        if ($request->hasFile('profile-image')) {
             $file = $request->file('profile-image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time() . '.' . $extension;
-            // $path= 'profile/';
-            // $file->move($path, $filename);
-
+            $filename = time() . '.' . $file->getClientOriginalExtension();
             $user->profile_image = Storage::disk('digitalocean')->putFileAs('profile', $file, $filename);
-
-            // $user->profile_image = $path.$filename;
         }
 
         $user->save();
 
-        return view('setting', [
+        return back()->withInput([
             'admin' => $user,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
-        ]);
+        ])->with('success_message', 'تم تحديث البيانات بنجاح');
     }
 
     public function showUsers()

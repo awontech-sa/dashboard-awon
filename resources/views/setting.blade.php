@@ -4,7 +4,13 @@
 <section class="font-['Tajawal'] m-[5.7rem]">
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
-    <form action="{{ route('setting.update') }}" method="POST" enctype="multipart/form-data">
+    @if(session('success_message'))
+        @include('layouts.success-message')
+    @elseif(session('error_message'))
+        @include('layouts.error-message')
+    @endif
+
+    <form action="{{ route('setting.update') }}" class="relative z-0" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mt-6 grid gap-y-3">
@@ -34,7 +40,7 @@
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
-                <input value="{{ $admin->password }}" name="password" type="password" class="input w-full max-w-sm" />
+                <input name="password_confirmation" value="{{ $admin->password }}" type="password" class="input w-full max-w-sm" />
             </div>
         </div>
 
