@@ -4,12 +4,12 @@
 <section class="font-['Tajawal'] m-[5.7rem]">
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
-    <form action="{{ route('setting.update') }}" method="POST">
+    <form action="{{ route('setting.update') }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         <div class="mt-6 grid gap-y-3">
             <small>رفع صورة</small>
-            <input value="{{ $admin->profile_logo }}" name="profile-logo" type="file" class="file-input w-full max-w-sm" />
+            <input value="{{ $admin->profile_image }}" name="profile-image" type="file" class="file-input w-full max-w-sm" />
         </div>
         <div class="grid grid-cols-2 mt-6 gap-y-7">
             <div class="grid gap-y-5">

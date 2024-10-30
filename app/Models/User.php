@@ -53,4 +53,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Projects::class);
     }
+
+    public function getProfileImageAttribute()
+    {
+        // return asset('storage/' . $this->attributes['picture']);
+        return config('filesystems.disks.digitalocean.url').'/'.$this->attributes['profile_image'];
+
+    }
 }

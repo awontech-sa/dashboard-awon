@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -54,14 +55,24 @@ class AdminController extends Controller
         $admin = Auth::user();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
 
-        return view('setting', ['admin' => $admin, 'chart' => $viewChart]);
+
+        return view('setting', [
+            'admin' => $admin,
+            'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
+        ]);
     }
 
     public function updateSetting(Request $request)
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
         /** @var \App\Models\User */
         $admin = Auth::user();
@@ -75,11 +86,27 @@ class AdminController extends Controller
         $user->phone_number = $request->input('phone-number');
         $user->x = $request->input('x');
         $user->linkedin = $request->input('linkedin');
-        $user->profile_image = $request->input('profile-image');
+
+        if ($request->has('profile-image')) {
+            $file = $request->file('profile-image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time() . '.' . $extension;
+            // $path= 'profile/';
+            // $file->move($path, $filename);
+
+            $user->profile_image = Storage::disk('digitalocean')->putFileAs('profile', $file, $filename);
+
+            // $user->profile_image = $path.$filename;
+        }
 
         $user->save();
 
-        return view('setting', ['admin' => $user, 'chart' => $viewChart]);
+        return view('setting', [
+            'admin' => $user,
+            'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
+        ]);
     }
 
     public function showUsers()
@@ -89,7 +116,10 @@ class AdminController extends Controller
         $viewChart = $this->viewChartService->getProjectsIncome();
 
         $users = User::all();
-        return view('admin.users', ['admin' => $admin, 'chart' => $viewChart, 'users' => $users
+        return view('admin.users', [
+            'admin' => $admin,
+            'chart' => $viewChart,
+            'users' => $users
         ]);
     }
 

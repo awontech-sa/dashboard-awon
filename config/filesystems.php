@@ -39,7 +39,7 @@ return [
         'public' => [
             'driver' => 'local',
             'root' => storage_path('app/public'),
-            'url' => env('APP_URL').'/storage',
+            'url' => env('APP_URL') . '/storage',
             'visibility' => 'public',
             'throw' => false,
         ],
@@ -54,6 +54,19 @@ return [
             'endpoint' => env('AWS_ENDPOINT'),
             'use_path_style_endpoint' => env('AWS_USE_PATH_STYLE_ENDPOINT', false),
             'throw' => false,
+        ],
+
+        'digitalocean' => [
+            'driver' => 's3',
+            'key' => env('DIGITAL_OCEAN_ACCESS_KEY_ID'),
+            'secret' => env('DIGITAL_OCEAN_SECRET_ACCESS_KEY'),
+            'endpoint' => env('DIGITAL_OCEAN_ENDPOINT'),
+            'region' => env('DIGITAL_OCEAN_DEFAULT_REGION'),
+            'bucket' => env('DIGITAL_OCEAN_BUCKET'),
+            'url' => env('DIGITAL_OCEAN_URL'),
+            'options' => [
+                'ACL' => 'public-read',
+            ],
         ],
 
     ],
