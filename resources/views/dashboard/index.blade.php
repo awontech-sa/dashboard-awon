@@ -116,7 +116,7 @@
     lg:grid-cols-1
     xl:gap-x-0 xl:grid-cols-2
     2xl:w-auto 2xl:grid-cols-2">
-    <div class="w-[516px] h-[296px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
+    <div class="w-[516px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
       2xl:w-auto">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
@@ -124,30 +124,17 @@
       </div>
       <div class="w-[475px] grid gap-y-6
         2xl:w-auto">
+        @foreach($dashboard as $project)
         <div class="grid grid-cols-3 items-center">
-          <p>سخي</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
+          <p>{{ $project->p_name }}</p>
+          <p>{{ $project->p_implemented_stages }}/{{ $project->p_stages }}</p>
+          <progress class="progress progress-success w-32" value="{{ ($project->p_implemented_stages/$project->p_stages)*100 }}" max="100"></progress>
         </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>نظام إدارة المحتوى</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>فرصة</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
-        <div class="grid grid-cols-3 items-center">
-          <p>وعي</p>
-          <p>7/10 إنجاز المراحل</p>
-          <progress class="progress progress-success w-32" value="70" max="100"></progress>
-        </div>
+        @endforeach
       </div>
     </div>
 
-    <div class="w-[516px] h-[296px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
+    <div class="w-[516px] bg-white border-2 border-[#ECEEF6] rounded-md px-6
       2xl:w-auto">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">إجمالي دخل المشاريع</p>

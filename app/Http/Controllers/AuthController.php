@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\RoleMiddleware;
-use App\Http\Requests\LoginRequest;
 use Illuminate\Routing\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,8 +19,6 @@ class AuthController extends Controller
     }
 
     public function login(Request $request)
-
-    // 22 sep, 23sep, 2 oct, 3 oct, 13 oct
     {
         $user = User::where('email', $request->email)->first();
 

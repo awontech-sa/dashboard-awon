@@ -80,12 +80,15 @@
                     <div class="navbar bg-base-100 hidden
                     2xl:block
                     xl:block">
-                        <div class="navbar-start gap-x-28 flex">
+                        <div class="navbar-start justify-around w-full">
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
-                            <!-- <div class="flex items-center mt-6 gap-x-3">
+                            <div class="flex items-center mt-6 gap-x-3">
                                 <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
-                                <input type="text" class="font-['Tajawal']" name="search" id="search" placeholder="ابحث باسم المشروع..." />
-                            </div> -->
+                                <input type="text" class="font-['Tajawal'] input input-lg" name="search" id="search" placeholder="ابحث باسم المشروع..." />
+                            </div>
+                            <div class="bg-gray-50 p-3 rounded-2xl">
+                                <x-far-bell class="w-6 h-7 text-gray-600" />
+                            </div>
                         </div>
                     </div>
                     <nav class="navbar bg-body-tertiary block
@@ -127,6 +130,8 @@
                 <div class="pt-11 pb-52">
                     @yield('admin-content')
                     {!! $chart->script() !!}
+                    {!! $viewGrossAnnualIncome->script() !!}
+                    {!! $viewCurrentGrossIncome->script() !!}
                 </div>
             </div>
 

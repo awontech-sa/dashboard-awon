@@ -25,7 +25,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => 'https://awontech.sa/home',
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "عون التقنية"
+            'p_support_entity' => "عون التقنية",
+            'p_stages' => 10,
+            'p_implemented_stages' => 7
         ]);
 
         Projects::query()->create([
@@ -44,7 +46,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => 'https://dashboard.awontech.sa/',
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "عون التقنية"
+            'p_support_entity' => "عون التقنية",
+            'p_stages' => 10,
+            'p_implemented_stages' => 10
         ]);
 
         Projects::query()->create([
@@ -70,7 +74,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => null,
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "عون التقنية"
+            'p_support_entity' => "عون التقنية",
+            'p_stages' => 10,
+            'p_implemented_stages' => 3
         ]);
 
         Projects::query()->create([
@@ -97,7 +103,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => 'https://forsa-stg.awontech.sa',
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "جهة خارجة"
+            'p_support_entity' => "جهة خارجة",
+            'p_stages' => 10,
+            'p_implemented_stages' => 3
         ]);
 
         Projects::query()->create([
@@ -119,7 +127,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => 'https://forsa-stg.awontech.sa',
             'p_ios' => 'https://apps.apple.com/us/app/%D8%AA%D8%B7%D8%A8%D9%8A%D9%82-%D9%88%D8%B9%D9%8A/id6473122987',
             'p_android' => null,
-            'p_support_entity' => "جهة خارجة"
+            'p_support_entity' => "جهة خارجة",
+            'p_stages' => 10,
+            'p_implemented_stages' => 7
         ]);
 
         Projects::query()->create([
@@ -141,7 +151,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => 'https://hidayaa.org',
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "جهة خارجة"
+            'p_support_entity' => "جهة خارجة",
+            'p_stages' => 10,
+            'p_implemented_stages' => 10
         ]);
 
         Projects::query()->create([
@@ -159,7 +171,9 @@ class ProjectsTableSeeder extends Seeder
             'p_level' => 'البرمجة',
             'p_web' => null,
             'p_ios' => null,
-            'p_android' => 'https://play.google.com/store/apps/details?id=sa.awonteck.digital&pcampaignid=web_share'
+            'p_android' => 'https://play.google.com/store/apps/details?id=sa.awonteck.digital&pcampaignid=web_share',
+            'p_stages' => 10,
+            'p_implemented_stages' => 3
         ]);
 
         Projects::query()->create([
@@ -178,7 +192,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => null,
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "عون التقنية"
+            'p_support_entity' => "عون التقنية",
+            'p_stages' => 10,
+            'p_implemented_stages' => 3
         ]);
 
         Projects::query()->create([
@@ -197,7 +213,9 @@ class ProjectsTableSeeder extends Seeder
             'p_web' => null,
             'p_ios' => null,
             'p_android' => null,
-            'p_support_entity' => "جهة خارجة"
+            'p_support_entity' => "جهة خارجة",
+            'p_stages' => 10,
+            'p_implemented_stages' => 7
         ]);
     }
 }
