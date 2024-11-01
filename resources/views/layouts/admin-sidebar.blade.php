@@ -30,7 +30,6 @@
         2xl:grid
         xl:grid">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
-<!-- {{ $admin->profile_image }} -->
                 <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
                 <p>{{ $admin->name }}</p>
                 <div class="dropdown">

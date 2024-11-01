@@ -6,7 +6,6 @@ use App\Http\Requests\UserRequest;
 use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -60,8 +59,6 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-
-
         return view('setting', [
             'admin' => $admin,
             'chart' => $viewChart,
@@ -109,11 +106,15 @@ class AdminController extends Controller
         $admin = Auth::user();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
         $users = User::all();
         return view('admin.users', [
             'admin' => $admin,
             'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'users' => $users
         ]);
     }

@@ -13,8 +13,7 @@ class EmployeeRoles extends Model
 
     public function members()
     {
-        return $this->belongsToMany(Members::class, 'team_project')
-            ->withPivot('projects_id');
+        return $this->belongsToMany(Members::class, 'team_project')->withPivot('projects_id');
     }
 
     public function projects()

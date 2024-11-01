@@ -33,6 +33,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'لجين صلاح',
             'email' => 'lujain@awontech.sa',
             'password' => bcrypt('123'),
+            'position' => 'مهندس برمجيات'
         ]);
         $lujain->assignRole('employee');
     }

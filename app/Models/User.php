@@ -56,8 +56,6 @@ class User extends Authenticatable
 
     public function getProfileImageAttribute()
     {
-        // return asset('storage/' . $this->attributes['picture']);
         return config('filesystems.disks.digitalocean.url').'/'.$this->attributes['profile_image'];
-
     }
 }
