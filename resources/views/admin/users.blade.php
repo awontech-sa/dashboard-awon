@@ -7,6 +7,7 @@
         <thead>
             <tr>
                 <th>#</th>
+                <th>الصورة</th>
                 <th>الاسم</th>
                 <th>البريد الالكتروني</th>
                 <th>الإدارة</th>
@@ -20,11 +21,12 @@
             @foreach($users as $user)
             <tr>
                 <th>{{ $user->id }}</th>
+                <th><img src="{{ $user->profile_image }}" alt="profile-image" /></th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->email }}</td>
-                <td>{{ $user->position }}</td>
-                <td>{{ $user->position }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ $user->email }}</td>
                 <td>
                     <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show') }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                 </td>

@@ -16,7 +16,6 @@ class AdminUserSeeder extends Seeder
             'name' => 'أيمن الحربي',
             'email' => 'ayman@awontech.sa',
             'password' => bcrypt('123'),
-            'position' => 'عضو مجلس إدارة',
             'phone_number' => '+966 56 888 5676'
         ]);
         $ayman->assignRole('admin');
@@ -25,7 +24,6 @@ class AdminUserSeeder extends Seeder
             'name' => 'عمر سنبل',
             'email' => 'omar@awontech.sa',
             'password' => bcrypt('123'),
-            'position' => 'رئيس مجلس الإدارة',
         ]);
         $omar->assignRole('admin');
 
@@ -33,7 +31,6 @@ class AdminUserSeeder extends Seeder
             'name' => 'لجين صلاح',
             'email' => 'lujain@awontech.sa',
             'password' => bcrypt('123'),
-            'position' => 'مهندس برمجيات'
         ]);
         $lujain->assignRole('employee');
     }
