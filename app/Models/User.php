@@ -51,11 +51,16 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->belongsToMany(Projects::class);
+        return $this->belongsToMany(Projects::class, 'projects_user', 'user_id', 'projects_id');
     }
 
     public function getProfileImageAttribute()
     {
-        return config('filesystems.disks.digitalocean.url').'/'.$this->attributes['profile_image'];
+        return config('filesystems.disks.digitalocean.url') . '/' . $this->attributes['profile_image'];
+    }
+
+    public function positions()
+    {
+        return $this->belongsToMany(Positions::class, 'position_user', 'users_id', 'positions_id')->using(PositionUser::class);
     }
 }

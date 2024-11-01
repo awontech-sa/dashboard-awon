@@ -24,6 +24,8 @@ class AdminController extends Controller
         /** @var \App\Models\User */
         $admin = Auth::user();
 
+        $user = User::with('positions')->get();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -37,6 +39,7 @@ class AdminController extends Controller
 
 
         return view('admin.index', [
+            'user' => $user,
             'admin' => $admin,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
@@ -109,7 +112,9 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        $users = User::all();
+        // $users = User::all();
+        $users = User::with(['positions.department', 'projects'])->get();
+        // dd($users);
         return view('admin.users', [
             'admin' => $admin,
             'chart' => $viewChart,

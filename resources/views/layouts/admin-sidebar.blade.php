@@ -31,7 +31,12 @@
         xl:grid">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
                 <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
-                <p>{{ $admin->name }}</p>
+                <div class="grid">
+                    <p>{{ $admin->name }}</p>
+                    @foreach($admin->roles as $role)
+                    <p class="font-normal text-sm text-gray-600">{{ $role->name }}</p>
+                    @endforeach
+                </div>
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn m-1">. . .</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
