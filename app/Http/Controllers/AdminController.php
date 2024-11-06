@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Powers;
+use App\Models\PowersSections;
+use App\Models\PowersUserSections;
 use App\Models\Projects;
+use App\Models\ProjectUserPower;
 use App\Models\User;
 use App\Services\ViewChartService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
@@ -112,22 +117,96 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        // $users = User::all();
         $users = User::with(['positions.department', 'projects'])->get();
-        // dd($users);
+
+        $adminPermission = PowersUserSections::where('user_id', $admin->id)->first();
+
         return view('admin.users', [
             'admin' => $admin,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-            'users' => $users
+            'users' => $users,
+            'adminPermission' => $adminPermission
         ]);
     }
 
-    public function showPowers()
+    public function showPowers($id)
     {
         $admin = Auth::user();
+
+        $user = User::with(['powers', 'powersSections'])->find($id);
+
+        $projects = Projects::all();
+
+        $id = $user->id;
+
+        $userPermissions = [];
+
+        foreach ($user->powers as $power) {
+            $sectionId = $power->pivot->powers_sections_id;
+
+            $section = PowersSections::find($sectionId);
+
+            $userPermissions[] = [
+                'section_id' => $sectionId,
+                'permission' => $power->p_name,
+                'section' => $section ? $section->ps_name : 'Unknown section'
+            ];
+        }
+
         $viewChart = $this->viewChartService->getProjectsIncome();
-        return view('admin.powers', ['admin' => $admin, 'chart' => $viewChart]);
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        return view('admin.powers', [
+            'projects' => $projects,
+            'id' => $id,
+            'admin' => $admin,
+            'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
+            'userPermissions' => $userPermissions
+        ]);
+    }
+
+    public function updatePowers(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        $sectionId = $request->input('section_id');
+        $selectedPermission = $request->input('permission');
+
+        $permission = Powers::where('p_name', $selectedPermission)->first();
+
+        if ($permission && PowersSections::find($sectionId)) {
+            $powersUserSection = PowersUserSections::where('user_id', $user->id)->where('powers_sections_id', $sectionId)->first();
+
+            if ($powersUserSection) {
+                $powersUserSection->update(['powers_id' => $permission->id]);
+            }
+        }
+        return back()->with('success_message', 'تم تحديث البيانات بنجاح');
+    }
+
+    public function storeTechProjectsPower(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+        $permissions = Powers::whereIn('p_name', ['تعديل', 'حذف'])->get();
+
+        if ($request->action === 'add') {
+            foreach ($request->project_ids as $projectId) {
+                foreach ($permissions as $permission) {
+                    ProjectUserPower::firstOrCreate([
+                        'user_id' => $user->id,
+                        'project_id' => $projectId,
+                        'powers_id' => $permission->id,
+                    ]);
+                }
+            }
+        } elseif ($request->action === 'remove') {
+            ProjectUserPower::where('user_id', $user->id)
+                ->whereIn('project_id', $request->project_ids)
+                ->delete();
+        }
     }
 }

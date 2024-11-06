@@ -54,6 +54,20 @@ class User extends Authenticatable
         return $this->belongsToMany(Projects::class, 'projects_user', 'user_id', 'projects_id');
     }
 
+    public function projectss()
+    {
+        return $this->belongsToMany(Projects::class, 'project_user_power')
+            ->withPivot('powers_id')->withTimestamps();
+    }
+
+    public function projectPowers()
+    {
+        return $this->belongsToMany(Projects::class, 'project_user_power')->withPivot('powers_id')
+            ->using(ProjectUserPower::class);
+    }
+
+
+
     public function getProfileImageAttribute()
     {
         return config('filesystems.disks.digitalocean.url') . '/' . $this->attributes['profile_image'];
@@ -62,5 +76,15 @@ class User extends Authenticatable
     public function positions()
     {
         return $this->belongsToMany(Positions::class, 'position_user', 'users_id', 'positions_id')->using(PositionUser::class);
+    }
+
+    public function powers()
+    {
+        return $this->belongsToMany(Powers::class, 'powers_user_sections')->withPivot('powers_sections_id'); // إضافة department_id كجزء من العلاقة
+    }
+
+    public function powersSections()
+    {
+        return $this->belongsToMany(PowersSections::class, 'powers_user_sections')->withPivot('powers_id'); // إضافة permission_id كجزء من العلاقة
     }
 }

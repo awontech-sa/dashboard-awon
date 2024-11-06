@@ -7,10 +7,8 @@
     margin-inline-start: 0rem !important;
 }
 
-.tabs-boxed :is(input:checked) {
+.tabs-boxed :is(input:checked), input.tab.tab-power:is(input:checked){
     background-color: #137EA4 !important;
-    width: 32px !important;
-    height: 32px !important;
     border-radius: 9999px !important;
     color: white !important;
     text-align: center !important;
@@ -21,10 +19,21 @@
 .tab:is(input[type="radio"]) {
     width: 32px !important;
     height: 32px !important;
-    border-color: #A1AEBE;
+    border-color: #D5D5D5;
     border-radius: 9999px !important;
     background-color: white;
     border-width: 2px;
     padding: 2px !important;
     text-align: center !important;
+}
+
+input.tab.tab-power:is(input[type="radio"]) {
+    width: 160px !important;
+    height: 77px !important;
+    border-radius: 12px !important;
+}
+
+input.tab.tab-power:is(input:checked) {
+    background-color: #6AADC5 !important;
+    border-color: #D5D5D5 !important;
 }

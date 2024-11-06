@@ -15,7 +15,5 @@ class ProjectUsersSeeder extends Seeder
     {
         ProjectUser::create(['user_id' => 3, 'projects_id' => 1]);
         ProjectUser::create(['user_id' => 3, 'projects_id' => 2]);
-        ProjectUser::create(['user_id' => 3, 'projects_id' => 7]);
-        ProjectUser::create(['user_id' => 3, 'projects_id' => 8]);
     }
 }

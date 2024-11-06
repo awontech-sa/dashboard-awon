@@ -29,7 +29,9 @@ Route::group(['middleware' => 'role'], function () {
     Route::get('admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
     Route::get('admin/settings', [AdminController::class, 'showSetting'])->name('setting.show');
     Route::put('admin/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
-    Route::get('admin/powers', [AdminController::class, 'showPowers'])->name('powers.show');
+    Route::get('admin/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');
+    Route::put('admin/powers/{id}', [AdminController::class, 'updatePowers'])->name('powers.update');
+    Route::post('admin/powers/{id}', [AdminController::class, 'storeTechProjectsPower'])->name('powers.store.tech');
     // end admin routes
 
     // start employee routes

@@ -20,11 +20,12 @@ class RoleMiddleware
             /** @var \App\Models\User */
             $user = Auth::user();
             $currentUrl = $request->url();
+            // $id = $request->id;
 
             if ($user->hasRole('Admin')) {
                 if (
                     $currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url('/admin/settings')
-                    && $currentUrl !== url('/admin/powers')
+                    && $currentUrl !== url("/admin/powers/{$request->id}")
                 ) {
                     return redirect()->route('admin.dashboard');
                 }
