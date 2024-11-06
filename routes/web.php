@@ -17,29 +17,29 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.password');  // Show forgot password form
 Route::post('/verification', [ForgotPasswordController::class, 'verification'])->name('verification');  // Send verification OTP
 Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('otp.verify');  // Verify OTP and generate token
-// Route::get('/reset-password', [ForgotPasswordController::class, 'showResetPasswordForm']);
 Route::get('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.form');
 Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');  // Submit new password
 //end forgot password route
 
-// start role route
-Route::group(['middleware' => 'role'], function () {
-    // start admin routes
-    Route::get('admin/panel', [AdminController::class, 'index'])->name('admin.dashboard');
-    Route::get('admin/users', [AdminController::class, 'showUsers'])->name('admin.users');
-    Route::get('admin/settings', [AdminController::class, 'showSetting'])->name('setting.show');
-    Route::put('admin/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
-    Route::get('admin/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');
-    Route::put('admin/powers/{id}', [AdminController::class, 'updatePowers'])->name('powers.update');
-    Route::post('admin/powers/{id}', [AdminController::class, 'storeTechProjectsPower'])->name('powers.store.tech');
-    // end admin routes
-
-    // start employee routes
-    Route::get('employee/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
-    Route::get('employee/profile', [EmployeeController::class, 'show'])->name('profile.show');
-    // end employee routes
+// start admin route
+Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
+    Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/users', [AdminController::class, 'showUsers'])->name('users');
+    Route::get('/users/{id}', [AdminController::class, 'showUser'])->name('show.user');
+    Route::get('/settings', [AdminController::class, 'showSetting'])->name('setting.show');
+    Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
+    Route::get('/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');
+    Route::put('/powers/{id}', [AdminController::class, 'updatePowers'])->name('powers.update');
+    Route::post('/powers/{id}', [AdminController::class, 'storeTechProjectsPower'])->name('powers.store.tech');
 });
-// end role route
+// end admin route
+
+// start employee route
+Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
+    Route::get('/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
+    Route::get('/profile', [EmployeeController::class, 'show'])->name('profile.show');
+});
+// end employee route
 
 Route::get('/', [ProjectsController::class, 'index'])->name('home');
 Route::get('/tech-projects/{id}', [ProjectsController::class, 'techProjects'])->name('tech');

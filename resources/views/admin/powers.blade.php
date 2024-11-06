@@ -6,7 +6,7 @@
 
     <div class="grid grid-cols-2 gap-x-12 gap-y-[3.2rem] my-[3.2rem]">
         @foreach($userPermissions as $value)
-        <form action="{{ route('powers.update', $id) }}" method="POST">
+        <form action="{{ route('admin.powers.update', $id) }}" method="POST">
             @csrf
             @method('PUT')
 

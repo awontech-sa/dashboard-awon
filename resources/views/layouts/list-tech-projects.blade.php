@@ -34,7 +34,7 @@
 
             if (addedProjects.length > 0) {
                 $.ajax({
-                    url: "{{ route('powers.store.tech', $id) }}",
+                    url: "{{ route('admin.powers.store.tech', $id) }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",
@@ -52,7 +52,7 @@
 
             if (removedProjects.length > 0) {
                 $.ajax({
-                    url: "{{ route('powers.store.tech', $id) }}",
+                    url: "{{ route('admin.powers.store.tech', $id) }}",
                     type: "POST",
                     data: {
                         _token: "{{ csrf_token() }}",

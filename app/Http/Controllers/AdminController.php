@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Positions;
 use App\Models\Powers;
 use App\Models\PowersSections;
 use App\Models\PowersUserSections;
@@ -121,13 +122,40 @@ class AdminController extends Controller
 
         $adminPermission = PowersUserSections::where('user_id', $admin->id)->first();
 
-        return view('admin.users', [
+        return view('admin.users.index', [
             'admin' => $admin,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'users' => $users,
             'adminPermission' => $adminPermission
+        ]);
+    }
+
+    public function showUser($id)
+    {
+        /** @var \App\Models\User */
+        $admin = Auth::user();
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        // $user = User::where('id', $id)->get();
+        $user = User::with(['positions'])->where('id', $id)->get();
+        $userPosition = [];
+
+        foreach ($user as $u) {
+            $userPosition = $u->positions;
+        }
+
+        return view('admin.users.user', [
+            "user" => $user,
+            "userPosition" => $userPosition,
+            "admin" => $admin,
+            "chart" => $viewChart,
+            "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+            "viewCurrentGrossIncome" => $viewCurrentGrossIncome
         ]);
     }
 

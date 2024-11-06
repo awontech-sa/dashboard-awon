@@ -37,28 +37,28 @@
                 <td>{{ count($user->projects) }}</td>
                 <td>
                     @if($admin->email === $user->email)
-                    <a class="btn btn-sm hidden btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm hidden btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     @else
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     @endif
                 </td>
                 <td>
                     @if(($admin->email === $user->email) && ($admin->email != $user->email && $adminPermission->powers_id != 2))
-                    <a class="btn btn-sm btn-link hidden bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm btn-link hidden bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     @elseif($admin->email != $user->email && $adminPermission->powers_id === 2)
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     @endif
                     
                     @if(($admin->email === $user->email) && ($admin->email != $user->email && $adminPermission->powers_id != 1))
-                    <a class="btn btn-sm hidden btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm hidden btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
                     @elseif($admin->email != $user->email && $adminPermission->powers_id === 1)
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
                     @endif
                     
                     @if(($admin->email === $user->email) && ($admin->email != $user->email && $adminPermission->powers_id != 3))
-                    <a class="btn btn-sm btn-link hidden bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-trash-can class="w-4 h-4 text-red-500" /></a>
+                    <a class="btn btn-sm btn-link hidden bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-trash-can class="w-4 h-4 text-red-500" /></a>
                     @elseif($admin->email != $user->email && $adminPermission->powers_id === 3)
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('powers.show', ['id' => $user->id]) }}"><x-far-trash-can class="w-4 h-4 text-red-500" /></a>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-trash-can class="w-4 h-4 text-red-500" /></a>
                     @endif
                 </td>
             </tr>
