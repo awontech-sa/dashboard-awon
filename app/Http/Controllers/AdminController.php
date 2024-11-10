@@ -170,6 +170,14 @@ class AdminController extends Controller
         ]);
     }
 
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+
+        return redirect()->route('admin.users')->with('success_message', 'تم حذف الحساب بنجاح');
+    }
+
     public function showPowers($id)
     {
         $admin = Auth::user();
