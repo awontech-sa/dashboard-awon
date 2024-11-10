@@ -64,11 +64,16 @@ class AdminController extends Controller
         /** @var \App\Models\User */
         $admin = Auth::user();
 
+        $user = User::with('positions')->findOrFail($admin->id);
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
+        $position = $user->positions->pluck("p_name");
+
         return view('setting', [
+            "position" => $position[0],
             'admin' => $admin,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
@@ -85,8 +90,13 @@ class AdminController extends Controller
         $admin = Auth::user();
         $user = User::findOrFail($admin->id);
 
-        // Use fill for simple fields
-        $user->fill($request->only(['name', 'email', 'position', 'phone_number', 'x', 'linkedin']));
+        $user->fill($request->only(['name', 'email', 'phone_number', 'x', 'linkedin']));
+
+        if ($request->filled('position')) {
+            foreach ($user->positions as $position) {
+                Positions::where('p_name', $position->p_name)->update(['p_name' => $request->input('position')]);
+            }
+        }
 
         // Update password if provided
         if ($request->filled('password')) {
@@ -103,6 +113,7 @@ class AdminController extends Controller
         $user->save();
 
         return back()->withInput([
+            'position' => $position->p_name ?? null,
             'admin' => $user,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
@@ -141,7 +152,6 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        // $user = User::where('id', $id)->get();
         $user = User::with(['positions'])->where('id', $id)->get();
         $userPosition = [];
 
@@ -150,6 +160,7 @@ class AdminController extends Controller
         }
 
         return view('admin.users.user', [
+            "id" => $id,
             "user" => $user,
             "userPosition" => $userPosition,
             "admin" => $admin,
@@ -236,5 +247,66 @@ class AdminController extends Controller
                 ->whereIn('project_id', $request->project_ids)
                 ->delete();
         }
+    }
+
+    public function showUpdateUser($id)
+    {
+        $admin = Auth::user();
+
+        $user = User::with('positions')->findOrFail($id);
+
+        $position = $user->positions->pluck("p_name");
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        return view('admin.users.update', [
+            "position" => $position[0],
+            "user" => $user,
+            "id" => $id,
+            "admin" => $admin,
+            "chart" => $viewChart,
+            "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+            "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+        ]);
+    }
+
+    public function updateUser(Request $request)
+    {
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        $user = User::with('positions')->findOrFail($request->id);
+
+        if ($request->filled('position')) {
+            foreach ($user->positions as $position) {
+                Positions::where('p_name', $position->p_name)->update(['p_name' => $request->input('position')]);
+            }
+        }
+
+
+        $user->fill($request->only(['name', 'email', 'phone_number', 'x', 'linkedin']));
+
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->input('password'));
+        }
+
+        if ($request->hasFile('profile-image')) {
+            $file = $request->file('profile-image');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $user->profile_image = Storage::disk('digitalocean')->putFileAs('profile', $file, $filename);
+        }
+
+        $user->save();
+
+        return back()->withInput([
+            'position' => $position->p_name ?? null,
+            'admin' => $user,
+            'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
+        ])->with('success_message', 'تم تحديث البيانات بنجاح');
     }
 }

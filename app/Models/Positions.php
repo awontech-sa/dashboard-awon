@@ -9,6 +9,10 @@ class Positions extends Model
 {
     use HasFactory;
 
+    protected $table = 'positions';
+
+    protected $fillable = ['p_name'];
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'position_user', 'users_id', 'positions_id')->using(PositionUser::class);

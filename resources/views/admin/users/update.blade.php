@@ -10,21 +10,22 @@
         @include('layouts.error-message')
     @endif
 
-    <form action="{{ route('admin.setting.update') }}" class="relative z-0" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('admin.update.user', $id) }}" class="relative z-0" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
+
         <div class="mt-6 grid gap-y-3">
             <small>رفع صورة</small>
-            <input value="{{ $admin->profile_image }}" name="profile-image" type="file" class="file-input w-full max-w-sm" />
+            <input value="{{ $user["p_image"] }}" name="profile-image" type="file" class="file-input w-full max-w-sm" />
         </div>
         <div class="grid grid-cols-2 mt-6 gap-y-7">
             <div class="grid gap-y-5">
                 <small>الاسم الشخصي</small>
-                <input value="{{ $admin->name }}" name="name" type="text" placeholder="{{ $admin->name }}" class="input w-full max-w-sm" />
+                <input value="{{ $user["name"] }}" name="name" type="text" placeholder="{{ $user["name"] }}" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
                 <small>البريد الإلكتروني</small>
-                <input value="{{ $admin->email }}" name="email" type="text" placeholder="{{ $admin->email }}" class="input w-full max-w-sm" />
+                <input value="{{ $user["email"] }}" name="email" type="text" placeholder="{{ $user["email"] }}" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
                 <small>المنصب</small>
@@ -32,15 +33,15 @@
             </div>
             <div class="grid gap-y-5">
                 <small>رقم الجوال</small>
-                <input value="{{ $admin->phone_number }}" name="phone-number" type="text" placeholder="{{ $admin->phone_number }}" class="input w-full max-w-sm" />
+                <input value="{{ $user["phone_number"] }}" name="phone-number" type="text" placeholder="{{ $user["phone_number"] }}" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
-                <input value="{{ $admin->password }}" name="password" type="password" class="input w-full max-w-sm" />
+                <input value="{{ $user["password"] }}" name="password" type="password" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
-                <input name="password_confirmation" value="{{ $admin->password }}" type="password" class="input w-full max-w-sm" />
+                <input name="password_confirmation" value="{{ $user["password"] }}" type="password" class="input w-full max-w-sm" />
             </div>
         </div>
 
@@ -49,11 +50,11 @@
             <div class="grid grid-cols-2 mt-6">
                 <div class="grid gap-y-5">
                     <small>منصة X</small>
-                    <input value="{{ $admin->x }}" name="x" type="text" placeholder="{{ $admin->x }}" class="input w-full max-w-sm" />
+                    <input value="{{ $user["x"] }}" name="x" type="text" placeholder="{{ $user["x"] }}" class="input w-full max-w-sm" />
                 </div>
                 <div class="grid gap-y-5">
                     <small>لنكد إن</small>
-                    <input value="{{ $admin->linkedin }}" name="linkedin" type="text" placeholder="{{ $admin->linkedin }}" class="input w-full max-w-sm" />
+                    <input value="{{ $user["linkedin"] }}" name="linkedin" type="text" placeholder="{{ $user["linkedin"] }}" class="input w-full max-w-sm" />
                 </div>
             </div>
         </div>

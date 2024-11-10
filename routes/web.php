@@ -26,6 +26,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/users', [AdminController::class, 'showUsers'])->name('users');
     Route::get('/users/{id}', [AdminController::class, 'showUser'])->name('show.user');
+    Route::get('/users/update/{id}', [AdminController::class, 'showUpdateUser'])->name('show.update.user');
+    Route::put('/users/update/{id}', [AdminController::class, 'updateUser'])->name('update.user');
     Route::get('/settings', [AdminController::class, 'showSetting'])->name('setting.show');
     Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
     Route::get('/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');

@@ -24,9 +24,9 @@ class ForgotPasswordController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        if (!$user || $user->is_verified == 1) {
-            return view('auth.login');
-        }
+        // if (!$user || $user->is_verified == 1) {
+        //     return view('auth.login');
+        // }
 
         $this->sendOtp($user);  // Send OTP
         return view('auth.verification', ['email' => $user->email]);
