@@ -11,7 +11,7 @@ class Positions extends Model
 
     protected $table = 'positions';
 
-    protected $fillable = ['p_name'];
+    protected $fillable = ['p_name', 'department_id'];
 
     public function users()
     {

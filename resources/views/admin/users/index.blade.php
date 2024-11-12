@@ -4,7 +4,7 @@
 <div class="overflow-x-auto pb-96 font-['Tajawal']">
     <div class="flex items-center justify-between p-8">
         <h1 class="font-bold text-xl">الحسابات</h1>
-        <a href="" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+        <a href="{{ route('admin.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
     </div>
     <table class="table font-['Tajawal'] rounded-lg w-[1103px] mx-auto">
         <!-- head -->

@@ -29,6 +29,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('delete.user');
     Route::get('/users/update/{id}', [AdminController::class, 'showUpdateUser'])->name('show.update.user');
     Route::put('/users/update/{id}', [AdminController::class, 'updateUser'])->name('update.user');
+    Route::get('/create-user', [AdminController::class, 'showCreateUser'])->name('create.show');
+    Route::post('/create-user', [AdminController::class, 'create'])->name('create.user');
     Route::get('/settings', [AdminController::class, 'showSetting'])->name('setting.show');
     Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
     Route::get('/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');

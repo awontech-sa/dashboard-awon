@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\UserRequest;
+use App\Models\Departments;
 use App\Models\Positions;
+use App\Models\PositionUser;
 use App\Models\Powers;
 use App\Models\PowersSections;
 use App\Models\PowersUserSections;
@@ -316,5 +318,52 @@ class AdminController extends Controller
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ])->with('success_message', 'تم تحديث البيانات بنجاح');
+    }
+
+    public function showCreateUser()
+    {
+        $admin = Auth::user();
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        return view('admin.users.create', [
+            'admin' => $admin,
+            'chart' => $viewChart,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
+        ]);
+    }
+
+    public function create(Request $request)
+    {
+        $admin = Auth::user();
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        $newUser = User::create([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            'password' => $request->input('password_confirmation'),
+            'phone_number' => $request->input('phone-number'),
+            'x' => $request->input('x'),
+            'linkedin' => $request->input('linkedin'),
+            'profile_image' => $request->file('profile-image'),
+        ]);
+
+        $department = Departments::where('d_name', $request->input('department'))->get();
+
+        if (count($department) === 0) {
+            Departments::create(['d_name' => $request->input('department')]);
+        } else {
+            $newPosition = Positions::create([
+                'p_name' => $request->input('position'),
+                'department_id' => $department->last()->id
+            ]);
+            PositionUser::create(['users_id' => $newUser->id, 'positions_id' => $newPosition->id]);
+        }
+
+        return back()->with('success_message', 'تم إضافة الحساب بنجاح');
     }
 }

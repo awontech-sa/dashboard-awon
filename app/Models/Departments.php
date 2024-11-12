@@ -9,6 +9,9 @@ class Departments extends Model
 {
     use HasFactory;
 
+    protected $table = 'departments';
+    protected $fillable = ['d_name'];
+
     public function positions()
     {
         return $this->hasMany(Positions::class);
