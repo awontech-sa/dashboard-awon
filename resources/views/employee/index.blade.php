@@ -85,7 +85,7 @@
                 <img class="w-6 h-6" src="{{ asset("assets/icons/supported_projects.png") }}" alt="supported-projects" />
             </div>
             <div class="grid mr-9">
-                <p class="font-bold text-3xl">{{ $support_projects->count() }}</p>
+                <p class="font-bold text-3xl">//</p>
                 <small class="text-sm text-gray-400">مشروع</small>
             </div>
         </div>
@@ -96,7 +96,7 @@
                 <img class="w-6 h-6" src="{{ asset("assets/icons/benef_projects.png") }}" alt="benef-projects" />
             </div>
             <div class="grid mr-9">
-                <p class="font-bold text-3xl">{{ $benef_projects->count() }}</p>
+                <p class="font-bold text-3xl">//</p>
                 <small class="text-sm text-gray-400">جهة</small>
             </div>
         </div>

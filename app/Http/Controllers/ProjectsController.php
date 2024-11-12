@@ -25,8 +25,6 @@ class ProjectsController extends Controller
         $completed_projects = Projects::where('p_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('p_status', 'معلق')->get();
         $progress_projects = Projects::where('p_status', 'قيد التنفيذ')->get();
-        $support_projects = Projects::where('p_support', '1')->get();
-        $benef_projects = Projects::where('p_type_beneficiaries', 'جهة')->get();
 
         return view('dashboard.index', [
             'chart' => $viewChart,
@@ -34,8 +32,6 @@ class ProjectsController extends Controller
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,
-            'support_projects' => $support_projects,
-            'benef_projects' => $benef_projects
         ]);
     }
 

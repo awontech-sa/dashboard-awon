@@ -11,6 +11,7 @@ use App\Models\PowersSections;
 use App\Models\PowersUserSections;
 use App\Models\Projects;
 use App\Models\ProjectUserPower;
+use App\Models\TypeBenef;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
@@ -42,8 +43,6 @@ class AdminController extends Controller
         $completed_projects = Projects::where('p_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('p_status', 'معلق')->get();
         $progress_projects = Projects::where('p_status', 'قيد التنفيذ')->get();
-        $support_projects = Projects::where('p_support', '1')->get();
-        $benef_projects = Projects::where('p_type_beneficiaries', 'جهة')->get();
 
 
         return view('admin.index', [
@@ -54,8 +53,6 @@ class AdminController extends Controller
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,
-            'support_projects' => $support_projects,
-            'benef_projects' => $benef_projects,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
         ]);
@@ -365,5 +362,111 @@ class AdminController extends Controller
         }
 
         return back()->with('success_message', 'تم إضافة الحساب بنجاح');
+    }
+
+    public function showCreateProject($step = 1)
+    {
+        $admin = Auth::user();
+
+        $typeBenef = TypeBenef::all();
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        $data = session("project_step{$step}", []);
+
+        switch ($step) {
+            case 1:
+                return view('admin.projects.create', [
+                    'step' => $step,
+                    'data' => $data,
+                    "admin" => $admin,
+                    "chart" => $viewChart,
+                    'typeBenef' => $typeBenef,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+                ]);
+            case 2:
+                return view('admin.projects.create', [
+                    'step' => $step,
+                    'data' => $data,
+                    "admin" => $admin,
+                    "chart" => $viewChart,
+                    'typeBenef' => $typeBenef,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+                ]);
+                // Add cases for each step view
+            default:
+                return back();
+        }
+    }
+
+    public function createProject(Request $request, $step)
+    // {
+
+    //     if (
+    //         $request->input('project-name') === null || $request->input('start-project') === null ||
+    //         $request->input('end-project') === null || $request->input('project-desription') === null ||
+    //         $request->input('benef_number') === null
+    //     ) {
+    //         return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
+    //     } else {
+    //         Projects::create([
+    //             'p_name' => $request->input('project-name'),
+    //             'p_date_start' => $request->input('start-project'),
+    //             'p_date_end' => $request->input('end-project'),
+    //             'p_remaining' => $request->input('project-remaining'),
+    //             'p_description' => $request->input('project-desription'),
+    //             'type_benef_id' => $supporter[0]->id,
+    //             'p_num_beneficiaries' => $request->input('benef_number'),
+    //             'p_duration' => $request->input('project-duration')
+    //         ]);
+    //         return back()->with('success_message', 'تم إضافة المشروع بنجاح');
+    //     }
+    // }
+    {
+        // Validate and store data in the session for each step
+        if ($step == 1) {
+            $supporter = TypeBenef::where('tb_name', $request->input('type-benef'))->get();
+
+            $validated = [
+                'p_name' => $request->input('project-name'),
+                'p_date_start' => $request->input('start-project'),
+                'p_date_end' => $request->input('end-project'),
+                'p_remaining' => $request->input('project-remaining'),
+                'p_description' => $request->input('project-desription'),
+                'type_benef_id' => $supporter[0]->id,
+                'p_num_beneficiaries' => $request->input('benef_number'),
+                'p_duration' => $request->input('project-duration')
+            ];
+            session(['project_step1' => $validated]);
+            return redirect()->route('admin.create.project', ['step' => 2]);
+        } elseif ($step == 2) {
+            // Validation for step 2 (financial data) here
+            $validated = $request->validate([
+                // Add financial data fields validation here
+            ]);
+            session(['project_step2' => $validated]);
+            return redirect()->route('admin.create.project', ['step' => 3]);
+        }
+        // Continue adding elseif blocks for each step up to step 7
+        elseif ($step == 7) {
+            // Finalize and save project with all collected data
+            $data = array_merge(
+                session('project_step1', []),
+                session('project_step2', []),
+                // Merge other steps' data here
+            );
+
+            // Create the project with the combined data
+            Projects::create($data);
+
+            // Clear the session data after project creation
+            session()->forget(['project_step1', 'project_step2', /* Add other steps here */]);
+
+            return redirect()->route('admin.projects.index')->with('success', 'تم إنشاء المشروع بنجاح');
+        }
     }
 }

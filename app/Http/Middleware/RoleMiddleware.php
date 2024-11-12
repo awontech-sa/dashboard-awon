@@ -20,13 +20,12 @@ class RoleMiddleware
             /** @var \App\Models\User */
             $user = Auth::user();
             $currentUrl = $request->url();
-            // $id = $request->id;
 
             if ($user->hasRole('Admin')) {
                 if (
                     $currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url("/admin/users/{$request->id}")
                     && $currentUrl !== url("/admin/users/update/{$request->id}") && $currentUrl !== url("/admin/create-user")
-                    && $currentUrl !== url('/admin/settings') && $currentUrl !== url("/admin/powers/{$request->id}")
+                    && $currentUrl !== url('/admin/settings') && $currentUrl !== url("/admin/powers/{$request->id}") && $currentUrl !== url("/admin/projects/create/{$request->step}")
                 ) {
                     return redirect()->route('admin.dashboard');
                 }

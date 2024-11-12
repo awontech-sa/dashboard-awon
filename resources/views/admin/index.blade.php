@@ -2,6 +2,8 @@
 
 @section('admin-content')
 <div>
+  <a href="{{ route('admin.new.project.show') }}" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مشروع جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+
   <section class="grid grid-cols-4 gap-x-[1.6rem] w-[67rem] pr-10
   max-sm:pr-10
   max-md:grid-cols-1 max-md:w-auto max-md:gap-y-4 max-md:pr-24 max-md:pt-10
@@ -85,7 +87,7 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/supported_projects.png") }}" alt="supported-projects" />
       </div>
       <div class="grid mr-9">
-        <p class="font-bold text-3xl">{{ $support_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm text-gray-400">مشروع</small>
       </div>
     </div>
@@ -96,7 +98,7 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/benef_projects.png") }}" alt="benef-projects" />
       </div>
       <div class="grid mr-9">
-        <p class="font-bold text-3xl">{{ $benef_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm text-gray-400">جهة</small>
       </div>
     </div>
@@ -129,7 +131,7 @@
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
           <p>{{ $project->p_implemented_stages }}/{{ $project->p_stages }}</p>
-          <progress class="progress progress-success w-32" value="{{ ($project->p_implemented_stages/$project->p_stages)*100 }}" max="100"></progress>
+          //progress
         </div>
         @endforeach
       </div>
@@ -174,9 +176,9 @@
     </div>
 
     <div class="h-[302px] bg-white rounded-md p-7 border-2 border-[#ECEEF6]">
-        <h1 class="font-bold text-base">إجمالي الدخل الحالي</h1>
-        {!! $viewCurrentGrossIncome->container() !!}
-      </div>
+      <h1 class="font-bold text-base">إجمالي الدخل الحالي</h1>
+      {!! $viewCurrentGrossIncome->container() !!}
+    </div>
   </section>
 </div>
 @endsection

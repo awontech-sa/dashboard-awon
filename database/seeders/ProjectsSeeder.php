@@ -12,8 +12,6 @@ class ProjectsSeeder extends Seeder
         Projects::query()->create([
             'p_name' => 'موقع عون',
             'p_status' => 'معلق',
-            'p_support' => 0,
-            'p_type_beneficiaries' => 'جهة',
             'p_num_beneficiaries' => 1,
             'p_date_start' => '2022-09-01',
             'p_date_end' => null,
@@ -27,14 +25,13 @@ class ProjectsSeeder extends Seeder
             'p_android' => null,
             'p_support_entity' => "عون التقنية",
             'p_stages' => 10,
-            'p_implemented_stages' => 7
+            'p_implemented_stages' => 7,
+            'type_benef_id' => 1
         ]);
 
         Projects::query()->create([
             'p_name' => 'لوحة تحكم عون',
             'p_status' => 'قيد التنفيذ',
-            'p_support' => 0,
-            'p_type_beneficiaries' => 'جهة',
             'p_num_beneficiaries' => 1,
             'p_date_start' => '2024/07/16',
             'p_date_end' => '2024/10/01',
@@ -48,7 +45,8 @@ class ProjectsSeeder extends Seeder
             'p_android' => null,
             'p_support_entity' => "عون التقنية",
             'p_stages' => 10,
-            'p_implemented_stages' => 10
+            'p_implemented_stages' => 10,
+            'type_benef_id' => 1
         ]);
     }
 }

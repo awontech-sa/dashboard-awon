@@ -36,6 +36,10 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/powers/{id}', [AdminController::class, 'showPowers'])->name('powers.show');
     Route::put('/powers/{id}', [AdminController::class, 'updatePowers'])->name('powers.update');
     Route::post('/powers/{id}', [AdminController::class, 'storeTechProjectsPower'])->name('powers.store.tech');
+    // Route::get('/projects/create', [AdminController::class, 'showCreateProject'])->name('new.project.show');
+    // Route::post('/projects/create', [AdminController::class, 'createProject'])->name('create.project');
+    Route::get('/projects/create/{step}', [AdminController::class, 'showCreateProject'])->name('new.project.show');
+    Route::post('/projects/create/{step}', [AdminController::class, 'createProject'])->name('create.project');
 });
 // end admin route
 
