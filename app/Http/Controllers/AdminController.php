@@ -417,6 +417,16 @@ class AdminController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome
                 ]);
+            case 5:
+                return view('admin.projects.create', [
+                    'step' => $step,
+                    'data' => $data,
+                    "admin" => $admin,
+                    "chart" => $viewChart,
+                    'typeBenef' => $typeBenef,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+                ]);
             default:
                 return back();
         }
@@ -479,6 +489,8 @@ class AdminController extends Controller
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
             return redirect()->route('admin.create.project', ['step' => 5]);
+        } elseif ($step == 5) {
+            return redirect()->route('admin.create.project', ['step' => 6]);
         }
         // Continue adding elseif blocks for each step up to step 7
         elseif ($step == 7) {
