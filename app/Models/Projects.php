@@ -41,6 +41,11 @@ class Projects extends Model
         return $this->morphOne(TypeBenef::class, 'type_benef_id', 'id');
     }
 
+    public function files()
+    {
+        return $this->hasMany(ProjectFiles::class);
+    }
+
     // public function members()
     // {
     //     return $this->belongsToMany(Members::class, 'team_project')

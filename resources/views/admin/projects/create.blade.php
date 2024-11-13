@@ -10,12 +10,6 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">بيانات عامة</h1>
 
-                @if(session('success_message'))
-                @include('layouts.success-message')
-                @elseif(session('error_message'))
-                @include('layouts.error-message')
-                @endif
-
                 <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST">
                     @csrf
                     @include('admin.projects.general-data', ['typeBenef' => $typeBenef])
@@ -52,13 +46,7 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">البيانات المالية</h1>
 
-                @if(session('success_message'))
-                @include('layouts.success-message')
-                @elseif(session('error_message'))
-                @include('layouts.error-message')
-                @endif
-
-                <form action="{{ route('admin.create.project', ['step' => 2]) }}" method="POST">
+                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST">
                     @csrf
                     @include('admin.projects.financial-data')
 
@@ -84,7 +72,31 @@
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" {{ $step == 3 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
-            //
+            <div class="my-20">
+                <h1 class="font-bold text-xl">مرفقات</h1>
+
+                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST">
+                    @csrf
+                    @include('admin.projects.attachments')
+
+                    <div class="join grid grid-cols-2 w-1/4">
+                        @if($step == 3 && $step < 7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            السابق
+                            </a>
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                                التالي
+                            </a>
+                            @endif
+
+                            @if($step == 7)
+                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                                إضافة المشروع
+                            </a>
+                            @endif
+                    </div>
+                </form>
+            </div>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" {{ $step == 4 ? "checked" : "" }} />
