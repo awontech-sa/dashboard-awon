@@ -2,7 +2,7 @@
 
 @section('admin-content')
 <div>
-  <a href="{{ route('admin.new.project.show') }}" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مشروع جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+  <a href="{{ route('admin.new.project.show', ['step' => 1]) }}" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مشروع جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
 
   <section class="grid grid-cols-4 gap-x-[1.6rem] w-[67rem] pr-10
   max-sm:pr-10
@@ -39,7 +39,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ count($completed_projects) }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -56,7 +56,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $stopped_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -73,7 +73,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $progress_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>

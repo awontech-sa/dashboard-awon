@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->string('p_duration')->nullable();
+            $table->string('p_support_type')->nullable();
+            $table->string('p_support_status')->nullable();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enums\SupportStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -29,6 +30,10 @@ class Projects extends Model
         'p_stages',
         'p_implemented_stages',
         'type_benef_id'
+    ];
+
+    protected $casts = [
+        'support_status' => SupportStatus::class,
     ];
 
     public function typeBenef()

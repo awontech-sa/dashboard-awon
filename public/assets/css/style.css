@@ -38,3 +38,7 @@ input.tab.tab-power:is(input:checked) {
     background-color: #6AADC5 !important;
     border-color: #D5D5D5 !important;
 }
+
+.checkbox:checked {
+    background-image: none !important;
+}

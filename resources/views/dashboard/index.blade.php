@@ -36,7 +36,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $completed_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -53,7 +53,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $stopped_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -64,13 +64,13 @@
     xl:w-[15.5rem]
     2xl:w-auto">
       <div class="flex justify-around items-center font-['Tajawal'] pt-6">
-        <p class="text-base font-bold">عدد المشاريع قيد التنفيذ</p>
+        <p class="text-base font-bold">//</p>
         <img src="{{ asset("assets/icons/progress.png") }}" alt="all-project icon" class="w-6 h-6" />
       </div>
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $progress_projects->count() }}</p>
+        <p class="font-bold text-3xl">//</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -128,7 +128,7 @@
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
           <p>{{ $project->p_implemented_stages }}/{{ $project->p_stages }}</p>
-          <progress class="progress progress-success w-32" value="{{ ($project->p_implemented_stages/$project->p_stages)*100 }}" max="100"></progress>
+          <progress class="progress progress-success w-32" value="//" max="100"></progress>
         </div>
         @endforeach
       </div>
