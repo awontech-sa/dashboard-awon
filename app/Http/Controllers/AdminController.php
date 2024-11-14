@@ -443,6 +443,17 @@ class AdminController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome
                 ]);
+            case 7:
+                return view('admin.projects.create', [
+                    'stages' => $projectStages,
+                    'step' => $step,
+                    'data' => $data,
+                    "admin" => $admin,
+                    "chart" => $viewChart,
+                    'typeBenef' => $typeBenef,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+                ]);
             default:
                 return back();
         }
@@ -518,9 +529,7 @@ class AdminController extends Controller
             return redirect()->route('admin.create.project', ['step' => 6]);
         } elseif ($step == 6) {
             return redirect()->route('admin.create.project', ['step' => 7]);
-        }
-        // Continue adding elseif blocks for each step up to step 7
-        elseif ($step == 7) {
+        } elseif ($step == 7) {
             // Finalize and save project with all collected data
             $data = array_merge(
                 session('project_step1', []),
@@ -534,7 +543,22 @@ class AdminController extends Controller
             // Clear the session data after project creation
             session()->forget(['project_step1', 'project_step2', /* Add other steps here */]);
 
-            return redirect()->route('admin.projects.index')->with('success', 'تم إنشاء المشروع بنجاح');
+            return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
+        } elseif ($step == 8) {
+            // Finalize and save project with all collected data
+            $data = array_merge(
+                session('project_step1', []),
+                session('project_step2', []),
+                // Merge other steps' data here
+            );
+
+            // Create the project with the combined data
+            Projects::create($data);
+
+            // Clear the session data after project creation
+            session()->forget(['project_step1', 'project_step2', /* Add other steps here */]);
+
+            return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
         }
     }
 

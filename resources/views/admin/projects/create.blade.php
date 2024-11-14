@@ -31,8 +31,8 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
                             </a>
                             @endif
@@ -60,8 +60,8 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
                             </a>
                             @endif
@@ -89,8 +89,8 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
                             </a>
                             @endif
@@ -118,8 +118,8 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
                             </a>
                             @endif
@@ -148,10 +148,10 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
-                            </a>
+                            </button>
                             @endif
                     </div>
 
@@ -178,8 +178,8 @@
                             </a>
                             @endif
 
-                            @if($step == 8)
-                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            @if($step==7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                                 إضافة المشروع
                             </a>
                             @endif
@@ -190,7 +190,26 @@
         </div>
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" {{ $step == 7 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
-            //
+            <div class="my-20">
+                <h1 class="font-bold text-xl">فريق العمل</h1>
+
+                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST">
+                    @csrf
+                    @include('admin.projects.team')
+
+                    <div class="join grid grid-cols-2 w-1/4">
+                        @if($step == 7 && $step < 8)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            السابق
+                            </a>
+                            <a type="submit" href="{{ route('admin.dashboard') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                                إضافة المشروع
+                            </a>
+                            @endif
+                    </div>
+
+                </form>
+            </div>
         </div>
     </div>
 </section>

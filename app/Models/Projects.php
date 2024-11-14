@@ -53,24 +53,8 @@ class Projects extends Model
 
     public function projectStages()
     {
-        return $this->hasMany(ProjectStage::class);
+        return $this->hasMany(ProjectStages::class);
     }
-
-    // public function members()
-    // {
-    //     return $this->belongsToMany(Members::class, 'team_project')
-    //         ->withPivot('roles_id');
-    // }
-
-    // public function roles()
-    // {
-    //     return $this->hasMany(Roles::class);
-    // }
-
-    // public function users()
-    // {
-    //     return $this->belongsToMany(User::class, 'projects_user', 'user_id', 'projects_id');
-    // }
 
     public function users()
     {
