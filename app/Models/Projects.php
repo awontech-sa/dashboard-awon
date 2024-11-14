@@ -46,6 +46,16 @@ class Projects extends Model
         return $this->hasMany(ProjectFiles::class);
     }
 
+    public function stages()
+    {
+        return $this->belongsToMany(Stages::class);
+    }
+
+    public function projectStages()
+    {
+        return $this->hasMany(ProjectStage::class);
+    }
+
     // public function members()
     // {
     //     return $this->belongsToMany(Members::class, 'team_project')

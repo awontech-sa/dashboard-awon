@@ -10,7 +10,10 @@ use App\Models\Powers;
 use App\Models\PowersSections;
 use App\Models\PowersUserSections;
 use App\Models\Projects;
+use App\Models\ProjectStage;
+use App\Models\ProjectStages;
 use App\Models\ProjectUserPower;
+use App\Models\Stages;
 use App\Models\TypeBenef;
 use App\Models\User;
 use App\Services\ViewChartService;
@@ -334,11 +337,6 @@ class AdminController extends Controller
 
     public function create(Request $request)
     {
-        $admin = Auth::user();
-        $viewChart = $this->viewChartService->getProjectsIncome();
-        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
-        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
-
         $newUser = User::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
@@ -370,6 +368,8 @@ class AdminController extends Controller
 
         $typeBenef = TypeBenef::all();
 
+        $projectStages = Stages::all();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -379,6 +379,7 @@ class AdminController extends Controller
         switch ($step) {
             case 1:
                 return view('admin.projects.create', [
+                    'stages' => $projectStages,
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
@@ -389,6 +390,7 @@ class AdminController extends Controller
                 ]);
             case 2:
                 return view('admin.projects.create', [
+                    'stages' => $projectStages,
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
@@ -399,6 +401,7 @@ class AdminController extends Controller
                 ]);
             case 3:
                 return view('admin.projects.create', [
+                    'stages' => $projectStages,
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
@@ -409,6 +412,7 @@ class AdminController extends Controller
                 ]);
             case 4:
                 return view('admin.projects.create', [
+                    'stages' => $projectStages,
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
@@ -419,6 +423,18 @@ class AdminController extends Controller
                 ]);
             case 5:
                 return view('admin.projects.create', [
+                    'stages' => $projectStages,
+                    'step' => $step,
+                    'data' => $data,
+                    "admin" => $admin,
+                    "chart" => $viewChart,
+                    'typeBenef' => $typeBenef,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome
+                ]);
+            case 6:
+                return view('admin.projects.create', [
+                    'stages' => $projectStages,
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
@@ -490,7 +506,18 @@ class AdminController extends Controller
         } elseif ($step == 4) {
             return redirect()->route('admin.create.project', ['step' => 5]);
         } elseif ($step == 5) {
+            if (filled($request->input('stage-name')) && filled($request->input('stage-order'))) {
+                Stages::create(['stage_name' => $request->input('stage-name'), 'stage_number' => $request->input('stage-order')]);
+            }
+            $stages = $request->input('stages');
+            if ($stages) {
+                foreach ($stages as $s) {
+                    ProjectStages::create(['project_id' => 1, 'stage_id' => $s]);
+                }
+            }
             return redirect()->route('admin.create.project', ['step' => 6]);
+        } elseif ($step == 6) {
+            return redirect()->route('admin.create.project', ['step' => 7]);
         }
         // Continue adding elseif blocks for each step up to step 7
         elseif ($step == 7) {

@@ -131,7 +131,32 @@
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" {{ $step == 5 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
-            //
+            <div class="my-20">
+                <h1 class="font-bold text-xl">مراحل المشروع</h1>
+
+                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST">
+                    @csrf
+                    @include('admin.projects.level')
+
+                    <div class="join grid grid-cols-2 w-1/4">
+                        @if($step == 5 && $step < 7)
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            السابق
+                            </a>
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                                التالي
+                            </a>
+                            @endif
+
+                            @if($step == 7)
+                            <a type="submit" href="{{ route('admin.create.project.finalize') }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                                إضافة المشروع
+                            </a>
+                            @endif
+                    </div>
+
+                </form>
+            </div>
         </div>
 
         <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" {{ $step == 6 ? "checked" : "" }} />
