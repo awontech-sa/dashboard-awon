@@ -1,4 +1,4 @@
-<div id="errorMessage" class="error-message-overlay w-72 h-72 left-12 absolute z-10 gap-y-16 bg-white rounded-md grid place-items-center shadow-2xl items-center justify-center top-1/2 -translate-y-1/2
+<div id="errorMessage" class="error-message-overlay w-72 h-72 left-12 absolute z-10 bg-white rounded-md grid place-items-center shadow-2xl items-center justify-center top-1/2 -translate-y-1/2
 2xl:left-[38%] 2xl:w-[32.6rem] 2xl:h-[32rem]
 xl:left-1/3 xl:w-[32.6rem] xl:h-[32rem]
 lg:left-64 lg:w-[32.6rem] lg:h-[32rem]
