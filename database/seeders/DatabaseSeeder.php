@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
             PositionsSeeder::class,
             PositionUserSeeder::class,
             PowersSectionsSeeder::class,
-            PowersSeeder::class,
             TypeBenefSeeder::class,
             ProjectsSeeder::class,
             ProjectUsersSeeder::class

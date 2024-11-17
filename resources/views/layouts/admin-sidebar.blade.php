@@ -11,7 +11,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    
+
     @vite('resources/css/app.css')
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
@@ -100,6 +100,7 @@
                         </div>
                     </div>
                     <nav class="navbar bg-body-tertiary block
+                    lg:hidden
                     2xl:hidden
                     xl:hidden">
                         <div class="container-fluid">
@@ -111,21 +112,54 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                                 </div>
                                 <div class="offcanvas-body">
-                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="#">Home</a>
-                                        </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Dropdown
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-base my-8">
+                                        <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
+                                        <div class="grid">
+                                            <p>{{ $admin->name }}</p>
+                                            @foreach($admin->roles as $role)
+                                            <p class="font-normal text-sm text-gray-600">{{ $role->name }}</p>
+                                            @endforeach
+                                        </div>
+                                        <div class="dropdown">
+                                            <div tabindex="0" role="button" class="btn m-1">. . .</div>
+                                            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                                <li><a href="{{ route('admin.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                                                 <li>
-                                                    <hr class="dropdown-divider">
+                                                    <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
+                                                        @csrf
+                                                        <button type="submit" class="btn bg-transparent border-0 font-normal text-red-600 text-base"><x-fas-arrow-right-from-bracket class="text-red-600 w-5 h-5" />تسجيل الخروج</button>
+                                                    </form>
                                                 </li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
+                                        <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                            <div class="flex items-center gap-x-4 text-base">
+                                                <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
+                                                <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                            <div class="flex items-center gap-x-4 text-base">
+                                                <x-fas-users class="text-cyan-700 w-7 h-7" />
+                                                <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                            <ul class="menu menu-md rounded-lg">
+                                                <li>
+                                                    <details>
+                                                        <summary class="font-['Tajawal']">
+                                                            <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                                            المشاريع التقنية
+                                                        </summary>
+                                                        //
+                                                    </details>
+                                                </li>
                                             </ul>
                                         </li>
                                     </ul>

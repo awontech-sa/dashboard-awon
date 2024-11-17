@@ -56,14 +56,12 @@ class User extends Authenticatable
 
     public function projectss()
     {
-        return $this->belongsToMany(Projects::class, 'project_user_power')
-            ->withPivot('powers_id')->withTimestamps();
+        return $this->belongsToMany(Projects::class, 'project_user_power');
     }
 
     public function projectPowers()
     {
-        return $this->belongsToMany(Projects::class, 'project_user_power')->withPivot('powers_id')
-            ->using(ProjectUserPower::class);
+        return $this->belongsToMany(Projects::class, 'project_user_power');
     }
 
 
@@ -78,13 +76,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Positions::class, 'position_user', 'users_id', 'positions_id')->using(PositionUser::class);
     }
 
-    public function powers()
-    {
-        return $this->belongsToMany(Powers::class, 'powers_user_sections')->withPivot('powers_sections_id'); // إضافة department_id كجزء من العلاقة
-    }
-
     public function powersSections()
     {
-        return $this->belongsToMany(PowersSections::class, 'powers_user_sections')->withPivot('powers_id'); // إضافة permission_id كجزء من العلاقة
+        return $this->belongsToMany(PowersSections::class, 'powers_user_sections'); // إضافة permission_id كجزء من العلاقة
     }
 }

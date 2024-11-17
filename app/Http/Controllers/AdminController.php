@@ -6,13 +6,8 @@ use App\Http\Requests\UserRequest;
 use App\Models\Departments;
 use App\Models\Positions;
 use App\Models\PositionUser;
-use App\Models\Powers;
-use App\Models\PowersSections;
 use App\Models\PowersUserSections;
 use App\Models\Projects;
-use App\Models\ProjectStage;
-use App\Models\ProjectStages;
-use App\Models\ProjectUserPower;
 use App\Models\Stages;
 use App\Models\TypeBenef;
 use App\Models\User;
@@ -178,85 +173,6 @@ class AdminController extends Controller
         $user->delete();
 
         return redirect()->route('admin.users')->with('success_message', 'تم حذف الحساب بنجاح');
-    }
-
-    public function showPowers($id)
-    {
-        $admin = Auth::user();
-
-        $user = User::with(['powers', 'powersSections'])->find($id);
-
-        $projects = Projects::all();
-
-        $id = $user->id;
-
-        $userPermissions = [];
-
-        foreach ($user->powers as $power) {
-            $sectionId = $power->pivot->powers_sections_id;
-
-            $section = PowersSections::find($sectionId);
-
-            $userPermissions[] = [
-                'section_id' => $sectionId,
-                'permission' => $power->p_name,
-                'section' => $section ? $section->ps_name : 'Unknown section'
-            ];
-        }
-
-        $viewChart = $this->viewChartService->getProjectsIncome();
-        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
-        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
-        return view('admin.powers', [
-            'projects' => $projects,
-            'id' => $id,
-            'admin' => $admin,
-            'chart' => $viewChart,
-            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
-            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-            'userPermissions' => $userPermissions
-        ]);
-    }
-
-    public function updatePowers(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-
-        $sectionId = $request->input('section_id');
-        $selectedPermission = $request->input('permission');
-
-        $permission = Powers::where('p_name', $selectedPermission)->first();
-
-        if ($permission && PowersSections::find($sectionId)) {
-            $powersUserSection = PowersUserSections::where('user_id', $user->id)->where('powers_sections_id', $sectionId)->first();
-
-            if ($powersUserSection) {
-                $powersUserSection->update(['powers_id' => $permission->id]);
-            }
-        }
-        return back()->with('success_message', 'تم تحديث البيانات بنجاح');
-    }
-
-    public function storeTechProjectsPower(Request $request, $id)
-    {
-        $user = User::findOrFail($id);
-        $permissions = Powers::whereIn('p_name', ['تعديل', 'حذف'])->get();
-
-        if ($request->action === 'add') {
-            foreach ($request->project_ids as $projectId) {
-                foreach ($permissions as $permission) {
-                    ProjectUserPower::firstOrCreate([
-                        'user_id' => $user->id,
-                        'project_id' => $projectId,
-                        'powers_id' => $permission->id,
-                    ]);
-                }
-            }
-        } elseif ($request->action === 'remove') {
-            ProjectUserPower::where('user_id', $user->id)
-                ->whereIn('project_id', $request->project_ids)
-                ->delete();
-        }
     }
 
     public function showUpdateUser($id)
@@ -486,7 +402,6 @@ class AdminController extends Controller
         // Validate and store data in the session for each step
         if ($step == 1) {
             $supporter = TypeBenef::where('tb_name', $request->input('type-benef'))->get();
-
             $validated = [
                 'p_name' => $request->input('project-name'),
                 'p_date_start' => $request->input('start-project'),
@@ -500,65 +415,89 @@ class AdminController extends Controller
             session(['project_step1' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 2]);
         } elseif ($step == 2) {
-            $validated = [
-                'p_support_status' => $request->input('support-status'), // Assuming 'مدعوم' or 'غير مدعوم' is passed
-                'p_support_type' => $request->input('support-type'), // Assuming 'دعم كلي' or 'دعم جزئي' is passed
-                'p_financial_data' => $this->getFinancialData($request), // You can define this method to handle financial logic
-            ];
-
-            // You can include further validation as needed, for example:
-            $validated['p_installments'] = $this->getInstallments($request);
-            $validated['p_phases'] = $this->getPhases($request);
-
-            session(['project_step2' => $validated]);
-            return redirect()->route('admin.create.project', ['step' => 3]);
+            $supporters = [];
+            $reportFiles = [];
+            $countReport = 1;
+            for ($i = 1; $i <= $request->input('number-support'); $i++) {
+                dd($request->file(`installment-report-{$countReport}`));
+                $supporters[] = [
+                    'comp_support' => $request->input("comp-support-{$i}"),   //الجهة الداعمة
+                    'project_income_total' => $request->input("project-income-total-{$i}"),   //إجمالي مبلغ الدعم
+                    'payment_count' => $request->input("payment-count-{$i}"),   //عدد الدفعات
+                    // 'report_files' => $reportFiles
+                ];
+            }
+            dd("outside");
+            // dd($request->input('buttonValue'));
+            // session(['project_step2' => $validated]);
+            // return redirect()->route('admin.create.project', ['step' => 3]);
         } elseif ($step == 3) {
+            $validated = [
+                'tech_offer' => $request->input('tech-offer'),
+                'financial_offer' => $request->input('financial-offer'),
+                'project_contract' => $request->input('project-contract'),
+                'profile' => $request->input('profile'),
+                'video' => $request->input('video'),
+            ];
+            session(['project_step3' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
+            $validated = [
+                'project_status' => $request->input('project-status'),
+                'comment' => $request->input('comment')
+            ];
+            session(['project_step4' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 5]);
         } elseif ($step == 5) {
-            if (filled($request->input('stage-name')) && filled($request->input('stage-order'))) {
-                Stages::create(['stage_name' => $request->input('stage-name'), 'stage_number' => $request->input('stage-order')]);
-            }
-            $stages = $request->input('stages');
-            if ($stages) {
-                foreach ($stages as $s) {
-                    ProjectStages::create(['project_id' => 1, 'stage_id' => $s]);
-                }
-            }
+            // if (filled($request->input('stage-name')) && filled($request->input('stage-order'))) {
+            //     Stages::create(['stage_name' => $request->input('stage-name'), 'stage_number' => $request->input('stage-order')]);
+            // }
+            // $stages = $request->input('stages');
+            // if ($stages) {
+            //     foreach ($stages as $s) {
+            //         ProjectStages::create(['project_id' => 1, 'stage_id' => $s]);
+            //     }
+            // }
+            $validated = [
+                'project_status' => $request->input('project-status'),
+                'comment' => $request->input('comment')
+            ];
+            session(['project_step5' => []]);
             return redirect()->route('admin.create.project', ['step' => 6]);
         } elseif ($step == 6) {
+            $validated = [
+                'program_language' => $request->input('program-language'),
+                'framework' => $request->input('framework'),
+                'github' => $request->input('github'),
+                'link' => $request->input('link'),
+                'android' => $request->input('android'),
+                'link' => $request->input('link'),
+                'ios' => $request->input('ios'),
+                'dashboard' => $request->input('dashboard')
+            ];
+            session(['project_step6' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 7]);
         } elseif ($step == 7) {
+            $data['general-data'] = session('project_step1');
+            $data['financial-data'] = session('project_step2');
+            dd($data['financial-data']);
             // Finalize and save project with all collected data
-            $data = array_merge(
-                session('project_step1', []),
-                session('project_step2', []),
-                // Merge other steps' data here
-            );
+            // $data = array_merge(
+            //     session('project_step1', []),
+            //     session('project_step2', []),
+            //     // Merge other steps' data here
+            // );
+
 
             // Create the project with the combined data
-            Projects::create($data);
+            if ($data['general-data']) {
+                Projects::create($data['general-data']);
+            }
 
             // Clear the session data after project creation
             session()->forget(['project_step1', 'project_step2', /* Add other steps here */]);
 
-            return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
-        } elseif ($step == 8) {
-            // Finalize and save project with all collected data
-            $data = array_merge(
-                session('project_step1', []),
-                session('project_step2', []),
-                // Merge other steps' data here
-            );
-
-            // Create the project with the combined data
-            Projects::create($data);
-
-            // Clear the session data after project creation
-            session()->forget(['project_step1', 'project_step2', /* Add other steps here */]);
-
-            return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
+            // return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
         }
     }
 
@@ -610,5 +549,10 @@ class AdminController extends Controller
             ];
         }
         return $phases;
+    }
+
+    public function finalCreateProject()
+    {
+        dd("hi");
     }
 }

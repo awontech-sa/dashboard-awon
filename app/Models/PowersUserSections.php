@@ -13,7 +13,7 @@ class PowersUserSections extends Model
 
     protected $fillable = [
         'user_id',
-        'powers_id',
-        'powers_sections_id'
+        'powers_sections_id',
+        'permission'
     ];
 }
