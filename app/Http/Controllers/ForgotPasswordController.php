@@ -24,12 +24,12 @@ class ForgotPasswordController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        // if (!$user || $user->is_verified == 1) {
-        //     return view('auth.login');
-        // }
-
-        $this->sendOtp($user);  // Send OTP
-        return view('auth.verification', ['email' => $user->email]);
+        if (!$user) {
+            return back()->with('error_message', 'البريد الإلكتروني غير مسجل');
+        } else {
+            $this->sendOtp($user);  // Send OTP
+            return view('auth.verification', ['email' => $user->email]);
+        }
     }
 
     // Function to send OTP email
@@ -64,17 +64,30 @@ class ForgotPasswordController extends Controller
         $otpData = EmailVerification::where('otp', $otp)->first();
 
         if (!$otpData) {
-            return response()->json(['success' => false, 'msg' => 'You entered the wrong OTP']);
+            return back()->with('error_message', 'الرمز المدخل غير صحيح');
         }
 
-        User::where('id', $user->id)->update(['is_verified' => 1]);
+        $is_verified = User::where('id', $user->id)->first();
+
+        if ($is_verified->is_verified === 0) {
+            User::where('id', $user->id)->update(['is_verified' => 1]);
+        }
 
         $token = Str::random(64);
-        DB::table('password_reset_tokens')->insert([
-            'email' => $request->email,
-            'token' => $token,
-            'created_at' => Carbon::now(),
-        ]);
+        $emailExist = DB::table('password_reset_tokens')->where('email', $request->email)->first();
+        if (!$emailExist) {
+            DB::table('password_reset_tokens')->insert([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+        } else {
+            DB::table('password_reset_tokens')->update([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now(),
+            ]);
+        }
 
         return redirect()->route('reset.password.form', ['token' => $token, 'email' => $request->email]);
     }
