@@ -4,9 +4,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
 
-@include('layouts.error-message')
-
 <section class="login-form">
+    @include('layouts.error-message')
     <div class="grid place-items-center">
         <img src="{{ asset("assets/images/logo-2.png") }}" alt="logo" class="w-96" />
 
