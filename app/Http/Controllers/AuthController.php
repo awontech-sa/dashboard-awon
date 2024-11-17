@@ -22,10 +22,8 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
-        if (! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        if (! Hash::check($request->password, $user->password) || $request->email !== $user->email) {
+            return back()->with('error_message', 'كلمة المرور أو البريد الإلكتروني المدخل غير صحيح');
         }
 
         // User authenticated successfully
