@@ -14,7 +14,7 @@ max-md:left-20">
     } */
 </style>
 
-<script>
+<!-- <script>
     // Hide error message after 4 seconds
     document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.getElementById('errorMessage');
@@ -25,4 +25,4 @@ max-md:left-20">
             }, 4000); // Delay of 4 seconds
         }
     });
-</script>
+</script> -->
