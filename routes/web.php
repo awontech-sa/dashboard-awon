@@ -8,6 +8,7 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PowersController;
 use App\Http\Controllers\SettingController;
+use App\Http\Controllers\UsersController;
 
 // start auth routes
 Route::get('/login', [AuthController::class, 'index']);
@@ -28,13 +29,13 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
     
     //start users route
-    Route::get('/users', [AdminController::class, 'showUsers'])->name('users');
-    Route::get('/users/{id}', [AdminController::class, 'showUser'])->name('show.user');
-    Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('delete.user');
-    Route::get('/users/update/{id}', [AdminController::class, 'showUpdateUser'])->name('show.update.user');
-    Route::put('/users/update/{id}', [AdminController::class, 'updateUser'])->name('update.user');
-    Route::get('/create-user', [AdminController::class, 'showCreateUser'])->name('create.show');
-    Route::post('/create-user', [AdminController::class, 'create'])->name('create.user');
+    Route::get('/users', [UsersController::class, 'index'])->name('users');
+    Route::get('/users/{id}', [UsersController::class, 'show'])->name('show.user');
+    Route::delete('/users/{id}', [UsersController::class, 'destroy'])->name('delete.user');
+    Route::get('/users/update/{id}', [UsersController::class, 'showUpdateUser'])->name('show.update.user');
+    Route::put('/users/update/{id}', [UsersController::class, 'update'])->name('update.user');
+    Route::get('/create-user', [UsersController::class, 'showCreateUser'])->name('create.show');
+    Route::post('/create-user', [UsersController::class, 'create'])->name('create.user');
     //end users route
     
     //start settings route

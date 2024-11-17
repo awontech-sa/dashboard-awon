@@ -21,6 +21,7 @@ max-md:mx-6">
                             type="checkbox"
                             class="checkbox checkbox-lg border [--chkbg:theme(colors.cyan.500)] [--chkfg:white]
                             max-md:checkbox-xs"
+                            {{-- @if(in_array($status->value, $userPermission)) checked @else "" @endif --}}
                         />
                         <span class="label-text">{{ $status->value }}</span>
                     </label>

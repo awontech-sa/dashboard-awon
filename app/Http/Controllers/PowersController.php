@@ -28,6 +28,7 @@ class PowersController extends Controller
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         return view('admin.powers', [
             'sections' => $powersSections,
+            // 'userPermission' => $userPermissions,
             // 'projects' => $projects,
             'id' => $id,
             'admin' => $admin,
@@ -56,8 +57,6 @@ class PowersController extends Controller
                 'permission' => $request->input('permission'),
             ])->delete();
         }
-
-        return response()->json(['message' => 'Permission updated successfully'], 200);
     }
 
 

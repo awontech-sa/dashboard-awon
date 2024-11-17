@@ -2,11 +2,15 @@
 
 @section('admin-content')
 <div class="overflow-x-auto pb-96 font-['Tajawal']">
-    <div class="flex items-center justify-between p-8">
+    <div class="flex items-center justify-between p-8
+    max-md:justify-start max-md:gap-x-32
+    2xl:justify-evenly">
         <h1 class="font-bold text-xl">الحسابات</h1>
         <a href="{{ route('admin.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
     </div>
-    <table class="table font-['Tajawal'] rounded-lg w-[1103px] mx-auto">
+    <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-0
+    2xl:w-[1103px] 2xl:table
+    xl:w-[1103px] xl:table">
         <!-- head -->
         <thead>
             <tr class="text-center">
@@ -43,10 +47,12 @@
                     @endif
                 </td>
                 <td>
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
-
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
-
+                    @foreach($adminPermission as $permission)
+                    @if($permission->permission === 'تعديل')
+                    <a class="btn btn-xs btn-link bg-[#FAFBFD]"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    @elseif($permission->permission === 'مشاهدة')
+                    <a class="btn btn-xs btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
+                    @else
                     <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -54,6 +60,8 @@
                             <x-far-trash-can class="w-4 h-4 text-red-500" />
                         </button>
                     </form>
+                    @endif
+                    @endforeach
                 </td>
             </tr>
             @endforeach

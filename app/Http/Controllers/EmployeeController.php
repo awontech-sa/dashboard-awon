@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Projects;
-use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Support\Facades\Auth;
 
@@ -37,23 +36,5 @@ class EmployeeController extends Controller
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,
         ]);
-    }
-
-    public function show()
-    {
-        $user = Auth::user();
-        $projects = $user->projects; // This will give you a collection of the user's projects
-        $progress_projects = $user->projects->where('p_status', 'قيد التنفيذ');
-        $completed_projects = $user->projects->where('p_status', 'مكتمل');
-        $stopped_projects = $user->projects->where('p_status', 'معلق');
-
-        
-
-
-        $viewChart = $this->viewChartService->getProjectsIncome();
-
-
-        return view('employee.profile', ['employee' => $user, 'project' => $projects,  'chart' => $viewChart,
-        'progress_projects' => $progress_projects, 'completed_projects' => $completed_projects, 'stopped_projects' => $stopped_projects]);
     }
 }
