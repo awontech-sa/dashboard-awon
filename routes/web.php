@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PowersController;
+use App\Http\Controllers\SettingController;
 
 // start auth routes
 Route::get('/login', [AuthController::class, 'index']);
@@ -37,8 +38,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     //end users route
     
     //start settings route
-    Route::get('/settings', [AdminController::class, 'showSetting'])->name('setting.show');
-    Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
+    Route::get('/settings', [SettingController::class, 'index'])->name('setting.show');
+    Route::put('/settings', [SettingController::class, 'update'])->name('setting.update');
     //end settings route
     
     //start powers route

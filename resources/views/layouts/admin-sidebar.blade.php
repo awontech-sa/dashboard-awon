@@ -53,20 +53,20 @@
                     </ul>
                 </div>
             </div>
-            <ul class="menu bg-white text-base-content min-h-full w-80 p-4">
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+            <ul class="menu bg-white text-base-content min-h-full w-80 px-4 py-10">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>

@@ -25,9 +25,9 @@ class UserRequest extends FormRequest
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255|unique:users,email,' . $this->user()->id,
             'password' => 'nullable|min:8|regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/',
-            'phone_number' => 'nullable|string|max:15|regex:/^\+?[0-9\s-]*$/',
+            'phone_number' => 'nullable|string|max:10',
             'x' => 'nullable|string|max:255',
-            'linkedin' => 'nullable|string|max:255|url',
+            'linkedin' => 'nullable|string|max:255',
             'profile-image' => 'nullable|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'is_verified' => 'nullable|boolean'
         ];

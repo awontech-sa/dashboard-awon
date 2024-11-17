@@ -21,7 +21,11 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
-        'is_verified'
+        'phone_number',
+        'x',
+        'linkedin',
+        'profile_image',
+        'is_verified',
     ];
 
     protected $guard_name = 'web';
