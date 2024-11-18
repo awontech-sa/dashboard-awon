@@ -17,7 +17,6 @@
     <div class="mt-8 grid gap-y-7 bottom-list stages-done"></div>
 </div>
 
-
 <div class="modal" role="dialog" id="my_modal_8">
     <div class="modal-box">
         <div class="modal-action">
@@ -42,6 +41,7 @@
     </div>
 </div>
 
+@push('scripts')
 <script>
     let stagesDoneData = document.querySelector('.stages-done');
     let checkedStages = []; // Array to keep track of checked stages
@@ -98,12 +98,7 @@
                 _token: "{{ csrf_token() }}",
                 stages: checkedStages
             },
-            success: function(response) {
-                console.log("Stages saved:", checkedStages);
-            },
-            error: function(xhr) {
-                console.error("Error saving stages:", xhr.responseText);
-            }
         });
     }
 </script>
+@endpush

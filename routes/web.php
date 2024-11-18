@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\PowersController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UsersController;
 
@@ -49,9 +50,9 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     // Route::post('/powers/{id}', [PowersController::class, 'store'])->name('powers.store.tech');
     //end powers route
 
-    Route::get('/projects/create/{step}', [AdminController::class, 'showCreateProject'])->name('new.project.show');
-    Route::post('/projects/create/{step}', [AdminController::class, 'createProject'])->name('create.project');
-    Route::post('/projects/create', [AdminController::class, 'finalCreateProject'])->name('create.project.final');
+    Route::get('/projects/create/{step}', [ProjectController::class, 'index'])->name('new.project.show');
+    Route::post('/projects/create/{step}', [ProjectController::class, 'create'])->name('create.project');
+    Route::post('/projects/create', [ProjectController::class, 'finalCreateProject'])->name('create.project.final');
 });
 // end admin route
 

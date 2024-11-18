@@ -17,12 +17,13 @@
     </div>
 </div>
 
-<div class="flex gap-x-4">
+<div class="flex gap-x-4 my-8">
     <p>أعضاء فريق العمل</p>
     <button type="button" class="btn btn-xs font-normal bg-white" onclick="addMember()">إضافة عضو</button>
 </div>
 <div id="new-member"></div>
 
+@push('scripts')
 <script>
     function addMember() {
         let fileContainer = document.getElementById(`new-member`);
@@ -53,9 +54,9 @@
         }
     }
 </script>
+@endpush
 
-
-
+@push('scripts')
 <script>
     function addMember() {
         let fileContainer = document.getElementById('new-member');
@@ -91,3 +92,4 @@
         }
     }
 </script>
+@endpush

@@ -34,6 +34,7 @@ max-md:mx-6">
 </section>
 @endsection
 
+@push('scripts')
 <script>
     function updatePermission(checkbox, userId, sectionId, permission) {
         const action = checkbox.checked ? 'add' : 'remove'; // Determine action
@@ -56,3 +57,4 @@ max-md:mx-6">
         });
     }
 </script>
+@endpush

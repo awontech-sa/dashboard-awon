@@ -14,12 +14,6 @@
 
     @vite('resources/css/app.css')
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-
     <title>admin dashboard</title>
 </head>
 
@@ -92,92 +86,100 @@
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
                             {{-- <div class="flex items-center mt-6 gap-x-3">
                                 <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
-                                 <input type="text" class="font-['Tajawal'] input input-lg" name="search" id="search" placeholder="ابحث باسم المشروع..." />
-                            </div> --}}
-                           {{-- <div class="bg-gray-50 p-3 rounded-2xl">
+                            <input type="text" class="font-['Tajawal'] input input-lg" name="search" id="search" placeholder="ابحث باسم المشروع..." />
+                        </div> --}}
+                        {{-- <div class="bg-gray-50 p-3 rounded-2xl">
                                 <x-far-bell class="w-6 h-7 text-gray-600" />
                             </div> --}}
-                        </div>
                     </div>
-                    <nav class="navbar bg-body-tertiary block
+                </div>
+                <nav class="navbar bg-body-tertiary block
                     lg:hidden
                     2xl:hidden
                     xl:hidden">
-                        <div class="container-fluid">
-                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                                <span class="navbar-toggler-icon"></span>
-                            </button>
-                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                                <div class="offcanvas-header">
-                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                </div>
-                                <div class="offcanvas-body">
-                                    <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-base my-8">
-                                        <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
-                                        <div class="grid">
-                                            <p>{{ $admin->name }}</p>
-                                            @foreach($admin->roles as $role)
-                                            <p class="font-normal text-sm text-gray-600">{{ $role->name }}</p>
-                                            @endforeach
-                                        </div>
-                                        <div class="dropdown">
-                                            <div tabindex="0" role="button" class="btn m-1">. . .</div>
-                                            <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                                <li><a href="{{ route('admin.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
-                                                <li>
-                                                    <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
-                                                        @csrf
-                                                        <button type="submit" class="btn bg-transparent border-0 font-normal text-red-600 text-base"><x-fas-arrow-right-from-bracket class="text-red-600 w-5 h-5" />تسجيل الخروج</button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
+                    <div class="container-fluid">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                            <div class="offcanvas-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                            </div>
+                            <div class="offcanvas-body">
+                                <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-base my-8">
+                                    <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
+                                    <div class="grid">
+                                        <p>{{ $admin->name }}</p>
+                                        @foreach($admin->roles as $role)
+                                        <p class="font-normal text-sm text-gray-600">{{ $role->name }}</p>
+                                        @endforeach
                                     </div>
-                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
-                                        <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                            <div class="flex items-center gap-x-4 text-base">
-                                                <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
-                                                <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                            <div class="flex items-center gap-x-4 text-base">
-                                                <x-fas-users class="text-cyan-700 w-7 h-7" />
-                                                <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
-                                            </div>
-                                        </li>
-                                        <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                            <ul class="menu menu-md rounded-lg">
-                                                <li>
-                                                    <details>
-                                                        <summary class="font-['Tajawal']">
-                                                            <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
-                                                            المشاريع التقنية
-                                                        </summary>
-                                                        //
-                                                    </details>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
+                                    <div class="dropdown">
+                                        <div tabindex="0" role="button" class="btn m-1">. . .</div>
+                                        <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                            <li><a href="{{ route('admin.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
+                                            <li>
+                                                <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
+                                                    @csrf
+                                                    <button type="submit" class="btn bg-transparent border-0 font-normal text-red-600 text-base"><x-fas-arrow-right-from-bracket class="text-red-600 w-5 h-5" />تسجيل الخروج</button>
+                                                </form>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
+                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
+                                    <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                        <div class="flex items-center gap-x-4 text-base">
+                                            <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
+                                            <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                        <div class="flex items-center gap-x-4 text-base">
+                                            <x-fas-users class="text-cyan-700 w-7 h-7" />
+                                            <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item my-2
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                        <ul class="menu menu-md rounded-lg">
+                                            <li>
+                                                <details>
+                                                    <summary class="font-['Tajawal']">
+                                                        <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                                        المشاريع التقنية
+                                                    </summary>
+                                                    //
+                                                </details>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
                             </div>
                         </div>
-                    </nav>
+                    </div>
+                </nav>
 
-                </div>
-                <div class="pt-11 pb-52">
-                    @yield('admin-content')
-                    {!! $chart->script() !!}
-                    {!! $viewGrossAnnualIncome->script() !!}
-                    {!! $viewCurrentGrossIncome->script() !!}
-                </div>
             </div>
-
+            <div class="pt-11 pb-52">
+                @yield('admin-content')
+                {!! $chart->script() !!}
+                {!! $viewGrossAnnualIncome->script() !!}
+                {!! $viewCurrentGrossIncome->script() !!}
+            </div>
         </div>
+
+    </div>
 </body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+@yield('scripts')
+@stack('scripts')
 
 </html>

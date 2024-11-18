@@ -14,6 +14,7 @@ max-md:left-20">
     }
 </style>
 
+@push('scripts')
 <script>
     // Hide error message after 4 seconds
     document.addEventListener('DOMContentLoaded', function() {
@@ -26,3 +27,4 @@ max-md:left-20">
         }
     });
 </script>
+@endpush

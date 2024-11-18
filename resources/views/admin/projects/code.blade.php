@@ -1,37 +1,37 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem]">
     <div class="grid gap-y-5">
         <label for="start-project">لغة البرمجة</label>
-        <input id="start-project" class="input text-center text-base" value="{{ old('start-project', $data['start-project'] ?? '') }}" type="date" name="start-project" />
+        <input id="start-project" class="input text-center text-base" value="{{ old('program-language', $data['program_language'] ?? '') }}" type="text" name="program-language" />
     </div>
     <div class="grid gap-y-5">
         <label for="end-project">إطار البرمجة</label>
-        <input id="end-project" value="{{ old('end-project', $data['end-project'] ?? '') }}" class="input text-center text-base" type="date" name="end-project" />
+        <input id="end-project" value="{{ old('framework', $data['framework'] ?? '') }}" class="input text-center text-base" type="text" name="framework" />
     </div>
 </div>
 
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
     <div class="grid gap-y-5">
-        <label for="project-duration">رابط GitHub</label>
-        <input id="project-duration" name="project-duration" value="{{ old('project-duration', $data['project-duration'] ?? '') }}" class="input text-center text-base input-disabled" type="text" placeholder="" />
+        <label for="github">رابط GitHub</label>
+        <input id="github" name="github" value="{{ old('github', $data['github'] ?? '') }}" class="input text-center text-base" type="text" placeholder="" />
     </div>
     <div class="grid gap-y-5">
-        <label for="remaining-duration">رابط الموقع</label>
-        <input id="remaining-duration" name="project-remaining" class="input text-center text-base input-disabled" type="text" value="{{ old('project-remaining', $data['project-remaining'] ?? '') }}" />
+        <label for="link">رابط الموقع</label>
+        <input id="link" name="link" class="input text-center text-base" type="text" value="{{ old('link', $data['link'] ?? '') }}" />
     </div>
 </div>
 
 <div class="grid grid-cols-2 gap-x-[3.3rem]">
     <div class="grid gap-y-5">
-        <label for="start-project">رابط التطبيق على IOS</label>
-        <input id="start-project" class="input text-center text-base" value="{{ old('start-project', $data['start-project'] ?? '') }}" type="date" name="start-project" />
+        <label for="ios">رابط التطبيق على IOS</label>
+        <input id="ios" class="input text-center text-base" value="{{ old('ios', $data['ios'] ?? '') }}" type="text" name="ios" />
     </div>
     <div class="grid gap-y-5">
-        <label for="end-project">رابط التطبيق على Android</label>
-        <input id="end-project" value="{{ old('end-project', $data['end-project'] ?? '') }}" class="input text-center text-base" type="date" name="end-project" />
+        <label for="android">رابط التطبيق على Android</label>
+        <input id="android" value="{{ old('android', $data['android'] ?? '') }}" class="input text-center text-base" type="text" name="android" />
     </div>
 </div>
 
 <div class="grid font-normal text-base my-6 gap-y-5">
-    <label for="project-name">رابط لوحة التحكم</label>
-    <input type="text" name="project-name" value="{{ old('project-name', $data['project-name'] ?? '') }}" class="input" />
+    <label for="dashboard">رابط لوحة التحكم</label>
+    <input type="text" name="dashboard" value="{{ old('dashboard', $data['dashboard'] ?? '') }}" class="input" />
 </div>

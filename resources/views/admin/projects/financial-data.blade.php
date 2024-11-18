@@ -7,7 +7,13 @@
                 <div class="form-control">
                     <label class="label cursor-pointer">
                         <span class="label-text">{{ $status->value }}</span>
-                        <input type="radio" value="{{ $status->value }}" name="support-status" class="radio" id="support-status-{{ $status->value }}" />
+                        <input
+                            type="radio"
+                            name="support-status"
+                            value="{{ $status->value }}"
+                            class="radio"
+                            id="support-status-{{ $status->value }}"
+                            {{ old('support-status', $data['p_support_status'] ?? '') === $status->value ? 'checked' : '' }} />
                     </label>
                 </div>
                 @endforeach
@@ -21,7 +27,8 @@
                 <div class="form-control">
                     <label class="label cursor-pointer">
                         <span class="label-text">{{ $type->value }}</span>
-                        <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}" />
+                        <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}"
+                            {{ old('support-type', $data['p_support_type'] ?? '') === $status->value ? 'checked' : '' }} />
                     </label>
                 </div>
                 @endforeach
@@ -35,7 +42,8 @@
                 <div class="form-control">
                     <label class="label cursor-pointer">
                         <span class="label-text">{{ $type->value }}</span>
-                        <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}" />
+                        <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}"
+                            {{ old('supporter', $data['supporter'] ?? '') === $status->value ? 'checked' : '' }} />
                     </label>
                 </div>
                 @endforeach
@@ -44,18 +52,18 @@
 
         <div class="grid my-8 number-support-form">
             <label class="font-normal text-base mb-2">عدد الجهات الداعمة <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="number-support" id="number_support" />
+            <input type="number" class="input" name="number-support" id="number_support" value="{{ old('number-support', $data['number-support'] ?? '') }}" />
         </div>
         <div class="grid my-8 cost-project-form">
             <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="project-income" />
+            <input type="number" class="input" name="project-income" value="{{ old('project-income', $data['project-income'] ?? '') }}" />
         </div>
-
     </div>
     <div class="supporter-data hidden" id="supporterDataSection"></div>
     <div class="supporter-comp hidden" id="supporterDataSection"></div>
 </div>
 
+@push('scripts')
 <script>
     document.querySelectorAll('input[name="support-status"]').forEach(radio => {
         radio.addEventListener('change', displaySupporterData);
@@ -63,7 +71,13 @@
     document.querySelectorAll('input[name="support-type"]').forEach(radio => {
         radio.addEventListener('change', displaySupporterData);
     });
+    document.querySelectorAll('input[name="supporter"]').forEach(radio => {
+        radio.addEventListener('change', displaySupporterData);
+    });
     document.getElementById('number_support').addEventListener('input', displaySupporterData);
+
+    let countReport = 0;
+    let paymentCountFiles = 0
 
     function displaySupporterData() {
         let numSupport = document.getElementById('number_support').value;
@@ -77,11 +91,9 @@
         let isNotSupported = document.querySelector('input[name="support-status"]:checked')?.value === 'غير مدعوم';
         let isFullSupport = document.querySelector('input[name="support-type"]:checked')?.value === 'كلي';
         let isPartSupport = document.querySelector('input[name="support-type"]:checked')?.value === 'جزئي';
-        let isExternalSupport = document.querySelector('input[name="support-type"]:checked')?.value === 'جهة خارجية';
-        let isEnternalSupport = document.querySelector('input[name="support-type"]:checked')?.value === 'عون التقنية';
-        let numberSupportInput = document.getElementById('number_support');
+        let isExternalSupport = document.querySelector('input[name="supporter"]:checked')?.value === 'جهة خارجية';
+        let isEnternalSupport = document.querySelector('input[name="supporter"]:checked')?.value === 'عون التقنية';
 
-        // Only display the supporter data form when both "مدعوم" and "دعم كلي" are selected and the number is > 0
         if (isSupported) {
             supportForm.classList.remove('hidden');
             externalSupport.classList.add('hidden');
@@ -89,6 +101,343 @@
             costSupportForm.classList.remove('hidden');
             supporterDataContainer.classList.remove('hidden');
             notSupporterDataContainer.classList.add('hidden')
+        }
+
+        if (isSupported && isFullSupport && numSupport >= 0) {
+            supporterDataContainer.classList.remove('hidden');
+            supporterDataContainer.innerHTML = '';
+
+            for (let i = 1; i <= numSupport; i++) {
+                let supporterDiv = document.createElement('div');
+
+                let heading = document.createElement('h1');
+                heading.classList.add('font-bold', 'text-base', 'mt-4');
+                heading.textContent = `بيانات الجهة الداعمة رقم ${i}`;
+                supporterDiv.appendChild(heading);
+
+                let grid = document.createElement('div');
+                grid.classList.add('grid', 'grid-cols-2', 'gap-x-7');
+                supporterDiv.appendChild(grid);
+
+                let compSupportDiv = document.createElement('div');
+                compSupportDiv.classList.add('grid', 'my-2');
+                let compSupportLabel = document.createElement('label');
+                compSupportLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                compSupportLabel.textContent = 'الجهة الداعمة';
+                let compSupportInput = document.createElement('input');
+                compSupportInput.type = 'text';
+                compSupportInput.classList.add('input');
+                compSupportInput.name = `comp-support-${i}`;
+                compSupportDiv.appendChild(compSupportLabel);
+                compSupportDiv.appendChild(compSupportInput);
+                grid.appendChild(compSupportDiv);
+
+                let projectIncomeDiv = document.createElement('div');
+                projectIncomeDiv.classList.add('grid', 'my-2');
+                let projectIncomeLabel = document.createElement('label');
+                projectIncomeLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                projectIncomeLabel.textContent = 'إجمالي مبلغ الدعم';
+                let projectIncomeInput = document.createElement('input');
+                projectIncomeInput.type = 'number';
+                projectIncomeInput.classList.add('input');
+                projectIncomeInput.name = `project-income-total-${i}`;
+                projectIncomeDiv.appendChild(projectIncomeLabel);
+                projectIncomeDiv.appendChild(projectIncomeInput);
+                grid.appendChild(projectIncomeDiv);
+
+                let paymentCountDiv = document.createElement('div');
+                paymentCountDiv.classList.add('grid', 'my-2');
+                let paymentCountLabel = document.createElement('label');
+                paymentCountLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                paymentCountLabel.textContent = 'عدد الدفعات';
+                let paymentCountInput = document.createElement('input');
+                paymentCountInput.type = 'number';
+                paymentCountInput.classList.add('input');
+                paymentCountInput.name = `payment-count-${i}`;
+                paymentCountInput.id = `payment_count_${i}`;
+                paymentCountDiv.appendChild(paymentCountLabel);
+                paymentCountDiv.appendChild(paymentCountInput);
+                grid.appendChild(paymentCountDiv);
+
+                let installmentTable = document.createElement('div');
+                installmentTable.classList.add('installment-table', 'mt-4');
+                installmentTable.id = `installment_table_${i}`;
+                supporterDiv.appendChild(installmentTable);
+
+                let reportFilesGrid = document.createElement('div');
+                reportFilesGrid.classList.add('grid', 'grid-cols-2');
+                supporterDiv.appendChild(reportFilesGrid);
+
+                let reportDiv = document.createElement('div');
+                reportDiv.classList.add('installment-report', 'my-4');
+                reportDiv.id = `installment_report_${i}`;
+                let reportFlex = document.createElement('div');
+                reportFlex.classList.add('flex', 'gap-x-4');
+                let reportText = document.createElement('p');
+                reportText.textContent = 'تقارير للجهة الداعمة';
+                let addReportButton = document.createElement('button');
+                addReportButton.type = 'button';
+                addReportButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
+                addReportButton.textContent = 'إضافة تقرير جديد';
+                addReportButton.name = 'add-report'
+                addReportButton.id = 'add_report'
+                addReportButton.onclick = () => {
+                    let [reportFiles, reports] = addReportInput(countReport);
+                    reportDiv.appendChild(reportFiles);
+                    countReport = reports
+                    hiddenCountReport.value = countReport
+                }
+
+                let hiddenCountReport = document.createElement('input')
+                hiddenCountReport.type = 'hidden'
+                hiddenCountReport.name = 'countReport'
+                hiddenCountReport.value = countReport
+
+                reportFlex.appendChild(reportText);
+                reportFlex.appendChild(addReportButton);
+                reportDiv.appendChild(hiddenCountReport)
+                reportDiv.appendChild(reportFlex);
+                reportFilesGrid.appendChild(reportDiv);
+
+                let fileDiv = document.createElement('div');
+                fileDiv.classList.add('installment-files', 'my-4');
+                fileDiv.id = `installment_files_${i}`;
+                let fileFlex = document.createElement('div');
+                fileFlex.classList.add('flex', 'gap-x-4');
+                let fileText = document.createElement('p');
+                fileText.textContent = 'أوامر الصرف';
+                let addFileButton = document.createElement('button');
+                addFileButton.type = 'button';
+                addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
+                addFileButton.textContent = 'إضافة أمر صرف جديد';
+                addFileButton.onclick = () => {
+                    let [pyamentFiles, payments] = addFileInput(paymentCountFiles)
+                    fileDiv.appendChild(pyamentFiles);
+                    paymentCountFiles = payments
+                    hiddenCountFiles.value = paymentCountFiles
+                };
+
+                let hiddenCountFiles = document.createElement('input')
+                hiddenCountFiles.type = 'hidden'
+                hiddenCountFiles.name = 'paymentCountFiles'
+                hiddenCountFiles.value = paymentCountFiles
+
+                fileFlex.appendChild(fileText);
+                fileFlex.appendChild(addFileButton);
+                fileDiv.appendChild(fileFlex);
+                fileDiv.appendChild(hiddenCountFiles)
+                reportFilesGrid.appendChild(fileDiv);
+                supporterDataContainer.appendChild(supporterDiv);
+
+                document.getElementById(`payment_count_${i}`).addEventListener('input', function() {
+                    generateInstallmentTable(i, this.value);
+                });
+            }
+        } else if (isSupported && isPartSupport && numSupport >= 0) {
+            supporterDataContainer.classList.remove('hidden');
+            supporterDataContainer.innerHTML = '';
+
+            for (let i = 1; i <= numSupport; i++) {
+                let supporterDiv = document.createElement('div');
+
+                let heading = document.createElement('h1');
+                heading.classList.add('font-bold', 'text-base', 'mt-4');
+                heading.textContent = `بيانات الجهة الداعمة رقم ${i}`;
+                supporterDiv.appendChild(heading);
+
+                let grid = document.createElement('div');
+                grid.classList.add('grid', 'grid-cols-2', 'gap-x-7');
+                supporterDiv.appendChild(grid);
+
+                let compSupportDiv = document.createElement('div');
+                compSupportDiv.classList.add('grid', 'my-2');
+                let compSupportLabel = document.createElement('label');
+                compSupportLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                compSupportLabel.textContent = 'الجهة الداعمة';
+                let compSupportInput = document.createElement('input');
+                compSupportInput.type = 'text';
+                compSupportInput.classList.add('input');
+                compSupportInput.name = `comp-support-${i}`;
+                compSupportDiv.appendChild(compSupportLabel);
+                compSupportDiv.appendChild(compSupportInput);
+                grid.appendChild(compSupportDiv);
+
+                let projectIncomeDiv = document.createElement('div');
+                projectIncomeDiv.classList.add('grid', 'my-2');
+                let projectIncomeLabel = document.createElement('label');
+                projectIncomeLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                projectIncomeLabel.textContent = 'إجمالي مبلغ الدعم';
+                let projectIncomeInput = document.createElement('input');
+                projectIncomeInput.type = 'number';
+                projectIncomeInput.classList.add('input');
+                projectIncomeInput.name = `project-income-total-${i}`;
+                projectIncomeDiv.appendChild(projectIncomeLabel);
+                projectIncomeDiv.appendChild(projectIncomeInput);
+                grid.appendChild(projectIncomeDiv);
+
+                let paymentCountDiv = document.createElement('div');
+                paymentCountDiv.classList.add('grid', 'my-2');
+                let paymentCountLabel = document.createElement('label');
+                paymentCountLabel.classList.add('font-normal', 'text-base', 'mb-2');
+                paymentCountLabel.textContent = 'عدد الدفعات';
+                let paymentCountInput = document.createElement('input');
+                paymentCountInput.type = 'number';
+                paymentCountInput.classList.add('input');
+                paymentCountInput.name = `payment-count-${i}`;
+                paymentCountInput.id = `payment_count_${i}`;
+                paymentCountDiv.appendChild(paymentCountLabel);
+                paymentCountDiv.appendChild(paymentCountInput);
+                grid.appendChild(paymentCountDiv);
+
+                let installmentTable = document.createElement('div');
+                installmentTable.classList.add('installment-table', 'mt-4');
+                installmentTable.id = `installment_table_${i}`;
+                supporterDiv.appendChild(installmentTable);
+
+                let reportFilesGrid = document.createElement('div');
+                reportFilesGrid.classList.add('grid', 'grid-cols-2');
+                supporterDiv.appendChild(reportFilesGrid);
+
+                let reportDiv = document.createElement('div');
+                reportDiv.classList.add('installment-report', 'my-4');
+                reportDiv.id = `installment_report_${i}`;
+                let reportFlex = document.createElement('div');
+                reportFlex.classList.add('flex', 'gap-x-4');
+                let reportText = document.createElement('p');
+                reportText.textContent = 'تقارير للجهة الداعمة';
+                let addReportButton = document.createElement('button');
+                addReportButton.type = 'button';
+                addReportButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
+                addReportButton.textContent = 'إضافة تقرير جديد';
+                addReportButton.name = 'add-report'
+                addReportButton.id = 'add_report'
+                addReportButton.onclick = () => {
+                    let [reportFiles, reports] = addReportInput(countReport);
+                    reportDiv.appendChild(reportFiles);
+                    countReport = reports
+                    hiddenCountReport.value = countReport
+                }
+
+                let hiddenCountReport = document.createElement('input')
+                hiddenCountReport.type = 'hidden'
+                hiddenCountReport.name = 'countReport'
+                hiddenCountReport.value = countReport
+
+                reportFlex.appendChild(reportText);
+                reportFlex.appendChild(addReportButton);
+                reportDiv.appendChild(hiddenCountReport)
+                reportDiv.appendChild(reportFlex);
+                reportFilesGrid.appendChild(reportDiv);
+
+                let fileDiv = document.createElement('div');
+                fileDiv.classList.add('installment-files', 'my-4');
+                fileDiv.id = `installment_files_${i}`;
+                let fileFlex = document.createElement('div');
+                fileFlex.classList.add('flex', 'gap-x-4');
+                let fileText = document.createElement('p');
+                fileText.textContent = 'أوامر الصرف';
+                let addFileButton = document.createElement('button');
+                addFileButton.type = 'button';
+                addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
+                addFileButton.textContent = 'إضافة أمر صرف جديد';
+                addFileButton.onclick = () => {
+                    let [pyamentFiles, payments] = addFileInput(paymentCountFiles)
+                    fileDiv.appendChild(pyamentFiles);
+                    paymentCountFiles = payments
+                    hiddenCountFiles.value = paymentCountFiles
+                };
+
+                let hiddenCountFiles = document.createElement('input')
+                hiddenCountFiles.type = 'hidden'
+                hiddenCountFiles.name = 'paymentCountFiles'
+                hiddenCountFiles.value = paymentCountFiles
+
+                fileFlex.appendChild(fileText);
+                fileFlex.appendChild(addFileButton);
+                fileDiv.appendChild(fileFlex);
+                fileDiv.appendChild(hiddenCountFiles)
+                reportFilesGrid.appendChild(fileDiv);
+                supporterDataContainer.appendChild(supporterDiv);
+
+                let finanDataNotSupport = document.createElement('div')
+                let finanDataNotSupportHeading = document.createElement('h1');
+                finanDataNotSupportHeading.classList.add('font-bold', 'text-base', 'mt-4')
+                finanDataNotSupportHeading.textContent = 'البيانات المالية للجزء الغير مدعوم'
+                finanDataNotSupport.appendChild(finanDataNotSupportHeading)
+                supporterDataContainer.appendChild(finanDataNotSupport)
+
+                let finanDataContainer = document.createElement('div')
+                finanDataContainer.classList.add('grid')
+                let finanData = document.createElement('div')
+                finanData.classList.add('grid', 'grid-cols-2', 'gap-x-7')
+                let projectExpectIncomeContainer = document.createElement('div')
+                projectExpectIncomeContainer.classList.add('grid', 'my-2')
+                let projectExpectIncomeLabel = document.createElement('label')
+                projectExpectIncomeLabel.classList.add('font-normal', 'text-base', 'mb-2')
+                projectExpectIncomeLabel.textContent = 'تكلفة المشروع المتوقعة'
+                let projectExpectIncomeImportant = document.createElement('span')
+                projectExpectIncomeImportant.classList.add('text-red-600')
+                projectExpectIncomeImportant.textContent = '*'
+                projectExpectIncomeLabel.appendChild(projectExpectIncomeImportant)
+                let projectExpectIncomeInput = document.createElement('input')
+                projectExpectIncomeInput.type = 'text'
+                projectExpectIncomeInput.classList.add('input')
+                projectExpectIncomeInput.name = `project-expected-income-${i}`
+                projectExpectIncomeContainer.appendChild(projectExpectIncomeLabel)
+                projectExpectIncomeContainer.appendChild(projectExpectIncomeInput)
+                finanData.appendChild(projectExpectIncomeContainer)
+
+                let projectExpectRealContainer = document.createElement('div')
+                projectExpectRealContainer.classList.add('grid', 'my-2')
+                let projectExpectRealLabel = document.createElement('label')
+                projectExpectRealLabel.classList.add('font-normal', 'text-base', 'mb-2')
+                projectExpectRealLabel.textContent = 'تكلفة المشروع الفعلية'
+                let projectExpectRealImportant = document.createElement('span')
+                projectExpectRealImportant.classList.add('text-red-600')
+                projectExpectRealImportant.textContent = '*'
+                projectExpectRealLabel.appendChild(projectExpectRealImportant)
+                let projectExpectRealInput = document.createElement('input')
+                projectExpectRealInput.type = 'text'
+                projectExpectRealInput.classList.add('input')
+                projectExpectRealInput.name = `project-expected-real-${i}`
+                projectExpectRealContainer.appendChild(projectExpectRealLabel)
+                projectExpectRealContainer.appendChild(projectExpectRealInput)
+                finanData.appendChild(projectExpectRealContainer)
+
+                let stagesNumberContainer = document.createElement('div')
+                stagesNumberContainer.classList.add('grid', 'my-2')
+                let stagesNumberLabel = document.createElement('label')
+                stagesNumberLabel.classList.add('font-normal', 'text-base', 'mb-2')
+                stagesNumberLabel.textContent = 'عدد المراحل'
+                let stagesNumberImportant = document.createElement('span')
+                stagesNumberImportant.classList.add('text-red-600')
+                stagesNumberImportant.textContent = '*'
+                stagesNumberLabel.appendChild(stagesNumberImportant)
+                let stagesNumberInput = document.createElement('input')
+                stagesNumberInput.type = 'number'
+                stagesNumberInput.classList.add('input')
+                stagesNumberInput.name = `stages-count-${i}`
+                stagesNumberInput.id = `stages_count_${i}`
+                stagesNumberContainer.appendChild(stagesNumberLabel)
+                stagesNumberContainer.appendChild(stagesNumberInput)
+                finanData.appendChild(stagesNumberContainer)
+
+                finanDataContainer.appendChild(finanData)
+
+                let stagesTable = document.createElement('div')
+                stagesTable.classList.add('stages-table', 'mt-4')
+                stagesTable.id = `stages_table_${i}`
+                finanDataContainer.appendChild(stagesTable)
+
+                finanDataNotSupport.appendChild(finanDataContainer)
+
+                document.getElementById(`stages_count_${i}`).addEventListener('input', function() {
+                    generateStagesTable(i, this.value);
+                });
+                document.getElementById(`payment_count_${i}`).addEventListener('input', function() {
+                    generateInstallmentTable(i, this.value);
+                });
+            }
         }
 
         if (isNotSupported) {
@@ -100,394 +449,335 @@
             notSupporterDataContainer.classList.remove('hidden')
         }
 
-        if (isSupported && isFullSupport && numSupport >= 0) {
-            supporterDataContainer.classList.remove('hidden');
-            supporterDataContainer.innerHTML = ''; // Clear previous content
-
-            for (let i = 1; i <= numSupport; i++) {
-                supporterDataContainer.insertAdjacentHTML('beforeend', `
-                    <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i}</h1>
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">الجهة الداعمة<span class="text-red-600">*</span></label>
-                            <input type="text" class="input" name="comp-support-${i}" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم<span class="text-red-600">*</span></label>
-                            <input type="number" class="input" name="project-income-total-${i}" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">عدد الدفعات<span class="text-red-600">*</span></label>
-                            <input type="number" class="input" name="payment-count-${i}" id="payment_count_${i}" />
-                        </div>
-                    </div>
-                    
-                    <!-- Table for Installments -->
-                    <div class="installment-table mt-4" id="installment_table_${i}"></div>
-
-                    <!-- Supporter Reports Section -->
-                    <div class="grid grid-cols-2">
-                        <div class="installment-report my-4" id="installment_report_${i}">
-                            <div class="flex gap-x-4">
-                                <p>تقارير للجهة الداعمة</p>
-                                <button type="button" onclick="addReportInput(${i})" class="btn btn-xs font-normal bg-white">إضافة تقرير جديد</button>
-                            </div>
-                            <input class="input file-input my-5" type="file" />
-                        </div>
-                        
-                        <!-- Supporter Files Section -->
-                        <div class="installment-files my-4" id="installment_files_${i}">
-                            <div class="flex gap-x-4">
-                                <p>أوامر الصرف</p>
-                                <button type="button" onclick="addFileInput(${i})" class="btn btn-xs font-normal bg-white">إضافة أمر صرف جديد</button>
-                            </div>
-                            <input class="input file-input my-5" type="file" />
-                        </div>
-                    </div>
-                `);
-
-                document.getElementById(`payment_count_${i}`).addEventListener('change', function() {
-                    generateInstallmentTable(i, this.value);
-                });
-            }
-        } else if (isSupported && isPartSupport && numSupport >= 0) {
-            supporterDataContainer.classList.remove('hidden');
-            supporterDataContainer.innerHTML = ''; // Clear previous content
-
-            for (let i = 1; i <= numSupport; i++) {
-                supporterDataContainer.insertAdjacentHTML('beforeend', `
-                    <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i}</h1>
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">الجهة الداعمة<span class="text-red-600">*</span></label>
-                            <input type="text" class="input" name="comp-support-${i}" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم<span class="text-red-600">*</span></label>
-                            <input type="number" class="input" name="project-income-total-${i}" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">عدد الدفعات<span class="text-red-600">*</span></label>
-                            <input type="number" class="input" name="payment-count-${i}" id="payment_count_${i}" />
-                        </div>
-                    </div>
-                    
-                    <!-- Table for Installments -->
-                    <div class="installment-table mt-4" id="installment_table_${i}"></div>
-
-                    <!-- Supporter Reports Section -->
-                    <div class="grid grid-cols-2">
-                        <div class="stages-report my-4" id="stages_report_${i}">
-                            <div class="flex gap-x-4">
-                                <p>تقارير للجهة الداعمة</p>
-                                <button type="button" onclick="addReposrtStages(${i})" class="btn btn-xs font-normal bg-white">إضافة تقرير جديد</button>
-                            </div>
-                            <input class="input file-input my-5" type="file" />
-                        </div>
-                        
-                        <!-- Supporter Files Section -->
-                        <div class="stages-files my-4" id="stages_files_${i}">
-                            <div class="flex gap-x-4">
-                                <p>أوامر الصرف</p>
-                                <button type="button" onclick="addFileStages(${i})" class="btn btn-xs font-normal bg-white">إضافة أمر صرف جديد</button>
-                            </div>
-                            <input class="input file-input my-5" type="file" />
-                        </div>
-
-                    </div>
-                    <div>
-                        <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
-                        <div class="grid">
-                            <div class="grid grid-cols-2 gap-x-7">
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة<span class="text-red-600">*</span></label>
-                                    <input type="text" class="input" name="project-expected-income-${i}" />
-                                </div>
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                                    <input type="text" class="input" name="project-real-income-${i}" />
-                                </div>
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">عدد المراحل<span class="text-red-600">*</span></label>
-                                    <input type="number" class="input" name="stages-count-${i}" id="stages_count_${i}" />
-                                </div>
-                            </div>
-                            <div class="stages-table mt-4" id="stages_table_${i}"></div>
-                        </div>
-                    </div>
-                `);
-
-                document.getElementById(`stages_count_${i}`).addEventListener('change', function() {
-                    generateStagesTable(i, this.value);
-                });
-                document.getElementById(`payment_count_${i}`).addEventListener('change', function() {
-                    generateInstallmentTable(i, this.value);
-                });
-            }
-        }
-
         if (isNotSupported && isExternalSupport) {
-            notSupporterDataContainer.classList.remove('hidden')
-            notSupporterDataContainer.innerHTML = ''
-            notSupporterDataContainer.insertAdjacentHTML('beforeend', `
-            <div class="grid grid-cols-3 gap-x-4 mt-8">
-                <div class="grid">
-                    <label for="">اسم الجهة <span class="text-red-600">*</span></label>
-                    <input type="text" class="input" />
-                </div>
-                <div class="grid">
-                    <label for="">تكلفة المشروع <span class="text-red-600">*</span></label>
-                    <input type="text" class="input" />
-                </div>
-                <div class="grid">
-                    <label for="">عدد الدفعات <span class="text-red-600">*</span></label>
-                    <input type="number" class="input" id="num_not_support" />
-                </div>
-            </div>
-            <div class="not-supported-table mt-4" id="not_supported_table"></div>
-            `)
+            notSupporterDataContainer.classList.remove('hidden');
+            notSupporterDataContainer.innerHTML = '';
 
-            document.getElementById('num_not_support').addEventListener('change', function() {
-                notSupportedTable(this.value)
+            let formContainer = document.createElement('div');
+            formContainer.classList.add('grid', 'grid-cols-3', 'gap-x-4', 'mt-8');
+
+            let nameLabelDiv = document.createElement('div');
+            let nameLabel = document.createElement('label');
+            nameLabel.textContent = 'اسم الجهة ';
+            let requiredSpan1 = document.createElement('span');
+            requiredSpan1.classList.add('text-red-600');
+            requiredSpan1.textContent = '*';
+            nameLabel.appendChild(requiredSpan1);
+            let nameInput = document.createElement('input');
+            nameInput.classList.add('input');
+            nameLabelDiv.appendChild(nameLabel);
+            nameLabelDiv.appendChild(nameInput);
+
+            let costLabelDiv = document.createElement('div');
+            let costLabel = document.createElement('label');
+            costLabel.textContent = 'تكلفة المشروع ';
+            let requiredSpan2 = document.createElement('span');
+            requiredSpan2.classList.add('text-red-600');
+            requiredSpan2.textContent = '*';
+            costLabel.appendChild(requiredSpan2);
+            let costInput = document.createElement('input');
+            costInput.classList.add('input');
+            costLabelDiv.appendChild(costLabel);
+            costLabelDiv.appendChild(costInput);
+
+            let installmentLabelDiv = document.createElement('div');
+            let installmentLabel = document.createElement('label');
+            installmentLabel.textContent = 'عدد الدفعات ';
+            let requiredSpan3 = document.createElement('span');
+            requiredSpan3.classList.add('text-red-600');
+            requiredSpan3.textContent = '*';
+            installmentLabel.appendChild(requiredSpan3);
+            let installmentInput = document.createElement('input');
+            installmentInput.classList.add('input');
+            installmentInput.type = 'number';
+            installmentInput.id = 'num_not_support';
+            installmentLabelDiv.appendChild(installmentLabel);
+            installmentLabelDiv.appendChild(installmentInput);
+
+            formContainer.appendChild(nameLabelDiv);
+            formContainer.appendChild(costLabelDiv);
+            formContainer.appendChild(installmentLabelDiv);
+
+            notSupporterDataContainer.appendChild(formContainer);
+
+            let tableContainer = document.createElement('div');
+            tableContainer.classList.add('not-supported-table', 'mt-4');
+            tableContainer.id = 'installment_table_0';
+
+            notSupporterDataContainer.appendChild(tableContainer);
+
+
+            document.getElementById('num_not_support').addEventListener('input', function() {
+                generateInstallmentTable(0, this.value)
             });
 
         } else if (isNotSupported && isEnternalSupport) {
             notSupporterDataContainer.classList.remove('hidden')
             notSupporterDataContainer.innerHTML = ''
-            notSupporterDataContainer.insertAdjacentHTML('beforeend', `
-            <div class="mt-8">
-                <div class="grid">
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة<span class="text-red-600">*</span></label>
-                            <input type="text" class="input" name="project-expected-income-not-support" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                            <input type="text" class="input" name="project-real-income-not-support" />
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">عدد المراحل<span class="text-red-600">*</span></label>
-                            <input type="number" class="input" name="stages-count-not-support" id="stages_count_not_support" />
-                        </div>
-                    </div>
-                    <div class="stages-table mt-4" id="stages_table_not_support"></div>
-                </div>
-            </div>
-        `)
+            notSupporterDataContainer.classList.remove('hidden');
+            notSupporterDataContainer.innerHTML = '';
 
-            document.getElementById('stages_count_not_support').addEventListener('change', function() {
-                notSupportedStagesTable(this.value)
+            let parentDiv = document.createElement('div');
+            parentDiv.classList.add('mt-8');
+
+            let gridContainer = document.createElement('div');
+            gridContainer.classList.add('grid');
+
+            let innerGrid = document.createElement('div');
+            innerGrid.classList.add('grid', 'grid-cols-2', 'gap-x-7');
+
+            let expectedCostField = document.createElement('div');
+            expectedCostField.classList.add('grid', 'my-2');
+
+            let expectedCostLabel = document.createElement('label');
+            expectedCostLabel.classList.add('font-normal', 'text-base', 'mb-2');
+            expectedCostLabel.innerHTML = 'تكلفة المشروع المتوقعة<span class="text-red-600">*</span>';
+
+            let expectedCostInput = document.createElement('input');
+            expectedCostInput.type = 'text';
+            expectedCostInput.classList.add('input');
+            expectedCostInput.name = 'project-expected-income-not-support';
+
+            expectedCostField.appendChild(expectedCostLabel);
+            expectedCostField.appendChild(expectedCostInput);
+
+            let actualCostField = document.createElement('div');
+            actualCostField.classList.add('grid', 'my-2');
+
+            let actualCostLabel = document.createElement('label');
+            actualCostLabel.classList.add('font-normal', 'text-base', 'mb-2');
+            actualCostLabel.textContent = 'تكلفة المشروع الفعلية';
+
+            let actualCostInput = document.createElement('input');
+            actualCostInput.type = 'text';
+            actualCostInput.classList.add('input');
+            actualCostInput.name = 'project-real-income-not-support';
+
+            actualCostField.appendChild(actualCostLabel);
+            actualCostField.appendChild(actualCostInput);
+
+            let stagesCountField = document.createElement('div');
+            stagesCountField.classList.add('grid', 'my-2');
+
+            let stagesCountLabel = document.createElement('label');
+            stagesCountLabel.classList.add('font-normal', 'text-base', 'mb-2');
+            stagesCountLabel.innerHTML = 'عدد المراحل<span class="text-red-600">*</span>';
+
+            let stagesCountInput = document.createElement('input');
+            stagesCountInput.type = 'number';
+            stagesCountInput.classList.add('input');
+            stagesCountInput.name = 'stages-count-not-support';
+            stagesCountInput.id = 'stages_count_not_support';
+
+            stagesCountField.appendChild(stagesCountLabel);
+            stagesCountField.appendChild(stagesCountInput);
+
+            innerGrid.appendChild(expectedCostField);
+            innerGrid.appendChild(actualCostField);
+            innerGrid.appendChild(stagesCountField);
+
+            gridContainer.appendChild(innerGrid);
+
+            let stagesTable = document.createElement('div');
+            stagesTable.classList.add('stages-table', 'mt-4');
+            stagesTable.id = 'stages_table_0';
+
+            gridContainer.appendChild(stagesTable);
+
+            parentDiv.appendChild(gridContainer);
+
+            notSupporterDataContainer.appendChild(parentDiv);
+
+            document.getElementById('stages_count_not_support').addEventListener('input', function() {
+                generateStagesTable(0, this.value)
             });
         }
     }
 
     function generateInstallmentTable(supporterIndex, numInstallments) {
         let tableContainer = document.getElementById(`installment_table_${supporterIndex}`);
-        tableContainer.innerHTML = '';
+        tableContainer.innerHTML = ''; // Clear any existing content
 
         if (numInstallments > 0) {
-            let tableHTML = `
-                <table class="w-full border mt-2">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">الدفعة</th>
-                            <th class="border px-4 py-2">قيمة الدفعة</th>
-                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            // Create table element
+            let table = document.createElement('table');
+            table.classList.add('w-full', 'border', 'mt-2');
+
+            // Create thead
+            let thead = document.createElement('thead');
+            let headerRow = document.createElement('tr');
+            let headers = ['الدفعة', 'قيمة الدفعة', 'حالة استلام الدفعة', 'اثبات استلام الدفعة'];
+
+            headers.forEach(headerText => {
+                let th = document.createElement('th');
+                th.classList.add('border', 'px-4', 'py-2');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create tbody
+            let tbody = document.createElement('tbody');
 
             for (let j = 1; j <= numInstallments; j++) {
-                tableHTML += `
-                    <tr>
-                        <td class="border px-4 py-2">${j}</td>
-                        <td class="border px-4 py-2">
-                            <input type="number" name="installment_amount_${supporterIndex}_${j}" class="input w-full" />
-                        </td>
-                        <td class="border px-4 py-2">
-                            <label class="cursor-pointer label">
-                                <span class="label-text">تم استلام الدفعة</span>
-                                <input type="checkbox" class="checkbox" name="installment_status_${supporterIndex}_${j}" />
-                            </label>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <input class="input file-input my-5" type="file" name="installment_files_${supporterIndex}_${j}" />
-                        </td>
-                    </tr>
-                `;
+                let row = document.createElement('tr');
+
+                // دفعة
+                let installmentCell = document.createElement('td');
+                installmentCell.classList.add('border', 'px-4', 'py-2');
+                installmentCell.textContent = j;
+                row.appendChild(installmentCell);
+
+                // قيمة الدفعة
+                let amountCell = document.createElement('td');
+                amountCell.classList.add('border', 'px-4', 'py-2');
+                let amountInput = document.createElement('input');
+                amountInput.type = 'number';
+                amountInput.name = `installment_amount_${supporterIndex}_${j}`;
+                amountInput.classList.add('input', 'w-full');
+                amountCell.appendChild(amountInput);
+                row.appendChild(amountCell);
+
+                // حالة استلام الدفعة
+                let statusCell = document.createElement('td');
+                statusCell.classList.add('border', 'px-4', 'py-2');
+                let label = document.createElement('label');
+                label.classList.add('cursor-pointer', 'label');
+                let span = document.createElement('span');
+                span.classList.add('label-text');
+                span.textContent = 'تم استلام الدفعة';
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('checkbox');
+                checkbox.name = `installment_status_${supporterIndex}_${j}`;
+                label.appendChild(span);
+                label.appendChild(checkbox);
+                statusCell.appendChild(label);
+                row.appendChild(statusCell);
+
+                // اثبات استلام الدفعة
+                let proofCell = document.createElement('td');
+                proofCell.classList.add('border', 'px-4', 'py-2');
+                let proofInput = document.createElement('input');
+                proofInput.type = 'file';
+                proofInput.classList.add('input', 'file-input', 'my-5');
+                proofInput.name = `installment_files_${supporterIndex}_${j}`;
+                proofCell.appendChild(proofInput);
+                row.appendChild(proofCell);
+
+                tbody.appendChild(row);
             }
 
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-
-            tableContainer.insertAdjacentHTML('beforeend', tableHTML);
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
         }
     }
 
-    function notSupportedTable(numInstallments) {
-        let tableContainer = document.getElementById(`not_supported_table`);
-        tableContainer.innerHTML = '';
+    function addReportInput(reports) {
+        reports++
+        let fileReport = document.createElement('input')
+        fileReport.classList.add('input', 'file-input', 'my-2');
+        fileReport.type = 'file'
+        fileReport.name = `installment-report-${reports}`
+        fileReport.id = `installment_report_file_${reports}`
 
-        if (numInstallments > 0) {
-            let tableHTML = `
-                <table class="w-full border mt-2">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">الدفعة</th>
-                            <th class="border px-4 py-2">قيمة الدفعة</th>
-                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
 
-            for (let j = 1; j <= numInstallments; j++) {
-                tableHTML += `
-                    <tr>
-                        <td class="border px-4 py-2">${j}</td>
-                        <td class="border px-4 py-2">
-                            <input type="number" name="not_supported_amount_${j}" class="input w-full" />
-                        </td>
-                        <td class="border px-4 py-2">
-                            <label class="cursor-pointer label">
-                                <span class="label-text">تم استلام الدفعة</span>
-                                <input type="checkbox" class="checkbox" name="not_supported_status_${j}" />
-                            </label>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <input class="input file-input my-5" type="file" name="not_supported_files_${j}" />
-                        </td>
-                    </tr>
-                `;
-
-            }
-
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-
-            tableContainer.insertAdjacentHTML('beforeend', tableHTML);
-        }
+        return [fileReport, reports]
     }
 
-    function addReportInput(index) {
-        let reportContainer = document.getElementById(`installment_report_${index}`);
-        reportContainer.insertAdjacentHTML('beforeend', '<input class="input file-input my-5" type="file" />');
-    }
+    function addFileInput(files) {
+        files++
+        let fileInput = document.createElement('input');
+        fileInput.classList.add('input', 'file-input', 'my-2');
+        fileInput.type = 'file';
+        fileInput.name = `payment-report-${files}`
+        fileInput.id = `payment_report_${files}`
 
-    function addFileInput(index) {
-        let fileContainer = document.getElementById(`installment_files_${index}`);
-        fileContainer.insertAdjacentHTML('beforeend', '<input class="input file-input my-5" type="file" />');
-    }
 
-    function addReposrtStages(index) {
-        let reportContainer = document.getElementById(`stages_report_${index}`);
-        reportContainer.insertAdjacentHTML('beforeend', '<input class="input file-input my-5" type="file" />');
-    }
-
-    function addFileStages(index) {
-        let fileContainer = document.getElementById(`stages_files_${index}`);
-        fileContainer.insertAdjacentHTML('beforeend', '<input class="input file-input my-5" type="file" />');
+        return [fileInput, files]
     }
 
     function generateStagesTable(supporterIndex, numStages) {
         let tableContainer = document.getElementById(`stages_table_${supporterIndex}`);
-        tableContainer.innerHTML = '';
+        tableContainer.innerHTML = ''; // Clear any existing content
 
         if (numStages > 0) {
-            let tableHTML = `
-                <table class="w-full border mt-2">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">المرحلة</th>
-                            <th class="border px-4 py-2">تكلفة المرحلة</th>
-                            <th class="border px-4 py-2">حالة الصرف</th>
-                            <th class="border px-4 py-2">اثبات الصرف</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
+            // Create table element
+            let table = document.createElement('table');
+            table.classList.add('w-full', 'border', 'mt-2');
+
+            // Create thead
+            let thead = document.createElement('thead');
+            let headerRow = document.createElement('tr');
+            let headers = ['المرحلة', 'تكلفة المرحلة', 'حالة الصرف', 'اثبات الصرف'];
+
+            headers.forEach(headerText => {
+                let th = document.createElement('th');
+                th.classList.add('border', 'px-4', 'py-2');
+                th.textContent = headerText;
+                headerRow.appendChild(th);
+            });
+
+            thead.appendChild(headerRow);
+            table.appendChild(thead);
+
+            // Create tbody
+            let tbody = document.createElement('tbody');
 
             for (let j = 1; j <= numStages; j++) {
-                tableHTML += `
-                    <tr>
-                        <td class="border px-4 py-2">${j}</td>
-                        <td class="border px-4 py-2">
-                            <input type="number" name="stages_amount_${supporterIndex}_${j}" class="input w-full" />
-                        </td>
-                        <td class="border px-4 py-2">
-                            <label class="cursor-pointer label">
-                                <span class="label-text">تم الصرف</span>
-                                <input type="checkbox" class="checkbox" name="stages_status_${supporterIndex}_${j}" />
-                            </label>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <input class="input file-input my-5" type="file" name="stages_files_${supporterIndex}_${j}" />
-                        </td>
-                    </tr>
-                `;
+                let row = document.createElement('tr');
+
+                // المرحلة
+                let stageCell = document.createElement('td');
+                stageCell.classList.add('border', 'px-4', 'py-2');
+                stageCell.textContent = j;
+                row.appendChild(stageCell);
+
+                // تكلفة المرحلة
+                let amountCell = document.createElement('td');
+                amountCell.classList.add('border', 'px-4', 'py-2');
+                let amountInput = document.createElement('input');
+                amountInput.type = 'number';
+                amountInput.name = `stages_amount_${supporterIndex}_${j}`;
+                amountInput.classList.add('input', 'w-full');
+                amountCell.appendChild(amountInput);
+                row.appendChild(amountCell);
+
+                // حالة الصرف
+                let statusCell = document.createElement('td');
+                statusCell.classList.add('border', 'px-4', 'py-2');
+                let label = document.createElement('label');
+                label.classList.add('cursor-pointer', 'label');
+                let span = document.createElement('span');
+                span.classList.add('label-text');
+                span.textContent = 'تم الصرف';
+                let checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.classList.add('checkbox');
+                checkbox.name = `stages_status_${supporterIndex}_${j}`;
+                label.appendChild(span);
+                label.appendChild(checkbox);
+                statusCell.appendChild(label);
+                row.appendChild(statusCell);
+
+                // اثبات الصرف
+                let proofCell = document.createElement('td');
+                proofCell.classList.add('border', 'px-4', 'py-2');
+                let proofInput = document.createElement('input');
+                proofInput.type = 'file';
+                proofInput.classList.add('input', 'file-input', 'my-5');
+                proofInput.name = `stages_files_${supporterIndex}_${j}`;
+                proofCell.appendChild(proofInput);
+                row.appendChild(proofCell);
+
+                tbody.appendChild(row);
             }
 
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-
-            tableContainer.insertAdjacentHTML('beforeend', tableHTML);
-        }
-    }
-
-    function notSupportedStagesTable(numStages) {
-        let tableContainer = document.getElementById(`stages_table_not_support`);
-        tableContainer.innerHTML = '';
-
-        if (numStages > 0) {
-            let tableHTML = `
-                <table class="w-full border mt-2">
-                    <thead>
-                        <tr>
-                            <th class="border px-4 py-2">المرحلة</th>
-                            <th class="border px-4 py-2">تكلفة المرحلة</th>
-                            <th class="border px-4 py-2">حالة الصرف</th>
-                            <th class="border px-4 py-2">اثبات الصرف</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-            `;
-
-            for (let j = 1; j <= numStages; j++) {
-                tableHTML += `
-                    <tr>
-                        <td class="border px-4 py-2">${j}</td>
-                        <td class="border px-4 py-2">
-                            <input type="number" name="stages_amountnot_support_${j}" class="input w-full" />
-                        </td>
-                        <td class="border px-4 py-2">
-                            <label class="cursor-pointer label">
-                                <span class="label-text">تم الصرف</span>
-                                <input type="checkbox" class="checkbox" name="stages_statusnot_support_${j}" />
-                            </label>
-                        </td>
-                        <td class="border px-4 py-2">
-                            <input class="input file-input my-5" type="file" name="stages_filesnot_support_${j}" />
-                        </td>
-                    </tr>
-                `;
-            }
-
-            tableHTML += `
-                    </tbody>
-                </table>
-            `;
-
-            tableContainer.insertAdjacentHTML('beforeend', tableHTML);
+            table.appendChild(tbody);
+            tableContainer.appendChild(table);
         }
     }
 </script>
+@endpush
