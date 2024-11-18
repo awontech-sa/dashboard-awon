@@ -159,16 +159,17 @@ class UsersController extends Controller
         $emailExist = User::where('email', $request->input("email"))->get();
         if (count($emailExist) !== 0) {
             return back()->with('error_message', 'الحساب مضاف مسبقًا');
+        } else {
+            $newUser = User::create([
+                'name' => $request->input('name'),
+                'email' => $request->input('email'),
+                'password' => $request->input('password_confirmation'),
+                'phone_number' => $request->input('phone-number'),
+                'x' => $request->input('x'),
+                'linkedin' => $request->input('linkedin'),
+                'profile_image' => $request->file('profile-image'),
+            ]);
         }
-        $newUser = User::create([
-            'name' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('password_confirmation'),
-            'phone_number' => $request->input('phone-number'),
-            'x' => $request->input('x'),
-            'linkedin' => $request->input('linkedin'),
-            'profile_image' => $request->file('profile-image'),
-        ]);
 
         $department = Departments::where('d_name', $request->input('department'))->get();
 

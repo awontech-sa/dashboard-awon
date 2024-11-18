@@ -16,14 +16,13 @@ max-md:left-20">
 
 @push('scripts')
 <script>
-    // Hide error message after 4 seconds
     document.addEventListener('DOMContentLoaded', function() {
         const errorMessage = document.getElementById('errorMessage');
         if (errorMessage) {
             setTimeout(() => {
-                errorMessage.style.opacity = '0'; // Start fade-out effect
-                setTimeout(() => errorMessage.remove(), 1000); // Remove from DOM after fade-out
-            }, 2000); // Delay of 4 seconds
+                errorMessage.style.opacity = '0';
+                setTimeout(() => errorMessage.remove(), 1000);
+            }, 1000);
         }
     });
 </script>

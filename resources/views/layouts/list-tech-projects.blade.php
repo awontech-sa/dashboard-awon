@@ -42,12 +42,6 @@
                         project_ids: addedProjects,
                         action: 'add'
                     },
-                    success: function(response) {
-                        console.log("Added Projects:", response.message);
-                    },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
-                    }
                 });
             }
 
@@ -60,12 +54,6 @@
                         project_ids: removedProjects,
                         action: 'remove'
                     },
-                    success: function(response) {
-                        console.log("Removed Projects:", response.message);
-                    },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
-                    }
                 });
             }
         });

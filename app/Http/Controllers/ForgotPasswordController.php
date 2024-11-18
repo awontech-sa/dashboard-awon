@@ -28,23 +28,19 @@ class ForgotPasswordController extends Controller
             return back()->with('error_message', 'البريد الإلكتروني غير مسجل');
         } else {
             $this->sendOtp($user);  // Send OTP
-            return view('auth.verification', ['email' => $user->email]);
+            return view('auth.verification', ['email' => $user->email, 'user' => $user]);
         }
     }
 
     // Function to send OTP email
-    private function sendOtp($user)
+    public function sendOtp(User $user)
     {
         $otp = rand(1000, 9999);
         $time = Carbon::now();
 
         EmailVerification::updateOrCreate(
             ['email' => $user->email],
-            [
-                'email' => $user->email,
-                'otp' => $otp,
-                'created_at' => $time->toDateTimeString(),
-            ]
+            ['email' => $user->email, 'otp' => $otp, 'created_at' => $time->toDateTimeString()]
         );
 
         $data['email'] = $user->email;
@@ -54,6 +50,8 @@ class ForgotPasswordController extends Controller
         Mail::send('mails.send-forgot-password-mail', ['data' => $data], function ($message) use ($data) {
             $message->to($data['email'])->subject($data['title']);
         });
+
+        return view('auth.verification', ['email' => $user->email, 'user' => $user]);
     }
 
     // Verify the OTP entered by the user
@@ -115,6 +113,8 @@ class ForgotPasswordController extends Controller
             DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 
             return redirect('/login')->with('register_success', 'Your password has been changed!');
+        } else {
+            return back()->with('error_message', 'يجب أن تكون كلمة المرور على الأقل ٨ أحرف، حرف كبير، حرف صغير، علامة مميزة');
         }
     }
 }

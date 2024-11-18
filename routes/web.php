@@ -20,6 +20,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 //start forgot password route
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.password');  // Show forgot password form
 Route::post('/verification', [ForgotPasswordController::class, 'verification'])->name('verification');  // Send verification OTP
+Route::post('/resend-otp/{user}', [ForgotPasswordController::class, 'sendOtp'])->name('resend.otp');
 Route::post('/verify-otp', [ForgotPasswordController::class, 'verifyOtp'])->name('otp.verify');  // Verify OTP and generate token
 Route::get('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'showResetPasswordForm'])->name('reset.password.form');
 Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class, 'submitResetPasswordForm'])->name('reset.password.post');  // Submit new password
@@ -58,7 +59,7 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 
 // start employee route
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
-    Route::get('/panel', [EmployeeController::class, 'index'])->name('employee.dashboard');
+    Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
     Route::get('/settings', [AdminController::class, 'showSetting'])->name('setting.show');
     Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
 });

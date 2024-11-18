@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
 use Illuminate\Routing\Controller;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
@@ -17,7 +18,7 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $user = User::where('email', $request->email)->first();
 
@@ -25,15 +26,13 @@ class AuthController extends Controller
             return back()->with('error_message', 'كلمة المرور أو البريد الإلكتروني المدخل غير صحيح');
         }
 
-        // User authenticated successfully
         $token = $user->createToken('token-name')->plainTextToken;
         session(['token' => $token]);
         session(['role' => $user->getRoleNames()->first()]);
         Auth::login($user);
 
-        // Use middleware to handle role-based redirection
         return app(RoleMiddleware::class)->handle($request, function () {
-            return view('dashboard.index'); // Default route if no redirection happens in middleware
+            return view('dashboard.index');
         });
     }
 

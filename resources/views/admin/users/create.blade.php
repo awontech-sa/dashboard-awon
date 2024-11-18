@@ -6,9 +6,9 @@
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
     @if(session('success_message'))
-        @include('layouts.success-message')
+    @include('layouts.success-message')
     @elseif(session('error_message'))
-        @include('layouts.error-message')
+    @include('layouts.error-message')
     @endif
 
     <form action="{{ route('admin.create.user') }}" method="POST" enctype="multipart/form-data">
@@ -28,7 +28,7 @@
             </div>
             <div class="grid gap-y-5">
                 <small>البريد الإلكتروني</small>
-                <input name="email" type="text" class="input max-w-sm
+                <input name="email" type="email" class="input max-w-sm
                 max-md:w-fit" />
             </div>
             <div class="grid gap-y-5">
@@ -43,7 +43,7 @@
             </div>
             <div class="grid gap-y-5">
                 <small>رقم الجوال</small>
-                <input name="phone-number" type="text" class="input max-w-sm
+                <input name="phone-number" type="number" class="input max-w-sm
                 max-md:w-fit" />
             </div>
             <div class="grid gap-y-5">

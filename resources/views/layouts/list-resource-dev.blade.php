@@ -60,12 +60,6 @@
                         project_ids: removedProjects,
                         action: 'remove'
                     },
-                    success: function(response) {
-                        console.log("Removed Projects:", response.message);
-                    },
-                    error: function(xhr) {
-                        console.error(xhr.responseText);
-                    }
                 });
             }
         });
