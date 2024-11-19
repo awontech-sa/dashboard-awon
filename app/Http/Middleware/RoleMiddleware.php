@@ -9,35 +9,48 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RoleMiddleware
 {
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check()) {
-            /** @var \App\Models\User */
-            $user = Auth::user();
-            $currentUrl = $request->url();
+        // If the user is not authenticated, redirect to the login page
+        if (!Auth::check()) {
+            return redirect('/login');
+        }
 
-            if ($user->hasRole('Admin')) {
-                if (
-                    $currentUrl !== url('/admin/panel') && $currentUrl !== url('/admin/users') && $currentUrl !== url("/admin/users/{$request->id}")
-                    && $currentUrl !== url("/admin/users/update/{$request->id}") && $currentUrl !== url("/admin/create-user")
-                    && $currentUrl !== url('/admin/settings') && $currentUrl !== url("/admin/powers/{$request->id}") && $currentUrl !== url("/admin/projects/create/{$request->step}")
-                ) {
-                    return redirect()->route('admin.dashboard');
-                }
-            }
+        /** @var \App\Models\User */
+        $user = Auth::user();
+        $currentUrl = $request->url();
 
-            if ($user->hasRole('Employee')) {
-                if ($currentUrl !== url('/employee/panel') && $currentUrl !== url('employee/profile')) {
-                    return redirect()->route('employee.dashboard');
-                }
+        // Admin Role Handling
+        if ($user->hasRole('Admin')) {
+            $adminUrls = [
+                url('/admin/panel'),
+                url('/admin/users'),
+                url("/admin/users/{$request->id}"),
+                url("/admin/users/update/{$request->id}"),
+                url("/admin/create-user"),
+                url('/admin/settings'),
+                url("/admin/powers/{$request->id}"),
+                url("/admin/projects/create/{$request->step}")
+            ];
+
+            if (!in_array($currentUrl, $adminUrls)) {
+                return redirect()->route('admin.dashboard');
             }
         }
 
+        // Employee Role Handling
+        if ($user->hasRole('Employee')) {
+            $employeeUrls = [
+                url('/employee/panel'),
+                url('/employee/profile')
+            ];
+
+            if (!in_array($currentUrl, $employeeUrls)) {
+                return redirect()->route('employee.dashboard');
+            }
+        }
+
+        // Allow request to proceed if all checks pass
         return $next($request);
     }
 }
