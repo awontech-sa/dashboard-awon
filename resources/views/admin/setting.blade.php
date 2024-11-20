@@ -16,7 +16,7 @@
         @method('PUT')
         <div class="mt-6 grid gap-y-3">
             <small>رفع صورة</small>
-            <input value="{{ $admin->profile_image }}" name="profile-image" type="file" class="file-input max-w-sm
+            <input value="{{ $admin->profile_image }}" name="profile_image" type="file" class="file-input max-w-sm
             max-md:w-fit" />
         </div>
         <div class="grid grid-cols-1 mt-6 gap-y-7
@@ -39,17 +39,17 @@
             </div>
             <div class="grid gap-y-5">
                 <small>رقم الجوال</small>
-                <input value="{{ $admin->phone_number }}" name="phone-number" type="text" placeholder="{{ $admin->phone_number }}" class="input max-w-sm
+                <input value="{{ $admin->phone_number }}" name="phone_number" type="text" placeholder="{{ $admin->phone_number }}" class="input max-w-sm
                 max-md:w-fit" />
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
-                <input value="{{ $admin->password }}" name="password" type="password" class="input max-w-sm
+                <input name="password" type="password" class="input max-w-sm
                 max-md:w-fit" />
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
-                <input name="password_confirmation" value="{{ $admin->password }}" type="password" class="input max-w-sm
+                <input name="password_confirmation" type="password" class="input max-w-sm
                 max-md:w-fit" />
             </div>
         </div>

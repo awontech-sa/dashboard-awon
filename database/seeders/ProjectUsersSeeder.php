@@ -13,7 +13,7 @@ class ProjectUsersSeeder extends Seeder
      */
     public function run(): void
     {
-        ProjectUser::create(['user_id' => 3, 'projects_id' => 1]);
-        ProjectUser::create(['user_id' => 3, 'projects_id' => 2]);
+        ProjectUser::create(['user_id' => 1, 'projects_id' => 1]);
+        ProjectUser::create(['user_id' => 2, 'projects_id' => 2]);
     }
 }

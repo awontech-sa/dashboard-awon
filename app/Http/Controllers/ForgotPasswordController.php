@@ -118,7 +118,7 @@ class ForgotPasswordController extends Controller
 
         if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $request->new_password)) {
 
-            User::where('email', $request->email)->update(['password' => Hash::make($request->new_password)]);
+            User::where('email', $request->email)->update(['password' => bcrypt($request->new_password)]);
 
             DB::table('password_reset_tokens')->where(['email' => $request->email])->delete();
 

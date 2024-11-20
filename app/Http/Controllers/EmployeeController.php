@@ -9,7 +9,6 @@ use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class EmployeeController extends Controller
@@ -75,8 +74,8 @@ class EmployeeController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        $employee = Auth::user();
-        $user = User::findOrFail($employee->id);
+        $admin = Auth::user();
+        $user = User::findOrFail($admin->id);
 
         $user->fill($request->only(['name', 'email', 'phone_number', 'x', 'linkedin']));
 
@@ -92,11 +91,11 @@ class EmployeeController extends Controller
             $user->linkedin = $request->input('linkedin');
         }
 
-        // Update password if provided
-        if ($request->input('password') !== $request->input('password_confirmation')) {
-            return back()->with('error_message', 'كلمة المرور التي أدخلتها غير متوافقة');
-        } else {
-            $user->password = Hash::make($request->input('password'));
+        if ($request->filled('password')) {
+            if ($request->input('password') !== $request->input('password_confirmation')) {
+                return back()->with('error_message', 'كلمة المرور التي أدخلتها غير متوافقة');
+            }
+            $user->password = bcrypt($request->input('password'));
         }
 
         // Handle profile image upload
@@ -110,7 +109,7 @@ class EmployeeController extends Controller
 
         return back()->withInput([
             'position' => $position->p_name ?? null,
-            'employee$employee' => $user,
+            'admin' => $user,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome

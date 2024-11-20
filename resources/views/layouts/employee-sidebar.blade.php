@@ -26,7 +26,8 @@
         2xl:grid
         xl:grid">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
-                <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                {{-- <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" /> --}}
+                <img src="{{ $employee->profile_image }}" class="w-14" alt="image-profile" />
                 <p>{{ $employee->name }}</p>
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn m-1">. . .</div>

@@ -120,7 +120,7 @@ class UsersController extends Controller
         $user->fill($request->only(['name', 'email', 'phone_number', 'x', 'linkedin']));
 
         if ($request->filled('password')) {
-            $user->password = Hash::make($request->input('password'));
+            $user->password = bcrypt($request->input('password'));
         }
 
         if ($request->hasFile('profile-image')) {

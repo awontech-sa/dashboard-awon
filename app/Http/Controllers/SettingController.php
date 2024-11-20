@@ -58,22 +58,22 @@ class SettingController extends Controller
             }
         }
 
-        if ($request->filled('phone-number') || $request->filled('x') || $request->filled('linkedin')) {
-            $user->phone_number = $request->input('phone-number');
+        if ($request->filled('phone_number') || $request->filled('x') || $request->filled('linkedin')) {
+            $user->phone_number = $request->input('phone_number');
             $user->x = $request->input('x');
             $user->linkedin = $request->input('linkedin');
         }
 
-        // Update password if provided
-        if ($request->input('password') !== $request->input('password_confirmation')) {
-            return back()->with('error_message', 'كلمة المرور التي أدخلتها غير متوافقة');
-        } else {
-            $user->password = Hash::make($request->input('password'));
+        if ($request->filled('password')) {
+            if ($request->input('password') !== $request->input('password_confirmation')) {
+                return back()->with('error_message', 'كلمة المرور التي أدخلتها غير متوافقة');
+            }
+            $user->password = bcrypt($request->input('password'));
         }
 
         // Handle profile image upload
-        if ($request->hasFile('profile-image')) {
-            $file = $request->file('profile-image');
+        if ($request->hasFile('profile_image')) {
+            $file = $request->file('profile_image');
             $filename = time() . '.' . $file->getClientOriginalExtension();
             $user->profile_image = Storage::disk('digitalocean')->putFileAs('profile', $file, $filename);
         }
