@@ -4,7 +4,6 @@ return [
     'required' => 'يجب أن لا يكون حقل :attribute فارغًا.',
     'image' => 'يجب أن يكون :attribute صورة.',
     'email' => 'يجب عليك إدخال :attribute صحيح.',
-    'digits' => 'يجب أن يتكون من ١٠ أرقام',
     'starts_with' => 'يجب أن يبدأ بــ 05',
 
     'name' => [
@@ -19,7 +18,8 @@ return [
         'max' => 'يجب ألا يتجاوز حجم :attribute :max كيلوبايت.',
     ],
     'phone_number' => [
-        'numeric' => 'يجب أن يتكون رقمًا',
+        'numeric' => 'يجب أن يكون رقمًا',
+        'max' => ''
     ],
 
     'attributes' => [

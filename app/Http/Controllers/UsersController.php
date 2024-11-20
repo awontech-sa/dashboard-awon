@@ -177,8 +177,13 @@ class UsersController extends Controller
 
         $department = Departments::where('d_name', $request->input('department'))->get();
 
-        if (count($department) === 0) {
-            Departments::create(['d_name' => $request->input('department')]);
+        if (count($department) === 0) {   //department not exist
+            $newDepartment = Departments::create(['d_name' => $request->input('department')]);
+            $newPosition = Positions::create([
+                'p_name' => $request->input('position'),
+                'department_id' => $newDepartment->id
+            ]);
+            PositionUser::create(['users_id' => $newUser->id, 'positions_id' => $newPosition->id]);
         } else {
             $newPosition = Positions::create([
                 'p_name' => $request->input('position'),

@@ -42,7 +42,8 @@ class RoleMiddleware
         if ($user->hasRole('Employee')) {
             $employeeUrls = [
                 url('/employee/panel'),
-                url('/employee/profile')
+                url('/employee/profile'),
+                url('/employee/settings'),
             ];
 
             if (!in_array($currentUrl, $employeeUrls)) {

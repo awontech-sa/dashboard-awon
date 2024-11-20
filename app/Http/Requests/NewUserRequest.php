@@ -25,7 +25,7 @@ class NewUserRequest extends FormRequest
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email'],
             'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/'],
-            'phone_number' => ['nullable', 'numeric', 'digits:9', 'starts_with:5', 'unique:users,phone_number,' . $this->id],
+            'phone_number' => ['nullable', 'numeric', 'digits:10', 'starts_with:05'],
             'x' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
             'profile_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
