@@ -1,10 +1,12 @@
 <?php
 return [
     'regex' => 'يجب أن تحتوي كلمة المرور على أحرف وأرقام ورموز خاصة (!، $، #، %).',
-    'required' => 'يجب أن لا يكون :attribute فارغًا.',
+    'required' => 'يجب أن لا يكون حقل :attribute فارغًا.',
     'image' => 'يجب أن يكون :attribute صورة.',
     'email' => 'يجب عليك إدخال :attribute صحيح.',
-    'phone_number' => 'يجب أن يتكون :attribute من :max أرقام.',
+    'digits' => 'يجب أن يتكون من ١٠ أرقام',
+    'starts_with' => 'يجب أن يبدأ بــ 05',
+
     'name' => [
         'string' => 'يجب أن يكون :attribute نصًا.',
         'max' => 'يجب ألا يتجاوز :attribute :max حرفًا.',
@@ -15,6 +17,9 @@ return [
     'profile_image' => [
         'mimes' => 'يجب أن يكون :attribute من نوع: :values.',
         'max' => 'يجب ألا يتجاوز حجم :attribute :max كيلوبايت.',
+    ],
+    'phone_number' => [
+        'numeric' => 'يجب أن يتكون رقمًا',
     ],
 
     'attributes' => [
