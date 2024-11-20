@@ -5,6 +5,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@200;300;400;500;700;800;900&display=swap" rel="stylesheet">
 
 <section class="login-form" dir="rtl">
+    @if(session('error_message'))
+    @include('layouts.error-message')
+    @endif
+
     <img src="{{ asset("assets/images/logo-2.png") }}" class="w-52 absolute top-4 right-8" alt="logo" />
     <div class="bg-white w-[517px] h-[561px] font-['Tajawal'] border-[#ECEEF6] rounded-md border-2">
         <form action="{{ route('otp.verify') }}" method="POST" id="verified">

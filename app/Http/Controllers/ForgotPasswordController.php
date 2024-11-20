@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use App\Models\EmailVerification;
 
+use function PHPUnit\Framework\isEmpty;
+
 class ForgotPasswordController extends Controller
 {
     // Show the forgot password form
@@ -61,8 +63,12 @@ class ForgotPasswordController extends Controller
         $user = User::where('email', $request->email)->first();
         $otpData = EmailVerification::where('otp', $otp)->first();
 
+        if ($otp == '') {
+            return view('auth.verification', ['email' => $user->email, 'user' => $user])->with('error_message', 'الرجاء إدخال رمز التحقق');
+        }
+
         if (!$otpData) {
-            return back()->with('error_message', 'الرمز المدخل غير صحيح');
+            return view('auth.verification', ['email' => $user->email, 'user' => $user])->with('error_message', 'الرمز المدخل غير صحيح');
         }
 
         $is_verified = User::where('id', $user->id)->first();
@@ -104,6 +110,10 @@ class ForgotPasswordController extends Controller
 
         if (!$updatePassword) {
             return back()->withInput()->with('error_message', 'Invalid token!');
+        }
+
+        if ($request->new_password != $request->new_password_confirmation) {
+            return back()->with('error_message', 'كلمات المرور المدخلة غير متطابقة');
         }
 
         if (preg_match('/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/', $request->new_password)) {

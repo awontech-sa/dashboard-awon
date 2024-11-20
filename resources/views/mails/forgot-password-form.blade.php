@@ -29,13 +29,13 @@ $email = $data->email;
 
         <!-- New Password Field -->
         <div class="grid gap-y-5 mt-[2.3rem] mr-8">
-            <label for="new_password">كلمة المرور الجديدة *</label>
+            <label for="new_password">كلمة المرور الجديدة <span class="text-red-600">*</span></label>
             <input type="password" class="input border-gray-500 w-[453px]" name="new_password" id="new_password" required />
         </div>
 
         <!-- Confirm Password Field -->
         <div class="grid gap-y-5 mt-5 mr-10">
-            <label for="confirm_password">تأكيد كلمة المرور الجديدة *</label>
+            <label for="confirm_password">تأكيد كلمة المرور الجديدة <span class="text-red-600">*</span></label>
             <input type="password" class="input border-gray-500 w-[453px]" name="new_password_confirmation" id="new_password_confirmation" required />
         </div>
 
