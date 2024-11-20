@@ -40,19 +40,10 @@
 
                 <td>{{ count($user->projects) }}</td>
                 <td>
-                    @if($admin->email === $user->email)
-                    <a class="btn btn-sm hidden btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
-                    @else
                     <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
-                    @endif
                 </td>
                 <td>
-                    @foreach($adminPermission as $permission)
-                    @if($permission->permission === 'تعديل')
-                    <a class="btn btn-xs btn-link bg-[#FAFBFD]"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
-                    @elseif($permission->permission === 'مشاهدة')
                     <a class="btn btn-xs btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
-                    @else
                     <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -60,8 +51,6 @@
                             <x-far-trash-can class="w-4 h-4 text-red-500" />
                         </button>
                     </form>
-                    @endif
-                    @endforeach
                 </td>
             </tr>
             @endforeach
