@@ -12,7 +12,7 @@ use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UsersController;
 
 // start auth routes
-Route::get('/login', [AuthController::class, 'index']);
+Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
 // end auth routes

@@ -15,8 +15,11 @@
         @csrf
         <div class="mt-6 grid gap-y-3">
             <small>رفع صورة</small>
-            <input name="profile-image" type="file" class="file-input max-w-sm
+            <input name="profile_image" type="file" class="file-input max-w-sm
             max-md:w-fit" />
+            @error('profile_image')
+            <span class="text-red-600">{{ $message }}</span>
+            @enderror
         </div>
         <div class="grid grid-cols-1 mt-6 gap-y-7
         2xl:grid-cols-2
@@ -25,11 +28,17 @@
                 <small>الاسم الشخصي</small>
                 <input type="text" name="name" class="input max-w-sm
                 max-md:w-fit" />
+                @error('name')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>البريد الإلكتروني</small>
-                <input name="email" type="email" class="input max-w-sm
+                <input name="email" type="text" class="input max-w-sm
                 max-md:w-fit" />
+                @error('email')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>المنصب</small>
@@ -43,13 +52,19 @@
             </div>
             <div class="grid gap-y-5">
                 <small>رقم الجوال</small>
-                <input name="phone-number" type="number" class="input max-w-sm
+                <input name="phone_number" type="number" min="0" class="input max-w-sm
                 max-md:w-fit" />
+                @error('phone_number')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
                 <input name="password" type="password" class="input max-w-sm
                 max-md:w-fit" />
+                @error('password')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
@@ -67,11 +82,17 @@
                     <small>منصة X</small>
                     <input name="x" type="text" class="input max-w-sm
                     max-md:w-fit" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="grid gap-y-5">
                     <small>لنكد إن</small>
                     <input name="linkedin" type="text" class="input max-w-sm
                     max-md:w-fit" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

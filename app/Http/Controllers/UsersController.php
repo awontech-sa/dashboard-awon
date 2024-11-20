@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewUserRequest;
 use App\Models\Departments;
 use App\Models\Positions;
 use App\Models\PositionUser;
@@ -154,21 +155,24 @@ class UsersController extends Controller
         ]);
     }
 
-    public function create(Request $request)
+    public function create(NewUserRequest $request)
     {
+        $data = $request->validated();
+
         $emailExist = User::where('email', $request->input("email"))->get();
         if (count($emailExist) !== 0) {
             return back()->with('error_message', 'الحساب مضاف مسبقًا');
         } else {
             $newUser = User::create([
-                'name' => $request->input('name'),
-                'email' => $request->input('email'),
-                'password' => $request->input('password_confirmation'),
-                'phone_number' => $request->input('phone-number'),
-                'x' => $request->input('x'),
-                'linkedin' => $request->input('linkedin'),
-                'profile_image' => $request->file('profile-image'),
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => $data['password'],
+                'phone_number' => $data['phone_number'] ?? '',
+                'x' => $data['x'] ?? '',
+                'linkedin' => $data['linkedin'] ?? '',
+                'profile_image' => $data['profile_image'] ?? '',
             ]);
+            $newUser->assignRole('Employee');
         }
 
         $department = Departments::where('d_name', $request->input('department'))->get();

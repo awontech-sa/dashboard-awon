@@ -13,7 +13,7 @@ class RoleMiddleware
     {
         // If the user is not authenticated, redirect to the login page
         if (!Auth::check()) {
-            return redirect('/login');
+            return redirect()->route('login');
         }
 
         /** @var \App\Models\User */
