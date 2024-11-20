@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Requests\LoginRequest;
-use App\Http\Requests\UserRequest;
 use Illuminate\Routing\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;

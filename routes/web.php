@@ -60,8 +60,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 // start employee route
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
     Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
-    Route::get('/settings', [SettingController::class, 'index'])->name('setting.show');
-    Route::put('/settings', [AdminController::class, 'updateSetting'])->name('setting.update');
+    Route::get('/settings', [EmployeeController::class, 'showSetting'])->name('setting.show');
+    Route::put('/settings', [EmployeeController::class, 'update'])->name('setting.update');
 });
 // end employee route
 

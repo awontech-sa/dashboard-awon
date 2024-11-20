@@ -32,7 +32,7 @@ class SettingController extends Controller
 
         $position = $user->positions->pluck("p_name");
 
-        return view('setting', [
+        return view('admin.setting', [
             "position" => $position[0],
             'admin' => $admin,
             'chart' => $viewChart,
@@ -41,7 +41,7 @@ class SettingController extends Controller
         ]);
     }
 
-    public function update(UserRequest $request)
+    public function update(Request $request)
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();

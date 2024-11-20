@@ -28,8 +28,7 @@ class UserRequest extends FormRequest
             'phone_number' => ['nullable', 'string', 'max:10'],
             'x' => ['nullable', 'string', 'max:255'],
             'linkedin' => ['nullable', 'string', 'max:255'],
-            'profile-image' => ['nullable', 'file', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
-            'is_verified' => ['nullable', 'boolean']
+            'profile-image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048']
         ];
     }
 }
