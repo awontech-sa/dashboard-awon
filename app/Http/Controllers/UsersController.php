@@ -25,6 +25,7 @@ class UsersController extends Controller
 
     public function index()
     {
+        /** @var \App\Models\User */
         $admin = Auth::user();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
@@ -47,6 +48,7 @@ class UsersController extends Controller
 
     public function show($id)
     {
+        /** @var \App\Models\User */
         $admin = Auth::user();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
@@ -142,6 +144,7 @@ class UsersController extends Controller
 
     public function showCreateUser()
     {
+        /** @var \App\Models\User */
         $admin = Auth::user();
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();

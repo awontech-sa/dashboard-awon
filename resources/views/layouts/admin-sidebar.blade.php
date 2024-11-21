@@ -61,12 +61,37 @@
                     </div>
                 </li>
                 <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                    <div class="flex items-center gap-x-4 text-lg my-auto">
+                        <x-fas-users class="text-cyan-700 w-7 h-7" />
+                        <a class="font-['Tajawal'] text-center mt-2">أقسام المشاريع</a>
+                    </div>
+                </li>
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                    <div class="flex items-center gap-x-4 text-lg my-auto">
+                        <x-fas-users class="text-cyan-700 w-7 h-7" />
+                        <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
+                    </div>
+                </li>
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>
                                 <summary class="font-['Tajawal']">
                                     <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
-                                    المشاريع التقنية
+                                    مشاريع التقنية
+                                </summary>
+                                //
+                            </details>
+                        </li>
+                    </ul>
+                </li>
+                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                    <ul class="menu menu-lg rounded-lg w-full max-w-xs">
+                        <li>
+                            <details>
+                                <summary class="font-['Tajawal']">
+                                    <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                    مشاريع تنمية الموارد
                                 </summary>
                                 //
                             </details>
@@ -128,28 +153,56 @@
                                     </div>
                                 </div>
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
-                                    <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                        <div class="flex items-center gap-x-4 text-base">
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                        <div class="flex items-center gap-x-4 text-base">
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-users class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item my-2
-                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
-                                        <ul class="menu menu-md rounded-lg">
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto">
+                                            <x-fas-users class="text-cyan-700 w-7 h-7" />
+                                            <a class="font-['Tajawal'] text-center mt-2">أقسام المشاريع</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto">
+                                            <x-fas-users class="text-cyan-700 w-7 h-7" />
+                                            <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
+                                        </div>
+                                    </li>
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                             <li>
                                                 <details>
                                                     <summary class="font-['Tajawal']">
                                                         <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
-                                                        المشاريع التقنية
+                                                        مشاريع التقنية
+                                                    </summary>
+                                                    //
+                                                </details>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                        <ul class="menu menu-lg rounded-lg w-full max-w-xs">
+                                            <li>
+                                                <details>
+                                                    <summary class="font-['Tajawal']">
+                                                        <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                                        مشاريع تنمية الموارد
                                                     </summary>
                                                     //
                                                 </details>

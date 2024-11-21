@@ -40,10 +40,14 @@
 
                 <td>{{ count($user->projects) }}</td>
                 <td>
+                    @if($user->roles[0]->name !== 'Admin')
                     <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    @endif
                 </td>
                 <td>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.show.update.user', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     <a class="btn btn-xs btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
+                    @if($user->roles[0]->name !== 'Admin')
                     <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
@@ -51,6 +55,7 @@
                             <x-far-trash-can class="w-4 h-4 text-red-500" />
                         </button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

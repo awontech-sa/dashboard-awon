@@ -18,13 +18,13 @@ class AdminUserSeeder extends Seeder
             'password' => bcrypt('123'),
             'phone_number' => '+966 56 888 5676'
         ]);
-        $ayman->assignRole('admin');
+        $ayman->assignRole('Admin');
 
         $murooj = User::create([
             'name' => 'مروج الزهراني',
             'email' => 'lujain@awontech.sa',
             'password' => bcrypt('123'),
         ]);
-        $murooj->assignRole('employee');
+        $murooj->assignRole('Employee');
     }
 }

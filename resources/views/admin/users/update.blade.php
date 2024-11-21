@@ -37,11 +37,11 @@
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
-                <input value="{{ $user["password"] }}" name="password" type="password" class="input w-full max-w-sm" />
+                <input name="password" type="password" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
-                <input name="password_confirmation" value="{{ $user["password"] }}" type="password" class="input w-full max-w-sm" />
+                <input name="password_confirmation" type="password" class="input w-full max-w-sm" />
             </div>
         </div>
 

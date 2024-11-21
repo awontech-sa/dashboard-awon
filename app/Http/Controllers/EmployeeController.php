@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\UserRequest;
 use App\Models\Positions;
+use App\Models\PowersUserSections;
 use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
@@ -25,6 +25,10 @@ class EmployeeController extends Controller
         /** @var \App\Models\User */
         $employee = Auth::user();
 
+        // $userPermission = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 1)->get(['permission']);
+        $accounts = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 1)->get();
+        $collection = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 2)->get();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -39,6 +43,8 @@ class EmployeeController extends Controller
             'employee' => $employee,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
+            'accountsPermission' => $accounts->last(),
+            'collectionPermission' => $collection->last(),
             // 'completed_projects' => $completed_projects,
             // 'stopped_projects' => $stopped_projects,
             // 'progress_projects' => $progress_projects,
