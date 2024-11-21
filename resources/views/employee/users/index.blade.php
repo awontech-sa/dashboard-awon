@@ -41,11 +41,11 @@
                 <td>
                     @foreach($permission as $p)
                     @if($p->permission === 'تعديل' && $user->roles[0]->name !== 'Admin')
-                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href=""><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('employee.show.update.user', ['id' => $user->id])}}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     @elseif($p->permission === 'مشاهدة')
-                    <a class="btn btn-xs btn-link bg-[#FAFBFD]" href=""><x-far-eye class="w-4 h-4 text-gray-600" /></a>
+                    <a class="btn btn-xs btn-link bg-[#FAFBFD]" href="{{ route('employee.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
                     @elseif($p->permission === 'حذف' && $user->roles[0]->name !== 'Admin')
-                    <form action="" method="POST" style="display: inline;">
+                    <form action="{{ route('employee.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-sm btn-link bg-[#FAFBFD]">

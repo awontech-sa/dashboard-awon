@@ -1,6 +1,6 @@
-@extends('layouts.admin-sidebar')
+@extends('layouts.employee-sidebar')
 
-@section('admin-content')
+@section('employee-content')
 <section class="font-['Tajawal'] m-[5.7rem]">
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
@@ -10,7 +10,7 @@
         @include('layouts.error-message')
     @endif
 
-    <form action="{{ route('admin.update.user', $id) }}" class="relative z-0" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('employee.update.user', $id) }}" class="relative z-0" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 

@@ -10,8 +10,8 @@ use App\Http\Controllers\AdminController\SettingController;
 use App\Http\Controllers\AdminController\UsersController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController\EmployeeController;
-use App\Http\Controllers\EmployeeController\SettingController as EmployeeControllerSettingController;
-use App\Http\Controllers\EmployeeController\UsersController as EmployeeControllerUsersController;
+use App\Http\Controllers\EmployeeController\SettingController as EmployeeSettingController;
+use App\Http\Controllers\EmployeeController\UsersController as EmployeeUserController;
 use App\Http\Controllers\ForgotPasswordController;
 use Illuminate\Support\Facades\Route;
 
@@ -32,7 +32,7 @@ Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class,
 // start admin route
 Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
-    
+
     //start users route
     Route::get('/users', [UsersController::class, 'index'])->name('users');
     Route::get('/users/{id}', [UsersController::class, 'show'])->name('show.user');
@@ -42,12 +42,12 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/create-user', [UsersController::class, 'showCreateUser'])->name('create.show');
     Route::post('/create-user', [UsersController::class, 'create'])->name('create.user');
     //end users route
-    
+
     //start settings route
     Route::get('/settings', [SettingController::class, 'index'])->name('setting.show');
     Route::put('/settings', [SettingController::class, 'update'])->name('setting.update');
     //end settings route
-    
+
     //start powers route
     Route::get('/powers/{id}', [PowersController::class, 'index'])->name('powers.show');
     Route::post('/powers/{id}', [PowersController::class, 'update'])->name('powers.update');
@@ -63,9 +63,19 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 // start employee route
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
     Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
-    Route::get('/settings', [EmployeeControllerSettingController::class, 'index'])->name('setting.show');
-    Route::put('/settings', [EmployeeControllerSettingController::class, 'update'])->name('setting.update');
-    Route::get('/users', [EmployeeControllerUsersController::class, 'index'])->name('users');
+
+    //start setting route
+    Route::get('/settings', [EmployeeSettingController::class, 'index'])->name('setting.show');
+    Route::put('/settings', [EmployeeSettingController::class, 'update'])->name('setting.update');
+    //end setting route
+    
+    //start users route
+    Route::get('/users', [EmployeeUserController::class, 'index'])->name('users');
+    Route::get('/users/{id}', [EmployeeUserController::class, 'show'])->name('show.user');
+    Route::delete('/users/{id}', [EmployeeUserController::class, 'destroy'])->name('delete.user');
+    Route::get('/users/update/{id}', [EmployeeUserController::class, 'showUpdateUser'])->name('show.update.user');
+    Route::put('/users/update/{id}', [EmployeeUserController::class, 'update'])->name('update.user');
+    //end users route
 });
 // end employee route
 

@@ -44,6 +44,8 @@ class RoleMiddleware
                 url('/employee/panel'),
                 url('/employee/settings'),
                 url('/employee/users'),
+                url("/employee/users/{$request->id}"),
+                url("/employee/users/update/{$request->id}"),
             ];
 
             if (!in_array($currentUrl, $employeeUrls)) {
