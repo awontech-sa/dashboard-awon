@@ -89,7 +89,7 @@ class UsersController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('employee.users')->with('success_message', 'تم حذف الحساب بنجاح');
+        return back()->with('success_message', 'تم حذف الحساب بنجاح');
     }
 
     public function showUpdateUser($id)

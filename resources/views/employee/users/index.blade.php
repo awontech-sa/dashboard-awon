@@ -2,6 +2,9 @@
 
 @section('employee-content')
 <div class="overflow-x-auto pb-96 font-['Tajawal']">
+    @if(session('success_message'))
+    @include('layouts.success-message')
+    @endif
     <div class="flex items-center justify-between p-8
     max-md:justify-start max-md:gap-x-32
     2xl:justify-evenly">
