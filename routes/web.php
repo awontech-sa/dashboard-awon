@@ -1,17 +1,20 @@
 <?php
 
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\EmployeeController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectsController;
-use App\Http\Controllers\ForgotPasswordController;
-use App\Http\Controllers\PowersController;
-use App\Http\Controllers\ProjectController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UsersController;
-
 // start auth routes
+
+use App\Http\Controllers\AdminController\AdminController;
+use App\Http\Controllers\AdminController\PowersController;
+use App\Http\Controllers\AdminController\ProjectController;
+use App\Http\Controllers\AdminController\ProjectsController;
+use App\Http\Controllers\AdminController\SettingController;
+use App\Http\Controllers\AdminController\UsersController;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EmployeeController\EmployeeController;
+use App\Http\Controllers\EmployeeController\SettingController as EmployeeControllerSettingController;
+use App\Http\Controllers\EmployeeController\UsersController as EmployeeControllerUsersController;
+use App\Http\Controllers\ForgotPasswordController;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
@@ -60,8 +63,9 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 // start employee route
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
     Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
-    Route::get('/settings', [EmployeeController::class, 'showSetting'])->name('setting.show');
-    Route::put('/settings', [EmployeeController::class, 'update'])->name('setting.update');
+    Route::get('/settings', [EmployeeControllerSettingController::class, 'index'])->name('setting.show');
+    Route::put('/settings', [EmployeeControllerSettingController::class, 'update'])->name('setting.update');
+    Route::get('/users', [EmployeeControllerUsersController::class, 'index'])->name('users');
 });
 // end employee route
 

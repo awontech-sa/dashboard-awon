@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminController;
 
-use App\Http\Requests\UserRequest;
+use App\Http\Controllers\Controller;
 use App\Models\Positions;
 use App\Models\User;
 use App\Services\ViewChartService;

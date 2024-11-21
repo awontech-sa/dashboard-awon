@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\Controller;
 use App\Models\PowersSections;
 use App\Models\PowersUserSections;
 use App\Models\User;

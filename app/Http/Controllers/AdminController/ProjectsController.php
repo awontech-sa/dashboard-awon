@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\AdminController;
 
+use App\Http\Controllers\Controller;
 use App\Models\Projects;
 use App\Models\TeamProject;
 use App\Services\ViewChartService;

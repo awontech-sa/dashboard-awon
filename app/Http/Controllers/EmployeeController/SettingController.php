@@ -1,73 +1,49 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\EmployeeController;
 
+use App\Http\Controllers\Controller;
 use App\Models\Positions;
-use App\Models\PowersUserSections;
-use App\Models\Projects;
 use App\Models\User;
+use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
-class EmployeeController extends Controller
+class SettingController extends Controller
 {
     private ViewChartService $viewChartService;
+    private PermissionEmployeeService $permissionService;
+    public $employee;
 
-    public function __construct(ViewChartService $viewChartService)
+    public function __construct(ViewChartService $viewChartService, PermissionEmployeeService $permissionService)
     {
         $this->viewChartService = $viewChartService;
+        $this->permissionService = $permissionService;
+
+        /** @var \App\Models\User */
+        $this->employee = Auth::user();
     }
 
     public function index()
     {
-        /** @var \App\Models\User */
-        $employee = Auth::user();
-
-        // $userPermission = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 1)->get(['permission']);
-        $accounts = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 1)->get();
-        $collection = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 2)->get();
+        $user = User::with('positions')->findOrFail($this->employee->id);
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        $dashboard = Projects::all();
-        // $completed_projects = Projects::where('p_status', 'مكتمل')->get();
-        // $stopped_projects = Projects::where('p_status', 'معلق')->get();
-        // $progress_projects = Projects::where('p_status', 'قيد التنفيذ')->get();
-
-
-        return view('employee.index', [
-            'employee' => $employee,
-            'chart' => $viewChart,
-            'dashboard' => $dashboard,
-            'accountsPermission' => $accounts->last(),
-            'collectionPermission' => $collection->last(),
-            // 'completed_projects' => $completed_projects,
-            // 'stopped_projects' => $stopped_projects,
-            // 'progress_projects' => $progress_projects,
-            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
-            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-        ]);
-    }
-
-    public function showSetting()
-    {
-        $employee = Auth::user();
-
-        $user = User::with('positions')->findOrFail($employee->id);
-
-        $viewChart = $this->viewChartService->getProjectsIncome();
-        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
-        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
 
         $position = $user->positions->pluck("p_name");
 
         return view('employee.setting', [
+            'accountsPermission' => $accounts->last(),
+            'collectionPermission' => $collection->last(),
             "position" => $position[0],
-            'employee' => $employee,
+            'employee' => $this->employee,
             'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
@@ -80,8 +56,7 @@ class EmployeeController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        $admin = Auth::user();
-        $user = User::findOrFail($admin->id);
+        $user = User::findOrFail($this->employee->id);
 
         $user->fill($request->only(['name', 'email', 'phone_number', 'x', 'linkedin']));
 

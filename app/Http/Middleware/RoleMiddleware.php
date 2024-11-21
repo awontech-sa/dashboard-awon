@@ -43,6 +43,7 @@ class RoleMiddleware
             $employeeUrls = [
                 url('/employee/panel'),
                 url('/employee/settings'),
+                url('/employee/users'),
             ];
 
             if (!in_array($currentUrl, $employeeUrls)) {
