@@ -25,7 +25,7 @@ class ViewChartService
         $chart = new ProjectsIncome;
         $chart->minimalist(true);
         $chart->labels(['سخي', 'نظام إدارة المحتوى', 'فرصة', 'وعي']);
-        $chart->dataset('Users by trimester', 'doughnut', [50, 22.5, 30.8, 8.1])
+        $chart->dataset('Users by trimester', 'doughnut', [0, 0, 0, 0])
             ->color($borderColors)
             ->backgroundcolor($fillColors);
 
@@ -50,7 +50,7 @@ class ViewChartService
         $grossAnnualIncomeChart = new GrossAnnualIncome;
         $grossAnnualIncomeChart->minimalist(true);
         $grossAnnualIncomeChart->labels(['2017', '2018', '2019', '2020', '2021', '2022', '2023', '2024', '2025']);
-        $grossAnnualIncomeChart->dataset('Users by trimester', 'line', [200, 250, 300, 250, 400])->color($borderColors)
+        $grossAnnualIncomeChart->dataset('Users by trimester', 'line', [0, 0, 0, 0, 0])->color($borderColors)
             ->backgroundcolor($fillColors);
 
         return $grossAnnualIncomeChart;
@@ -70,7 +70,7 @@ class ViewChartService
         $currentGrossIncome = new CurrentGrossIncome;
         $currentGrossIncome->minimalist(true);
         $currentGrossIncome->labels(['الربح', 'المحصل']);
-        $currentGrossIncome->dataset('Users by trimester', 'polarArea', [35, 65])->color($borderColors)->backgroundcolor($fillColors);
+        $currentGrossIncome->dataset('Users by trimester', 'polarArea', [0, 0])->color($borderColors)->backgroundcolor($fillColors);
 
         return $currentGrossIncome;
     }

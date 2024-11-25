@@ -488,11 +488,17 @@ class ProjectController extends Controller
                         $role = array_map(fn($r) => ['roles' => $r], $roles);
 
                         if (count($role) !== 0) {
-                            $project->members()->attach($role[0]["roles"]->id);
-                            ProjectUser::create([
-                                'project_manager' => $data['team']['project_manager'],
-                                'sub_project_manager' => $data['team']['sub_project_manager']
-                            ]);
+                            foreach ($roles as $user) {
+                                foreach ($user->roles as $role) {
+                                    ProjectUser::create([
+                                        'role' => $role,
+                                        'user_id' => $user->id,
+                                        'projects_id' => $project->id,
+                                        'project_manager' => $data['team']['project_manager'],
+                                        'sub_project_manager' => $data['team']['sub_project_manager']
+                                    ]);
+                                }
+                            }
                         }
                     }
                 }

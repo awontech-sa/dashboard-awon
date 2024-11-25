@@ -11,7 +11,7 @@ class ProjectUser extends Model
 
     protected $table = 'projects_user';
 
-    protected $fillable = ['projects_id', 'user_id'];
+    protected $fillable = ['projects_id', 'user_id', 'role', 'project_manager', 'sub_project_manager'];
 
     public function projects()
     {

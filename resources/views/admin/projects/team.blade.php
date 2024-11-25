@@ -78,26 +78,47 @@
         memberContainer.appendChild(removeMemberBtn);
 
         fileContainer.appendChild(memberContainer);
+        // Handle member selection
         memberSelect.addEventListener('change', function() {
             let selectedOption = memberSelect.selectedOptions[0];
             let memberId = selectedOption.value;
-            arrayMembers.push({
-                id: memberId,
-                member: selectedOption.textContent,
-                role: '' // Placeholder for the role (to be filled later)
-            });
+
+            // Check if the member already exists in the array
+            let existingMember = arrayMembers.find(member => member.id === memberId);
+
+            if (!existingMember) {
+                arrayMembers.push({
+                    id: memberId,
+                    member: selectedOption.textContent.trim(),
+                    roles: [] // Initialize roles array
+                });
+            }
         });
 
-        memberRoleInput.addEventListener('input', function() {
+        // Handle role input
+        memberRoleInput.addEventListener('blur', function() { // Use 'blur' to handle full input
             let selectedOption = memberSelect.selectedOptions[0];
             let memberId = selectedOption.value;
 
+            // Find the member in the array
             let existingMember = arrayMembers.find(member => member.id === memberId);
 
-            existingMember.role = memberRoleInput.value; // Update the role in the array
+            if (existingMember) {
+                let roleInput = memberRoleInput.value.trim(); // Get trimmed input value
 
+                // Check if the role is not empty and not already in the roles array
+                if (roleInput !== "" && !existingMember.roles.includes(roleInput)) {
+                    existingMember.roles.push(roleInput); // Add the role to the roles array
+                }
+            }
+
+            // Update the hidden input field
             document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
+
+            console.log('Updated arrayMembers:', arrayMembers);
         });
+
+
     }
 
     function removeMember(uniqueId) {

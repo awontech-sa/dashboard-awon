@@ -472,6 +472,7 @@
         }
 
         if (isNotSupported) {
+            
             supportForm.classList.add('hidden');
             externalSupport.classList.remove('hidden');
             numberSupportForm.classList.add('hidden');
