@@ -19,18 +19,11 @@ class AdminUserSeeder extends Seeder
         ]);
         $murooj->assignRole('Admin');
 
-        $lujain = User::create([
-            'name' => 'لجين صلاح',
-            'email' => 'lujain@awontech.sa',
-            'password' => bcrypt('123'),
-        ]);
-        $lujain->assignRole('Admin');
-
         $manar = User::create([
             'name' => 'منار آل ماشي',
             'email' => 'manar@awontech.sa',
             'password' => bcrypt('123'),
         ]);
-        $manar->assignRole('Employee');
+        $manar->assignRole('Admin');
     }
 }
