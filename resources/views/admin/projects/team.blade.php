@@ -1,7 +1,7 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
     <input type="hidden" name="array-members" value="[]" />
     <div class="grid gap-y-5">
-        <label for="type-benef">مدير المشروع <span class="text-red-600">*</span></label>
+        <label for="type-benef">مدير المشروع</label>
         <select class="select select-bordered w-full max-w-xs" name="manager" value="">
             <option></option>
             @foreach($users as $user)
@@ -10,7 +10,7 @@
         </select>
     </div>
     <div class="grid gap-y-5">
-        <label for="benef_number">نائب مدير المشروع <span class="text-red-600">*</span></label>
+        <label for="benef_number">نائب مدير المشروع</label>
         <select class="select select-bordered w-full max-w-xs" name="sub-manager" value="">
             <option></option>
             @foreach($users as $user)

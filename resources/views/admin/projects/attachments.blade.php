@@ -15,7 +15,7 @@
             <div class="grid place-items-center">
                 <h3 class="text-2xl font-bold">إضافة مرفق</h3>
                 <div class="grid mt-20 gap-y-5">
-                    <label for="project-name">اسم المرفق <span class="text-red-600">*</span></label>
+                    <label for="project-name">اسم المرفق</label>
                     <input type="text" class="input border" name="attachment-name" id="attachment_name" />
                 </div>
                 <button type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addAttachment()">إضافة</button>

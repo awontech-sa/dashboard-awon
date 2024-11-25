@@ -1,5 +1,5 @@
 <div class="flex justify-between">
-    <label for="project-name">اختر مراحل المشروع المناسبة <span class="text-red-600">*</span></label>
+    <label for="project-name">اختر مراحل المشروع المناسبة</label>
     <a href="#my_modal_9" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">
         إضافة مرحلة جديدة
         <x-fas-plus class="w-4 h-4 text-gray-600" />
@@ -10,7 +10,7 @@
 <input type="hidden" name="array-stages">
 
 <div class="my-8">
-    <label for="project-name">اختر مراحل المشروع المنجزة <span class="text-red-600">*</span></label>
+    <label for="project-name">اختر مراحل المشروع المنجزة</label>
     <div class="mt-8 grid gap-y-7 bottom-list stages-done" id="stages-done"></div>
 </div>
 
@@ -22,11 +22,11 @@
         <div class="grid place-items-center">
             <h3 class="text-2xl font-bold">إضافة مرحلة</h3>
             <div class="grid mt-20 gap-y-5">
-                <label for="project-name">اسم المرحلة <span class="text-red-600">*</span></label>
+                <label for="project-name">اسم المرحلة</label>
                 <input type="text" class="input border" name="stage-name" id="stage_name" />
             </div>
             <div class="grid gap-y-5 mt-7">
-                <label for="project-name">ترتيب المرحلة <span class="text-red-600">*</span></label>
+                <label for="project-name">ترتيب المرحلة</label>
                 <input type="number" class="input border" name="stage-order" id="stage_order" />
             </div>
             <button type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addNewStage()">إضافة</button>

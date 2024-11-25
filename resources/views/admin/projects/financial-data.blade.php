@@ -3,7 +3,7 @@
     <div class="my-5">
         <div class="grid grid-cols-2 gap-x-6">
             <div>
-                <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>
+                <label class="font-normal text-base mb-2">حالة الدعم</label>
                 <div class="bg-white flex gap-x-4 p-2 rounded">
                     @foreach (App\Enums\SupportStatus::cases() as $status)
                     <div class="form-control">
@@ -14,8 +14,7 @@
                                 name="support-status"
                                 value="{{ $status->value }}"
                                 class="radio"
-                                id="support-status-{{ $status->value }}"
-                                {{ old('support-status', $data['p_support_status'] ?? '') === $status->value ? 'checked' : '' }} />
+                                id="support-status-{{ $status->value }}" />
                         </label>
                     </div>
                     @endforeach
@@ -23,14 +22,13 @@
             </div>
 
             <div class="support-type-form">
-                <label class="font-normal text-base mb-2">نوع الدعم <span class="text-red-600">*</span></label>
+                <label class="font-normal text-base mb-2">نوع الدعم</label>
                 <div class="bg-white flex gap-x-4 p-2 rounded">
                     @foreach (App\Enums\SupportType::cases() as $type)
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">{{ $type->value }}</span>
-                            <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}"
-                                {{ old('support-type', $data['p_support_type'] ?? '') === $status->value ? 'checked' : '' }} />
+                            <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}" />
                         </label>
                     </div>
                     @endforeach
@@ -38,14 +36,13 @@
             </div>
 
             <div class="external-support hidden">
-                <label class="font-normal text-base mb-2">مالك المشروع <span class="text-red-600">*</span></label>
+                <label class="font-normal text-base mb-2">مالك المشروع</label>
                 <div class="bg-white flex gap-x-4 p-2 rounded">
                     @foreach (App\Enums\SupportComp::cases() as $type)
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">{{ $type->value }}</span>
-                            <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}"
-                                {{ old('supporter', $data['supporter'] ?? '') === $status->value ? 'checked' : '' }} />
+                            <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}" />
                         </label>
                     </div>
                     @endforeach
@@ -53,12 +50,12 @@
             </div>
 
             <div class="grid my-8 number-support-form">
-                <label class="font-normal text-base mb-2">عدد الجهات الداعمة <span class="text-red-600">*</span></label>
-                <input type="number" class="input" name="number-support" id="number_support" value="{{ old('number-support', $data['number-support'] ?? '') }}" />
+                <label class="font-normal text-base mb-2">عدد الجهات الداعمة</label>
+                <input type="number" class="input" name="number-support" id="number_support" />
             </div>
             <div class="grid my-8 cost-project-form">
-                <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
-                <input type="number" class="input" name="project-income" value="{{ old('project-income', $data['project-income'] ?? '') }}" />
+                <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
+                <input type="number" class="input" name="project-income" />
             </div>
         </div>
         <div class="supporter-data hidden" id="supporterDataSection"></div>
@@ -406,10 +403,6 @@
                 let projectExpectIncomeLabel = document.createElement('label')
                 projectExpectIncomeLabel.classList.add('font-normal', 'text-base', 'mb-2')
                 projectExpectIncomeLabel.textContent = 'تكلفة المشروع المتوقعة'
-                let projectExpectIncomeImportant = document.createElement('span')
-                projectExpectIncomeImportant.classList.add('text-red-600')
-                projectExpectIncomeImportant.textContent = '*'
-                projectExpectIncomeLabel.appendChild(projectExpectIncomeImportant)
                 let projectExpectIncomeInput = document.createElement('input')
                 projectExpectIncomeInput.type = 'text'
                 projectExpectIncomeInput.classList.add('input')
@@ -423,10 +416,6 @@
                 let projectExpectRealLabel = document.createElement('label')
                 projectExpectRealLabel.classList.add('font-normal', 'text-base', 'mb-2')
                 projectExpectRealLabel.textContent = 'تكلفة المشروع الفعلية'
-                let projectExpectRealImportant = document.createElement('span')
-                projectExpectRealImportant.classList.add('text-red-600')
-                projectExpectRealImportant.textContent = '*'
-                projectExpectRealLabel.appendChild(projectExpectRealImportant)
                 let projectExpectRealInput = document.createElement('input')
                 projectExpectRealInput.type = 'text'
                 projectExpectRealInput.classList.add('input')
@@ -440,10 +429,6 @@
                 let stagesNumberLabel = document.createElement('label')
                 stagesNumberLabel.classList.add('font-normal', 'text-base', 'mb-2')
                 stagesNumberLabel.textContent = 'عدد المراحل'
-                let stagesNumberImportant = document.createElement('span')
-                stagesNumberImportant.classList.add('text-red-600')
-                stagesNumberImportant.textContent = '*'
-                stagesNumberLabel.appendChild(stagesNumberImportant)
                 let stagesNumberInput = document.createElement('input')
                 stagesNumberInput.type = 'number'
                 stagesNumberInput.classList.add('input')
@@ -491,10 +476,6 @@
             let nameLabelDiv = document.createElement('div');
             let nameLabel = document.createElement('label');
             nameLabel.textContent = 'اسم الجهة ';
-            let requiredSpan1 = document.createElement('span');
-            requiredSpan1.classList.add('text-red-600');
-            requiredSpan1.textContent = '*';
-            nameLabel.appendChild(requiredSpan1);
             let nameInput = document.createElement('input');
             nameInput.classList.add('input');
             nameInput.name = 'comp-name'
@@ -504,10 +485,6 @@
             let costLabelDiv = document.createElement('div');
             let costLabel = document.createElement('label');
             costLabel.textContent = 'تكلفة المشروع ';
-            let requiredSpan2 = document.createElement('span');
-            requiredSpan2.classList.add('text-red-600');
-            requiredSpan2.textContent = '*';
-            costLabel.appendChild(requiredSpan2);
             let costInput = document.createElement('input');
             costInput.classList.add('input');
             costInput.name = 'income-project'
@@ -517,10 +494,6 @@
             let installmentLabelDiv = document.createElement('div');
             let installmentLabel = document.createElement('label');
             installmentLabel.textContent = 'عدد الدفعات ';
-            let requiredSpan3 = document.createElement('span');
-            requiredSpan3.classList.add('text-red-600');
-            requiredSpan3.textContent = '*';
-            installmentLabel.appendChild(requiredSpan3);
             let installmentInput = document.createElement('input');
             installmentInput.classList.add('input');
             installmentInput.type = 'number';
@@ -565,7 +538,7 @@
 
             let expectedCostLabel = document.createElement('label');
             expectedCostLabel.classList.add('font-normal', 'text-base', 'mb-2');
-            expectedCostLabel.innerHTML = 'تكلفة المشروع المتوقعة<span class="text-red-600">*</span>';
+            expectedCostLabel.innerHTML = 'تكلفة المشروع المتوقعة';
 
             let expectedCostInput = document.createElement('input');
             expectedCostInput.type = 'text';
@@ -595,7 +568,7 @@
 
             let stagesCountLabel = document.createElement('label');
             stagesCountLabel.classList.add('font-normal', 'text-base', 'mb-2');
-            stagesCountLabel.innerHTML = 'عدد المراحل<span class="text-red-600">*</span>';
+            stagesCountLabel.innerHTML = 'عدد المراحل';
 
             let stagesCountInput = document.createElement('input');
             stagesCountInput.type = 'number';
