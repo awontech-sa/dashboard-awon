@@ -17,11 +17,11 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
     <div class="grid gap-y-5">
         <label for="project-duration">مدة المشروع</label>
-        <input id="project-duration" name="project-duration" class="input text-center text-base input-disabled" type="text" />
+        <input id="project-duration" disabled name="project-duration" class="input text-center text-base input-disabled" type="text" />
     </div>
     <div class="grid gap-y-5">
         <label for="remaining-duration">المدة المتبقية</label>
-        <input id="remaining-duration" name="project-remaining" class="input text-center text-base input-disabled" type="text" />
+        <input id="remaining-duration" disabled name="project-remaining" class="input text-center text-base input-disabled" type="text" />
     </div>
 </div>
 
