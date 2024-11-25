@@ -123,8 +123,7 @@ class ProjectController extends Controller
         if ($step == 1) {
             if (
                 $request->input('project-name') === null || $request->input('start-project') === null ||
-                $request->input('end-project') === null || $request->input('project-description') === null ||
-                $request->input('benef_number') === null
+                $request->input('project-description') === null || $request->input('benef_number') === null
             ) {
                 return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
             } else {
@@ -507,5 +506,27 @@ class ProjectController extends Controller
 
             return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
         }
+    }
+
+    public function show($id)
+    {
+        $admin = Auth::user();
+        $users = User::all();
+        $project = Projects::findOrFail($id);
+        $dashboard = Projects::all();
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        return view('admin.projects.project.show', [
+            "admin" => $admin,
+            'project' => $project,
+            "chart" => $viewChart,
+            'dashboard' => $dashboard,
+            "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+            "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+            'users' => $users
+        ]);
     }
 }

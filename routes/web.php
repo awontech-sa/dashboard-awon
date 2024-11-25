@@ -57,6 +57,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/projects/create/{step}', [ProjectController::class, 'index'])->name('new.project.show');
     Route::post('/projects/create/{step}', [ProjectController::class, 'create'])->name('create.project');
     Route::post('/projects/create', [ProjectController::class, 'finalCreateProject'])->name('create.project.final');
+
+    Route::get('/project/{id}', [ProjectController::class, 'show'])->name('show.project');
 });
 // end admin route
 

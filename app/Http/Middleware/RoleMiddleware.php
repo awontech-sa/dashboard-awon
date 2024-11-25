@@ -30,7 +30,8 @@ class RoleMiddleware
                 url("/admin/create-user"),
                 url('/admin/settings'),
                 url("/admin/powers/{$request->id}"),
-                url("/admin/projects/create/{$request->step}")
+                url("/admin/projects/create/{$request->step}"),
+                url("/admin/project/{$request->id}")
             ];
 
             if (!in_array($currentUrl, $adminUrls)) {
