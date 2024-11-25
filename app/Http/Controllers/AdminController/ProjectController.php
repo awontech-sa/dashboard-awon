@@ -399,7 +399,7 @@ class ProjectController extends Controller
                         'p_support_status' => $data['financial-data']['p_support_status'] ?? null
                     ]);
                     Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']["total_cost"] ?? 0]);
-                    if (!empty($data['financial-data']["project_installments"])) {
+                    // if (!empty($data['financial-data']["project_installments"])) {
                         foreach ($data['financial-data']["project_installments"] as $installmentProject) {
                             $supporter->Installments()->create([
                                 'project_id' => $project->id,
@@ -408,9 +408,9 @@ class ProjectController extends Controller
                                 'receipt_proof' => $installmentProject["receipt_proof"],
                             ]);
                         }
-                    }
+                    // }
 
-                    if (!empty($data['financial-data']['project_phases'])) {
+                    // if (!empty($data['financial-data']['project_phases'])) {
                         Projects::where('id', $project->id)->update([
                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
                             'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
@@ -428,7 +428,7 @@ class ProjectController extends Controller
                                 'disbursement_proof' => $phase['disbursement_proof']
                             ]);
                         }
-                    }
+                    // }
                 }
 
                 if (!empty($data['attachment'])) {
