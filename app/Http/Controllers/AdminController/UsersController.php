@@ -8,6 +8,7 @@ use App\Models\Departments;
 use App\Models\Positions;
 use App\Models\PositionUser;
 use App\Models\PowersUserSections;
+use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
@@ -28,6 +29,8 @@ class UsersController extends Controller
         /** @var \App\Models\User */
         $admin = Auth::user();
 
+        $dashboard = Projects::all();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -39,6 +42,7 @@ class UsersController extends Controller
         return view('admin.users.index', [
             'admin' => $admin,
             'chart' => $viewChart,
+            'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'users' => $users,
@@ -50,6 +54,8 @@ class UsersController extends Controller
     {
         /** @var \App\Models\User */
         $admin = Auth::user();
+
+        $dashboard = Projects::all();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -64,6 +70,7 @@ class UsersController extends Controller
 
         return view('admin.users.user', [
             "id" => $id,
+            'dashboard' => $dashboard,
             "user" => $user,
             "userPosition" => $userPosition,
             "admin" => $admin,
@@ -87,6 +94,8 @@ class UsersController extends Controller
 
         $user = User::with('positions')->findOrFail($id);
 
+        $dashboard = Projects::all();
+
         $position = $user->positions->pluck("p_name");
 
         $viewChart = $this->viewChartService->getProjectsIncome();
@@ -98,6 +107,7 @@ class UsersController extends Controller
             "user" => $user,
             "id" => $id,
             "admin" => $admin,
+            'dashboard' => $dashboard,
             "chart" => $viewChart,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome
@@ -149,10 +159,12 @@ class UsersController extends Controller
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $dashboard = Projects::all();
 
         return view('admin.users.create', [
             'admin' => $admin,
             'chart' => $viewChart,
+            'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);

@@ -12,19 +12,25 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        $ayman = User::create([
-            'name' => 'أيمن الحربي',
-            'email' => 'ayman@awontech.sa',
-            'password' => bcrypt('123'),
-            'phone_number' => '+966 56 888 5676'
-        ]);
-        $ayman->assignRole('Admin');
-
         $murooj = User::create([
             'name' => 'مروج الزهراني',
+            'email' => 'murooj@awontech.sa',
+            'password' => bcrypt('123'),
+        ]);
+        $murooj->assignRole('Admin');
+
+        $lujain = User::create([
+            'name' => 'لجين صلاح',
             'email' => 'lujain@awontech.sa',
             'password' => bcrypt('123'),
         ]);
-        $murooj->assignRole('Employee');
+        $lujain->assignRole('Admin');
+
+        $manar = User::create([
+            'name' => 'منار آل ماشي',
+            'email' => 'manar@awontech.sa',
+            'password' => bcrypt('123'),
+        ]);
+        $manar->assignRole('Employee');
     }
 }

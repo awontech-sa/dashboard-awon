@@ -14,5 +14,6 @@ class PositionUserSeeder extends Seeder
     {
         PositionUser::create(['users_id' => 1, 'positions_id' => 1]);
         PositionUser::create(['users_id' => 2, 'positions_id' => 2]);
+        PositionUser::create(['users_id' => 3, 'positions_id' => 3]);
     }
 }

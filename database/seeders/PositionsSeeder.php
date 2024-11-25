@@ -13,8 +13,8 @@ class PositionsSeeder extends Seeder
      */
     public function run(): void
     {
-        Positions::create(['p_name' => 'عضو مجلس الإدارة', 'department_id'=> 1]);
-        Positions::create(['p_name' => 'رئيس مجلس الإدارة', 'department_id'=> 1]);
-        Positions::create(['p_name' => 'مهندس برمجيات', 'department_id'=> 2]);
+        Positions::create(['p_name' => 'مهندس برمجيات', 'department_id'=> 1]);
+        Positions::create(['p_name' => 'مهندس برمجيات', 'department_id'=> 1]);
+        Positions::create(['p_name' => 'مهندس برمجيات', 'department_id'=> 1]);
     }
 }

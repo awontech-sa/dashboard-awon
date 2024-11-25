@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Positions;
+use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
@@ -26,6 +27,8 @@ class SettingController extends Controller
 
         $user = User::with('positions')->findOrFail($admin->id);
 
+        $dashboard = Projects::all();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -36,6 +39,7 @@ class SettingController extends Controller
             "position" => $position[0],
             'admin' => $admin,
             'chart' => $viewChart,
+            'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);

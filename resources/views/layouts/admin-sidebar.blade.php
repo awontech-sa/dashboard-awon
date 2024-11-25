@@ -80,7 +80,16 @@
                                     <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                     مشاريع التقنية
                                 </summary>
-                                //
+                                <ul class="font-['Tajawal']">
+                                    @foreach($dashboard as $project)
+                                    <li>
+                                        <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
+                                            <x-far-folder class="text-gray-500 w-6 h-6" />
+                                            <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
+                                        </a>
+                                    </li>
+                                    @endforeach
+                                </ul>
                             </details>
                         </li>
                     </ul>
@@ -190,7 +199,16 @@
                                                         <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                                         مشاريع التقنية
                                                     </summary>
-                                                    //
+                                                    <ul class="font-['Tajawal']">
+                                                        @foreach($dashboard as $project)
+                                                        <li>
+                                                            <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
+                                                                <x-far-folder class="text-gray-500 w-6 h-6" />
+                                                                <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
+                                                            </a>
+                                                        </li>
+                                                        @endforeach
+                                                    </ul>
                                                 </details>
                                             </li>
                                         </ul>

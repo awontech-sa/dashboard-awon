@@ -55,20 +55,13 @@ class User extends Authenticatable
 
     public function projects()
     {
-        return $this->belongsToMany(Projects::class, 'projects_user', 'user_id', 'projects_id');
-    }
-
-    public function projectss()
-    {
-        return $this->belongsToMany(Projects::class, 'project_user_power');
+        return $this->belongsToMany(Projects::class, 'projects_user');
     }
 
     public function projectPowers()
     {
         return $this->belongsToMany(Projects::class, 'project_user_power');
     }
-
-
 
     public function getProfileImageAttribute()
     {

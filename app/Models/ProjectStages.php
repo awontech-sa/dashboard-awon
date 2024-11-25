@@ -10,14 +10,13 @@ class ProjectStages extends Model
 {
     use HasFactory;
 
-    protected $table = 'project_stage'; // Specify the pivot table name
+    protected $table = 'project_stage';
 
     protected $fillable = [
         'project_id',
         'stage_id'
     ];
 
-    // Define relationships to Project and Stage models
     public function project()
     {
         return $this->belongsTo(Projects::class);

@@ -35,8 +35,8 @@
     <div class="grid gap-y-5">
         <label for="type-benef">نوع المستفيدين من المشروع <span class="text-red-600">*</span></label>
         <select class="select select-bordered w-full max-w-xs" name="type-benef" value="{{ old('type-benef', $data['type_benef_id'] ?? '') }}">
-            @foreach($typeBenef as $tp)
-            <option id="{{ $tp->id }}">{{ $tp->tb_name }}</option>
+            @foreach (App\Enums\TypeBenefEnum::cases() as $status)
+            <option id="{{ $status->value }}">{{ $status->value }}</option>
             @endforeach
         </select>
     </div>

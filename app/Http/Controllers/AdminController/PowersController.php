@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Models\PowersSections;
 use App\Models\PowersUserSections;
+use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
@@ -23,6 +24,7 @@ class PowersController extends Controller
     {
         $admin = Auth::user();
         $powersSections = PowersSections::all();
+        $dashboard = Projects::all();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -31,6 +33,7 @@ class PowersController extends Controller
             'sections' => $powersSections,
             // 'userPermission' => $userPermissions,
             // 'projects' => $projects,
+            'dashboard' => $dashboard,
             'id' => $id,
             'admin' => $admin,
             'chart' => $viewChart,

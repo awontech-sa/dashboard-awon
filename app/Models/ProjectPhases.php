@@ -5,21 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProjectUser extends Model
+class ProjectPhases extends Model
 {
     use HasFactory;
 
-    protected $table = 'projects_user';
+    protected $table = 'project_phases';
 
-    protected $fillable = ['projects_id', 'user_id'];
+    protected $fillable = ['project_id', 'phase_cost', 'disbursement_proof', 'disbursement_status'];
 
     public function projects()
     {
         return $this->belongsTo(Projects::class);
-    }
-
-    public function users()
-    {
-        return $this->belongsTo(User::class);
     }
 }

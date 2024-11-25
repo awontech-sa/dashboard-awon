@@ -13,7 +13,6 @@ class DepartmentsSeeder extends Seeder
      */
     public function run(): void
     {
-        Departments::create(['d_name' => 'مجلس الإدارة']);
         Departments::create(['d_name' => 'الإدارة التقنية']);
     }
 }

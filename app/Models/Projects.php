@@ -14,32 +14,22 @@ class Projects extends Model
 
     protected $fillable = [
         'p_name',
-        'p_status',
         'p_num_beneficiaries',
         'p_date_start',
         'p_date_end',
         'p_remaining',
         'p_description',
-        'p_files',
-        'p_comment',
-        'p_level',
-        'p_web',
-        'p_ios',
-        'p_android',
-        'p_support_entity',
-        'p_stages',
-        'p_implemented_stages',
-        'type_benef_id'
+        'p_duration',
+        'total_cost',
+        'expected_cost',
+        'actual_cost',
+        'comment',
+        'type_benef'
     ];
 
     protected $casts = [
         'support_status' => SupportStatus::class,
     ];
-
-    public function typeBenef()
-    {
-        return $this->morphOne(TypeBenef::class, 'type_benef_id', 'id');
-    }
 
     public function files()
     {
@@ -48,12 +38,7 @@ class Projects extends Model
 
     public function stages()
     {
-        return $this->belongsToMany(Stages::class);
-    }
-
-    public function projectStages()
-    {
-        return $this->hasMany(ProjectStages::class);
+        return $this->belongsToMany(Stages::class, 'project_stage');
     }
 
     public function users()
@@ -66,5 +51,25 @@ class Projects extends Model
     {
         return $this->belongsToMany(User::class, 'project_user_power')
             ->withPivot('powers_id')->using(ProjectUserPower::class);
+    }
+
+    public function supporter()
+    {
+        return $this->hasMany(ProjectSupporters::class);
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(Installments::class);
+    }
+
+    public function details()
+    {
+        return $this->hasOne(ProjectDetails::class);
+    }
+
+    public function members()
+    {
+        return $this->belongsToMany(User::class, 'projects_user');
     }
 }

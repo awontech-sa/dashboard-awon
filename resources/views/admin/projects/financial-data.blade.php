@@ -1,67 +1,81 @@
-<div class="my-5">
-    <div class="grid grid-cols-2 gap-x-6">
-        <div>
-            <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>
-            <div class="bg-white flex gap-x-4 p-2 rounded">
-                @foreach (App\Enums\SupportStatus::cases() as $status)
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">{{ $status->value }}</span>
-                        <input
-                            type="radio"
-                            name="support-status"
-                            value="{{ $status->value }}"
-                            class="radio"
-                            id="support-status-{{ $status->value }}"
-                            {{ old('support-status', $data['p_support_status'] ?? '') === $status->value ? 'checked' : '' }} />
-                    </label>
+<form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    <div class="my-5">
+        <div class="grid grid-cols-2 gap-x-6">
+            <div>
+                <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>
+                <div class="bg-white flex gap-x-4 p-2 rounded">
+                    @foreach (App\Enums\SupportStatus::cases() as $status)
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">{{ $status->value }}</span>
+                            <input
+                                type="radio"
+                                name="support-status"
+                                value="{{ $status->value }}"
+                                class="radio"
+                                id="support-status-{{ $status->value }}"
+                                {{ old('support-status', $data['p_support_status'] ?? '') === $status->value ? 'checked' : '' }} />
+                        </label>
+                    </div>
+                    @endforeach
                 </div>
-                @endforeach
+            </div>
+
+            <div class="support-type-form">
+                <label class="font-normal text-base mb-2">نوع الدعم <span class="text-red-600">*</span></label>
+                <div class="bg-white flex gap-x-4 p-2 rounded">
+                    @foreach (App\Enums\SupportType::cases() as $type)
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">{{ $type->value }}</span>
+                            <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}"
+                                {{ old('support-type', $data['p_support_type'] ?? '') === $status->value ? 'checked' : '' }} />
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="external-support hidden">
+                <label class="font-normal text-base mb-2">مالك المشروع <span class="text-red-600">*</span></label>
+                <div class="bg-white flex gap-x-4 p-2 rounded">
+                    @foreach (App\Enums\SupportComp::cases() as $type)
+                    <div class="form-control">
+                        <label class="label cursor-pointer">
+                            <span class="label-text">{{ $type->value }}</span>
+                            <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}"
+                                {{ old('supporter', $data['supporter'] ?? '') === $status->value ? 'checked' : '' }} />
+                        </label>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="grid my-8 number-support-form">
+                <label class="font-normal text-base mb-2">عدد الجهات الداعمة <span class="text-red-600">*</span></label>
+                <input type="number" class="input" name="number-support" id="number_support" value="{{ old('number-support', $data['number-support'] ?? '') }}" />
+            </div>
+            <div class="grid my-8 cost-project-form">
+                <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
+                <input type="number" class="input" name="project-income" value="{{ old('project-income', $data['project-income'] ?? '') }}" />
             </div>
         </div>
-
-        <div class="support-type-form">
-            <label class="font-normal text-base mb-2">نوع الدعم <span class="text-red-600">*</span></label>
-            <div class="bg-white flex gap-x-4 p-2 rounded">
-                @foreach (App\Enums\SupportType::cases() as $type)
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">{{ $type->value }}</span>
-                        <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}"
-                            {{ old('support-type', $data['p_support_type'] ?? '') === $status->value ? 'checked' : '' }} />
-                    </label>
-                </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="external-support hidden">
-            <label class="font-normal text-base mb-2">مالك المشروع <span class="text-red-600">*</span></label>
-            <div class="bg-white flex gap-x-4 p-2 rounded">
-                @foreach (App\Enums\SupportComp::cases() as $type)
-                <div class="form-control">
-                    <label class="label cursor-pointer">
-                        <span class="label-text">{{ $type->value }}</span>
-                        <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}"
-                            {{ old('supporter', $data['supporter'] ?? '') === $status->value ? 'checked' : '' }} />
-                    </label>
-                </div>
-                @endforeach
-            </div>
-        </div>
-
-        <div class="grid my-8 number-support-form">
-            <label class="font-normal text-base mb-2">عدد الجهات الداعمة <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="number-support" id="number_support" value="{{ old('number-support', $data['number-support'] ?? '') }}" />
-        </div>
-        <div class="grid my-8 cost-project-form">
-            <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="project-income" value="{{ old('project-income', $data['project-income'] ?? '') }}" />
-        </div>
+        <div class="supporter-data hidden" id="supporterDataSection"></div>
+        <div class="supporter-comp hidden" id="supporterDataSection"></div>
     </div>
-    <div class="supporter-data hidden" id="supporterDataSection"></div>
-    <div class="supporter-comp hidden" id="supporterDataSection"></div>
-</div>
+
+    <div class="join grid grid-cols-2 w-1/4">
+        @if($step == 2 && $step < 8)
+            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            السابق
+            </a>
+            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                التالي
+            </button>
+            @endif
+    </div>
+</form>
 
 @push('scripts')
 <script>
@@ -182,11 +196,16 @@
                 addReportButton.name = 'add-report'
                 addReportButton.id = 'add_report'
                 addReportButton.onclick = () => {
-                    let [reportFiles, reports] = addReportInput(countReport);
+                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport);
                     reportDiv.appendChild(reportFiles);
                     countReport = reports
                     hiddenCountReport.value = countReport
+
+                    removeReportBtn.onclick = () => {
+                        removeReport(reportFiles)
+                    }
                 }
+
 
                 let hiddenCountReport = document.createElement('input')
                 hiddenCountReport.type = 'hidden'
@@ -211,10 +230,14 @@
                 addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
                 addFileButton.textContent = 'إضافة أمر صرف جديد';
                 addFileButton.onclick = () => {
-                    let [pyamentFiles, payments] = addFileInput(paymentCountFiles)
+                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles)
                     fileDiv.appendChild(pyamentFiles);
                     paymentCountFiles = payments
                     hiddenCountFiles.value = paymentCountFiles
+
+                    removeFileBtn.onclick = () => {
+                        pyamentFiles.remove();
+                    }
                 };
 
                 let hiddenCountFiles = document.createElement('input')
@@ -312,10 +335,14 @@
                 addReportButton.name = 'add-report'
                 addReportButton.id = 'add_report'
                 addReportButton.onclick = () => {
-                    let [reportFiles, reports] = addReportInput(countReport);
+                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport);
                     reportDiv.appendChild(reportFiles);
                     countReport = reports
                     hiddenCountReport.value = countReport
+
+                    removeReportBtn.onclick = () => {
+                        removeReport(reportFiles)
+                    }
                 }
 
                 let hiddenCountReport = document.createElement('input')
@@ -341,10 +368,14 @@
                 addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
                 addFileButton.textContent = 'إضافة أمر صرف جديد';
                 addFileButton.onclick = () => {
-                    let [pyamentFiles, payments] = addFileInput(paymentCountFiles)
+                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles)
                     fileDiv.appendChild(pyamentFiles);
                     paymentCountFiles = payments
                     hiddenCountFiles.value = paymentCountFiles
+
+                    removeFileBtn.onclick = () => {
+                        pyamentFiles.remove();
+                    }
                 };
 
                 let hiddenCountFiles = document.createElement('input')
@@ -465,6 +496,7 @@
             nameLabel.appendChild(requiredSpan1);
             let nameInput = document.createElement('input');
             nameInput.classList.add('input');
+            nameInput.name = 'comp-name'
             nameLabelDiv.appendChild(nameLabel);
             nameLabelDiv.appendChild(nameInput);
 
@@ -477,6 +509,7 @@
             costLabel.appendChild(requiredSpan2);
             let costInput = document.createElement('input');
             costInput.classList.add('input');
+            costInput.name = 'income-project'
             costLabelDiv.appendChild(costLabel);
             costLabelDiv.appendChild(costInput);
 
@@ -491,6 +524,7 @@
             installmentInput.classList.add('input');
             installmentInput.type = 'number';
             installmentInput.id = 'num_not_support';
+            installmentInput.name = 'num-not-support'
             installmentLabelDiv.appendChild(installmentLabel);
             installmentLabelDiv.appendChild(installmentInput);
 
@@ -505,7 +539,6 @@
             tableContainer.id = 'installment_table_0';
 
             notSupporterDataContainer.appendChild(tableContainer);
-
 
             document.getElementById('num_not_support').addEventListener('input', function() {
                 generateInstallmentTable(0, this.value)
@@ -677,26 +710,52 @@
 
     function addReportInput(reports) {
         reports++
+
+        let reportContentDiv = document.createElement('div');
+        reportContentDiv.classList.add('my-4');
+
         let fileReport = document.createElement('input')
         fileReport.classList.add('input', 'file-input', 'my-2');
         fileReport.type = 'file'
         fileReport.name = `installment-report-${reports}`
         fileReport.id = `installment_report_file_${reports}`
 
+        let removeReportButton = document.createElement('button');
+        removeReportButton.type = 'button';
+        removeReportButton.classList.add('btn', 'btn-error', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
+        removeReportButton.textContent = 'حذف'
+        removeReportButton.name = 'remove-report';
+        removeReportButton.id = 'remove_report';
 
-        return [fileReport, reports]
+        reportContentDiv.appendChild(fileReport)
+        reportContentDiv.appendChild(removeReportButton)
+
+        return [reportContentDiv, reports, removeReportButton]
     }
 
     function addFileInput(files) {
         files++
+        let filesDivContent = document.createElement('div');
+        filesDivContent.classList.add('my-4');
+
         let fileInput = document.createElement('input');
         fileInput.classList.add('input', 'file-input', 'my-2');
         fileInput.type = 'file';
         fileInput.name = `payment-report-${files}`
         fileInput.id = `payment_report_${files}`
 
+        let removeFileButton = document.createElement('button')
+        removeFileButton.classList.add('btn', 'btn-error', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
+        removeFileButton.type = 'button'
+        removeFileButton.textContent = 'حذف'
+        removeFileButton.name = 'remove-file'
+        removeFileButton.id = 'remove_file'
 
-        return [fileInput, files]
+        filesDivContent.appendChild(fileInput)
+        filesDivContent.appendChild(removeFileButton)
+
+
+        return [filesDivContent, files, removeFileButton]
     }
 
     function generateStagesTable(supporterIndex, numStages) {
@@ -778,6 +837,10 @@
             table.appendChild(tbody);
             tableContainer.appendChild(table);
         }
+    }
+
+    function removeReport(file) {
+        file.remove()
     }
 </script>
 @endpush

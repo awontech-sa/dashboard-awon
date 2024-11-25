@@ -21,4 +21,14 @@ class ProjectSupporters extends Model
         'p_support_status',
         'p_support_type'
     ];
+
+    public function projects()
+    {
+        return $this->belongsTo(Projects::class);
+    }
+
+    public function installments()
+    {
+        return $this->hasMany(Installments::class);
+    }
 }
