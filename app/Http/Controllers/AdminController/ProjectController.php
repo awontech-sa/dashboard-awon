@@ -363,9 +363,6 @@ class ProjectController extends Controller
             session(['project_step6' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 7]);
         } elseif ($step == 7) {
-            if ($request->input('manager') === null || $request->input('sub-manager') === null) {
-                return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
-            }
             $validated = [
                 'role' => $request->input('array-members'),
                 'project_manager' => $request->input('manager'),
@@ -405,15 +402,11 @@ class ProjectController extends Controller
                     Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']["total_cost"] ?? 0]);
                     if (!empty($data['financial-data']["project_installments"])) {
                         foreach ($data['financial-data']["project_installments"] as $installmentProject) {
-                            $receiptProof = isset($installmentProject["receipt_proof"])
-                                ? json_encode(array_map(fn($proof) => ['receipt-proof' => $proof], $installmentProject["receipt_proof"]))
-                                : '[]';
-
                             $supporter->Installments()->create([
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
                                 'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                'receipt_proof' => $receiptProof,
+                                'receipt_proof' => $installmentProject["receipt_proof"],
                             ]);
                         }
                     }
@@ -429,25 +422,22 @@ class ProjectController extends Controller
                         ]);
 
                         foreach ($data['financial-data']['project_phases'] as $phase) {
-                            $disbursementProof = isset($phase['disbursement_proof'])
-                                ? json_encode(array_map(fn($proof) => ['disbursement-proof' => $proof], $phase['disbursement_proof']))
-                                : '[]';
                             ProjectPhases::create([
                                 'project_id' => $project->id,
                                 'phase_cost' => $phase['phase_cost'] ?? 0,
                                 'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
-                                'disbursement_proof' => $disbursementProof
+                                'disbursement_proof' => $phase['disbursement_proof']
                             ]);
                         }
                     }
                 }
 
                 if (!empty($data['attachment'])) {
-                    foreach (json_decode($data['attachment']) as $attachment) {
-                        $file = $request->file($attachment->file_name);
+                    foreach ($data['attachment'] as $attachment) {
+                        $file = $request->file($attachment["file_name"]);
                         $project->files()->create([
-                            'file' => $attachment->file,
-                            'file_name' => $attachment->file_name,
+                            'file' => $attachment["file"],
+                            'file_name' => $attachment["file_name"],
                         ]);
                     }
                 }
@@ -514,6 +504,9 @@ class ProjectController extends Controller
         $users = User::all();
         $project = Projects::findOrFail($id);
         $dashboard = Projects::all();
+        $phases = ProjectPhases::find($project->id);
+
+        $supporter = $project->supporter()->first();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -521,8 +514,10 @@ class ProjectController extends Controller
 
         return view('admin.projects.project.show', [
             "admin" => $admin,
+            'phases' => $phases,
             'project' => $project,
             "chart" => $viewChart,
+            'supporter' => $supporter,
             'dashboard' => $dashboard,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,

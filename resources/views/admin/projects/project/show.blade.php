@@ -77,32 +77,32 @@
                 role="tab"
                 class="tab"
                 aria-label="02" />
-            {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.financial-data')
-            </div> --}}
+            <div role="tabpanel" class="tab-content">
+                @include('admin.projects.project.financial.index')
+            </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
             {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.project-files')
+                @include('admin.projects.project.project-files')
             </div> --}}
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
             {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.project-status')
+                @include('admin.projects.project.project-status')
             </div> --}}
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
             {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.project-level')
+                @include('admin.projects.project.project-level')
             </div> --}}
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
             {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.project-code')
+                @include('admin.projects.project.project-code')
             </div> --}}
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
             {{-- <div role="tabpanel" class="tab-content">
-                @include('tech-projects.project-team')
+                @include('admin.projects.project.project-team')
             </div> --}}
         </div>
     </section>

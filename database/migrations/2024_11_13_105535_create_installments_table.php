@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('project_id')->nullable()->constrained('projects')->onDelete('cascade'); // في حالة الملكية الخارجية
             $table->integer('installment_number')->nullable()->comment('رقم الدفعة'); // رقم الدفعة
             $table->decimal('installment_amount')->nullable()->comment('قيمة الدفعة'); // قيمة الدفعة
-            $table->json('receipt_proof')->nullable(); // إثبات استلام الدفعة
+            $table->string('receipt_proof')->nullable(); // إثبات استلام الدفعة
             $table->timestamps();
         });
     }

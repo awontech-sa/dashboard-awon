@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('project_id')->constrained('projects')->onDelete('cascade');
             $table->string('phase_name')->nullable()->comment('اسم المرحلة'); // اسم المرحلة
             $table->decimal('phase_cost')->nullable()->comment('تكلفة المرحلة'); // تكلفة المرحلة
-            $table->json('disbursement_proof')->nullable()->comment('إثبات الصرف'); // إثبات الصرف
+            $table->string('disbursement_proof')->nullable()->comment('إثبات الصرف'); // إثبات الصرف
             $table->timestamps();
         });
     }
