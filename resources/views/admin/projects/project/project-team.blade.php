@@ -1,7 +1,6 @@
 <section class="mt-14">
     <h1 class="font-bold text-xl">فريق العمل</h1>
     <div class="grid grid-cols-2 gap-x-[3.3rem] my-8 font-normal">
-        @foreach($team as $member)
         <div class="grid gap-y-5">
             <label>مدير المشروع</label>
             <input class="input" type="text" disabled placeholder="{{ $bigBoss->project_manager }}" />
@@ -10,7 +9,6 @@
             <label>نائب مدير المشروع</label>
             <input class="input" type="text" disabled placeholder="{{ $bigBoss->sub_project_manager }}" />
         </div>
-        @endforeach
     </div>
 
     <div class="my-8">
