@@ -2,7 +2,7 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] text-base font-normal">
     <div class="grid gap-y-5">
         <label>لغة البرمجة</label>
-        <input class="input text-center text-base" disabled type="text" placeholder="{{ $details->program_language }}" />
+        <input class="input text-center text-base" disabled type="text" placeholder="{{ $details->program_language ?? test }}" />
     </div>
     <div class="grid gap-y-5">
         <label>إطار البرمجة</label>
