@@ -1,4 +1,4 @@
-<div class="mt-8" id="parentDiv">
+<div class="mt-14" id="parentDiv">
     <div class="grid">
         <div class="grid grid-cols-2 gap-x-7">
             <div class="grid my-2">

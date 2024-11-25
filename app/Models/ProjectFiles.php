@@ -17,4 +17,9 @@ class ProjectFiles extends Model
     {
         return $this->belongsTo(Projects::class);
     }
+
+    public function getFileAttribute()
+    {
+        return config('filesystems.disks.digitalocean.url') . '/' . $this->attributes['file'];
+    }
 }

@@ -1,4 +1,4 @@
-<div class="my-5">
+<div class="my-14">
     <div class="grid grid-cols-2 gap-x-6">
         <div>
             <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>

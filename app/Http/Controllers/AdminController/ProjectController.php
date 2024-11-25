@@ -377,7 +377,6 @@ class ProjectController extends Controller
             $data['level'] = session('project_step5');
             $data['code'] = session('project_step6');
             $data['team'] = session('project_step7');
-
             if (!empty($data['general-data'])) {
                 $project = Projects::create($data['general-data']);
 
@@ -505,8 +504,18 @@ class ProjectController extends Controller
         $project = Projects::findOrFail($id);
         $dashboard = Projects::all();
         $phases = ProjectPhases::find($project->id);
+        $files = $project->files()->where('projects_id', $project->id)->get();
 
         $supporter = $project->supporter()->first();
+
+        $stages = $project->stages;
+
+        $details = $project->details()->where('projects_id', $project->id)->first();
+
+        $installment = $supporter->installments()->where('project_id', $project->id)->get();
+
+        $team = $project->members;
+        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -519,6 +528,12 @@ class ProjectController extends Controller
             "chart" => $viewChart,
             'supporter' => $supporter,
             'dashboard' => $dashboard,
+            'files' => $files,
+            'team' => $team,
+            'details' => $details,
+            'stages' => $stages,
+            'bigBoss' => $bigBoss,
+            'installment' => $installment,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
             'users' => $users

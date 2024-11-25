@@ -82,28 +82,28 @@
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
-            {{-- <div role="tabpanel" class="tab-content">
+            <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.project-files')
-            </div> --}}
+            </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
-            {{-- <div role="tabpanel" class="tab-content">
+            <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.project-status')
-            </div> --}}
+            </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
-            {{-- <div role="tabpanel" class="tab-content">
+            <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.project-level')
-            </div> --}}
+            </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
-            {{-- <div role="tabpanel" class="tab-content">
+            <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.project-code')
-            </div> --}}
+            </div>
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
-            {{-- <div role="tabpanel" class="tab-content">
+            <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.project-team')
-            </div> --}}
+            </div>
         </div>
     </section>
 </div>

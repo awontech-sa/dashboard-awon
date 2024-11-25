@@ -10,7 +10,7 @@ class Installments extends Model
     use HasFactory;
 
     protected $table = 'installments';
-    protected $fillable = ['project_id', 'project_supporter_id', 'installment_amount', 'receipt_proof', 'installment_receipt_status'];
+    protected $fillable = ['project_supporters_id', 'project_id' , 'installment_amount', 'receipt_proof', 'installment_receipt_status'];
 
     public function project()
     {
@@ -20,5 +20,10 @@ class Installments extends Model
     public function supporter()
     {
         return $this->belongsTo(ProjectSupporters::class, 'project_supporter_id');
+    }
+
+    public function getFileAttribute()
+    {
+        return config('filesystems.disks.digitalocean.url') . '/' . $this->attributes['receipt_proof'];
     }
 }
