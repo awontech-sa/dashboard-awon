@@ -8,6 +8,7 @@
 
 <div class="grid gap-y-7 top-list stage-checkbox" id="stages"></div>
 <input type="hidden" name="array-stages">
+<input type="hidden" name="stages-done">
 
 <div class="my-8">
     <label for="project-name">اختر مراحل المشروع المنجزة</label>
@@ -27,7 +28,7 @@
             </div>
             <div class="grid gap-y-5 mt-7">
                 <label for="project-name">ترتيب المرحلة</label>
-                <input type="number" class="input border" name="stage-order" id="stage_order" />
+                <input type="number" min="0" class="input border" name="stage-order" id="stage_order" />
             </div>
             <button type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addNewStage()">إضافة</button>
         </div>
@@ -41,6 +42,7 @@
     let stageName = document.getElementById('stage_name');
     let stageOrder = document.getElementById('stage_order');
     let arrayStages = [];
+    let doneStages = [];
 
     function addNewStage() {
         let nameValue = stageName.value.trim();
@@ -75,6 +77,12 @@
         stageContainer.appendChild(stageLabel);
         stages.appendChild(stageContainer);
 
+        arrayStages.push({
+            stage_name: stageContainer.querySelector('span[class="label-text"]').textContent,
+            stage_number: stageContainer.querySelector('input[name="stages[]"]').value
+        })
+        document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+
         addDragAndDropListeners(stageContainer);
 
         stageName.value = '';
@@ -86,27 +94,28 @@
         let parentContainer = checkbox.closest('.form-control');
 
         if (checkbox.checked) {
+            // المنجزة
             let clone = parentContainer.cloneNode(true);
             let cloneCheckbox = clone.querySelector('input[type="checkbox"]');
             cloneCheckbox.checked = true;
             cloneCheckbox.disabled = true; // Disable the checkbox in the clone
             stagesDone.appendChild(clone);
-            arrayStages.push({
+            doneStages.push({
                 stage_name: clone.querySelector('span[class="label-text"]').textContent,
                 stage_number: clone.querySelector('input[name="stages[]"]').value
             })
-            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
-
+            document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
+            
         } else {
             let doneStages = Array.from(stagesDone.children);
             doneStages.forEach(stage => {
                 if (stage.querySelector('span').textContent === parentContainer.querySelector('span').textContent) {
                     stagesDone.removeChild(stage);
-                    arrayStages.pop({
+                    doneStages.pop({
                         stage_name: stage.querySelector('span[class="label-text"]').textContent,
                         stage_number: stage.querySelector('input[name="stages[]"]').value
                     })
-                    document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+                    document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
                 }
             });
         }
@@ -148,7 +157,6 @@
         draggingElement.classList.remove('dragging');
     }
 
-    // Initialize drag-and-drop for existing stages
     Array.from(stages.children).forEach(addDragAndDropListeners);
 </script>
 @endpush

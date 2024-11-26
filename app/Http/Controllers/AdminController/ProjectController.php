@@ -151,118 +151,137 @@ class ProjectController extends Controller
                 case 'مدعوم':
                     switch ($request->input('support-type')) {
                         case 'كلي':
-                            for ($i = 1; $i <= $request->input('number-support'); $i++) {
-                                if ($request->input("payment-count-{$i}") !== null) {
-                                    for ($j = 1; $j <= $request->input("payment-count-{$i}"); $j++) {
-                                        if ($request->hasFile("installment_files_{$i}_{$j}")) {
-                                            $file = $request->file("installment_files_{$i}_{$j}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $receiptProof[] = [
-                                                'installment_amount' => $request->input("installment_amount_{$i}_{$j}"),  //قيمة الدفعة
-                                                'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
-                                                'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
-                                            ];
-                                        }
-                                    }
-                                }
-
-                                for ($j = 1; $j <= $request->input('countReport'); $j++) {
-                                    if ($request->input('countReport') !== 0) {
-                                        if ($request->hasFile("installment-report-{$j}")) {
-                                            $file = $request->file("installment-report-{$j}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
-                                        }
-                                    }
-                                }
-
-                                if ($request->input('paymentCountFiles') !== 0) {
-                                    for ($k = 1; $k <= $request->input('paymentCountFiles'); $k++) {
-                                        if ($request->hasFile("payment-report-{$k}")) {
-                                            $file = $request->file("payment-report-{$k}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
-                                        }
-                                    }
-                                }
-
+                            if ($request->input('number-support') === null) {
                                 $validated = [
-                                    'p_support_type' => $request->input('support-type'),      //كلي أو جزئي
-                                    'p_support_status' => $request->input('support-status'),   //مدعوم أو غير مدعوم
-                                    'total_cost' => $request->input('project-income'),  //إجمالي تكلفة المشروع
-                                    'supporter_name' => $request->input("comp-support-{$i}"),   //الجهة الداعمة
-                                    'support_amount' => $request->input("project-income-total-{$i}"),   //إجمالي مبلغ الدعم
-                                    'installments_count' => $request->input("payment-count-{$i}"),   //عدد الدفعات
-                                    'installments' => $receiptProof,
-                                    'report_files' => $reportFiles,  //ملفات التقارير
-                                    'payment_order_files' => $paymentFiles  //ملفات أوامر الصرف
+                                    'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
+                                    'p_support_status' => $request->input('support-status')
                                 ];
+                            } else {
+                                for ($i = 1; $i <= $request->input('number-support'); $i++) {
+                                    if ($request->input("payment-count-{$i}") !== null) {
+                                        for ($j = 1; $j <= $request->input("payment-count-{$i}"); $j++) {
+                                            if ($request->hasFile("installment_files_{$i}_{$j}")) {
+                                                $file = $request->file("installment_files_{$i}_{$j}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $receiptProof[] = [
+                                                    'installment_amount' => $request->input("installment_amount_{$i}_{$j}"),  //قيمة الدفعة
+                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
+                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
+                                                ];
+                                            }
+                                        }
+                                    }
+
+                                    for ($j = 1; $j <= $request->input('countReport'); $j++) {
+                                        if ($request->input('countReport') !== 0) {
+                                            if ($request->hasFile("installment-report-{$j}")) {
+                                                $file = $request->file("installment-report-{$j}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
+                                            }
+                                        }
+                                    }
+
+                                    if ($request->input('paymentCountFiles') !== 0) {
+                                        for ($k = 1; $k <= $request->input('paymentCountFiles'); $k++) {
+                                            if ($request->hasFile("payment-report-{$k}")) {
+                                                $file = $request->file("payment-report-{$k}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
+                                            }
+                                        }
+                                    }
+
+                                    $validated = [
+                                        'p_support_type' => $request->input('support-type') ?? '',      //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status') ?? '',   //مدعوم أو غير مدعوم
+                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
+                                        'supporter_name' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
+                                        'support_amount' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
+                                        'installments_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
+                                        'installments' => $receiptProof ?? [],
+                                        'report_files' => $reportFiles ?? [],  //ملفات التقارير
+                                        'payment_order_files' => $paymentFiles ?? []  //ملفات أوامر الصرف
+                                    ];
+                                }
                             }
+
                             break;
                         case 'جزئي':
-                            for ($i = 1; $i <= $request->input('number-support'); $i++) {
-                                if ($request->input("payment-count-{$i}") !== null) {
-                                    for ($j = 1; $j <= $request->input("payment-count-{$i}"); $j++) {
-                                        if ($request->hasFile("installment_files_{$i}_{$j}")) {
-                                            $file = $request->file("installment_files_{$i}_{$j}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $receiptProof[] = [
-                                                'installment_amount' => $request->input("installment_amount_{$i}_{$j}"),  //قيمة الدفعة
-                                                'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
-                                                'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
-                                            ];
-                                        }
-                                    }
-                                }
-
-                                if ($request->input('countReport') !== 0) {
-                                    for ($j = 1; $j <= $request->input('countReport'); $j++) {
-                                        if ($request->hasFile("installment-report-{$j}")) {
-                                            $file = $request->file("installment-report-{$j}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
-                                        }
-                                    }
-                                }
-
-                                if ($request->input('paymentCountFiles') !== 0) {
-                                    for ($k = 1; $k <= $request->input('paymentCountFiles'); $k++) {
-                                        if ($request->hasFile("payment-report-{$k}")) {
-                                            $file = $request->file("payment-report-{$k}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
-                                        }
-                                    }
-                                }
-
-                                if ($request->input("stages-count-{$i}") !== null) {
-                                    for ($j = 1; $j <= $request->input("stages-count-{$i}"); $j++) {
-                                        if ($request->hasFile("stages_files_{$i}_{$j}")) {
-                                            $file = $request->file("stages_files_{$i}_{$j}");
-                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                            $disbursementProof[] = [
-                                                'expected_cost' => $request->input("project-expected-income-{$i}"),  //تكلفة المشروع المتوقعة
-                                                'actual_cost' => $request->input("project-expected-real-{$i}"),  //تكلفة المشروع الفعلية
-                                                'phase_cost' => $request->input("stages_amount_{$i}_{$j}"),  //تكلفة المرحلة
-                                                'disbursement_status' => $request->input("stages_status_{$i}_{$j}"),  //حالة الصرف
-                                                'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName)
-                                            ];
-                                        }
-                                    }
-                                }
-
+                            if ($request->input('number-support') === null) {
                                 $validated = [
-                                    'total_cost' => $request->input('project-income'),  //إجمالي تكلفة المشروع
-                                    'comp_support' => $request->input("comp-support-{$i}"),   //الجهة الداعمة
-                                    'project_income_total' => $request->input("project-income-total-{$i}"),   //إجمالي مبلغ الدعم
-                                    'payment_count' => $request->input("payment-count-{$i}"),   //عدد الدفعات
-                                    'project_installments' => $receiptProof,
-                                    'report_files' => $reportFiles,  //ملفات التقارير
-                                    'payment_order_files' => $paymentFiles,  //ملفات أوامر الصرف
-                                    'project_phases' => $disbursementProof, //ملفات إثبات الصرف
+                                    'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
+                                    'p_support_status' => $request->input('support-status')
                                 ];
+                            } else {
+                                for ($i = 1; $i <= $request->input('number-support'); $i++) {
+                                    if ($request->input("payment-count-{$i}") !== null) {
+                                        for ($j = 1; $j <= $request->input("payment-count-{$i}"); $j++) {
+                                            if ($request->hasFile("installment_files_{$i}_{$j}")) {
+                                                $file = $request->file("installment_files_{$i}_{$j}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $receiptProof[] = [
+                                                    'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
+                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
+                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
+                                                ];
+                                            }
+                                        }
+                                    }
+
+                                    if ($request->input('countReport') !== 0) {
+                                        for ($j = 1; $j <= $request->input('countReport'); $j++) {
+                                            if ($request->hasFile("installment-report-{$j}")) {
+                                                $file = $request->file("installment-report-{$j}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
+                                            }
+                                        }
+                                    }
+
+                                    if ($request->input('paymentCountFiles') !== 0) {
+                                        for ($k = 1; $k <= $request->input('paymentCountFiles'); $k++) {
+                                            if ($request->hasFile("payment-report-{$k}")) {
+                                                $file = $request->file("payment-report-{$k}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
+                                            }
+                                        }
+                                    }
+
+                                    if ($request->input("stages-count-{$i}") !== null) {
+                                        for ($j = 1; $j <= $request->input("stages-count-{$i}"); $j++) {
+                                            if ($request->hasFile("stages_files_{$i}_{$j}")) {
+                                                $file = $request->file("stages_files_{$i}_{$j}");
+                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                                $disbursementProof[] = [
+                                                    'expected_cost' => $request->input("project-expected-income-{$i}"),  //تكلفة المشروع المتوقعة
+                                                    'actual_cost' => $request->input("project-expected-real-{$i}"),  //تكلفة المشروع الفعلية
+                                                    'phase_cost' => $request->input("stages_amount_{$i}_{$j}"),  //تكلفة المرحلة
+                                                    'disbursement_status' => $request->input("stages_status_{$i}_{$j}"),  //حالة الصرف
+                                                    'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName)
+                                                ];
+                                            }
+                                        }
+                                    }
+
+                                    $validated = [
+                                        'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status'),
+                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
+                                        'comp_support' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
+                                        'project_income_total' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
+                                        'payment_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
+                                        'project_installments' => $receiptProof ?? [],
+                                        'report_files' => $reportFiles ?? [],  //ملفات التقارير
+                                        'payment_order_files' => $paymentFiles ?? [],  //ملفات أوامر الصرف
+                                        'project_phases' => $disbursementProof ?? [], //ملفات إثبات الصرف
+                                    ];
+                                }
                             }
                             break;
+                        default:
+                            return back();
                     }
                     session(['project_step2' => $validated]);
                     return redirect()->route('admin.create.project', ['step' => 3]);
@@ -285,12 +304,12 @@ class ProjectController extends Controller
                             }
 
                             $validated = [
-                                'supporter_name' => $request->input("comp-name"),  //اسم الجهة الداعمة
-                                'total_cost' => $request->input("income-project"),  //التكلفة الإجمالية
-                                'installments_count' => $request->input("num-not-support"),  //عدد الدفعات
-                                'project_installments' => $receiptProof,
-                                'p_support_status' => $request->input('support-status'),
-                                'p_support_type' => $request->input('supporter')
+                                'supporter_name' => $request->input("comp-name") ?? '',  //اسم الجهة الداعمة
+                                'total_cost' => $request->input("income-project") ?? '',  //التكلفة الإجمالية
+                                'installments_count' => $request->input("num-not-support") ?? '',  //عدد الدفعات
+                                'project_installments' => $receiptProof ?? [],
+                                'p_support_status' => $request->input('support-status') ?? '',
+                                'p_support_type' => $request->input('supporter') ?? ''
                             ];
                             break;
                         case 'عون التقنية':
@@ -309,17 +328,19 @@ class ProjectController extends Controller
                             }
 
                             $validated = [
-                                'expected_cost' => $request->input('project-expected-income-not-support'),  //تكلفة المشرع المتوقعة
-                                'actual_cost' => $request->input('project-real-income-not-support'),
-                                'project_phases' => $disbursementProof,
-                                'p_support_status' => $request->input('support-status'),
-                                'p_support_type' => $request->input('supporter')
+                                'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
+                                'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
+                                'project_phases' => $disbursementProof ?? [],
+                                'p_support_status' => $request->input('support-status') ?? '',
+                                'p_support_type' => $request->input('supporter') ?? ''
                             ];
                             break;
                     }
                     session(['project_step2' => $validated]);
                     return redirect()->route('admin.create.project', ['step' => 3]);
                     break;
+                default:
+                    return back();
             }
         } elseif ($step == 3) {
             $validated = [];
@@ -329,7 +350,7 @@ class ProjectController extends Controller
                         $fileName = time() . '.' . $key . $file->getClientOriginalExtension();
                         $validated[] = [
                             'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName),
-                            'file_name' => $request->input('file-name')[$key] ?? null
+                            'file_name' => $request->input('file-name')[$key] ?? ''
                         ];
                     }
                 }
@@ -337,17 +358,17 @@ class ProjectController extends Controller
             session(['project_step3' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
-            if ($request->input('project-status') === null) {
-                return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
-            }
             $validated = [
-                'project_status' => $request->input('project-status'),
-                'comment' => $request->input('comment')
+                'project_status' => $request->input('project-status') ?? '',
+                'comment' => $request->input('comment') ?? ''
             ];
             session(['project_step4' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 5]);
         } elseif ($step == 5) {
-            $validated = $request->input('array-stages');
+            $validated = [
+                'all-stages' => $request->input('array-stages'),
+                'stages-done' => $request->input('stages-done')
+            ];
             session(['project_step5' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 6]);
         } elseif ($step == 6) {
@@ -449,12 +470,17 @@ class ProjectController extends Controller
                 }
 
                 if (!empty($data['level'])) {
-                    foreach (json_decode($data['level']) as $level) {
-                        $stage = Stages::create([
+                    foreach (json_decode($data['level']['all-stages']) as $level) {
+                        Stages::create([
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number
                         ]);
-                        $project->stages()->attach($stage->id);
+                        foreach (json_decode($data['level']['stages-done']) as $done) {
+                            $stageDone = Stages::where('stage_name', $done->stage_name)->first();
+                            if ($stageDone) {
+                                $project->stages()->attach($stageDone->id);
+                            }
+                        }
                     }
                 }
 
@@ -471,7 +497,7 @@ class ProjectController extends Controller
                 }
 
                 if (!empty($data['team'])) {
-                    if (!empty($data['team']['role'])) {
+                    if ($data['team']['role'] !== '[]') {
                         $roles = json_decode($data['team']['role']);
                         $role = array_map(fn($r) => ['roles' => $r], $roles);
 
@@ -487,6 +513,16 @@ class ProjectController extends Controller
                                     ]);
                                 }
                             }
+                        }
+                    } else {
+                        $user = User::select('id')->where('name', $data['team']['project_manager'])->first();
+                        if ($user) {
+                            ProjectUser::create([
+                                'user_id' => $user->id,
+                                'projects_id' => $project->id,
+                                'project_manager' => $data['team']['project_manager'],
+                                'sub_project_manager' => $data['team']['sub_project_manager']
+                            ]);
                         }
                     }
                 }
@@ -514,7 +550,13 @@ class ProjectController extends Controller
 
         $installment = $supporter->installments()->where('project_id', $project->id)->get();
 
-        $team = $project->members;
+        $team = $project->members()->get()->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'role' => $user->pivot->role,
+            ];
+        });
+
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
         $viewChart = $this->viewChartService->getProjectsIncome();

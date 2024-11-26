@@ -41,6 +41,11 @@ class Projects extends Model
         return $this->belongsToMany(Stages::class, 'project_stage', 'projects_id', 'stages_id');
     }
 
+    public function stageOfProject()
+    {
+        return $this->belongsToMany(Stages::class, 'project_stage');
+    }
+
     public function users()
     {
         return $this->belongsToMany(User::class, 'project_user_power')
@@ -70,6 +75,6 @@ class Projects extends Model
 
     public function members()
     {
-        return $this->belongsToMany(User::class, 'projects_user');
+        return $this->belongsToMany(User::class, 'projects_user')->withPivot('role');
     }
 }

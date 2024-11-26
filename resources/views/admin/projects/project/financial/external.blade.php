@@ -9,7 +9,7 @@
     </div>
     <div class="grid gap-y-5">
         <label>عدد الدفعات</label>
-        <input type="number" disabled placeholder="{{ $supporter->installments_count ?? 0 }}" class="input" />
+        <input type="number" min="0" disabled placeholder="{{ $supporter->installments_count ?? 0 }}" class="input" />
     </div>
 </div>
 
@@ -27,7 +27,7 @@
             <td class="border px-4 py-2">
                 <label class="label cursor-pointer">
                     <span class="label-text">تم استلام الدفعة</span>
-                    <input type="checkbox" class="checkbox"
+                    <input type="checkbox" disabled class="checkbox"
                         {{ ($i->installment_receipt_status) === 1 ? 'checked' : '' }} />
                 </label>
             </td>

@@ -125,16 +125,16 @@
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
         <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
       </div>
-      {{-- <div class="w-[475px] grid gap-y-6
+      <div class="w-[475px] grid gap-y-6
         2xl:w-auto">
         @foreach($dashboard as $project)
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
-          <p>{{ $project->p_implemented_stages }}/{{ $project->p_stages }}</p>
-          //progress
+          <p>{{ $project->stages->count() }}/5</p>
+          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="5"></progress>
         </div>
         @endforeach
-      </div> --}}
+      </div>
     </div>
 
     <div class="w-[516px] bg-white border-2 border-[#ECEEF6] rounded-md px-6

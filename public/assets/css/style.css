@@ -7,20 +7,21 @@
     margin-inline-start: 0rem !important;
 }
 
-.tabs-boxed :is(input:checked), input.tab.tab-power:is(input:checked){
-    background-color: #137EA4 !important;
+.tabs-boxed :is(input:checked),
+input.tab.tab-power:is(input:checked) {
+    background-color: #137ea4 !important;
     border-radius: 9999px !important;
     color: white !important;
     text-align: center !important;
     padding: 4px !important;
-    border-color: #137EA4 !important;
+    border-color: #137ea4 !important;
 }
 
 .tab:is(input[type="radio"]) {
     margin-left: 5rem;
     width: 32px !important;
     height: 32px !important;
-    border-color: #D5D5D5;
+    border-color: #d5d5d5;
     border-radius: 9999px !important;
     background-color: white;
     border-width: 2px;
@@ -35,6 +36,19 @@ input.tab.tab-power:is(input[type="radio"]) {
 }
 
 input.tab.tab-power:is(input:checked) {
-    background-color: #6AADC5 !important;
-    border-color: #D5D5D5 !important;
+    background-color: #6aadc5 !important;
+    border-color: #d5d5d5 !important;
+}
+
+.input:has(> input[disabled]),
+.input-disabled,
+.input:disabled,
+.input[disabled],
+.textarea-disabled,
+.textarea:disabled,
+.textarea[disabled],
+.select-disabled,
+.select:disabled,
+.select[disabled] {
+    background-color: white !important;
 }

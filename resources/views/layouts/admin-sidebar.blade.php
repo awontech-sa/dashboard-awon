@@ -112,7 +112,7 @@
 
         <div class="w-full">
             <div class="bg-[#F8FAFB] h-full">
-                <div class="sticky top-0 w-full">
+                <div class="top-0 w-full">
                     <div class="navbar bg-base-100 hidden
                     2xl:block
                     xl:block">

@@ -46,11 +46,11 @@
         @if($supporter->p_support_type === 'كلي' || $supporter->p_support_type === 'جزئي')
         <div class="grid my-8 number-support-form">
             <label class="font-normal text-base mb-2">عدد الجهات الداعمة <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="number-support" id="number_support" />
+            <input disabled type="number" min="0" class="input" name="number-support" id="number_support" />
         </div>
         <div class="grid my-8 cost-project-form">
             <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
-            <input type="number" class="input" name="project-income" />
+            <input disabled type="number" min="0" class="input" name="project-income" />
         </div>
         @endif
     </div>

@@ -14,8 +14,10 @@
                 <div class="badge badge-primary p-2 w-[16.2rem]">{{ $project->project_status }}</div>
                 @elseif($project->project_status == 'قيد التنفيذ')
                 <div class="badge badge-warning p-2 w-[16.2rem]">{{ $project->project_status }}</div>
-                @else
+                @elseif($project->project_status == 'مكتمل')
                 <div class="badge badge-success p-2 w-[16.2rem]">{{ $project->project_status }}</div>
+                @else
+                <div class="badge badge-ghost p-2 w-[16.2rem]">{{ $project->project_status }}</div>
                 @endif
             </div>
             <!-- end of project status section -->
@@ -27,8 +29,8 @@
                     <small class="font-normal text-sm">المرحلة الحالية: اختبار جودة النظام</small>
                 </div>
                 <div class="flex items-center gap-x-2">
-                    <small class="text-sm font-normal text-gray-500">7/10 إنجاز المراحل</small>
-                    <progress class="progress progress-success w-44" value="70" max="100"></progress>
+                    <small class="text-sm font-normal text-gray-500">{{ count($stages) }}/5 إنجاز المراحل</small>
+                    <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="5"></progress>
                 </div>
             </div>
             <!-- end of project success section -->
@@ -40,7 +42,7 @@
                     {{-- <img src="{{ asset("assets/icons/benef_projects.png") }}" class="w-5" alt="project-status" /> --}}
                 </div>
                 <div class="pr-4 py-4">
-                    <p class="font-bold text-3xl">{{ $project->total_cost }}</p>
+                    <p class="font-bold text-3xl">{{ ($project->total_cost === '0.00') ? 'مجانًا' : $project->total_cost }}</p>
                 </div>
             </div>
             <!-- end of project success section -->

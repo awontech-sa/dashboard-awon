@@ -51,11 +51,11 @@
 
             <div class="grid my-8 number-support-form">
                 <label class="font-normal text-base mb-2">عدد الجهات الداعمة</label>
-                <input type="number" class="input" name="number-support" id="number_support" />
+                <input type="number" min="0" class="input" name="number-support" id="number_support" />
             </div>
             <div class="grid my-8 cost-project-form">
                 <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
-                <input type="number" class="input" name="project-income" />
+                <input type="number" min="0" class="input" name="project-income" />
             </div>
         </div>
         <div class="supporter-data hidden" id="supporterDataSection"></div>
