@@ -1,15 +1,15 @@
 <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
     <div class="grid gap-y-5">
         <label>اسم الجهة</label>
-        <input type="text" disabled placeholder="{{ $supporter->supporter_name }}" class="input" />
+        <input type="text" disabled placeholder="{{ $supporter->supporter_name ?? '' }}" class="input" />
     </div>
     <div class="grid gap-y-5">
         <label>تكلفة المشروع</label>
-        <input type="text" disabled placeholder="{{ $project->total_cost }}" class="input" />
+        <input type="text" disabled placeholder="{{ $project->total_cost ?? 0 }}" class="input" />
     </div>
     <div class="grid gap-y-5">
         <label>عدد الدفعات</label>
-        <input type="number" disabled placeholder="{{ $supporter->installments_count }}" class="input" />
+        <input type="number" disabled placeholder="{{ $supporter->installments_count ?? 0 }}" class="input" />
     </div>
 </div>
 
@@ -31,7 +31,7 @@
                         {{ ($i->installment_receipt_status) === 1 ? 'checked' : '' }} />
                 </label>
             </td>
-            <td><a href="{{ $i->receipt_proof }}">عرض الملف</a></td>
+            <td><a href="{{ $i->receipt_proof ??  '' }}">عرض الملف</a></td>
         </tbody>
         @endforeach
     </table>

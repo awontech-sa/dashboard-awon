@@ -3,11 +3,11 @@
     <div class="grid grid-cols-2 gap-x-[3.3rem] my-8 font-normal">
         <div class="grid gap-y-5">
             <label>مدير المشروع</label>
-            <input class="input" type="text" disabled placeholder="{{ $bigBoss->project_manager }}" />
+            <input class="input" type="text" disabled placeholder="{{ $bigBoss->project_manager ?? '' }}" />
         </div>
         <div class="grid gap-y-5">
             <label>نائب مدير المشروع</label>
-            <input class="input" type="text" disabled placeholder="{{ $bigBoss->sub_project_manager }}" />
+            <input class="input" type="text" disabled placeholder="{{ $bigBoss->sub_project_manager ?? '' }}" />
         </div>
     </div>
 
@@ -17,11 +17,11 @@
             @foreach($team as $member)
             <div class="grid gap-y-5">
                 <label>اسم العضو</label>
-                <input class="input" type="text" disabled placeholder="{{ $member->name }}" />
+                <input class="input" type="text" disabled placeholder="{{ $member->name ?? '' }}" />
             </div>
             <div class="grid gap-y-5">
                 <label>الدور</label>
-                <input class="input" type="text" disabled placeholder="{{ $bigBoss->sub_project_manager }}" />
+                <input class="input" type="text" disabled placeholder="{{ $bigBoss->sub_project_manager ?? '' }}" />
             </div>
             @endforeach
         </div>
