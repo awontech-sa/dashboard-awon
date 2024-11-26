@@ -21,6 +21,10 @@ class AuthController extends Controller
     {
         $user = User::where('email', $request->email)->first();
 
+        if (! $user) {
+            return back()->with('error_message', 'البريد الإلكتروني غير مسجل بالنظام');
+        }
+
         if (! Hash::check($request->password, $user->password) || $request->email !== $user->email) {
             return back()->with('error_message', 'كلمة المرور أو البريد الإلكتروني المدخل غير صحيح');
         }
