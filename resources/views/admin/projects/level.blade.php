@@ -6,7 +6,11 @@
     </a>
 </div>
 
-<div class="grid gap-y-7 top-list stage-checkbox" id="stages"></div>
+<div class="grid gap-y-7 top-list stage-checkbox" id="stages">
+    <div id="stage" class="grid gap-y-4"></div>
+</div>
+
+
 <input type="hidden" name="array-stages">
 <input type="hidden" name="stages-done">
 
@@ -17,20 +21,19 @@
 
 <div class="modal" role="dialog" id="my_modal_9">
     <div class="modal-box">
-        <div class="modal-action">
-            <a href="#" class="btn btn-circle">X</a>
-        </div>
-        <div class="grid place-items-center">
-            <h3 class="text-2xl font-bold">إضافة مرحلة</h3>
-            <div class="grid mt-20 gap-y-5">
-                <label for="project-name">اسم المرحلة</label>
-                <input type="text" class="input border" name="stage-name" id="stage_name" />
+        <div class="modal-action justify-center">
+            <div class="grid place-items-center">
+                <h3 class="text-2xl font-bold">إضافة مرحلة</h3>
+                <div class="grid mt-20 gap-y-5">
+                    <label for="project-name">اسم المرحلة <span class="text-error">*</span></label>
+                    <input type="text" class="input border" name="stage-name" id="stage_name" />
+                </div>
+                <div class="grid gap-y-5 mt-7">
+                    <label for="project-name">ترتيب المرحلة <span class="text-error">*</span></label>
+                    <input type="number" min="0" class="input border" name="stage-order" id="stage_order" />
+                </div>
+                <a href="#" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addNewStage()">إضافة</a>
             </div>
-            <div class="grid gap-y-5 mt-7">
-                <label for="project-name">ترتيب المرحلة</label>
-                <input type="number" min="0" class="input border" name="stage-order" id="stage_order" />
-            </div>
-            <button type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addNewStage()">إضافة</button>
         </div>
     </div>
 </div>
@@ -38,6 +41,7 @@
 @push('scripts')
 <script>
     let stages = document.getElementById('stages');
+    let stage = document.getElementById('stage');
     let stagesDone = document.getElementById('stages-done');
     let stageName = document.getElementById('stage_name');
     let stageOrder = document.getElementById('stage_order');
@@ -54,6 +58,8 @@
         }
 
         let stageContainer = document.createElement('div');
+        let childrenStage = document.createElement('div');
+        childrenStage.classList.add('w-full', 'flex', 'gap-x-4')
         stageContainer.classList.add('form-control', 'draggable');
         stageContainer.draggable = true; // Make it draggable
         stageContainer.dataset.order = orderValue;
@@ -73,9 +79,17 @@
         checkStage.classList.add('checkbox', 'border-gray-500', '[--chkbg:theme(colors.cyan.600)]', '[--chkfg:white]', 'stage-checked');
         checkStage.addEventListener('change', toggleStageDone); // Add event listener for check/uncheck
         stageLabel.appendChild(checkStage);
-
         stageContainer.appendChild(stageLabel);
-        stages.appendChild(stageContainer);
+
+        let deleteStage = document.createElement('button')
+        deleteStage.type = 'button'
+        deleteStage.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`;
+        deleteStage.addEventListener('click', removeStage)
+        childrenStage.appendChild(stageContainer)
+        childrenStage.appendChild(deleteStage)
+        stage.appendChild(childrenStage)
+
+        stages.appendChild(stage)
 
         arrayStages.push({
             stage_name: stageContainer.querySelector('span[class="label-text"]').textContent,
@@ -105,7 +119,7 @@
                 stage_number: clone.querySelector('input[name="stages[]"]').value
             })
             document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
-            
+
         } else {
             let doneStages = Array.from(stagesDone.children);
             doneStages.forEach(stage => {
@@ -120,6 +134,31 @@
             });
         }
     }
+
+    function removeStage(event) {
+        // Get the button that triggered the event
+        const deleteButton = event.target.closest('button');
+
+        // Find the parent container of the stage
+        const stageToRemove = deleteButton.closest('.w-full');
+
+        if (stageToRemove) {
+            // Get the order value of the stage to remove
+            const orderValue = stageToRemove.querySelector('input[name="stages[]"]').value;
+
+            // Remove from arrayStages
+            arrayStages = arrayStages.filter(stage => stage.stage_number !== orderValue);
+            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+
+            // Remove from DOM
+            stageToRemove.remove();
+
+        }
+
+        console.log(JSON.stringify(arrayStages));
+        
+    }
+
 
     // Add drag-and-drop functionality
     function addDragAndDropListeners(element) {

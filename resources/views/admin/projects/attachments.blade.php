@@ -9,16 +9,15 @@
 
     <div class="modal" role="dialog" id="my_modal_8">
         <div class="modal-box">
-            <div class="modal-action">
-                <a href="#" class="btn btn-circle">X</a>
-            </div>
-            <div class="grid place-items-center">
-                <h3 class="text-2xl font-bold">إضافة مرفق</h3>
-                <div class="grid mt-20 gap-y-5">
-                    <label for="project-name">اسم المرفق</label>
-                    <input type="text" class="input border" name="attachment-name" id="attachment_name" />
+            <div class="modal-action justify-center">
+                <div class="grid">
+                    <h3 class="text-2xl font-bold">إضافة مرفق</h3>
+                    <div class="grid mt-20 gap-y-5">
+                        <label for="project-name">اسم المرفق <span class="text-error">*</span></label>
+                        <input type="text" class="input border" name="attachment-name" id="attachment_name" />
+                    </div>
+                    <a href="#" type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addAttachment()">إضافة</a>
                 </div>
-                <button type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addAttachment()">إضافة</button>
             </div>
         </div>
     </div>
@@ -41,6 +40,12 @@
     let arrayFileContainer = []
 
     function addAttachment() {
+        let nameValue = attachmentName.value.trim()
+        if (!nameValue) {
+            alert('يجب إدخال اسم المرفق!');
+            return;
+        }
+
         let fileContainer = document.createElement('div')
         fileContainer.classList.add('my-8', 'grid', 'gap-y-5')
 
