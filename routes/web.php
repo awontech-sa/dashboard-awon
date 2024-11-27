@@ -11,6 +11,7 @@ use App\Http\Controllers\AdminController\UsersController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController\EmployeeController;
 use App\Http\Controllers\EmployeeController\ProfileController;
+use App\Http\Controllers\EmployeeController\ProjectController as EmployeeProjectController;
 use App\Http\Controllers\EmployeeController\SettingController as EmployeeSettingController;
 use App\Http\Controllers\EmployeeController\UsersController as EmployeeUserController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -83,6 +84,10 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     Route::get('/users/update/{id}', [EmployeeUserController::class, 'showUpdateUser'])->name('show.update.user');
     Route::put('/users/update/{id}', [EmployeeUserController::class, 'update'])->name('update.user');
     //end users route
+
+    //start project routes
+    Route::get('/project/{id}', [EmployeeProjectController::class, 'show'])->name('show.project');
+    //end project routes
 });
 // end employee route
 

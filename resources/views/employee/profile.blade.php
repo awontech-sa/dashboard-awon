@@ -108,7 +108,7 @@
             <div class="w-[19.4rem] h-36 bg-white rounded-md border-2 border-[#ECEEF6] mt-11">
                 <div class="flex items-center gap-x-4 mr-5 mt-6">
                     <x-far-folder class="w-6 h-6 text-gray-500" />
-                    <a href="" class="font-bold text-base">{{ $project->p_name }}</a>
+                    <a href="{{ route('employee.show.project', ['id'=>$project->id]) }}" class="font-bold text-base">{{ $project->p_name }}</a>
                 </div>
                 <div class="flex gap-x-5 items-center mt-9 mr-9">
                     <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>

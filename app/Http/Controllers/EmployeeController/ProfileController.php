@@ -32,7 +32,7 @@ class ProfileController extends Controller
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
-        $projects = $this->employee->projects;
+        $projects = $this->employee->projects->unique('id');
         $inProgressProjects = $this->employee->projects->where('project_status', 'قيد التنفيذ');
         $completedProjects = $this->employee->projects->where('project_status', 'مكتمل');
         $stoppedProjects = $this->employee->projects->where('project_status', 'معلق');
