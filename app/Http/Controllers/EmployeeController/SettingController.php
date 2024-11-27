@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Positions;
+use App\Models\Projects;
 use App\Models\User;
 use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
@@ -29,6 +30,7 @@ class SettingController extends Controller
     public function index()
     {
         $user = User::with('positions')->findOrFail($this->employee->id);
+        $dashboard = Projects::with('stageOfProject')->get();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -45,6 +47,7 @@ class SettingController extends Controller
             "position" => $position[0],
             'employee' => $this->employee,
             'chart' => $viewChart,
+            'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);

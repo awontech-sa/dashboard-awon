@@ -32,7 +32,13 @@
             @foreach($users as $user)
             <tr class="text-center">
                 <th>{{ $user->id }}</th>
-                <th><img class="rounded-full w-14 h-14" src="{{ $user->profile_image }}" alt="profile-image" /></th>
+                <th>
+                    @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($user->profile_image)))
+                    <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                    @else
+                    <img class="rounded-full w-14 h-14" src="{{ $user->profile_image }}" alt="profile-image" />
+                    @endif
+                </th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
 
@@ -51,18 +57,27 @@
                     <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.show.update.user', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
                     <a class="btn btn-xs btn-link bg-[#FAFBFD]" href="{{ route('admin.show.user', ['id' => $user->id]) }}"><x-far-eye class="w-4 h-4 text-gray-600" /></a>
                     @if($user->roles[0]->name !== 'Admin')
-                    <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="btn btn-sm btn-link bg-[#FAFBFD]">
-                            <x-far-trash-can class="w-4 h-4 text-red-500" />
-                        </button>
-                    </form>
+                    <button class="btn btn-sm btn-link bg-[#FAFBFD]" onclick="my_modal_1.showModal()"><x-far-trash-can class="w-4 h-4 text-red-500" /></button>
                     @endif
                 </td>
             </tr>
             @endforeach
         </tbody>
     </table>
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold">هل أنت متأكد من أنك تريد حذف الحساب؟</h3>
+            <div class="modal-action flex justify-around items-center">
+                <form action="{{ route('admin.delete.user', ['id' => $user->id]) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-error">نعم</button>
+                </form>
+                <form method="dialog">
+                    <button class="btn">تراجع</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </div>
 @endsection

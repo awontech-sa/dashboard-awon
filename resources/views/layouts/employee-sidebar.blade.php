@@ -27,7 +27,11 @@
         2xl:grid
         xl:grid">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
+                @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($employee->profile_image)))
+                <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                @else
                 <img src="{{ $employee->profile_image }}" class="w-14" alt="image-profile" />
+                @endif
                 <div class="grid">
                     <p>{{ $employee->name }}</p>
                     @foreach($employee->roles as $role)
