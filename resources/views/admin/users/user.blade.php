@@ -13,7 +13,13 @@
                 @foreach($user as $u)
                 <tr>
                     <td>الصورة الشخصية</td>
-                    <td><img src="{{ $u->profile_image }}" alt="user-profile-img" /></td>
+                    <td>
+                        @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($u->profile_image)))
+                        <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                        @else
+                        <img class="rounded-full w-14 h-14" src="{{ $u->profile_image }}" alt="profile-image" />
+                        @endif
+                    </td>
                 </tr>
                 <tr>
                     <td>الإسم الشخصي</td>
