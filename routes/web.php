@@ -15,6 +15,7 @@ use App\Http\Controllers\EmployeeController\ProjectController as EmployeeProject
 use App\Http\Controllers\EmployeeController\SettingController as EmployeeSettingController;
 use App\Http\Controllers\EmployeeController\UsersController as EmployeeUserController;
 use App\Http\Controllers\ForgotPasswordController;
+use App\Http\Controllers\VisitorController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/login', [AuthController::class, 'index'])->name('login');
@@ -92,5 +93,5 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
 });
 // end employee route
 
-Route::get('/', [ProjectsController::class, 'index'])->name('home');
-Route::get('/tech-projects/{id}', [ProjectsController::class, 'techProjects'])->name('tech');
+Route::get('/', [VisitorController::class, 'index'])->name('home');
+Route::get('/{id}', [VisitorController::class, 'show'])->name('tech');
