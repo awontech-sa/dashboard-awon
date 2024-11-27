@@ -174,6 +174,7 @@ class UsersController extends Controller
     public function create(NewUserRequest $request)
     {
         $data = $request->validated();
+        $users = User::with(['positions.department', 'projects'])->get();
 
         $emailExist = User::where('email', $request->input("email"))->get();
         if (count($emailExist) !== 0) {
@@ -207,7 +208,6 @@ class UsersController extends Controller
             ]);
             PositionUser::create(['users_id' => $newUser->id, 'positions_id' => $newPosition->id]);
         }
-
-        return back()->with('success_message', 'تم إضافة الحساب بنجاح');
+        return redirect()->route('admin.users')->with('success_message', 'تم إضافة الحساب بنجاح');
     }
 }
