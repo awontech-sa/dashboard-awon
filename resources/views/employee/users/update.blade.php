@@ -36,11 +36,11 @@
                 <input value="{{ $user["phone_number"] }}" name="phone-number" type="text" placeholder="{{ $user["phone_number"] }}" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
-                <small>كلمة المرور <span class="text-error">*</span></small>
+                <small>كلمة المرور</small>
                 <input name="password" type="password" class="input w-full max-w-sm" />
             </div>
             <div class="grid gap-y-5">
-                <small>تأكيد كلمة المرور <span class="text-error">*</span></small>
+                <small>تأكيد كلمة المرور</small>
                 <input name="password_confirmation" type="password" class="input w-full max-w-sm" />
             </div>
         </div>

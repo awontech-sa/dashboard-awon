@@ -23,14 +23,14 @@
         </div>
         <div class="grid grid-cols-2 mt-6 gap-y-7">
             <div class="grid gap-y-5">
-                <small>الاسم الشخصي</small>
+                <small>الاسم الشخصي <span class="text-error">*</span></small>
                 <input value="{{ $user["name"] }}" name="name" type="text" placeholder="{{ $user["name"] }}" class="input w-full max-w-sm" />
                 @error('name')
                 <span class="text-red-600">{{ $message }}</span>
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>البريد الإلكتروني</small>
+                <small>البريد الإلكتروني <span class="text-error">*</span></small>
                 <input value="{{ $user["email"] }}" name="email" type="text" placeholder="{{ $user["email"] }}" class="input w-full max-w-sm" />
                 @error('email')
                 <span class="text-red-600">{{ $message }}</span>

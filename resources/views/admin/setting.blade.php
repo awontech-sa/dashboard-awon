@@ -55,7 +55,7 @@
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>كلمة المرور <span class="text-error">*</span></small>
+                <small>كلمة المرور</small>
                 <input name="password" type="password" class="input max-w-sm
                 max-md:w-fit" />
                 @error('password')
@@ -63,7 +63,7 @@
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>تأكيد كلمة المرور <span class="text-error">*</span></small>
+                <small>تأكيد كلمة المرور</small>
                 <input name="password_confirmation" type="password" class="input max-w-sm
                 max-md:w-fit" />
             </div>

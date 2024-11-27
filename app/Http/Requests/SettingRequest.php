@@ -24,7 +24,7 @@ class SettingRequest extends FormRequest
         return [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email'],
-            'password' => ['required', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/'],
+            'password' => ['nullable', 'min:8', 'regex:/^.*(?=.{3,})(?=.*[a-zA-Z])(?=.*[0-9])(?=.*[!$#%]).*$/'],
             'phone_number' => ['nullable', 'numeric', 'digits:10', 'starts_with:05'],
             'x' => ['nullable', 'url'],
             'linkedin' => ['nullable', 'url'],
