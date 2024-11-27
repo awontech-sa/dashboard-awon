@@ -18,6 +18,9 @@
             <small>رفع صورة</small>
             <input value="{{ $admin->profile_image }}" name="profile_image" type="file" class="file-input max-w-sm
             max-md:w-fit" />
+            @error('profile_image')
+            <span class="text-red-600">{{ $message }}</span>
+            @enderror
         </div>
         <div class="grid grid-cols-1 mt-6 gap-y-7
         2xl:grid-cols-2
@@ -26,11 +29,17 @@
                 <small>الاسم الشخصي</small>
                 <input value="{{ $admin->name }}" name="name" type="text" placeholder="{{ $admin->name }}" class="input max-w-sm
                 max-md:w-fit" />
+                @error('name')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>البريد الإلكتروني</small>
                 <input value="{{ $admin->email }}" name="email" type="text" placeholder="{{ $admin->email }}" class="input max-w-sm
                 max-md:w-fit" />
+                @error('email')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>المنصب</small>
@@ -41,11 +50,17 @@
                 <small>رقم الجوال</small>
                 <input value="{{ $admin->phone_number }}" name="phone_number" type="text" placeholder="{{ $admin->phone_number }}" class="input max-w-sm
                 max-md:w-fit" />
+                @error('phone_number')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
                 <input name="password" type="password" class="input max-w-sm
                 max-md:w-fit" />
+                @error('password')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
@@ -63,11 +78,17 @@
                     <small>منصة X</small>
                     <input value="{{ $admin->x }}" name="x" type="text" placeholder="{{ $admin->x }}" class="input max-w-sm
                     max-md:w-fit" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="grid gap-y-5">
                     <small>لنكد إن</small>
                     <input value="{{ $admin->linkedin }}" name="linkedin" type="text" placeholder="{{ $admin->linkedin }}" class="input max-w-sm
                     max-md:w-fit" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

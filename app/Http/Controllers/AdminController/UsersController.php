@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\NewUserRequest;
+use App\Http\Requests\SettingRequest;
 use App\Models\Departments;
 use App\Models\Positions;
 use App\Models\PositionUser;
@@ -114,7 +115,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(SettingRequest $request)
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();

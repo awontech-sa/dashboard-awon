@@ -5,9 +5,9 @@
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
     @if(session('success_message'))
-        @include('layouts.success-message')
+    @include('layouts.success-message')
     @elseif(session('error_message'))
-        @include('layouts.error-message')
+    @include('layouts.error-message')
     @endif
 
     <form action="{{ route('admin.update.user', $id) }}" class="relative z-0" method="POST" enctype="multipart/form-data">
@@ -17,15 +17,24 @@
         <div class="mt-6 grid gap-y-3">
             <small>رفع صورة</small>
             <input value="{{ $user["p_image"] }}" name="profile-image" type="file" class="file-input w-full max-w-sm" />
+            @error('profile_image')
+            <span class="text-red-600">{{ $message }}</span>
+            @enderror
         </div>
         <div class="grid grid-cols-2 mt-6 gap-y-7">
             <div class="grid gap-y-5">
                 <small>الاسم الشخصي</small>
                 <input value="{{ $user["name"] }}" name="name" type="text" placeholder="{{ $user["name"] }}" class="input w-full max-w-sm" />
+                @error('name')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>البريد الإلكتروني</small>
                 <input value="{{ $user["email"] }}" name="email" type="text" placeholder="{{ $user["email"] }}" class="input w-full max-w-sm" />
+                @error('email')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>المنصب</small>
@@ -34,10 +43,16 @@
             <div class="grid gap-y-5">
                 <small>رقم الجوال</small>
                 <input value="{{ $user["phone_number"] }}" name="phone-number" type="text" placeholder="{{ $user["phone_number"] }}" class="input w-full max-w-sm" />
+                @error('phone_number')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>كلمة المرور</small>
                 <input name="password" type="password" class="input w-full max-w-sm" />
+                @error('password')
+                <span class="text-red-600">{{ $message }}</span>
+                @enderror
             </div>
             <div class="grid gap-y-5">
                 <small>تأكيد كلمة المرور</small>
@@ -51,10 +66,16 @@
                 <div class="grid gap-y-5">
                     <small>منصة X</small>
                     <input value="{{ $user["x"] }}" name="x" type="text" placeholder="{{ $user["x"] }}" class="input w-full max-w-sm" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="grid gap-y-5">
                     <small>لنكد إن</small>
                     <input value="{{ $user["linkedin"] }}" name="linkedin" type="text" placeholder="{{ $user["linkedin"] }}" class="input w-full max-w-sm" />
+                    @error('url')
+                    <span class="text-red-600">{{ $message }}</span>
+                    @enderror
                 </div>
             </div>
         </div>

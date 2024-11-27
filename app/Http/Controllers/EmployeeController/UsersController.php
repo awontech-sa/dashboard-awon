@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SettingRequest;
 use App\Models\Positions;
 use App\Models\PowersUserSections;
 use App\Models\User;
@@ -118,7 +119,7 @@ class UsersController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+    public function update(SettingRequest $request)
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
