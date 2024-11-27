@@ -43,7 +43,7 @@
     </div>
     <div class="grid gap-y-5">
         <label for="benef_number">عدد المستفيدين <span class="text-red-600">*</span></label>
-        <input class="input text-center text-base" type="number" name="benef_number" />
+        <input class="input text-center text-base" min="0" type="number" name="benef_number" />
     </div>
 </div>
 

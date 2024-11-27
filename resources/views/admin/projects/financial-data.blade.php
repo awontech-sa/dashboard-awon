@@ -150,6 +150,7 @@
                 projectIncomeLabel.textContent = 'إجمالي مبلغ الدعم';
                 let projectIncomeInput = document.createElement('input');
                 projectIncomeInput.type = 'number';
+                projectIncomeInput.min = 0
                 projectIncomeInput.classList.add('input');
                 projectIncomeInput.name = `project-income-total-${i}`;
                 projectIncomeDiv.appendChild(projectIncomeLabel);
@@ -163,6 +164,7 @@
                 paymentCountLabel.textContent = 'عدد الدفعات';
                 let paymentCountInput = document.createElement('input');
                 paymentCountInput.type = 'number';
+                paymentCountInput.min = 0
                 paymentCountInput.classList.add('input');
                 paymentCountInput.name = `payment-count-${i}`;
                 paymentCountInput.id = `payment_count_${i}`;
@@ -289,6 +291,7 @@
                 projectIncomeLabel.textContent = 'إجمالي مبلغ الدعم';
                 let projectIncomeInput = document.createElement('input');
                 projectIncomeInput.type = 'number';
+                projectIncomeInput.min = 0
                 projectIncomeInput.classList.add('input');
                 projectIncomeInput.name = `project-income-total-${i}`;
                 projectIncomeDiv.appendChild(projectIncomeLabel);
@@ -302,6 +305,7 @@
                 paymentCountLabel.textContent = 'عدد الدفعات';
                 let paymentCountInput = document.createElement('input');
                 paymentCountInput.type = 'number';
+                paymentCountInput.min = 0
                 paymentCountInput.classList.add('input');
                 paymentCountInput.name = `payment-count-${i}`;
                 paymentCountInput.id = `payment_count_${i}`;
@@ -431,6 +435,7 @@
                 stagesNumberLabel.textContent = 'عدد المراحل'
                 let stagesNumberInput = document.createElement('input')
                 stagesNumberInput.type = 'number'
+                stagesNumberInput.min = 0
                 stagesNumberInput.classList.add('input')
                 stagesNumberInput.name = `stages-count-${i}`
                 stagesNumberInput.id = `stages_count_${i}`
@@ -497,6 +502,7 @@
             let installmentInput = document.createElement('input');
             installmentInput.classList.add('input');
             installmentInput.type = 'number';
+            installmentInput.min = 0
             installmentInput.id = 'num_not_support';
             installmentInput.name = 'num-not-support'
             installmentLabelDiv.appendChild(installmentLabel);
@@ -571,6 +577,7 @@
             stagesCountLabel.innerHTML = 'عدد المراحل';
 
             let stagesCountInput = document.createElement('input');
+            stagesCountInput.min = 0
             stagesCountInput.type = 'number';
             stagesCountInput.classList.add('input');
             stagesCountInput.name = 'stages-count-not-support';
@@ -642,6 +649,7 @@
                 amountCell.classList.add('border', 'px-4', 'py-2');
                 let amountInput = document.createElement('input');
                 amountInput.type = 'number';
+                amountInput.min = 0
                 amountInput.name = `installment_amount_${supporterIndex}_${j}`;
                 amountInput.classList.add('input', 'w-full');
                 amountCell.appendChild(amountInput);
@@ -773,6 +781,7 @@
                 amountCell.classList.add('border', 'px-4', 'py-2');
                 let amountInput = document.createElement('input');
                 amountInput.type = 'number';
+                amountInput.min = 0
                 amountInput.name = `stages_amount_${supporterIndex}_${j}`;
                 amountInput.classList.add('input', 'w-full');
                 amountCell.appendChild(amountInput);
