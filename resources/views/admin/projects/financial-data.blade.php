@@ -14,7 +14,8 @@
                                 name="support-status"
                                 value="{{ $status->value }}"
                                 class="radio"
-                                id="support-status-{{ $status->value }}" />
+                                id="support-status-{{ $status->value }}"
+                                {{ old('support-status', $data['p_support_status'] ?? '') === $status->value ? 'checked' : '' }} />
                         </label>
                     </div>
                     @endforeach
@@ -28,7 +29,8 @@
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">{{ $type->value }}</span>
-                            <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}" />
+                            <input type="radio" value="{{ $type->value }}" name="support-type" class="radio" id="support-type-{{ $type->value }}"
+                                {{ old('support-type', $data['p_support_type'] ?? '') === $type->value ? 'checked' : '' }} />
                         </label>
                     </div>
                     @endforeach
@@ -42,7 +44,8 @@
                     <div class="form-control">
                         <label class="label cursor-pointer">
                             <span class="label-text">{{ $type->value }}</span>
-                            <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}" />
+                            <input type="radio" value="{{ $type->value }}" name="supporter" class="radio" id="support-comp-{{ $type->value }}"
+                                {{ old('supporter', $data['supporter'] ?? '') === $status->value ? 'checked' : '' }} />
                         </label>
                     </div>
                     @endforeach
@@ -55,7 +58,7 @@
             </div>
             <div class="grid my-8 cost-project-form">
                 <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
-                <input type="number" min="0" class="input" name="project-income" />
+                <input type="number" min="0" class="input" name="project-income" value="{{ old('project-income', $data['total_cost'] ?? '') }}" />
             </div>
         </div>
         <div class="supporter-data hidden" id="supporterDataSection"></div>
@@ -462,7 +465,7 @@
         }
 
         if (isNotSupported) {
-            
+
             supportForm.classList.add('hidden');
             externalSupport.classList.remove('hidden');
             numberSupportForm.classList.add('hidden');
