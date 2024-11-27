@@ -26,12 +26,14 @@ class PowersController extends Controller
         $powersSections = PowersSections::all();
         $dashboard = Projects::all();
 
+        $userPermissions = User::with('powersSections')->where('id', $id)->first();
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         return view('admin.powers', [
             'sections' => $powersSections,
-            // 'userPermission' => $userPermissions,
+            'userPermission' => $userPermissions,
             // 'projects' => $projects,
             'dashboard' => $dashboard,
             'id' => $id,
@@ -47,14 +49,12 @@ class PowersController extends Controller
     {
 
         if ($request->action === 'add') {
-            // Insert permission if it doesn't exist
             PowersUserSections::firstOrCreate([
                 'user_id' => $id,
                 'powers_sections_id' => $request->input('section_id'),
                 'permission' => $request->input('permission'),
             ]);
         } elseif ($request->action === 'remove') {
-            // Delete the permission row
             PowersUserSections::where([
                 'user_id' => $id,
                 'powers_sections_id' => $request->input('section_id'),

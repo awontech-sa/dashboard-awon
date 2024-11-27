@@ -1,8 +1,7 @@
 @extends('layouts.admin-sidebar')
 
 @section('admin-content')
-<section class="font-['Tajawal'] mx-[3.8rem]
-max-md:mx-6">
+<section class="font-['Tajawal'] mx-[3.8rem] max-md:mx-6">
     <h1 class="font-bold text-xl">الصلاحيات</h1>
 
     <div class="grid my-[3.2rem] grid-cols-1 gap-y-[3.2rem]
@@ -21,7 +20,9 @@ max-md:mx-6">
                             type="checkbox"
                             class="checkbox checkbox-lg border [--chkbg:theme(colors.cyan.500)] [--chkfg:white]
                             max-md:checkbox-xs"
-                            {{-- @if(in_array($status->value, $userPermission)) checked @else "" @endif --}}
+                            @if($userPermission->powersSections->contains(function ($perm) use ($section, $status) {
+                        return $perm->id == $section->id && $perm->pivot->permission == $status->value;
+                        })) checked @endif
                         />
                         <span class="label-text">{{ $status->value }}</span>
                     </label>
@@ -32,14 +33,14 @@ max-md:mx-6">
         @endforeach
     </div>
 </section>
+
 @endsection
 
 @push('scripts')
 <script>
     function updatePermission(checkbox, userId, sectionId, permission) {
-        const action = checkbox.checked ? 'add' : 'remove'; // Determine action
+        const action = checkbox.checked ? 'add' : 'remove';
 
-        // Prepare data for the request
         const data = {
             user_id: userId,
             section_id: sectionId,

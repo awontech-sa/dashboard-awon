@@ -75,6 +75,6 @@ class User extends Authenticatable
 
     public function powersSections()
     {
-        return $this->belongsToMany(PowersSections::class, 'powers_user_sections'); // إضافة permission_id كجزء من العلاقة
+        return $this->belongsToMany(PowersSections::class, 'powers_user_sections')->withPivot('permission'); // إضافة permission_id كجزء من العلاقة
     }
 }
