@@ -136,31 +136,23 @@
     }
 
     function removeStage(event) {
-        // Get the button that triggered the event
         const deleteButton = event.target.closest('button');
 
-        // Find the parent container of the stage
         const stageToRemove = deleteButton.closest('.w-full');
 
         if (stageToRemove) {
-            // Get the order value of the stage to remove
             const orderValue = stageToRemove.querySelector('input[name="stages[]"]').value;
 
-            // Remove from arrayStages
             arrayStages = arrayStages.filter(stage => stage.stage_number !== orderValue);
             document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
 
-            // Remove from DOM
             stageToRemove.remove();
 
         }
-
-        console.log(JSON.stringify(arrayStages));
         
     }
 
 
-    // Add drag-and-drop functionality
     function addDragAndDropListeners(element) {
         element.addEventListener('dragstart', dragStart);
         element.addEventListener('dragover', dragOver);
