@@ -74,4 +74,12 @@ class ProjectController extends Controller
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
         ]);
     }
+
+    public function destroy($id)
+    {
+        $project = Projects::findOrFail($id);
+        $project->delete();
+
+        return redirect()->route('employee.dashboard')->with('success_message', 'تم حذف المشروع بنجاح');
+    }
 }

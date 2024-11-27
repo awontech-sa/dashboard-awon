@@ -2,7 +2,10 @@
 @section('employee-content')
 <div class="grid font-['Tajawal'] font-bold text-xl mx-[6.4rem]">
     <section>
-        <h1>{{ $project->p_name }}</h1>
+        <div class="flex items-center justify-between">
+            <h1>{{ $project->p_name }}</h1>
+            <button class="btn btn-sm bg-[#FAFBFD]" onclick="my_modal_1.showModal()">حذف المشروع <x-far-trash-can class="w-4 h-4 text-red-500" /></button>
+        </div>
         <div class="grid grid-cols-2 gap-x-10 gap-y-8 w-fit mt-7">
             <!-- start of project status section -->
             <div class="w-[20.2rem] h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
@@ -71,7 +74,7 @@
         <div role="tablist" class="tabs mt-14 tabs-boxed bg-transparent">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" checked="checked" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.general-data')
+                @include('employee.project.general-data')
             </div>
             <input
                 type="radio"
@@ -80,33 +83,49 @@
                 class="tab"
                 aria-label="02" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.financial.index')
+                @include('employee.project.financial.index')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.project-files')
+                @include('employee.project.project-files')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.project-status')
+                @include('employee.project.project-status')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.project-level')
+                @include('employee.project.project-level')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.project-code')
+                @include('employee.project.project-code')
             </div>
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.projects.project.project-team')
+                @include('employee.project.project-team')
             </div>
         </div>
     </section>
+
+    <dialog id="my_modal_1" class="modal">
+        <div class="modal-box">
+            <h3 class="text-lg font-bold">هل أنت متأكد من أنك تريد حذف المشروع؟</h3>
+            <div class="modal-action flex justify-around items-center">
+                <form action="{{ route('employee.delete.project', ['id' => $project->id]) }}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button class="btn btn-error">نعم</button>
+                </form>
+                <form method="dialog">
+                    <button class="btn">تراجع</button>
+                </form>
+            </div>
+        </div>
+    </dialog>
 </div>
 @endsection

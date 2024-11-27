@@ -89,6 +89,7 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
 
     //start project routes
     Route::get('/project/{id}', [EmployeeProjectController::class, 'show'])->name('show.project');
+    Route::delete('/project/{id}', [EmployeeProjectController::class, 'destroy'])->name('delete.project');
     //end project routes
 });
 // end employee route

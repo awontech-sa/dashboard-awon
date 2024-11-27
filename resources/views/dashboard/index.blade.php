@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
 <div>
   <section class="grid grid-cols-4 gap-x-[1.6rem] w-[67rem] pr-10
@@ -8,6 +9,7 @@
   lg:mx-16 lg:gap-x-[1.6rem] lg:grid-cols-2 lg:w-fit
   2xl:w-auto 2xl:pr-2 2xl:gap-x-[1.6rem] 2xl:grid-cols-4
   xl:w-[67rem] xl:pr-[3.75rem] xl:gap-x-[1.6rem] xl:grid-cols-4">
+
     <!-- start all projects -->
     <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
     xl:w-[15.5rem]
@@ -19,7 +21,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">{{ $dashboard->count() }}</p>
+        <p class="font-bold text-3xl">{{ count($dashboard) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -36,7 +38,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">//</p>
+        <p class="font-bold text-3xl">{{ count($completed_projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -53,7 +55,7 @@
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">//</p>
+        <p class="font-bold text-3xl">{{ count($stopped_projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -64,13 +66,13 @@
     xl:w-[15.5rem]
     2xl:w-auto">
       <div class="flex justify-around items-center font-['Tajawal'] pt-6">
-        <p class="text-base font-bold">//</p>
+        <p class="text-base font-bold">عدد المشاريع قيد التنفيذ</p>
         <img src="{{ asset("assets/icons/progress.png") }}" alt="all-project icon" class="w-6 h-6" />
       </div>
       <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
       2xl:pr-[5.2rem]
       xl:pr-[1.3rem]">
-        <p class="font-bold text-3xl">//</p>
+        <p class="font-bold text-3xl">{{ count($progress_projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -84,7 +86,7 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/supported_projects.png") }}" alt="supported-projects" />
       </div>
       <div class="grid mr-9">
-        <p class="font-bold text-3xl">//</p>
+        <p class="font-bold text-3xl">{{ count($supporter) }}</p>
         <small class="text-sm text-gray-400">مشروع</small>
       </div>
     </div>
@@ -95,7 +97,7 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/benef_projects.png") }}" alt="benef-projects" />
       </div>
       <div class="grid mr-9">
-        <p class="font-bold text-3xl">//</p>
+        <p class="font-bold text-3xl">{{ count($supporterComp) }}</p>
         <small class="text-sm text-gray-400">جهة</small>
       </div>
     </div>
@@ -106,13 +108,13 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/people.png") }}" alt="people" />
       </div>
       <div class="grid mr-9">
-        <p class="font-bold text-3xl">88</p>
+        <p class="font-bold text-3xl">{{ count($supporterIndividual) }}</p>
         <small class="text-sm text-gray-400">فرد</small>
       </div>
     </div>
   </section>
 
-  <section class="grid grid-cols-2 w-[72rem] h-36 my-7 font-['Tajawal'] pr-[7.7rem]
+  <section class="grid grid-cols-2 w-[72rem] my-7 font-['Tajawal'] pr-[7.7rem]
     lg:grid-cols-1
     xl:gap-x-0 xl:grid-cols-2
     2xl:w-auto 2xl:grid-cols-2">
@@ -127,8 +129,8 @@
         @foreach($dashboard as $project)
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
-          <p>{{ $project->p_implemented_stages }}/{{ $project->p_stages }}</p>
-          <progress class="progress progress-success w-32" value="//" max="100"></progress>
+          <p>{{ $project->stages->count() }}/5</p>
+          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="5"></progress>
         </div>
         @endforeach
       </div>
@@ -140,7 +142,7 @@
         <p class="font-bold text-base">إجمالي دخل المشاريع</p>
         <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
       </div>
-      <div class="flex">
+      {{-- <div class="flex">
         <div class="w-[475px] grid gap-y-6">
           <div class="grid grid-cols-2 gap-x-4 items-center">
             <p>سخي</p>
@@ -162,7 +164,7 @@
         <div class="w-52 h-52">
           {!! $chart->container() !!}
         </div>
-      </div>
+      </div> --}}
     </div>
   </section>
 </div>
