@@ -14,7 +14,7 @@
             <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
           2xl:pr-[5.2rem]
           xl:pr-[1.3rem]">
-                <p class="font-bold text-3xl">{{ count($project) }}</p>
+                <p class="font-bold text-3xl">{{ count($projects) }}</p>
                 <small class="text-sm font-normal text-gray-500">مشروع</small>
             </div>
         </div>
@@ -31,7 +31,7 @@
             <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
           2xl:pr-[5.2rem]
           xl:pr-[1.3rem]">
-                <p class="font-bold text-3xl">{{ count($completed_projects) }}</p>
+                <p class="font-bold text-3xl">{{ count($inProgressProjects) }}</p>
                 <small class="text-sm font-normal text-gray-500">مشروع</small>
             </div>
         </div>
@@ -48,7 +48,7 @@
             <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
           2xl:pr-[5.2rem]
           xl:pr-[1.3rem]">
-                <p class="font-bold text-3xl">{{ count($completed_projects) }}</p>
+                <p class="font-bold text-3xl">{{ count($completedProjects) }}</p>
                 <small class="text-sm font-normal text-gray-500">مشروع</small>
             </div>
         </div>
@@ -65,7 +65,7 @@
             <div class="grid font-['Tajawal'] pr-[1.3rem] pt-[1.26rem]
           2xl:pr-[5.2rem]
           xl:pr-[1.3rem]">
-                <p class="font-bold text-3xl">{{ count($stopped_projects) }}</p>
+                <p class="font-bold text-3xl">{{ count($stoppedProjects) }}</p>
                 <small class="text-sm font-normal text-gray-500">مشروع</small>
             </div>
         </div>
@@ -79,26 +79,15 @@
         </div>
         <div class="w-[475px] grid gap-y-6
         2xl:w-auto">
+            @foreach($projects as $project)
+            @foreach($stages as $stage)
             <div class="grid grid-cols-3 items-center">
-                <p>سخي</p>
-                <p>7/10 إنجاز المراحل</p>
-                <progress class="progress progress-success w-32" value="70" max="100"></progress>
+                <p>{{ $project->p_name }}</p>
+                <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
             </div>
-            <div class="grid grid-cols-3 items-center">
-                <p>نظام إدارة المحتوى</p>
-                <p>7/10 إنجاز المراحل</p>
-                <progress class="progress progress-success w-32" value="70" max="100"></progress>
-            </div>
-            <div class="grid grid-cols-3 items-center">
-                <p>فرصة</p>
-                <p>7/10 إنجاز المراحل</p>
-                <progress class="progress progress-success w-32" value="70" max="100"></progress>
-            </div>
-            <div class="grid grid-cols-3 items-center">
-                <p>وعي</p>
-                <p>7/10 إنجاز المراحل</p>
-                <progress class="progress progress-success w-32" value="70" max="100"></progress>
-            </div>
+            @endforeach
+            @endforeach
         </div>
     </div>
 </section>
@@ -113,54 +102,22 @@
     </div>
 
     <div class="grid grid-cols-3">
+        @foreach($projects as $project)
+        @foreach($stages as $stage)
         <div class="grid grid-cols-2 font-['Tajawal']">
             <div class="w-[19.4rem] h-36 bg-white rounded-md border-2 border-[#ECEEF6] mt-11">
                 <div class="flex items-center gap-x-4 mr-5 mt-6">
                     <x-far-folder class="w-6 h-6 text-gray-500" />
-                    <h1 class="font-bold text-base">نظام إدارة المحتوى</h1>
+                    <a href="" class="font-bold text-base">{{ $project->p_name }}</a>
                 </div>
                 <div class="flex gap-x-5 items-center mt-9 mr-9">
-                    <p>7/10 إنجاز المراحل</p>
-                    <progress class="progress progress-success w-32" value="70" max="100"></progress>
+                    <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-2 font-['Tajawal']">
-            <div class="w-[19.4rem] h-36 bg-white rounded-md border-2 border-[#ECEEF6] mt-11">
-                <div class="flex items-center gap-x-4 mr-5 mt-6">
-                    <x-far-folder class="w-6 h-6 text-gray-500" />
-                    <h1 class="font-bold text-base">نظام إدارة المحتوى</h1>
-                </div>
-                <div class="flex gap-x-5 items-center mt-9 mr-9">
-                    <p>7/10 إنجاز المراحل</p>
-                    <progress class="progress progress-success w-32" value="70" max="100"></progress>
-                </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 font-['Tajawal']">
-            <div class="w-[19.4rem] h-36 bg-white rounded-md border-2 border-[#ECEEF6] mt-11">
-                <div class="flex items-center gap-x-4 mr-5 mt-6">
-                    <x-far-folder class="w-6 h-6 text-gray-500" />
-                    <h1 class="font-bold text-base">نظام إدارة المحتوى</h1>
-                </div>
-                <div class="flex gap-x-5 items-center mt-9 mr-9">
-                    <p>7/10 إنجاز المراحل</p>
-                    <progress class="progress progress-success w-32" value="70" max="100"></progress>
-                </div>
-            </div>
-        </div>
-        <div class="grid grid-cols-2 font-['Tajawal']">
-            <div class="w-[19.4rem] h-36 bg-white rounded-md border-2 border-[#ECEEF6] mt-11">
-                <div class="flex items-center gap-x-4 mr-5 mt-6">
-                    <x-far-folder class="w-6 h-6 text-gray-500" />
-                    <h1 class="font-bold text-base">نظام إدارة المحتوى</h1>
-                </div>
-                <div class="flex gap-x-5 items-center mt-9 mr-9">
-                    <p>7/10 إنجاز المراحل</p>
-                    <progress class="progress progress-success w-32" value="70" max="100"></progress>
-                </div>
-            </div>
-        </div>
+        @endforeach
+        @endforeach
     </div>
 </section>
 @endsection

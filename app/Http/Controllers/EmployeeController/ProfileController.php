@@ -4,12 +4,13 @@ namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Projects;
-use App\Models\ProjectSupporters;
+use App\Models\Stages;
 use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class EmployeeController extends Controller
+class ProfileController extends Controller
 {
     private ViewChartService $viewChartService;
     private PermissionEmployeeService $permissionService;
@@ -20,10 +21,9 @@ class EmployeeController extends Controller
         $this->viewChartService = $viewChartService;
         $this->permissionService = $permissionService;
 
-        /** @var \App\Models\User */
+        // /** @var \App\Models\User */
         $this->employee = Auth::user();
     }
-
     public function index()
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
@@ -32,30 +32,30 @@ class EmployeeController extends Controller
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
+        $projects = $this->employee->projects;
+        $inProgressProjects = $this->employee->projects->where('project_status', 'قيد التنفيذ');
+        $completedProjects = $this->employee->projects->where('project_status', 'مكتمل');
+        $stoppedProjects = $this->employee->projects->where('project_status', 'معلق');
         $dashboard = Projects::with('stageOfProject')->get();
 
-        $completed_projects = Projects::where('project_status', 'مكتمل')->get();
-        $stopped_projects = Projects::where('project_status', 'معلق')->get();
-        $progress_projects = Projects::where('project_status', 'قيد التنفيذ')->get();
+        $stages = [];
+        foreach ($projects as $project) {
+            $stages = Projects::with('stageOfProject')->where('id', $project->id)->get();
+        }
 
-        $supporter = ProjectSupporters::where('p_support_status', 'مدعوم')->get();
-        $supporterComp = Projects::where('type_benef', 'جهة')->get();
-        $supporterIndividual = Projects::where('type_benef', 'أفراد')->get();
-
-        return view('employee.index', [
+        return view('employee.profile', [
             'employee' => $this->employee,
             'chart' => $viewChart,
+            'projects' => $projects,
+            'stages' => $stages,
             'dashboard' => $dashboard,
-            'completed_projects' => $completed_projects,
-            'stopped_projects' => $stopped_projects,
-            'progress_projects' => $progress_projects,
-            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
-            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-            'supporter' => $supporter,
-            'supporterComp' => $supporterComp,
-            'supporterIndividual' => $supporterIndividual,
+            'stoppedProjects' => $stoppedProjects,
+            'completedProjects' => $completedProjects,
+            'inProgressProjects' => $inProgressProjects,
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);
     }
 }

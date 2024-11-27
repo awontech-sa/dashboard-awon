@@ -10,6 +10,7 @@ use App\Http\Controllers\AdminController\SettingController;
 use App\Http\Controllers\AdminController\UsersController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\EmployeeController\EmployeeController;
+use App\Http\Controllers\EmployeeController\ProfileController;
 use App\Http\Controllers\EmployeeController\SettingController as EmployeeSettingController;
 use App\Http\Controllers\EmployeeController\UsersController as EmployeeUserController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -70,7 +71,11 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     Route::get('/settings', [EmployeeSettingController::class, 'index'])->name('setting.show');
     Route::put('/settings', [EmployeeSettingController::class, 'update'])->name('setting.update');
     //end setting route
-    
+
+    //start profile route
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile.show');
+    //end profile route
+
     //start users route
     Route::get('/users', [EmployeeUserController::class, 'index'])->name('users');
     Route::get('/users/{id}', [EmployeeUserController::class, 'show'])->name('show.user');
