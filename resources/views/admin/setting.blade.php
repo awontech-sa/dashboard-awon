@@ -26,7 +26,7 @@
         2xl:grid-cols-2
         xl:grid-cols-2">
             <div class="grid gap-y-5">
-                <small>الاسم الشخصي</small>
+                <small>الاسم الشخصي <span class="text-error">*</span></small>
                 <input value="{{ $admin->name }}" name="name" type="text" placeholder="{{ $admin->name }}" class="input max-w-sm
                 max-md:w-fit" />
                 @error('name')
@@ -34,7 +34,7 @@
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>البريد الإلكتروني</small>
+                <small>البريد الإلكتروني <span class="text-error">*</span></small>
                 <input value="{{ $admin->email }}" name="email" type="text" placeholder="{{ $admin->email }}" class="input max-w-sm
                 max-md:w-fit" />
                 @error('email')
@@ -55,7 +55,7 @@
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>كلمة المرور</small>
+                <small>كلمة المرور <span class="text-error">*</span></small>
                 <input name="password" type="password" class="input max-w-sm
                 max-md:w-fit" />
                 @error('password')
@@ -63,7 +63,7 @@
                 @enderror
             </div>
             <div class="grid gap-y-5">
-                <small>تأكيد كلمة المرور</small>
+                <small>تأكيد كلمة المرور <span class="text-error">*</span></small>
                 <input name="password_confirmation" type="password" class="input max-w-sm
                 max-md:w-fit" />
             </div>
