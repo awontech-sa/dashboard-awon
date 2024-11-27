@@ -581,4 +581,12 @@ class ProjectController extends Controller
             'users' => $users
         ]);
     }
+
+    public function destroy($id)
+    {
+        $project = Projects::findOrFail($id);
+        $project->delete();
+
+        return redirect()->route('admin.dashboard')->with('success_message', 'تم حذف المشروع بنجاح');
+    }
 }

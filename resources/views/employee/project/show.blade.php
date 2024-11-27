@@ -71,7 +71,7 @@
         <div role="tablist" class="tabs mt-14 tabs-boxed bg-transparent">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" checked="checked" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.general-data')
+                @include('employee.projects.project.general-data')
             </div>
             <input
                 type="radio"
@@ -80,31 +80,31 @@
                 class="tab"
                 aria-label="02" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.financial.index')
+                @include('employee.projects.project.financial.index')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.project-files')
+                @include('employee.projects.project.project-files')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.project-status')
+                @include('employee.projects.project.project-status')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.project-level')
+                @include('employee.projects.project.project-level')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.project-code')
+                @include('employee.projects.project.project-code')
             </div>
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
             <div role="tabpanel" class="tab-content">
-                @include('employee.project.project-team')
+                @include('employee.projects.project.project-team')
             </div>
         </div>
     </section>

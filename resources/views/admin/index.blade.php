@@ -11,6 +11,11 @@
   lg:mx-16 lg:gap-x-[1.6rem] lg:grid-cols-2 lg:w-fit
   2xl:w-auto 2xl:pr-2 2xl:gap-x-[1.6rem] 2xl:grid-cols-4
   xl:w-[67rem] xl:pr-[3.75rem] xl:gap-x-[1.6rem] xl:grid-cols-4">
+
+  @if(session('success_message'))
+  @include('layouts.success-message')
+  @endif
+  
     <!-- start all projects -->
     <div class="w-[15.5rem] h-[8.5rem] bg-white rounded-md border-[#ECEEF6] border-2
     xl:w-[15.5rem]

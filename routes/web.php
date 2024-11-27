@@ -61,6 +61,7 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::post('/projects/create', [ProjectController::class, 'finalCreateProject'])->name('create.project.final');
 
     Route::get('/project/{id}', [ProjectController::class, 'show'])->name('show.project');
+    Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('delete.project');
 });
 // end admin route
 
