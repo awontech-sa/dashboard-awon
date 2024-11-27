@@ -64,11 +64,11 @@ class ForgotPasswordController extends Controller
         $otpData = EmailVerification::where('otp', $otp)->first();
 
         if ($otp == '') {
-            return view('auth.verification', ['email' => $user->email, 'user' => $user])->with('error_message', 'الرجاء إدخال رمز التحقق');
+            return view('auth.verification')->with('email', $user->email)->with('user', $user)->with('errorMsg', 'الرجاء إدخال رمز التحقق');
         }
 
         if (!$otpData) {
-            return view('auth.verification', ['email' => $user->email, 'user' => $user])->with('error_message', 'الرمز المدخل غير صحيح');
+            return view('auth.verification')->with('email', $user->email)->with('user', $user)->with('errorMsg', 'الرمز المدخل غير صحيح');
         }
 
         $is_verified = User::where('id', $user->id)->first();
