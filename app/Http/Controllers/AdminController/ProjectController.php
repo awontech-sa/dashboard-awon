@@ -469,7 +469,7 @@ class ProjectController extends Controller
                     ]);
                 }
 
-                if (!empty($data['level'])) {
+                if ($data['level']['all-stages'] !== null && $data['level']['stages-done'] !== null) {
                     dd(($data['level']));
                     foreach (json_decode($data['level']['all-stages']) as $level) {
                         Stages::create([
