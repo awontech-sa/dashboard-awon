@@ -1,4 +1,4 @@
-<form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.create.project', ['step' => $step]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="flex justify-between">
         <h1 class="font-bold text-xl">مرفقات</h1>
@@ -39,6 +39,12 @@
     let attachmentName = document.getElementById('attachment_name');
     let arrayFileContainer = []
 
+    document.getElementById('attachmentForm').onsubmit = function(e) {
+        if (!fileExist()) {
+            event.preventDefault()
+        }
+    };
+
     function addAttachment() {
         let nameValue = attachmentName.value.trim()
         if (!nameValue) {
@@ -59,13 +65,28 @@
         fileInput.classList.add('input', 'file-input')
         fileInput.id = 'attachment_file'
         fileInput.name = 'attachment-file[]'
+        let fileError = document.createElement('label')
+        fileError.classList.add('text-error', 'errorLabel')
+        fileError.name = 'fileError'
         fileContainer.appendChild(fileInput)
+        fileContainer.appendChild(fileError)
+
 
         attachments.appendChild(fileContainer)
 
         document.querySelector('input[name="file-name[]"]').value = fileContainer.querySelector('label').textContent;
 
         attachmentName.value = ''
+    }
+
+    function fileExist() {
+        if (document.querySelector('input[name="attachment-file[]"]').value === '') {
+            document.querySelector('.errorLabel').textContent = 'الرجاء إرفاق ملف';
+            return false
+        } else {
+            document.querySelector('.errorLabel').textContent = '';
+            return true
+        }
     }
 </script>
 @endpush

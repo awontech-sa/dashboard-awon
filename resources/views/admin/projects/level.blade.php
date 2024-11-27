@@ -1,21 +1,16 @@
 <div class="flex justify-between">
-    <label for="project-name">اختر مراحل المشروع المناسبة</label>
+    <label for="project-name">اختر مراحل المشروع المناسبة <span class="text-red-600">*</span></label>
     <a href="#my_modal_9" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">
         إضافة مرحلة جديدة
         <x-fas-plus class="w-4 h-4 text-gray-600" />
     </a>
 </div>
 
-<div class="grid gap-y-7 top-list stage-checkbox" id="stages">
-    <div id="stage" class="grid gap-y-4"></div>
-</div>
-
-
+<div class="grid gap-y-7 top-list stage-checkbox" id="stages"></div>
 <input type="hidden" name="array-stages">
-<input type="hidden" name="stages-done">
 
 <div class="my-8">
-    <label for="project-name">اختر مراحل المشروع المنجزة</label>
+    <label for="project-name">اختر مراحل المشروع المنجزة <span class="text-red-600">*</span></label>
     <div class="mt-8 grid gap-y-7 bottom-list stages-done" id="stages-done"></div>
 </div>
 
@@ -41,12 +36,10 @@
 @push('scripts')
 <script>
     let stages = document.getElementById('stages');
-    let stage = document.getElementById('stage');
     let stagesDone = document.getElementById('stages-done');
     let stageName = document.getElementById('stage_name');
     let stageOrder = document.getElementById('stage_order');
     let arrayStages = [];
-    let doneStages = [];
 
     function addNewStage() {
         let nameValue = stageName.value.trim();
@@ -58,45 +51,48 @@
         }
 
         let stageContainer = document.createElement('div');
-        let childrenStage = document.createElement('div');
-        childrenStage.classList.add('w-full', 'flex', 'gap-x-4')
-        stageContainer.classList.add('form-control', 'draggable');
-        stageContainer.draggable = true; // Make it draggable
+        stageContainer.classList.add('flex', 'gap-x-4', 'draggable', 'new-stage');
+        stageContainer.draggable = true;
         stageContainer.dataset.order = orderValue;
 
+        // Create the form-control div
+        let formControl = document.createElement('div');
+        formControl.classList.add('form-control');
+
+        // Create the label element
         let stageLabel = document.createElement('label');
         stageLabel.classList.add('label', 'cursor-pointer');
 
+        // Create the span for the label text
         let stageSpan = document.createElement('span');
         stageSpan.classList.add('label-text');
         stageSpan.textContent = nameValue;
-        stageLabel.appendChild(stageSpan);
 
+        // Create the input checkbox
         let checkStage = document.createElement('input');
         checkStage.type = 'checkbox';
         checkStage.name = 'stages[]';
         checkStage.value = orderValue;
         checkStage.classList.add('checkbox', 'border-gray-500', '[--chkbg:theme(colors.cyan.600)]', '[--chkfg:white]', 'stage-checked');
-        checkStage.addEventListener('change', toggleStageDone); // Add event listener for check/uncheck
+        checkStage.addEventListener('change', toggleStageDone);
+
+        stageLabel.appendChild(stageSpan);
         stageLabel.appendChild(checkStage);
-        stageContainer.appendChild(stageLabel);
 
-        let deleteStage = document.createElement('button')
-        deleteStage.type = 'button'
+        formControl.appendChild(stageLabel);
+
+        let deleteStage = document.createElement('button');
+        deleteStage.type = 'button';
         deleteStage.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`;
-        deleteStage.addEventListener('click', removeStage)
-        childrenStage.appendChild(stageContainer)
-        childrenStage.appendChild(deleteStage)
-        stage.appendChild(childrenStage)
+        deleteStage.addEventListener('click', removeStage);
 
-        stages.appendChild(stage)
+        stageContainer.appendChild(formControl);
+        stageContainer.appendChild(deleteStage);
 
-        arrayStages.push({
-            stage_name: stageContainer.querySelector('span[class="label-text"]').textContent,
-            stage_number: stageContainer.querySelector('input[name="stages[]"]').value
-        })
-        document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+        stages.appendChild(stageContainer);
 
+
+        // Add drag-and-drop listeners
         addDragAndDropListeners(stageContainer);
 
         stageName.value = '';
@@ -108,51 +104,33 @@
         let parentContainer = checkbox.closest('.form-control');
 
         if (checkbox.checked) {
-            // المنجزة
             let clone = parentContainer.cloneNode(true);
             let cloneCheckbox = clone.querySelector('input[type="checkbox"]');
             cloneCheckbox.checked = true;
             cloneCheckbox.disabled = true; // Disable the checkbox in the clone
             stagesDone.appendChild(clone);
-            doneStages.push({
+            arrayStages.push({
                 stage_name: clone.querySelector('span[class="label-text"]').textContent,
                 stage_number: clone.querySelector('input[name="stages[]"]').value
             })
-            document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
+            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
 
         } else {
             let doneStages = Array.from(stagesDone.children);
             doneStages.forEach(stage => {
                 if (stage.querySelector('span').textContent === parentContainer.querySelector('span').textContent) {
                     stagesDone.removeChild(stage);
-                    doneStages.pop({
+                    arrayStages.pop({
                         stage_name: stage.querySelector('span[class="label-text"]').textContent,
                         stage_number: stage.querySelector('input[name="stages[]"]').value
                     })
-                    document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
+                    document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
                 }
             });
         }
     }
 
-    function removeStage(event) {
-        const deleteButton = event.target.closest('button');
-
-        const stageToRemove = deleteButton.closest('.w-full');
-
-        if (stageToRemove) {
-            const orderValue = stageToRemove.querySelector('input[name="stages[]"]').value;
-
-            arrayStages = arrayStages.filter(stage => stage.stage_number !== orderValue);
-            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
-
-            stageToRemove.remove();
-
-        }
-        
-    }
-
-
+    // Add drag-and-drop functionality
     function addDragAndDropListeners(element) {
         element.addEventListener('dragstart', dragStart);
         element.addEventListener('dragover', dragOver);
@@ -186,6 +164,23 @@
         event.preventDefault();
         let draggingElement = document.querySelector('.dragging');
         draggingElement.classList.remove('dragging');
+    }
+
+    function removeStage(event) {
+        const deleteButton = event.target.closest('button');
+
+        const stageToRemove = deleteButton.closest('.new-stage');
+
+        if (stageToRemove) {
+            const orderValue = stageToRemove.querySelector('input[name="stages[]"]').value;
+
+            arrayStages = arrayStages.filter(stage => stage.stage_number !== orderValue);
+            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+
+            stageToRemove.remove();
+
+        }
+
     }
 
     Array.from(stages.children).forEach(addDragAndDropListeners);

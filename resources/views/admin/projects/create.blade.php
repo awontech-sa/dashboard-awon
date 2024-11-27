@@ -15,20 +15,7 @@
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">بيانات عامة</h1>
-
-                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    @include('admin.projects.general-data')
-
-                    <div class="join grid grid-cols-2 w-1/4">
-                        @if($step == 1)
-                        <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item w-1/2 btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
-                            التالي
-                        </button>
-                        @endif
-                    </div>
-
-                </form>
+                @include('admin.projects.general-data')
             </div>
         </div>
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="02" {{ $step == 2 ? "checked" : "" }} />
