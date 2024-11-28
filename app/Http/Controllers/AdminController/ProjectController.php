@@ -422,7 +422,7 @@ class ProjectController extends Controller
                         'p_support_status' => $data['financial-data']['p_support_status'] ?? null
                     ]);
                     Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
-                    ? trim($data['financial-data']["total_cost"] ?? '') : null]);
+                        ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                     if (!empty($data['financial-data']["installments"])) {
                         foreach ($data['financial-data']["installments"] as $installmentProject) {
                             $supporter->Installments()->create([
@@ -509,15 +509,13 @@ class ProjectController extends Controller
 
                         if (count($role) !== 0) {
                             foreach ($roles as $user) {
-                                foreach ($user->roles as $role) {
-                                    ProjectUser::create([
-                                        'role' => $role,
-                                        'user_id' => $user->id,
-                                        'projects_id' => $project->id,
-                                        'project_manager' => $data['team']['project_manager'],
-                                        'sub_project_manager' => $data['team']['sub_project_manager']
-                                    ]);
-                                }
+                                ProjectUser::create([
+                                    'role' => $user->role,
+                                    'user_id' => $user->id,
+                                    'projects_id' => $project->id,
+                                    'project_manager' => $data['team']['project_manager'],
+                                    'sub_project_manager' => $data['team']['sub_project_manager']
+                                ]);
                             }
                         }
                     } else {

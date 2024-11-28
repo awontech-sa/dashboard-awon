@@ -28,16 +28,18 @@
 
 @push('scripts')
 <script>
-    let arrayMembers = []
+    let arrayMembers = [];
 
     function addMember(users) {
         let fileContainer = document.getElementById('new-member');
         let uniqueId = `member-${Date.now()}`;
 
+        // إنشاء حاوية العضو
         let memberContainer = document.createElement('div');
         memberContainer.classList.add('grid', 'grid-cols-3', 'gap-x-5', 'items-center', 'mb-4');
         memberContainer.id = uniqueId;
 
+        // حقل اختيار العضو
         let memberNameContainer = document.createElement('div');
         memberNameContainer.classList.add('grid', 'gap-y-5');
         let memberNameLabel = document.createElement('label');
@@ -57,6 +59,7 @@
         memberNameContainer.appendChild(memberSelect);
         memberContainer.appendChild(memberNameContainer);
 
+        // حقل إدخال الدور
         let memberRoleContainer = document.createElement('div');
         memberRoleContainer.classList.add('grid', 'gap-y-5');
         let memberRoleLabel = document.createElement('label');
@@ -69,6 +72,7 @@
         memberRoleContainer.appendChild(memberRoleInput);
         memberContainer.appendChild(memberRoleContainer);
 
+        // زر الحذف
         let removeMemberBtn = document.createElement('button');
         removeMemberBtn.classList.add('btn', 'bg-[#FAFBFD]', 'w-fit', 'mt-auto');
         removeMemberBtn.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`;
@@ -78,58 +82,53 @@
         memberContainer.appendChild(removeMemberBtn);
 
         fileContainer.appendChild(memberContainer);
-        // Handle member selection
+
+        // عند اختيار العضو
         memberSelect.addEventListener('change', function() {
-            let selectedOption = memberSelect.selectedOptions[0];
-            let memberId = selectedOption.value;
+            let memberId = memberSelect.value;
+            let memberName = memberSelect.selectedOptions[0].textContent.trim();
 
-            // Check if the member already exists in the array
-            let existingMember = arrayMembers.find(member => member.id === memberId);
+            // إضافة العضو إلى المصفوفة مع الدور الفارغ مؤقتاً
+            let memberObject = {
+                uniqueId: uniqueId,
+                id: memberId,
+                member: memberName,
+                role: ''
+            };
+            arrayMembers.push(memberObject);
 
-            if (!existingMember) {
-                arrayMembers.push({
-                    id: memberId,
-                    member: selectedOption.textContent.trim(),
-                    roles: [] // Initialize roles array
-                });
-            }
+            updateHiddenInput();
         });
 
-        // Handle role input
-        memberRoleInput.addEventListener('blur', function() { // Use 'blur' to handle full input
-            let selectedOption = memberSelect.selectedOptions[0];
-            let memberId = selectedOption.value;
-
-            // Find the member in the array
-            let existingMember = arrayMembers.find(member => member.id === memberId);
+        // عند تعديل الدور
+        memberRoleInput.addEventListener('blur', function() {
+            let existingMember = arrayMembers.find(member => member.uniqueId === uniqueId);
 
             if (existingMember) {
-                let roleInput = memberRoleInput.value.trim(); // Get trimmed input value
-
-                // Check if the role is not empty and not already in the roles array
-                if (roleInput !== "" && !existingMember.roles.includes(roleInput)) {
-                    existingMember.roles.push(roleInput); // Add the role to the roles array
-                }
+                existingMember.role = memberRoleInput.value.trim();
             }
 
-            // Update the hidden input field
-            document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
-
-            console.log('Updated arrayMembers:', arrayMembers);
+            updateHiddenInput();
         });
-
-
     }
 
+    // حذف العضو
     function removeMember(uniqueId) {
         let memberElement = document.getElementById(uniqueId);
         if (memberElement) {
             memberElement.remove();
 
-            arrayMembers.pop(memberElement)
+            // إزالة العضو من المصفوفة
+            arrayMembers = arrayMembers.filter(member => member.uniqueId !== uniqueId);
 
-            document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
+            updateHiddenInput();
         }
+    }
+
+    // تحديث الحقل المخفي
+    function updateHiddenInput() {
+        document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
+        console.log('Updated arrayMembers:', arrayMembers);
     }
 </script>
 @endpush
