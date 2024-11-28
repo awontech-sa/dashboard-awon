@@ -24,7 +24,7 @@
         <div class="hidden h-full flex-[0.3]
         2xl:contents
         xl:contents">
-            <ul class="menu bg-white text-base-content m min-h-full w-80 p-4">
+            <ul class="menu bg-white text-base-content m min-h-full w-80 p-4 my-16">
                 <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
@@ -83,20 +83,33 @@
                                 </div>
                                 <div class="offcanvas-body">
                                     <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
-                                        <li class="nav-item">
-                                            <a class="nav-link active" aria-current="page" href="#">Home</a>
+                                        <li class="nav item
+                                        hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                            <div class="flex items-center gap-x-4 text-lg my-auto">
+                                                <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
+                                                <a class="font-['Tajawal'] text-center mt-2" href="/">لوحة التحكم</a>
+                                            </div>
                                         </li>
-                                        <li class="nav-item dropdown">
-                                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                                Dropdown
-                                            </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                                <li><a class="dropdown-item" href="#">Another action</a></li>
+                                        <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700">
+                                            <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                                 <li>
-                                                    <hr class="dropdown-divider">
+                                                    <details>
+                                                        <summary class="font-['Tajawal']">
+                                                            <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                                            المشاريع التقنية
+                                                        </summary>
+                                                        <ul class="font-['Tajawal']">
+                                                            @foreach($dashboard as $project)
+                                                            <li>
+                                                                <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
+                                                                    <x-far-folder class="text-gray-500 w-6 h-6" />
+                                                                    <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
+                                                                </a>
+                                                            </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </details>
                                                 </li>
-                                                <li><a class="dropdown-item" href="#">Something else here</a></li>
                                             </ul>
                                         </li>
                                     </ul>
