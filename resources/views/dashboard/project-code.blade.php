@@ -3,17 +3,17 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8 text-base font-normal">
     <div class="grid gap-y-5">
         <label>رابط الموقع</label>
-        <a class="link" href="{{ $details->link ?? '' }}">رابط الموقع</a>
+        <input class="input" readonly value="{{ $details->link ?? '' }}" />
     </div>
 </div>
 
 <div class="grid grid-cols-2 gap-x-[3.3rem] text-base font-normal">
     <div class="grid gap-y-5">
         <label>رابط التطبيق على IOS</label>
-        <a class="link" href="{{ $details->ios ?? '' }}">رابط التطبيق</a>
+        <input class="input" readonly value="{{ $details->ios ?? '' }}" />
     </div>
     <div class="grid gap-y-5">
         <label>رابط التطبيق على Android</label>
-        <a class="link" href="{{ $details->android ?? '' }}">رابط التطبيق</a>
+        <input class="input" readonly value="{{ $details->android ?? '' }}" />
     </div>
 </div>
