@@ -19,7 +19,8 @@ class ProjectSupporters extends Model
         'report_files',
         'payment_order_files',
         'p_support_status',
-        'p_support_type'
+        'p_support_type',
+        'supporter_number'
     ];
 
     public function projects()

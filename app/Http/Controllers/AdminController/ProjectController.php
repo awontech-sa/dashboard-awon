@@ -193,9 +193,10 @@ class ProjectController extends Controller
                                     }
 
                                     $validated = [
+                                        'supporter_number' => $request->input('number-support') ?? '',
                                         'p_support_type' => $request->input('support-type') ?? '',      //كلي أو جزئي
                                         'p_support_status' => $request->input('support-status') ?? '',   //مدعوم أو غير مدعوم
-                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
+                                        'total_cost' => $request->input('project-income') ?? '',  //إجمالي تكلفة المشروع
                                         'supporter_name' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
                                         'support_amount' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'installments_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
@@ -266,13 +267,14 @@ class ProjectController extends Controller
                                     }
 
                                     $validated = [
+                                        'supporter_number' => $request->input('number-support') ?? '',
                                         'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                         'p_support_status' => $request->input('support-status'),
-                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
+                                        'total_cost' => $request->input('project-income') ?? '',  //إجمالي تكلفة المشروع
                                         'comp_support' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
                                         'project_income_total' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'payment_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
-                                        'project_installments' => $receiptProof ?? [],
+                                        'installments' => $receiptProof ?? [],
                                         'report_files' => $reportFiles ?? [],  //ملفات التقارير
                                         'payment_order_files' => $paymentFiles ?? [],  //ملفات أوامر الصرف
                                         'project_phases' => $disbursementProof ?? [], //ملفات إثبات الصرف
@@ -306,8 +308,8 @@ class ProjectController extends Controller
                             $validated = [
                                 'supporter_name' => $request->input("comp-name") ?? '',  //اسم الجهة الداعمة
                                 'total_cost' => $request->input("income-project") ?? '',  //التكلفة الإجمالية
-                                'installments_count' => $request->input("num-not-support") ?? '',  //عدد الدفعات
-                                'project_installments' => $receiptProof ?? [],
+                                'installments_count' => $request->input("num-not-support") ?? 0,  //عدد الدفعات
+                                'installments' => $receiptProof ?? [],
                                 'p_support_status' => $request->input('support-status') ?? '',
                                 'p_support_type' => $request->input('supporter') ?? ''
                             ];
@@ -412,16 +414,17 @@ class ProjectController extends Controller
 
                     $supporter = $project->supporter()->create([
                         'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
-                        'support_amount' => $data['financial-data']["support_amount"] ?? 0,
+                        'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
                         'installments_count' => $data['financial-data']["installments_count"] ?? 0,
                         'report_files' => $reportFiles,
                         'payment_order_files' => $paymentOrderFiles,
                         'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                         'p_support_status' => $data['financial-data']['p_support_status'] ?? null
                     ]);
-                    Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']["total_cost"] ?? 0]);
-                    if (!empty($data['financial-data']["project_installments"])) {
-                        foreach ($data['financial-data']["project_installments"] as $installmentProject) {
+                    Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
+                    ? trim($data['financial-data']["total_cost"] ?? '') : null]);
+                    if (!empty($data['financial-data']["installments"])) {
+                        foreach ($data['financial-data']["installments"] as $installmentProject) {
                             $supporter->Installments()->create([
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
@@ -469,12 +472,15 @@ class ProjectController extends Controller
                     ]);
                 }
 
-                if ($data['level']['all-stages'] !== null && $data['level']['stages-done'] !== null) {
+                if ($data['level']['all-stages'] !== null) {
                     foreach (json_decode($data['level']['all-stages']) as $level) {
                         Stages::create([
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number
                         ]);
+                    }
+
+                    if ($data['level']['stages-done'] !== null) {
                         foreach (json_decode($data['level']['stages-done']) as $done) {
                             $stageDone = Stages::where('stage_name', $done->stage_name)->first();
                             if ($stageDone) {

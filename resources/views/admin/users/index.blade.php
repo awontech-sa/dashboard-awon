@@ -47,7 +47,7 @@
                 <td>{{ $position->p_name }}</td>
                 @endforeach
 
-                <td>{{ count($user->projects) }}</td>
+                <td>{{ count($user->projects->unique('id')) }}</td>
                 <td>
                     @if($user->roles[0]->name !== 'Admin')
                     <a class="btn btn-sm btn-link bg-[#FAFBFD]" href="{{ route('admin.powers.show', ['id' => $user->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>

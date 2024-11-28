@@ -8,6 +8,7 @@
 
 <div class="grid gap-y-7 top-list stage-checkbox" id="stages"></div>
 <input type="hidden" name="array-stages">
+<input type="hidden" name="stages-done">
 
 <div class="my-8">
     <label for="project-name">اختر مراحل المشروع المنجزة <span class="text-red-600">*</span></label>
@@ -40,6 +41,7 @@
     let stageName = document.getElementById('stage_name');
     let stageOrder = document.getElementById('stage_order');
     let arrayStages = [];
+    let doneStages = [];
 
     function addNewStage() {
         let nameValue = stageName.value.trim();
@@ -91,8 +93,12 @@
 
         stages.appendChild(stageContainer);
 
+        arrayStages.push({
+            stage_name: stageContainer.querySelector('span[class="label-text"]').textContent,
+            stage_number: stageContainer.querySelector('input[name="stages[]"]').value
+        })
+        document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
 
-        // Add drag-and-drop listeners
         addDragAndDropListeners(stageContainer);
 
         stageName.value = '';
@@ -109,22 +115,21 @@
             cloneCheckbox.checked = true;
             cloneCheckbox.disabled = true; // Disable the checkbox in the clone
             stagesDone.appendChild(clone);
-            arrayStages.push({
+            doneStages.push({
                 stage_name: clone.querySelector('span[class="label-text"]').textContent,
                 stage_number: clone.querySelector('input[name="stages[]"]').value
             })
-            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
-
+            document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
         } else {
             let doneStages = Array.from(stagesDone.children);
             doneStages.forEach(stage => {
                 if (stage.querySelector('span').textContent === parentContainer.querySelector('span').textContent) {
                     stagesDone.removeChild(stage);
-                    arrayStages.pop({
+                    doneStages.pop({
                         stage_name: stage.querySelector('span[class="label-text"]').textContent,
                         stage_number: stage.querySelector('input[name="stages[]"]').value
                     })
-                    document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+                    document.querySelector('input[name="stages-done"]').value = JSON.stringify(doneStages);
                 }
             });
         }

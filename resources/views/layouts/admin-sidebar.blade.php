@@ -52,31 +52,31 @@
                 </div>
             </div>
             <ul class="menu bg-white text-base-content min-h-full w-80 px-4 py-10">
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
-                        <x-fas-users class="text-cyan-700 w-7 h-7" />
-                        <a class="font-['Tajawal'] text-center mt-2">أقسام المشاريع</a>
+                        <x-fas-list class="text-cyan-700 w-7 h-7" />
+                        <a class="text-right text-base mt-2">أقسام المشاريع</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
-                        <x-fas-users class="text-cyan-700 w-7 h-7" />
-                        <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
+                        <x-fas-hand-holding-dollar class="text-cyan-700 w-7 h-7" />
+                        <a class="font-['Tajawal'] text-right mt-2">التحصيل</a>
                     </div>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>
@@ -98,15 +98,13 @@
                         </li>
                     </ul>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>
                                 <summary class="font-['Tajawal']">
-                                    <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                     مشاريع تنمية الموارد
                                 </summary>
-                                //
                             </details>
                         </li>
                     </ul>
@@ -145,7 +143,11 @@
                             </div>
                             <div class="offcanvas-body">
                                 <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-base my-8">
+                                    @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($admin->profile_image)))
+                                    <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                                    @else
                                     <img src="{{ $admin->profile_image }}" class="w-14" alt="image-profile" />
+                                    @endif
                                     <div class="grid">
                                         <p>{{ $admin->name }}</p>
                                         @foreach($admin->roles as $role)
@@ -167,35 +169,35 @@
                                 </div>
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.dashboard') }}">لوحة التحكم</a>
                                         </div>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-users class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('admin.users') }}">الحسابات</a>
                                         </div>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
-                                        <div class="flex items-center gap-x-4 text-lg my-auto">
-                                            <x-fas-users class="text-cyan-700 w-7 h-7" />
-                                            <a class="font-['Tajawal'] text-center mt-2">أقسام المشاريع</a>
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
+                                            <x-fas-list class="text-cyan-700 w-7 h-7" />
+                                            <a class="text-right text-base mt-2">أقسام المشاريع</a>
                                         </div>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-users class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
                                         </div>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                             <li>
                                                 <details>
@@ -206,7 +208,7 @@
                                                     <ul class="font-['Tajawal']">
                                                         @foreach($dashboard as $project)
                                                         <li>
-                                                            <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
+                                                            <a class="flex items-center gap-x-3" href="{{ route('admin.show.project', $project->id) }}">
                                                                 <x-far-folder class="text-gray-500 w-6 h-6" />
                                                                 <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                                             </a>
@@ -218,15 +220,13 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                             <li>
                                                 <details>
                                                     <summary class="font-['Tajawal']">
-                                                        <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                                         مشاريع تنمية الموارد
                                                     </summary>
-                                                    //
                                                 </details>
                                             </li>
                                         </ul>
