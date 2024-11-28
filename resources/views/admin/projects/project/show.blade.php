@@ -74,8 +74,8 @@
             <p class="font-normal text-base text-center">انقر على الرقم لعرض البيانات </p>
         </div>
         
-        <div role="tablist" class="tabs my-14 tabs-boxed bg-transparent">
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" checked="checked" />
+        <div role="tablist" class="tabs my-16 tabs-boxed bg-transparent">
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" />
             <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.general-data')
             </div>
