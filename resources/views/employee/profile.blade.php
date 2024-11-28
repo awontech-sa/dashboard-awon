@@ -70,8 +70,7 @@ md:grid md:gap-y-4">
             <div class="grid grid-cols-3 items-center">
                 <p>{{ $project->p_name }}</p>
                 <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
-                
-                <progress class="w-32 rounded-md" value="{{ $stage->stageOfProject->count() }}" max="5">25</progress>
+                <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
             </div>
             @endforeach
             @endforeach

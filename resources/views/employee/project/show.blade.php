@@ -29,7 +29,6 @@
             <div class="w-[20.2rem] pt-6 pr-5 h-28 bg-white border-[#ECEEF6] rounded-md border-2">
                 <div>
                     <p class="font-bold text-base">نسبة إنجاز المشروع</p>
-                    <small class="font-normal text-sm">المرحلة الحالية: اختبار جودة النظام</small>
                 </div>
                 <div class="flex items-center gap-x-2">
                     <small class="text-sm font-normal text-gray-500">{{ count($stages) }}/5 إنجاز المراحل</small>
