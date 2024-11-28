@@ -12,8 +12,9 @@
         <a href="{{ route('admin.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
     </div>
     <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-0
+    md:w-[46rem]
     2xl:w-[1103px] 2xl:table
-    xl:w-[1103px] xl:table">
+    xl:w-[60rem] xl:table">
         <!-- head -->
         <thead>
             <tr class="text-center">

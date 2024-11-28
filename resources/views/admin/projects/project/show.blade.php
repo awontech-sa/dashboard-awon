@@ -1,14 +1,17 @@
 @extends('layouts.admin-sidebar')
 @section('admin-content')
-<div class="grid font-['Tajawal'] font-bold text-xl mx-[6.4rem]">
+<div class="grid font-['Tajawal'] font-bold text-xl mx-auto w-auto">
     <section>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-evenly">
             <h1>{{ $project->p_name }}</h1>
             <button class="btn btn-sm bg-[#FAFBFD]" onclick="my_modal_1.showModal()">حذف المشروع <x-far-trash-can class="w-4 h-4 text-red-500" /></button>
         </div>
-        <div class="grid grid-cols-2 gap-x-10 gap-y-8 w-fit mt-7">
+        <div class="grid grid-cols-2 gap-y-8 my-7 mx-auto w-fit
+        2xl:gap-x-16 2xl:grid-cols-4
+        xl:gap-x-4
+        md:gap-x-4">
             <!-- start of project status section -->
-            <div class="w-[20.2rem] h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
+            <div class="w-auto h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
                 <div class="flex items-center gap-x-[7.2rem]">
                     <p class="font-bold text-base">حالة المشروع</p>
                     <img src="{{ asset("assets/icons/project_status.png") }}" class="w-5" alt="project-status" />
@@ -65,13 +68,13 @@
         </div>
     </section>
 
-    <section>
+    <section class="mx-auto">
         <div class="flex items-center justify-around pt-16">
             <h1 class="font-bold text-xl text-center">بيانات المشروع</h1>
             <p class="font-normal text-base text-center">انقر على الرقم لعرض البيانات </p>
         </div>
-
-        <div role="tablist" class="tabs mt-14 tabs-boxed bg-transparent">
+        
+        <div role="tablist" class="tabs my-14 tabs-boxed bg-transparent">
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" checked="checked" />
             <div role="tabpanel" class="tab-content">
                 @include('admin.projects.project.general-data')

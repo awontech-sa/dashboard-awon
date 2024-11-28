@@ -53,14 +53,14 @@
                 </div>
             </div>
             <ul class="menu bg-white text-base-content min-h-full w-80 px-4 py-10">
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
                 @if($accountsPermission)
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
@@ -68,14 +68,14 @@
                 </li>
                 @endif
                 @if($collectionPermission)
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
                     </div>
                 </li>
                 @endif
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>
@@ -97,7 +97,7 @@
                         </li>
                     </ul>
                 </li>
-                <li class="hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
                             <details>
@@ -144,7 +144,11 @@
                             </div>
                             <div class="offcanvas-body">
                                 <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-base my-8">
+                                    @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($employee->profile_image)))
+                                    <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14" alt="image-profile" />
+                                    @else
                                     <img src="{{ $employee->profile_image }}" class="w-14" alt="image-profile" />
+                                    @endif
                                     <div class="grid">
                                         <p>{{ $employee->name }}</p>
                                         @foreach($employee->roles as $role)
@@ -154,6 +158,7 @@
                                     <div class="dropdown">
                                         <div tabindex="0" role="button" class="btn m-1">. . .</div>
                                         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
+                                            <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
                                             <li><a href="{{ route('employee.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                                             <li>
                                                 <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
@@ -166,7 +171,7 @@
                                 </div>
                                 <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
@@ -174,7 +179,7 @@
                                     </li>
                                     @if($accountsPermission)
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-users class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
@@ -183,7 +188,7 @@
                                     @endif
                                     @if($collectionPermission)
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
                                             <x-fas-users class="text-cyan-700 w-7 h-7" />
                                             <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
@@ -191,7 +196,7 @@
                                     </li>
                                     @endif
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                             <li>
                                                 <details>
@@ -214,7 +219,7 @@
                                         </ul>
                                     </li>
                                     <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:font-bold hover:text-cyan-700 my-2">
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                                             <li>
                                                 <details>

@@ -707,8 +707,8 @@
 
         let removeReportButton = document.createElement('button');
         removeReportButton.type = 'button';
-        removeReportButton.classList.add('btn', 'btn-error', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
-        removeReportButton.textContent = 'حذف'
+        removeReportButton.classList.add('btn', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
+        removeReportButton.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`
         removeReportButton.name = 'remove-report';
         removeReportButton.id = 'remove_report';
 
@@ -730,9 +730,9 @@
         fileInput.id = `payment_report_${files}`
 
         let removeFileButton = document.createElement('button')
-        removeFileButton.classList.add('btn', 'btn-error', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
+        removeFileButton.classList.add('btn', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
         removeFileButton.type = 'button'
-        removeFileButton.textContent = 'حذف'
+        removeFileButton.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`
         removeFileButton.name = 'remove-file'
         removeFileButton.id = 'remove_file'
 

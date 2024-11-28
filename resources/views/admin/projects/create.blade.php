@@ -10,7 +10,7 @@
     @include('layouts.error-message')
     @endif
 
-    <div role="tablist" class="tabs mt-11 tabs-boxed bg-transparent">
+    <div role="tablist" class="tabs my-11 tabs-boxed bg-transparent">
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="01" {{ $step == 1 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
@@ -68,10 +68,12 @@
 
                     <div class="join grid grid-cols-2 w-1/4">
                         @if($step == 5 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            hover:bg-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            hover:bg-cyan-700">
                                 التالي
                             </button>
                             @endif

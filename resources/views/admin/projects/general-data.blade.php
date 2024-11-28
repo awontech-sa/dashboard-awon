@@ -38,7 +38,7 @@
         <div class="grid gap-y-5
         2xl:w-auto">
             <label for="type-benef">نوع المستفيدين من المشروع <span class="text-red-600">*</span></label>
-            <select class="select select-bordered w-full max-w-xs" name="type-benef">
+            <select class="select select-bordered w-full" name="type-benef">
                 @foreach (App\Enums\TypeBenefEnum::cases() as $status)
                 <option value="{{ $status->value }}" {{ old('type-benef', $data['type_benef'] ?? '') == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
                 @endforeach
@@ -52,7 +52,7 @@
 
     <div class="join grid grid-cols-2 w-1/4">
         @if($step == 1)
-        <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item w-1/2 btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+        <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
             التالي
         </button>
         @endif
