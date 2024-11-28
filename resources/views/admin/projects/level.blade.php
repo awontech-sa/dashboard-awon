@@ -52,6 +52,11 @@
             return;
         }
 
+        if (arrayStages.some(stage => stage.stage_number === orderValue)) {
+            alert('رقم الترتيب مكرر، يرجى إدخال رقم ترتيب مختلف!');
+            return;
+        }
+
         let stageContainer = document.createElement('div');
         stageContainer.classList.add('flex', 'gap-x-4', 'draggable', 'new-stage');
         stageContainer.draggable = true;
