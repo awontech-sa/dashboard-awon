@@ -353,11 +353,12 @@ class ProjectController extends Controller
             if ($request->hasFile('attachment-file')) {
                 foreach ($request->file('attachment-file') as $key => $file) {
                     if ($file->isValid()) {
-                        $fileName = time() . '.' . $key . '.' . $file->getClientOriginalExtension();
+                        $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
                         $validated[] = [
                             'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
                             'file_name' => $request->input('file-name')[$key] ?? null
                         ];
+                        dd($validated, $key);
                     }
                 }
             }
