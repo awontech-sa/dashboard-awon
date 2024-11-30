@@ -31,7 +31,7 @@ class AdminController extends Controller
 
         $projects = Projects::all();
 
-        $dashboard = Projects::with('stageOfProject')->first()->take(4)->get();
+        $dashboard = Projects::with('stageOfProject')->first()->take(4)->get() ?? null;
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();
