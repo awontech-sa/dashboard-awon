@@ -35,6 +35,7 @@ Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class,
 // start admin route
 Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
+    Route::get('/percentage-projects', [AdminController::class, 'show'])->name('percentage');
 
     //start users route
     Route::get('/users', [UsersController::class, 'index'])->name('users');

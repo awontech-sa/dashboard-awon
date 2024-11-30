@@ -24,6 +24,7 @@ class RoleMiddleware
         if ($user->hasRole('Admin')) {
             $adminUrls = [
                 url('/admin/panel'),
+                url('/admin/percentage-projects'),
                 url('/admin/users'),
                 url("/admin/users/{$request->id}"),
                 url("/admin/users/update/{$request->id}"),
