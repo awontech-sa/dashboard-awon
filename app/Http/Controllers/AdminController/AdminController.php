@@ -66,7 +66,7 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
-        $dashboard = Projects::with('stageOfProject')->get();
+        $dashboard = Projects::with('stageOfProject')->get() ?? null;
 
         $projects = Projects::all();
 
