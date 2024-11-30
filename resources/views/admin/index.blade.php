@@ -169,7 +169,7 @@
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
           <p>{{ $project->stages->count() }}/{{ $project->stage->count() }}</p>
-          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="5"></progress>
+          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="{{ $project->stage->count() }}"></progress>
         </div>
         @endforeach
       </div>

@@ -17,9 +17,9 @@
     
             <div class="flex items-center gap-x-5">
                 <p class="text-sm font-normal
-                max-md:text-xs">تم إنجاز {{ $project->stages->count() }} من أصل 5 مراحل</p>
+                max-md:text-xs">تم إنجاز {{ $project->stages->count() }} من أصل {{ $project->stage->count() }} مراحل</p>
                 <progress class="progress progress-success w-56
-                max-md:w-16" value="{{ $project->stages->count() }}" max="5"></progress>
+                max-md:w-16" value="{{ $project->stages->count() }}" max="{{ $project->stage->count() }}"></progress>
             </div>
         </div>
         @endforeach
