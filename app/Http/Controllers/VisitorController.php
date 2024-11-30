@@ -23,7 +23,7 @@ class VisitorController extends Controller
     {
         $viewChart = $this->viewChartService->getProjectsIncome();
 
-        $dashboard = Projects::with('stageOfProject')->get();
+        $dashboard = Projects::with('stageOfProject')->get() ?? null;;
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();

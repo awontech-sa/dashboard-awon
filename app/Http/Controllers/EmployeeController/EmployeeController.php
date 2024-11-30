@@ -32,7 +32,7 @@ class EmployeeController extends Controller
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
-        $dashboard = Projects::with('stageOfProject')->get();
+        $dashboard = Projects::with('stageOfProject')->get() ?? null;;
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();

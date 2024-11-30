@@ -31,7 +31,7 @@ class SettingController extends Controller
     public function index()
     {
         $user = User::with('positions')->findOrFail($this->employee->id);
-        $dashboard = Projects::with('stageOfProject')->get();
+        $dashboard = Projects::with('stageOfProject')->get() ?? null;;
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
