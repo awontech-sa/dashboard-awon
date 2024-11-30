@@ -20,6 +20,7 @@ class AdminController extends Controller
 
     public function index()
     {
+        $dashboard = [];
         /** @var \App\Models\User */
         $admin = Auth::user();
 
@@ -30,8 +31,9 @@ class AdminController extends Controller
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
         $projects = Projects::all();
-
-        $dashboard = Projects::with('stageOfProject')->first()->take(4)->get() ?? null;
+        if ($projects) {
+            $dashboard = Projects::with('stageOfProject')->first()->take(4)->get() ?? null;
+        }
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();
@@ -60,6 +62,7 @@ class AdminController extends Controller
 
     public function show()
     {
+        $dashboard = [];
         $admin = Auth::user();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
@@ -69,6 +72,9 @@ class AdminController extends Controller
         $dashboard = Projects::with('stageOfProject')->get() ?? null;
 
         $projects = Projects::all();
+        if ($projects) {
+            $dashboard = Projects::with('stageOfProject')->first()->take(4)->get() ?? null;
+        }
 
         return view('admin.percentage-projects', [
             'admin' => $admin,

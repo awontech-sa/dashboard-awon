@@ -36,7 +36,7 @@ class ProfileController extends Controller
         $inProgressProjects = $this->employee->projects->where('project_status', 'قيد التنفيذ');
         $completedProjects = $this->employee->projects->where('project_status', 'مكتمل');
         $stoppedProjects = $this->employee->projects->where('project_status', 'معلق');
-        $dashboard = Projects::with('stageOfProject')->get() ?? null;;
+        $dashboard = Projects::with('stageOfProject')->get();
 
         $stages = [];
         foreach ($projects as $project) {
