@@ -4,6 +4,7 @@
     <div class="grid mt-[2.9rem] gap-y-5 pb-52">
         @foreach($files as $key => $file)
         <!-- start of files section -->
+        @if(str_contains(basename($file->file), 'pdf'))
         <small class="font-normal text-base">{{ $file->file_name ?? ''}}</small>
         <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between">
             <div class="flex gap-x-5 p-4 items-center">
@@ -12,6 +13,7 @@
             </div>
             <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file ?? '' }}" download="">عرض الملف</a>
         </div>
+        @endif
         <!-- end of files section -->
         @if(str_contains(basename($file->file), 'mp4'))
         <!-- start of video section -->
@@ -24,7 +26,7 @@
             <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file ?? '' }}" download="">عرض الملف</a>
         </div>
         <!-- end of video section -->
-         @endif
-         @endforeach
+        @endif
+        @endforeach
     </div>
 </section>
