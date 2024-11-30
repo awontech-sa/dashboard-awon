@@ -352,7 +352,6 @@ class ProjectController extends Controller
             $validated = [];
             if ($request->hasFile('attachment-file')) {
                 foreach ($request->file('attachment-file') as $key => $file) {
-                    dd($request->input('file-name')[$key]);
                     if ($file->isValid()) {
                         $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
                         $validated[] = [
