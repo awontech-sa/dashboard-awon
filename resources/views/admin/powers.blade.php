@@ -1,17 +1,18 @@
 @extends('layouts.admin-sidebar')
 
 @section('admin-content')
-<section class="font-['Tajawal'] mx-[3.8rem] max-md:mx-6">
+<section class="font-['Tajawal'] mx-[3.8rem]
+max-md:mx-6">
     <h1 class="font-bold text-xl">الصلاحيات</h1>
 
-    <div class="grid my-[3.2rem] grid-cols-1 gap-y-[3.2rem]
-    md:mx-20
+    <div class="grid my-[3.2rem] grid-cols-1 gap-y-[3.2rem] w-fit
     2xl:w-fit 2xl:mx-auto 2xl:gap-x-16 2xl:grid-cols-2
-    xl:grid-cols-2">
+    xl:grid-cols-2 xl:gap-x-40 xl:mx-0">
         @foreach($sections as $section)
         <div class="grid gap-y-5">
             <small class="font-medium text-xl">{{ $section->ps_name }}</small>
-            <div class="bg-white w-fit h-24 rounded-xl border flex">
+            <div class="bg-white w-fit h-24 rounded-xl border flex
+            max-md:w-auto">
                 @foreach (App\Enums\PermissionsEnum::cases() as $status)
                 <div class="form-control my-auto mx-2">
                     <label class="cursor-pointer label flex items-center gap-x-5">
