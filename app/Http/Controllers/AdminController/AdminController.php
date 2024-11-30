@@ -32,7 +32,7 @@ class AdminController extends Controller
 
         $projects = Projects::all();
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject')->first()->take(4)->get();
+            $dashboard = Projects::with('stageOfProject')->take(4)->get();
         }
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
@@ -71,7 +71,7 @@ class AdminController extends Controller
 
         $projects = Projects::all();
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject')->first()->take(4)->get();
+            $dashboard = Projects::with('stageOfProject')->take(4)->get();
         }
 
         return view('admin.percentage-projects', [
