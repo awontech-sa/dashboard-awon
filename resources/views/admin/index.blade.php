@@ -87,12 +87,12 @@
     <!-- end in progress projects -->
   </section>
 
-  <section class="grid grid-cols-1 gap-x-20 mx-10 my-6 w-auto
+  <section class="grid grid-cols-1 gap-x-20 mx-10 my-6 w-fit
   2xl:mx-20
-  xl:grid-cols-3 xl:mx-4 xl:gap-x-5
+  xl:grid-cols-3 xl:gap-x-6 xl:mx-4
   md:grid-cols-1 md:mx-32 md:gap-y-4
   max-md:mx-12 max-md:gap-y-4">
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[40rem]
     xl:w-80
     md:w-[32rem]
@@ -111,7 +111,7 @@
       </div>
     </div>
 
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[40rem]
       xl:w-80
     md:w-[32rem]
@@ -130,7 +130,7 @@
       </div>
     </div>
 
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[41rem]
     xl:w-80
     md:w-[32rem]
@@ -150,9 +150,9 @@
     </div>
   </section>
 
-  <section class="grid grid-cols-2 w-auto my-7 font-['Tajawal'] mx-[7.7rem]
-    2xl:grid-cols-2 2xl:mx-20
-    xl:gap-x-4 xl:w-fit xl:grid-cols-2 xl:mx-0
+  <section class="grid grid-cols-2 w-fit my-7 font-['Tajawal'] mx-[7.7rem]
+    2xl:grid-cols-2 2xl:mx-20 2xl:w-auto
+    xl:grid-cols-2 xl:mx-0
     md:grid-cols-1 md:mx-24 md:gap-y-4
     max-md:grid-cols-1 max-md:mx-4 max-md:gap-y-4">
     <div class="w-[516px] bg-white border-2 border-[#ECEEF6] rounded-md mx-6
@@ -162,7 +162,7 @@
       max-md:w-[16rem] max-md:px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
-        <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
+        <a href="" class="link text-blue-600">عرض الكل ←</a>
       </div>
       <div class="w-auto grid gap-y-6">
         @foreach($dashboard as $project)
@@ -182,7 +182,7 @@
       max-md:w-[16rem] max-md:mx-7 max-md:px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">إجمالي دخل المشاريع</p>
-        <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
+        <a href="" class="link text-blue-600">عرض الكل ←</a>
       </div>
       {{-- <div class="flex py-4">
         <div class="w-[475px] grid gap-y-6">
@@ -210,9 +210,9 @@
     </div>
   </section>
 
-  <section class="grid grid-cols-2 font-['Tajawal'] mx-[7.7rem] w-auto
-  2xl:mx-20
-  xl:mx-4 xl:w-fit xl:gap-x-4 xl:grid-cols-2
+  <section class="grid grid-cols-2 font-['Tajawal'] mx-[7.7rem] w-fit
+  2xl:mx-20 2xl:w-auto
+  xl:mx-4 xl:w-fit xl:gap-x-8 xl:grid-cols-2
   md:grid-cols-1 md:gap-y-6 md:mx-24
   max-md:grid-cols-1 max-md:mx-10 max-md:gap-y-4">
     <div class="h-[302px] bg-white rounded-md p-7 border-2 border-[#ECEEF6]
