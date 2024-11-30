@@ -29,7 +29,7 @@
       2xl:mx-[5.2rem]
       xl:mx-4
       md:mx-4">
-        <p class="font-bold text-3xl">{{ count($dashboard) }}</p>
+        <p class="font-bold text-3xl">{{ count($projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>

@@ -27,7 +27,7 @@ class ProjectController extends Controller
     {
         $admin = Auth::user();
         $users = User::all();
-        $dashboard = Projects::all();
+        $projects = Projects::all();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -41,7 +41,7 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "chart" => $viewChart,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -53,7 +53,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -64,7 +64,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -75,7 +75,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -86,7 +86,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -97,7 +97,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -108,7 +108,7 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     "chart" => $viewChart,
-                    'dashboard' => $dashboard,
+                    'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -167,7 +167,7 @@ class ProjectController extends Controller
                                                 $receiptProof[] = [
                                                     'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
                                                     'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}") ?? false,  //حالة استلام الدفعة
-                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? ''
+                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null
                                                 ];
                                             }
                                         }
@@ -178,7 +178,7 @@ class ProjectController extends Controller
                                             if ($request->hasFile("installment-report-{$j}")) {
                                                 $file = $request->file("installment-report-{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                                $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
+                                                $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName) ?? null;
                                             }
                                         }
                                     }
@@ -188,17 +188,16 @@ class ProjectController extends Controller
                                             if ($request->hasFile("payment-report-{$k}")) {
                                                 $file = $request->file("payment-report-{$k}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                                $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
+                                                $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName) ?? null;
                                             }
                                         }
                                     }
-
                                     $validated = [
-                                        'supporter_number' => $request->input('number-support') ?? '',
-                                        'p_support_type' => $request->input('support-type') ?? '',      //كلي أو جزئي
-                                        'p_support_status' => $request->input('support-status') ?? '',   //مدعوم أو غير مدعوم
-                                        'total_cost' => $request->input('project-income') ?? '',  //إجمالي تكلفة المشروع
-                                        'supporter_name' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
+                                        'supporter_number' => $request->input('number-support') ?? 0,
+                                        'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
+                                        'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                        'supporter_name' => $request->input("comp-support-{$i}") ?? null,   //الجهة الداعمة
                                         'support_amount' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'installments_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
                                         'installments' => $receiptProof ?? [],
@@ -224,8 +223,8 @@ class ProjectController extends Controller
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $receiptProof[] = [
                                                     'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
-                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
-                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
+                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}") ?? false,  //حالة استلام الدفعة
+                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null
                                                 ];
                                             }
                                         }
@@ -257,22 +256,22 @@ class ProjectController extends Controller
                                                 $file = $request->file("stages_files_{$i}_{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $disbursementProof[] = [
-                                                    'expected_cost' => $request->input("project-expected-income-{$i}"),  //تكلفة المشروع المتوقعة
-                                                    'actual_cost' => $request->input("project-expected-real-{$i}"),  //تكلفة المشروع الفعلية
-                                                    'phase_cost' => $request->input("stages_amount_{$i}_{$j}"),  //تكلفة المرحلة
-                                                    'disbursement_status' => $request->input("stages_status_{$i}_{$j}"),  //حالة الصرف
-                                                    'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName)
+                                                    'expected_cost' => $request->input("project-expected-income-{$i}") ?? 0,  //تكلفة المشروع المتوقعة
+                                                    'actual_cost' => $request->input("project-expected-real-{$i}") ?? 0,  //تكلفة المشروع الفعلية
+                                                    'phase_cost' => $request->input("stages_amount_{$i}_{$j}") ?? 0,  //تكلفة المرحلة
+                                                    'disbursement_status' => $request->input("stages_status_{$i}_{$j}") ?? false,  //حالة الصرف
+                                                    'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
                                                 ];
                                             }
                                         }
                                     }
 
                                     $validated = [
-                                        'supporter_number' => $request->input('number-support') ?? '',
-                                        'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
-                                        'p_support_status' => $request->input('support-status'),
-                                        'total_cost' => $request->input('project-income') ?? '',  //إجمالي تكلفة المشروع
-                                        'comp_support' => $request->input("comp-support-{$i}") ?? '',   //الجهة الداعمة
+                                        'supporter_number' => $request->input('number-support') ?? 0,
+                                        'p_support_type' => $request->input('support-type') ?? null,    //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status') ?? false,
+                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
+                                        'comp_support' => $request->input("comp-support-{$i}") ?? null,   //الجهة الداعمة
                                         'project_income_total' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'payment_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
                                         'installments' => $receiptProof ?? [],
@@ -300,7 +299,7 @@ class ProjectController extends Controller
                                         $receiptProof[] = [
                                             'installment_amount' => $request->input("installment_amount_0_{$i}") ?? 0,  //قيمة الدفعة
                                             'installment_receipt_status' => $request->input("installment_status_0_{$i}") ?? false,  //حالة استلام الدفعة
-                                            'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? '',
+                                            'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null,
                                         ];
                                     }
                                     $receiptProof[] = [
@@ -311,12 +310,12 @@ class ProjectController extends Controller
                             }
 
                             $validated = [
-                                'supporter_name' => $request->input("comp-name") ?? '',  //اسم الجهة الداعمة
-                                'total_cost' => $request->input("income-project") ?? '',  //التكلفة الإجمالية
+                                'supporter_name' => $request->input("comp-name") ?? null,  //اسم الجهة الداعمة
+                                'total_cost' => $request->input("income-project") ?? 0,  //التكلفة الإجمالية
                                 'installments_count' => $request->input("num-not-support") ?? 0,  //عدد الدفعات
                                 'installments' => $receiptProof ?? [],
-                                'p_support_status' => $request->input('support-status') ?? '',
-                                'p_support_type' => $request->input('supporter') ?? ''
+                                'p_support_status' => $request->input('support-status') ?? false,
+                                'p_support_type' => $request->input('supporter') ?? null
                             ];
                             break;
                         case 'عون التقنية':
@@ -328,7 +327,7 @@ class ProjectController extends Controller
                                         $disbursementProof[] = [
                                             'phase_cost' => $request->input("stages_amount_0_{$i}") ?? 0,
                                             'disbursement_status' => $request->input("stages_status_0_{$i}") ?? false,  //حالة الصرف
-                                            'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? ''
+                                            'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
                                         ];
                                     }
                                 }
@@ -338,8 +337,8 @@ class ProjectController extends Controller
                                 'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
                                 'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
                                 'project_phases' => $disbursementProof ?? [],
-                                'p_support_status' => $request->input('support-status') ?? '',
-                                'p_support_type' => $request->input('supporter') ?? ''
+                                'p_support_status' => $request->input('support-status') ?? null,
+                                'p_support_type' => $request->input('supporter') ?? null
                             ];
                             break;
                     }
@@ -356,8 +355,8 @@ class ProjectController extends Controller
                     if ($file->isValid()) {
                         $fileName = time() . '.' . $key . $file->getClientOriginalExtension();
                         $validated[] = [
-                            'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName),
-                            'file_name' => $request->input('file-name')[$key] ?? ''
+                            'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
+                            'file_name' => $request->input('file-name')[$key] ?? null
                         ];
                     }
                 }
@@ -366,8 +365,8 @@ class ProjectController extends Controller
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
             $validated = [
-                'project_status' => $request->input('project-status') ?? '',
-                'comment' => $request->input('comment') ?? ''
+                'project_status' => $request->input('project-status') ?? null,
+                'comment' => $request->input('comment') ?? null
             ];
             session(['project_step4' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 5]);
@@ -414,7 +413,7 @@ class ProjectController extends Controller
                         : '[]';
 
                     $paymentOrderFiles = isset($data['financial-data']["payment_order_files"])
-                        ? json_encode(array_map(fn($order) => ['payment-order' => $order], $data['financial-data']["payment_order_files"]))
+                        ? json_encode(array_map(fn($order) => ['payment_order' => $order], $data['financial-data']["payment_order_files"]))
                         : '[]';
 
                     $supporter = $project->supporter()->create([
@@ -424,8 +423,10 @@ class ProjectController extends Controller
                         'report_files' => $reportFiles,
                         'payment_order_files' => $paymentOrderFiles,
                         'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                        'p_support_status' => $data['financial-data']['p_support_status'] ?? null
+                        'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                        'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
                     ]);
+                    
                     Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
                         ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                     if (!empty($data['financial-data']["installments"])) {
@@ -434,7 +435,7 @@ class ProjectController extends Controller
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
                                 'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                'receipt_proof' => $installmentProject["receipt_proof"] ?? '',
+                                'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
                             ]);
                         }
                     }
@@ -547,7 +548,7 @@ class ProjectController extends Controller
         $admin = Auth::user();
         $users = User::all();
         $project = Projects::findOrFail($id);
-        $dashboard = Projects::all();
+        $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();
 
@@ -578,7 +579,7 @@ class ProjectController extends Controller
             'project' => $project,
             "chart" => $viewChart,
             'supporter' => $supporter,
-            'dashboard' => $dashboard,
+            'projects' => $projects,
             'files' => $files,
             'team' => $team,
             'details' => $details,

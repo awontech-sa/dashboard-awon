@@ -29,7 +29,7 @@ class SettingController extends Controller
 
         $user = User::with('positions')->findOrFail($admin->id);
 
-        $dashboard = Projects::all();
+        $projects = Projects::all();
 
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
@@ -41,7 +41,7 @@ class SettingController extends Controller
             "position" => $position[0],
             'admin' => $admin,
             'chart' => $viewChart,
-            'dashboard' => $dashboard,
+            'projects' => $projects,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);

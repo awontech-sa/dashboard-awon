@@ -29,6 +29,8 @@ class AdminController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
+        $projects = Projects::all();
+
         $dashboard = Projects::with('stageOfProject')->first()->take(4)->get();
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
@@ -42,6 +44,7 @@ class AdminController extends Controller
         return view('admin.index', [
             'user' => $user,
             'admin' => $admin,
+            'projects' => $projects,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
             'completed_projects' => $completed_projects,
@@ -65,9 +68,12 @@ class AdminController extends Controller
 
         $dashboard = Projects::with('stageOfProject')->get();
 
+        $projects = Projects::all();
+
         return view('admin.percentage-projects', [
             'admin' => $admin,
             'chart' => $viewChart,
+            'projects' => $projects,
             'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,

@@ -24,7 +24,7 @@ class PowersController extends Controller
     {
         $admin = Auth::user();
         $powersSections = PowersSections::all();
-        $dashboard = Projects::all();
+        $projects = Projects::all();
 
         $userPermissions = User::with('powersSections')->where('id', $id)->first();
 
@@ -35,7 +35,7 @@ class PowersController extends Controller
             'sections' => $powersSections,
             'userPermission' => $userPermissions,
             // 'projects' => $projects,
-            'dashboard' => $dashboard,
+            'projects' => $projects,
             'id' => $id,
             'admin' => $admin,
             'chart' => $viewChart,

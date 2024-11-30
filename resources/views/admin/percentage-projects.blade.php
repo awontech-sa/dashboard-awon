@@ -5,7 +5,7 @@
     <h1 class="font-bold text-xl">نسبة إنجاز المشاريع</h1>
     
     <div class="grid gap-y-5 my-8">
-        @foreach($dashboard as $project)
+        @foreach($projects as $project)
         <div class="w-full h-20 bg-white border-gray-500 border-[0.6px] rounded-xl flex justify-around items-center
         max-md:max-w-xs max-md:grid">
             <div class="flex items-center gap-x-6">

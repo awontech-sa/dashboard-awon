@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="mt-4">
-            <table class="w-full border mt-2">
+            <table class="w-full border mt-2 table text-center">
                 <th class="border px-4 py-2">المرحلة</th>
                 <th class="border px-4 py-2">تكلفة المرحلة</th>
                 <th class="border px-4 py-2">حالة الصرف</th>

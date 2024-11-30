@@ -62,7 +62,7 @@
                 <div class="grid gap-y-4">
                     @if($supporter->report_files)
                     @foreach(json_decode($supporter->report_files) as $report)
-                    <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                    <div class="h-[4.1rem] bg-white rounded flex justify-between" key="{{ $i }}">
                         <div class="flex gap-x-5 p-4 items-center">
                             <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
                         </div>
@@ -73,7 +73,7 @@
                 </div>
             </div>
 
-            <div class="installment-files my-4" id="installment_files_${i}">
+            <div class="installment-files my-4" id="installment_files_${i}" key="{{ $i }}">
                 <div class="flex gap-x-4 my-7">
                     <p>أوامر الصرف</p>
                 </div>
@@ -89,6 +89,48 @@
                     @endforeach
                     @endif
                 </div>
+            </div>
+        </div>
+
+        <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+        <div class="grid">
+            <div class="grid grid-cols-2 gap-x-7">
+                <div class="grid my-2">
+                    <label class="font-normal text-base mb-2">
+                        تكلفة المشروع المتوقعة
+                        <span class="text-red-600">*</span>
+                    </label>
+                    <input type="text" key="{{ $i }}" class="input" placeholder="{{ $supporter->expected_cost }}">
+                </div>
+                <div class="grid my-2">
+                    <label class="font-normal text-base mb-2">
+                        تكلفة المشروع الفعلية
+                        <span class="text-red-600">*</span>
+                    </label>
+                    <input type="text" class="input" placeholder="{{ $supporter->real_cost }}">
+                </div>
+                <div class="grid my-2">
+                    <label class="font-normal text-base mb-2">
+                        عدد المراحل
+                        <span class="text-red-600">*</span>
+                    </label>
+                    <input type="number" class="input" placeholder="stages-count-${i}" id="stages_count_${i}">
+                </div>
+            </div>
+            <div class="mt-4">
+                <table class="w-full border mt-2 table text-center">
+                    <th class="border px-4 py-2">المرحلة</th>
+                    <th class="border px-4 py-2">تكلفة المرحلة</th>
+                    <th class="border px-4 py-2">حالة الصرف</th>
+                    <th class="border px-4 py-2">اثبات الصرف</th>
+
+                    <tbody>
+                        <tr class="border px-4 py-2"></tr>
+                        <tr class="border px-4 py-2"></tr>
+                        <tr class="border px-4 py-2"></tr>
+                        <tr class="border px-4 py-2"></tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         @endfor
