@@ -42,12 +42,14 @@
                     @csrf
                     @include('admin.projects.status')
 
-                    <div class="join grid grid-cols-2 w-1/4">
+                    <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 4 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            hover:bg-cyan-700">
                                 التالي
                             </button>
                             @endif
@@ -66,10 +68,10 @@
                     @csrf
                     @include('admin.projects.level')
 
-                    <div class="join grid grid-cols-2 w-1/4">
+                    <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 5 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
-                            hover:bg-cyan-700">
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
                             <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
@@ -92,12 +94,14 @@
                     @csrf
                     @include('admin.projects.code')
 
-                    <div class="join grid grid-cols-2 w-1/4">
+                    <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 6 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            hover:bg-cyan-700">
                                 التالي
                             </button>
                             @endif
@@ -115,12 +119,14 @@
                     @csrf
                     @include('admin.projects.team', ['users' => $users])
 
-                    <div class="join grid grid-cols-2 w-1/4">
+                    <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 7)
-                        <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+                        <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                        hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                         </a>
-                        <button type="submit" href="{{ route('admin.create.project.final') }}" class="join-item btn bg-cyan-700 text-xs text-white hover:bg-cyan-700">
+                        <button type="submit" href="{{ route('admin.create.project.final') }}" class="join-item btn bg-cyan-700 text-xs text-white
+                        hover:bg-cyan-700">
                             إضافة المشروع
                         </button>
                         @endif

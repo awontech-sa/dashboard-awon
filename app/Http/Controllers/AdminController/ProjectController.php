@@ -123,7 +123,8 @@ class ProjectController extends Controller
         if ($step == 1) {
             if (
                 $request->input('project-name') === null || $request->input('start-project') === null ||
-                $request->input('project-description') === null || $request->input('benef_number') === null
+                $request->input('end-project') === null ||  $request->input('project-description') === null
+                || $request->input('benef_number') === null
             ) {
                 return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
             } else {
@@ -164,9 +165,9 @@ class ProjectController extends Controller
                                                 $file = $request->file("installment_files_{$i}_{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $receiptProof[] = [
-                                                    'installment_amount' => $request->input("installment_amount_{$i}_{$j}"),  //قيمة الدفعة
-                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}"),  //حالة استلام الدفعة
-                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName)
+                                                    'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
+                                                    'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}") ?? false,  //حالة استلام الدفعة
+                                                    'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? ''
                                                 ];
                                             }
                                         }
@@ -297,11 +298,15 @@ class ProjectController extends Controller
                                         $file = $request->file("installment_files_0_{$i}");
                                         $fileName = time() . '.' . $file->getClientOriginalExtension();
                                         $receiptProof[] = [
-                                            'installment_amount' => $request->input("installment_amount_0_{$i}"),  //قيمة الدفعة
-                                            'installment_receipt_status' => $request->input("installment_status_0_{$i}"),  //حالة استلام الدفعة
-                                            'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName),
+                                            'installment_amount' => $request->input("installment_amount_0_{$i}") ?? 0,  //قيمة الدفعة
+                                            'installment_receipt_status' => $request->input("installment_status_0_{$i}") ?? false,  //حالة استلام الدفعة
+                                            'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? '',
                                         ];
                                     }
+                                    $receiptProof[] = [
+                                        'installment_amount' => $request->input("installment_amount_0_{$i}") ?? 0,  //قيمة الدفعة
+                                        'installment_receipt_status' => $request->input("installment_status_0_{$i}") ?? false
+                                    ];
                                 }
                             }
 
@@ -321,9 +326,9 @@ class ProjectController extends Controller
                                         $file = $request->file("stages_files_0_{$i}");
                                         $fileName = time() . '.' . $file->getClientOriginalExtension();
                                         $disbursementProof[] = [
-                                            'phase_cost' => $request->input("stages_amount_0_{$i}"),
-                                            'disbursement_status' => $request->input("stages_status_0_{$i}"),  //حالة الصرف
-                                            'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName)
+                                            'phase_cost' => $request->input("stages_amount_0_{$i}") ?? 0,
+                                            'disbursement_status' => $request->input("stages_status_0_{$i}") ?? false,  //حالة الصرف
+                                            'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? ''
                                         ];
                                     }
                                 }
@@ -429,7 +434,7 @@ class ProjectController extends Controller
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
                                 'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                'receipt_proof' => $installmentProject["receipt_proof"],
+                                'receipt_proof' => $installmentProject["receipt_proof"] ?? '',
                             ]);
                         }
                     }

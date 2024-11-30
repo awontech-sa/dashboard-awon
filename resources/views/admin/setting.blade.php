@@ -70,16 +70,14 @@
             xl:grid-cols-2 xl:gap-x-4">
                 <div class="grid gap-y-5">
                     <small>منصة X</small>
-                    <input value="{{ $admin->x }}" name="x" type="text" placeholder="{{ $admin->x }}" class="input
- w-auto" />
+                    <input value="{{ $admin->x }}" name="x" type="text" placeholder="{{ $admin->x }}" class="input w-auto" />
                     @error('url')
                     <span class="text-red-600">{{ $message }}</span>
                     @enderror
                 </div>
                 <div class="grid gap-y-5">
                     <small>لنكد إن</small>
-                    <input value="{{ $admin->linkedin }}" name="linkedin" type="text" placeholder="{{ $admin->linkedin }}" class="input
- w-auto" />
+                    <input value="{{ $admin->linkedin }}" name="linkedin" type="text" placeholder="{{ $admin->linkedin }}" class="input w-auto" />
                     @error('url')
                     <span class="text-red-600">{{ $message }}</span>
                     @enderror

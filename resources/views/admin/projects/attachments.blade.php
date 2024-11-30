@@ -21,9 +21,10 @@
             </div>
         </div>
     </div>
-    <div class="join grid grid-cols-2 w-1/4">
+    <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 3 && $step < 8)
-            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
             <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">

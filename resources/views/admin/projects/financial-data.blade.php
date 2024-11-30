@@ -65,12 +65,14 @@
         <div class="supporter-comp hidden" id="supporterDataSection"></div>
     </div>
 
-    <div class="join grid grid-cols-2 w-1/4">
+    <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 2 && $step < 8)
-            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+            hover:bg-cyan-700">
                 التالي
             </button>
             @endif
@@ -482,6 +484,7 @@
             formContainer.classList.add('grid', 'grid-cols-3', 'gap-x-4', 'mt-8');
 
             let nameLabelDiv = document.createElement('div');
+            nameLabelDiv.classList.add('flex', 'items-center', 'gap-x-4')
             let nameLabel = document.createElement('label');
             nameLabel.textContent = 'اسم الجهة ';
             let nameInput = document.createElement('input');
@@ -491,6 +494,7 @@
             nameLabelDiv.appendChild(nameInput);
 
             let costLabelDiv = document.createElement('div');
+            costLabelDiv.classList.add('flex', 'items-center', 'gap-x-4')
             let costLabel = document.createElement('label');
             costLabel.textContent = 'تكلفة المشروع ';
             let costInput = document.createElement('input');
@@ -500,6 +504,7 @@
             costLabelDiv.appendChild(costInput);
 
             let installmentLabelDiv = document.createElement('div');
+            installmentLabelDiv.classList.add('flex', 'items-center', 'gap-x-4')
             let installmentLabel = document.createElement('label');
             installmentLabel.textContent = 'عدد الدفعات ';
             let installmentInput = document.createElement('input');
@@ -662,16 +667,16 @@
                 let statusCell = document.createElement('td');
                 statusCell.classList.add('border', 'px-4', 'py-2');
                 let label = document.createElement('label');
-                label.classList.add('cursor-pointer', 'label');
+                label.classList.add('cursor-pointer', 'label', 'flex', 'items-center', 'gap-x-4');
                 let span = document.createElement('span');
                 span.classList.add('label-text');
                 span.textContent = 'تم استلام الدفعة';
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.classList.add('checkbox');
+                checkbox.classList.add('checkbox', 'checkbox-lg', 'border', '[--chkbg:theme(colors.cyan.500)]', '[--chkfg:white]');
                 checkbox.name = `installment_status_${supporterIndex}_${j}`;
-                label.appendChild(span);
                 label.appendChild(checkbox);
+                label.appendChild(span);
                 statusCell.appendChild(label);
                 row.appendChild(statusCell);
 
@@ -794,16 +799,16 @@
                 let statusCell = document.createElement('td');
                 statusCell.classList.add('border', 'px-4', 'py-2');
                 let label = document.createElement('label');
-                label.classList.add('cursor-pointer', 'label');
+                label.classList.add('cursor-pointer', 'label', 'flex', 'gap-x-4', 'items-center');
                 let span = document.createElement('span');
                 span.classList.add('label-text');
                 span.textContent = 'تم الصرف';
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
-                checkbox.classList.add('checkbox');
+                checkbox.classList.add('checkbox', 'checkbox-lg', 'border', '[--chkbg:theme(colors.cyan.500)]', '[--chkfg:white]');
                 checkbox.name = `stages_status_${supporterIndex}_${j}`;
-                label.appendChild(span);
                 label.appendChild(checkbox);
+                label.appendChild(span);
                 statusCell.appendChild(label);
                 row.appendChild(statusCell);
 

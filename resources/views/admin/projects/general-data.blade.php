@@ -50,7 +50,7 @@
         </div>
     </div>
 
-    <div class="join grid grid-cols-2 w-1/4">
+    <div class="join grid float-left w-1/4">
         @if($step == 1)
         <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
             التالي

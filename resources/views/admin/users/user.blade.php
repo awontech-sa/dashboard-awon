@@ -7,7 +7,7 @@
         <a class="btn btn-sm btn-link border rounded-lg border-gray-500 bg-[#FAFBFD]" href="{{ route('admin.show.update.user', $id) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
     </div>
 
-    <div class="w-[65.7rem] font-normal text-base" dir="rtl">
+    <div class="w-full font-normal text-base" dir="rtl">
         <table class="table border rounded-2xl p-11">
             <tbody>
                 @foreach($user as $u)
