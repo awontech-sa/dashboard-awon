@@ -505,7 +505,8 @@ class ProjectController extends Controller
                     foreach (json_decode($data['level']['all-stages']) as $level) {
                         Stages::create([
                             'stage_name' => $level->stage_name,
-                            'stage_number' => $level->stage_number
+                            'stage_number' => $level->stage_number,
+                            'projects_id' => $project->id
                         ]);
                     }
 

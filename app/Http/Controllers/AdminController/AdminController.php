@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AdminController;
 use App\Http\Controllers\Controller;
 use App\Models\Projects;
 use App\Models\ProjectSupporters;
+use App\Models\Stages;
 use App\Models\User;
 use App\Services\ViewChartService;
 use Illuminate\Support\Facades\Auth;
@@ -21,6 +22,7 @@ class AdminController extends Controller
     public function index()
     {
         $dashboard = [];
+        $stages = [];
         /** @var \App\Models\User */
         $admin = Auth::user();
 
@@ -32,7 +34,7 @@ class AdminController extends Controller
 
         $projects = Projects::all();
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject')->take(4)->get();
+            $dashboard = Projects::with('stageOfProject', 'stage')->take(4)->get();
         }
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
@@ -49,6 +51,7 @@ class AdminController extends Controller
             'projects' => $projects,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
+            'stages' => $stages,
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,

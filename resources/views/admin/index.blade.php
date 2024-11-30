@@ -168,7 +168,7 @@
         @foreach($dashboard as $project)
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
-          <p>{{ $project->stages->count() }}/5</p>
+          <p>{{ $project->stages->count() }}/{{ $project->stage->count() }}</p>
           <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="5"></progress>
         </div>
         @endforeach
