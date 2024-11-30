@@ -2,9 +2,8 @@
     <h1 class="font-bold text-xl">مرفقات</h1>
 
     <div class="grid mt-[2.9rem] gap-y-5 pb-52">
-        @foreach($files as $file)
+        @foreach($files as $key => $file)
         <!-- start of files section -->
-         {{ $file->file_name }}
         <small class="font-normal text-base">{{ $file->file_name ?? ''}}</small>
         <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between">
             <div class="flex gap-x-5 p-4 items-center">

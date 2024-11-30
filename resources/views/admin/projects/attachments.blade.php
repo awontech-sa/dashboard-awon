@@ -5,7 +5,6 @@
         <a href="#my_modal_8" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مرفق جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
     </div>
     <div id="attachment-files"></div>
-    <input type="hidden" name="file-name[]">
 
     <div class="modal" role="dialog" id="my_modal_8">
         <div class="modal-box">
@@ -38,56 +37,60 @@
 <script>
     let attachments = document.getElementById('attachment-files');
     let attachmentName = document.getElementById('attachment_name');
-    let arrayFileContainer = []
 
     document.getElementById('attachmentForm').onsubmit = function(e) {
         if (!fileExist()) {
-            event.preventDefault()
+            e.preventDefault();
         }
     };
 
     function addAttachment() {
-        let nameValue = attachmentName.value.trim()
+        let nameValue = attachmentName.value.trim();
         if (!nameValue) {
             alert('يجب إدخال اسم المرفق!');
             return;
         }
 
-        let fileContainer = document.createElement('div')
-        fileContainer.classList.add('my-8', 'grid', 'gap-y-5')
+        let fileContainer = document.createElement('div');
+        fileContainer.classList.add('my-8', 'grid', 'gap-y-5');
 
-        let fileLabel = document.createElement('label')
-        fileLabel.classList.add('text-base', 'font-normal')
-        fileLabel.textContent = `${attachmentName.value}`
-        fileContainer.appendChild(fileLabel)
+        let fileLabel = document.createElement('label');
+        fileLabel.classList.add('text-base', 'font-normal');
+        fileLabel.textContent = nameValue;
+        fileContainer.appendChild(fileLabel);
 
-        let fileInput = document.createElement('input')
-        fileInput.type = 'file'
-        fileInput.classList.add('input', 'file-input')
-        fileInput.id = 'attachment_file'
-        fileInput.name = 'attachment-file[]'
-        let fileError = document.createElement('label')
-        fileError.classList.add('text-error', 'errorLabel')
-        fileError.name = 'fileError'
-        fileContainer.appendChild(fileInput)
-        fileContainer.appendChild(fileError)
+        let fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.classList.add('input', 'file-input');
+        fileInput.name = 'attachment-file[]';
+        fileContainer.appendChild(fileInput);
 
+        let hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'file-name[]';
+        hiddenInput.value = nameValue; // Set the name of the file
+        fileContainer.appendChild(hiddenInput);
 
-        attachments.appendChild(fileContainer)
+        let fileError = document.createElement('label');
+        fileError.classList.add('text-error', 'errorLabel');
+        fileError.name = 'fileError';
+        fileContainer.appendChild(fileError);
 
-        document.querySelector('input[name="file-name[]"]').value = fileContainer.querySelector('label').textContent;
+        attachments.appendChild(fileContainer);
 
-        attachmentName.value = ''
+        attachmentName.value = '';
     }
 
     function fileExist() {
-        if (document.querySelector('input[name="attachment-file[]"]').value === '') {
-            document.querySelector('.errorLabel').textContent = 'الرجاء إرفاق ملف';
-            return false
-        } else {
-            document.querySelector('.errorLabel').textContent = '';
-            return true
+        let fileInputs = document.querySelectorAll('input[name="attachment-file[]"]');
+        for (let i = 0; i < fileInputs.length; i++) {
+            if (fileInputs[i].value === '') {
+                document.querySelectorAll('.errorLabel')[i].textContent = 'الرجاء إرفاق ملف';
+                return false;
+            }
         }
+        document.querySelectorAll('.errorLabel').forEach(label => (label.textContent = ''));
+        return true;
     }
 </script>
 @endpush

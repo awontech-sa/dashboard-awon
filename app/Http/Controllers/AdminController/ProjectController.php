@@ -356,11 +356,11 @@ class ProjectController extends Controller
                         $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
                         $validated[] = [
                             'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
-                            'file_name' => $request->input('file-name')[$key] ?? null
+                            'file_name' => $request->input('file-name')[$key] ?? null,
                         ];
                     }
                 }
-            }
+            }            
             session(['project_step3' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
