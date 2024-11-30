@@ -47,7 +47,7 @@
                     {{-- <img src="{{ asset("assets/icons/benef_projects.png") }}" class="w-5" alt="project-status" /> --}}
                 </div>
                 <div class="pr-4 py-4">
-                    <p class="font-bold text-3xl">{{ ($project->total_cost === '0.00') ? 'مجانًا' : $project->total_cost }}</p>
+                    <p class="font-bold text-3xl">{{ ($project->total_cost === null) ? 'مجانًا' : $project->total_cost }}</p>
                 </div>
             </div>
             <!-- end of project success section -->
