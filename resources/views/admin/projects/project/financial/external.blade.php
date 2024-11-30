@@ -19,9 +19,9 @@
         <th class="border px-4 py-2">قيمة الدفعة</th>
         <th class="border px-4 py-2">حالة استلام الدفعة</th>
         <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-        @foreach($installment as $i)
+        @foreach($installment as $key => $i)
         <tbody>
-            <td class="border px-4 py-2">{{ $i->id }}</td>
+            <td class="border px-4 py-2">{{ $key+1 }}</td>
             <td class="border px-4 py-2">{{ $i->installment_amount }}</td>
             <td class="border px-4 py-2">
                 <label class="label cursor-pointer">
