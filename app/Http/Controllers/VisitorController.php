@@ -21,9 +21,15 @@ class VisitorController extends Controller
 
     public function index()
     {
+        $dashboard = [];
+        $stages = [];
+
         $viewChart = $this->viewChartService->getProjectsIncome();
 
-        $dashboard = Projects::with('stageOfProject')->get();
+        $projects = Projects::all();
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject', 'stage')->take(4)->get();
+        }
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();
@@ -34,8 +40,10 @@ class VisitorController extends Controller
         $supporterIndividual = Projects::where('type_benef', 'أفراد')->get();
 
         return view('dashboard.index', [
+            'projects' => $projects,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
+            'stages' => $stages,
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,

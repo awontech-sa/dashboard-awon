@@ -1,13 +1,18 @@
 @extends('layouts.app')
 @section('content')
-<div class="grid font-['Tajawal'] font-bold text-xl mx-[6.4rem]">
+<div class="grid font-['Tajawal'] font-bold text-xl mx-auto w-auto">
     <section>
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between mx-20
+        2xl:mx-96
+        xl:mx-56">
             <h1>{{ $project->p_name }}</h1>
         </div>
-        <div class="grid grid-cols-3 gap-x-10 gap-y-8 w-fit mt-7">
+        <div class="grid grid-cols-2 gap-y-8 my-7 mx-auto w-fit
+        2xl:gap-x-16 2xl:grid-cols-4
+        xl:gap-x-4
+        md:gap-x-4">
             <!-- start of project status section -->
-            <div class="w-[20.2rem] h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
+            <div class="w-auto h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
                 <div class="flex items-center gap-x-[7.2rem]">
                     <p class="font-bold text-base">حالة المشروع</p>
                     <img src="{{ asset("assets/icons/project_status.png") }}" class="w-5" alt="project-status" />
@@ -26,13 +31,24 @@
 
             <!-- start of project success section -->
             <div class="w-[20.2rem] pt-6 pr-5 h-28 bg-white border-[#ECEEF6] rounded-md border-2">
-
-                <p class="font-bold text-base">نسبة إنجاز المشروع</p>
-                <br />
-
+                <div>
+                    <p class="font-bold text-base">نسبة إنجاز المشروع</p>
+                </div>
                 <div class="flex items-center gap-x-2">
                     <small class="text-sm font-normal text-gray-500">{{ count($stages) }}/5 إنجاز المراحل</small>
                     <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="5"></progress>
+                </div>
+            </div>
+            <!-- end of project success section -->
+
+            <!-- start of project success section -->
+            <div class="w-[20.2rem] h-28 bg-white border-[#ECEEF6] rounded-md border-2">
+                <div class="flex items-center gap-x-7 pr-4 pt-3">
+                    <p class="font-bold text-base">تكلفة المشروع</p>
+                    {{-- <img src="{{ asset("assets/icons/benef_projects.png") }}" class="w-5" alt="project-status" /> --}}
+                </div>
+                <div class="pr-4 py-4">
+                    <p class="font-bold text-3xl">{{ ($project->total_cost === null) ? 'مجانًا' : $project->total_cost }}</p>
                 </div>
             </div>
             <!-- end of project success section -->
@@ -52,14 +68,14 @@
         </div>
     </section>
 
-    <section>
+    <section class="mx-auto">
         <div class="flex items-center justify-around pt-16">
             <h1 class="font-bold text-xl text-center">بيانات المشروع</h1>
             <p class="font-normal text-base text-center">انقر على الرقم لعرض البيانات </p>
         </div>
-
-        <div role="tablist" class="tabs mt-14 tabs-boxed bg-transparent">
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" checked="checked" />
+        
+        <div role="tablist" class="tabs my-16 tabs-boxed bg-transparent">
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="01" />
             <div role="tabpanel" class="tab-content">
                 @include('dashboard.general-data')
             </div>
@@ -92,7 +108,6 @@
             <div role="tabpanel" class="tab-content">
                 @include('dashboard.project-code')
             </div>
-
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
             <div role="tabpanel" class="tab-content">
                 @include('dashboard.project-team')
