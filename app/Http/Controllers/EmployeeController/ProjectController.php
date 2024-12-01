@@ -4,6 +4,7 @@ namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProjectDetails;
+use App\Models\ProjectFiles;
 use App\Models\ProjectPhases;
 use App\Models\Projects;
 use App\Models\ProjectSupporters;
@@ -1172,7 +1173,7 @@ class ProjectController extends Controller
                 if (!empty($data['attachment'])) {
                     foreach ($data['attachment'] as $attachment) {
                         $file = $request->file($attachment["file_name"]);
-                        $project->files()->update([
+                        ProjectFiles::where('projects_id', $id)->update([
                             'file' => $attachment["file"],
                             'file_name' => $attachment["file_name"],
                         ]);
@@ -1191,7 +1192,7 @@ class ProjectController extends Controller
                         Stages::updateOrCreate([
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number,
-                            'projects_id' => $project->id
+                            'projects_id' => $id
                         ]);
                     }
 
@@ -1199,7 +1200,10 @@ class ProjectController extends Controller
                         foreach (json_decode($data['level']['stages-done']) as $done) {
                             $stageDone = Stages::where('stage_name', $done->stage_name)->first();
                             if ($stageDone) {
-                                $project->stages()->attach($stageDone->id);
+                                $p = Projects::find($id);
+                                if ($p) {
+                                    $p->stages()->attach($stageDone->id);
+                                }
                             }
                         }
                     }
@@ -1227,7 +1231,7 @@ class ProjectController extends Controller
                                 ProjectUser::updateOrCreate([
                                     'role' => $user->role,
                                     'user_id' => $user->id,
-                                    'projects_id' => $project->id,
+                                    'projects_id' => $id,
                                     'project_manager' => $data['team']['project_manager'],
                                     'sub_project_manager' => $data['team']['sub_project_manager']
                                 ]);
@@ -1238,7 +1242,7 @@ class ProjectController extends Controller
                         if ($user) {
                             ProjectUser::updateOrCreate([
                                 'user_id' => $user->id,
-                                'projects_id' => $project->id,
+                                'projects_id' => $id,
                                 'project_manager' => $data['team']['project_manager'],
                                 'sub_project_manager' => $data['team']['sub_project_manager']
                             ]);
