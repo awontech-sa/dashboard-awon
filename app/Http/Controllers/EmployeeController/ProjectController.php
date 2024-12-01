@@ -641,7 +641,7 @@ class ProjectController extends Controller
 
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
-        return view('employee.project.show', [
+        return view('employee.projects.project.show', [
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
             'stages' => $stages,
