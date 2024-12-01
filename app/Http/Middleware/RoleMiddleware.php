@@ -51,6 +51,7 @@ class RoleMiddleware
                 url("/employee/users/{$request->id}"),
                 url("/employee/users/update/{$request->id}"),
                 url("/employee/projects/create/{$request->step}"),
+                url("/employee/projects/update/{$request->step}/{$request->id}"),
                 url("/employee/project/{$request->id}"),
             ];
 

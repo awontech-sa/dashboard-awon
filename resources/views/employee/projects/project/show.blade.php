@@ -4,7 +4,10 @@
     <section>
         <div class="flex items-center justify-evenly">
             <h1>{{ $project->p_name }}</h1>
-            <button class="btn btn-sm bg-[#FAFBFD]" onclick="my_modal_1.showModal()">حذف المشروع <x-far-trash-can class="w-4 h-4 text-red-500" /></button>
+            <div class="flex gap-x-4">
+            <a class="btn btn-sm btn-link border rounded-lg border-gray-500 bg-[#FAFBFD]" href="{{ route('employee.update.project.show', ['step' => 1, 'id' => $project->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
+                <button class="btn btn-sm bg-[#FAFBFD]" onclick="my_modal_1.showModal()">حذف المشروع <x-far-trash-can class="w-4 h-4 text-red-500" /></button>
+            </div>
         </div>
         <div class="grid grid-cols-2 gap-y-8 my-7 mx-auto w-fit
         2xl:gap-x-16 2xl:grid-cols-4

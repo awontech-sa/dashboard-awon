@@ -92,6 +92,11 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     Route::get('/projects/create/{step}', [EmployeeProjectController::class, 'index'])->name('new.project.show');
     Route::post('/projects/create/{step}', [EmployeeProjectController::class, 'create'])->name('create.project');
     Route::post('/projects/create', [EmployeeProjectController::class, 'finalCreateProject'])->name('create.project.final');
+
+    Route::get('/projects/update/{step}/{id}', [EmployeeProjectController::class, 'updateShow'])->name('update.project.show');
+    Route::post('/projects/update/{step}/{id}', [EmployeeProjectController::class, 'update'])->name('update.project');
+    Route::post('/projects/update', [EmployeeProjectController::class, 'finalUpdateProject'])->name('update.project.final');
+
     Route::get('/project/{id}', [EmployeeProjectController::class, 'show'])->name('show.project');
     Route::delete('/project/{id}', [EmployeeProjectController::class, 'destroy'])->name('delete.project');
     //end project routes
