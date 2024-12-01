@@ -620,7 +620,7 @@ class ProjectController extends Controller
         $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
 
         $project = Projects::findOrFail($id);
-        $dashboard = Projects::all();
+        $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();
 
@@ -644,10 +644,10 @@ class ProjectController extends Controller
         return view('employee.project.show', [
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
-            'dashboard' => $dashboard,
             'stages' => $stages,
             'employee' => $this->employee,
             'chart' => $viewChart,
+            'projects' => $projects,
             'phases' => $phases,
             'project' => $project,
             "chart" => $viewChart,
