@@ -1,17 +1,17 @@
 <form action="{{ route('employee.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data" id="myForm">
     @csrf
     <div class="grid font-normal text-base my-6 gap-y-5">
-        <label for="project-name">اسم المشروع <span class="text-red-600">*</span></label>
+        <label for="project-name">اسم المشروع</label>
         <input type="text" name="project-name" value="{{ old('project-name', $data['p_name'] ?? '') }}" class="input" />
     </div>
 
     <div class="grid grid-cols-2 gap-x-[3.3rem]">
         <div class="grid gap-y-5">
-            <label for="start-project">تاريخ بداية المشروع <span class="text-red-600">*</span></label>
+            <label for="start-project">تاريخ بداية المشروع</label>
             <input id="start-project" class="input text-center text-base" type="date" name="start-project" value="{{ old('start-project', $data['p_date_start'] ?? '') }}" />
         </div>
         <div class="grid gap-y-5">
-            <label for="end-project">تاريخ نهاية المشروع <span class="text-red-600">*</span></label>
+            <label for="end-project">تاريخ نهاية المشروع</label>
             <input id="end-project" class="input text-center text-base" type="date" name="end-project" value="{{ old('end-project', $data['p_date_end'] ?? '') }}" />
         </div>
     </div>
@@ -29,7 +29,7 @@
 
 
     <div class="grid font-normal text-base my-6 gap-y-5">
-        <label for="project-description">نبذة عن المشروع <span class="text-red-600">*</span> <span class="text-gray-400 text-base font-normal">بحد أقصى 1000 حرف</span></label>
+        <label for="project-description">نبذة عن المشروع <span class="text-gray-400 text-base font-normal">بحد أقصى 1000 حرف</span></label>
         <textarea name="project-description" id="project_description" class="textarea textarea-lg" oninput="validateTextArea()">{{ old('project-description', $data['p_description'] ?? '') }}</textarea>
         <label class="text-error" for="error" id="error"></label>
     </div>
@@ -37,7 +37,7 @@
     <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
         <div class="grid gap-y-5
         2xl:w-auto">
-            <label for="type-benef">نوع المستفيدين من المشروع <span class="text-red-600">*</span></label>
+            <label for="type-benef">نوع المستفيدين من المشروع</label>
             <select class="select select-bordered w-full" name="type-benef">
                 @foreach (App\Enums\TypeBenefEnum::cases() as $status)
                 <option value="{{ $status->value }}" {{ old('type-benef', $data['type_benef'] ?? '') == $status->value ? 'selected' : '' }}>{{ $status->value }}</option>
@@ -45,7 +45,7 @@
             </select>
         </div>
         <div class="grid gap-y-5">
-            <label for="benef_number">عدد المستفيدين <span class="text-red-600">*</span></label>
+            <label for="benef_number">عدد المستفيدين</label>
             <input class="input text-center text-base" min="0" type="number" name="benef_number" value="{{ old('benef_number', $data['p_num_beneficiaries'] ?? '') }}" />
         </div>
     </div>
