@@ -44,11 +44,13 @@ class RoleMiddleware
         if ($user->hasRole('Employee')) {
             $employeeUrls = [
                 url('/employee/panel'),
+                url('/employee/projects-percentage'),
                 url('/employee/settings'),
                 url('/employee/profile'),
                 url('/employee/users'),
                 url("/employee/users/{$request->id}"),
                 url("/employee/users/update/{$request->id}"),
+                url("/employee/projects/create/{$request->step}"),
                 url("/employee/project/{$request->id}"),
             ];
 

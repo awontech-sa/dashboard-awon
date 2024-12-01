@@ -5,7 +5,6 @@
 use App\Http\Controllers\AdminController\AdminController;
 use App\Http\Controllers\AdminController\PowersController;
 use App\Http\Controllers\AdminController\ProjectController;
-use App\Http\Controllers\AdminController\ProjectsController;
 use App\Http\Controllers\AdminController\SettingController;
 use App\Http\Controllers\AdminController\UsersController;
 use App\Http\Controllers\AuthController;
@@ -70,6 +69,7 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 // start employee route
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
     Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
+    Route::get('/projects-percentage', [EmployeeController::class, 'show'])->name('percentage');
 
     //start setting route
     Route::get('/settings', [EmployeeSettingController::class, 'index'])->name('setting.show');
@@ -89,6 +89,9 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     //end users route
 
     //start project routes
+    Route::get('/projects/create/{step}', [EmployeeProjectController::class, 'index'])->name('new.project.show');
+    Route::post('/projects/create/{step}', [EmployeeProjectController::class, 'create'])->name('create.project');
+    Route::post('/projects/create', [EmployeeProjectController::class, 'finalCreateProject'])->name('create.project.final');
     Route::get('/project/{id}', [EmployeeProjectController::class, 'show'])->name('show.project');
     Route::delete('/project/{id}', [EmployeeProjectController::class, 'destroy'])->name('delete.project');
     //end project routes

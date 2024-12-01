@@ -26,13 +26,20 @@ class EmployeeController extends Controller
 
     public function index()
     {
+        $dashboard = [];
+        $stages = [];
+
         $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
+        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
 
-        $dashboard = Projects::with('stageOfProject')->get();
+        $projects = Projects::all();
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject', 'stage')->take(4)->get();
+        }
 
         $completed_projects = Projects::where('project_status', 'مكتمل')->get();
         $stopped_projects = Projects::where('project_status', 'معلق')->get();
@@ -46,6 +53,8 @@ class EmployeeController extends Controller
             'employee' => $this->employee,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
+            'stages' => $stages,
+            'projects' => $projects,
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,
@@ -56,6 +65,37 @@ class EmployeeController extends Controller
             'supporterIndividual' => $supporterIndividual,
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
+            'techPermission' => $techPermission->last()
+        ]);
+    }
+
+    public function show()
+    {
+        $dashboard = [];
+        $employee = Auth::user();
+
+        $viewChart = $this->viewChartService->getProjectsIncome();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
+        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
+
+        $projects = Projects::all();
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject')->take(4)->get();
+        }
+
+        return view('employee.percentage-projects', [
+            'employee' => $employee,
+            'chart' => $viewChart,
+            'projects' => $projects,
+            'dashboard' => $dashboard,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
+            'accountsPermission' => $accounts->last(),
+            'collectionPermission' => $collection->last(),
+            'techPermission' => $techPermission->last()
         ]);
     }
 }

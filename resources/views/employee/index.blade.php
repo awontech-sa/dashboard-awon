@@ -2,6 +2,13 @@
 
 @section('employee-content')
 <div>
+  @if($techPermission)
+  <a href="{{ route('employee.new.project.show', ['step' => 1]) }}" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mx-12 my-5
+  2xl:mx-20
+  xl:mx-4
+  md:mx-32">إضافة مشروع جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+  @endif
+
   <section class="grid grid-cols-1 gap-y-4 w-fit
   max-md:mx-auto
   2xl:mx-20 2xl:gap-x-[1.6rem] 2xl:grid-cols-4 2xl:w-auto
@@ -24,7 +31,7 @@
       2xl:mx-[5.2rem]
       xl:mx-4
       md:mx-4">
-        <p class="font-bold text-3xl">{{ count($dashboard) }}</p>
+        <p class="font-bold text-3xl">{{ count($projects) }}</p>
         <small class="text-sm font-normal text-gray-500">مشروع</small>
       </div>
     </div>
@@ -82,12 +89,12 @@
     <!-- end in progress projects -->
   </section>
 
-  <section class="grid grid-cols-1 gap-x-20 mx-10 my-6 w-auto
+  <section class="grid grid-cols-1 gap-x-20 mx-10 my-6 w-fit
   2xl:mx-20
-  xl:grid-cols-3 xl:mx-4 xl:gap-x-5
+  xl:grid-cols-3 xl:gap-x-6 xl:mx-4
   md:grid-cols-1 md:mx-32 md:gap-y-4
   max-md:mx-12 max-md:gap-y-4">
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[40rem]
     xl:w-80
     md:w-[32rem]
@@ -106,7 +113,7 @@
       </div>
     </div>
 
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[40rem]
       xl:w-80
     md:w-[32rem]
@@ -125,7 +132,7 @@
       </div>
     </div>
 
-    <div class="w-[21.3rem] h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
+    <div class="h-36 border-[#ECEEF6] grid gap-y-2 rounded-md bg-white border-2 font-['Tajawal']
     2xl:w-[41rem]
     xl:w-80
     md:w-[32rem]
@@ -145,9 +152,9 @@
     </div>
   </section>
 
-  <section class="grid grid-cols-2 w-auto my-7 font-['Tajawal'] mx-[7.7rem]
-    2xl:grid-cols-2 2xl:mx-20
-    xl:gap-x-4 xl:w-fit xl:grid-cols-2 xl:mx-0
+  <section class="grid grid-cols-2 w-fit my-7 font-['Tajawal'] mx-[7.7rem]
+    2xl:grid-cols-2 2xl:mx-20 2xl:w-auto
+    xl:grid-cols-2 xl:mx-0
     md:grid-cols-1 md:mx-24 md:gap-y-4
     max-md:grid-cols-1 max-md:mx-4 max-md:gap-y-4">
     <div class="w-[516px] bg-white border-2 border-[#ECEEF6] rounded-md mx-6
@@ -157,14 +164,14 @@
       max-md:w-[16rem] max-md:px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
-        <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
+        <a href="{{ route('employee.percentage') }}" class="link text-blue-600">عرض الكل ←</a>
       </div>
       <div class="w-auto grid gap-y-6">
         @foreach($dashboard as $project)
         <div class="grid grid-cols-3 items-center">
           <p>{{ $project->p_name }}</p>
-          <p>{{ $project->stages->count() }}/5</p>
-          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="5"></progress>
+          <p>{{ $project->stages->count() }}/{{ $project->stage->count() }}</p>
+          <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="{{ $project->stage->count() }}"></progress>
         </div>
         @endforeach
       </div>
@@ -177,7 +184,7 @@
       max-md:w-[16rem] max-md:mx-7 max-md:px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">إجمالي دخل المشاريع</p>
-        <!-- <a href="" class="link text-blue-600">عرض الكل ←</a> -->
+        <a href="" class="link text-blue-600">عرض الكل ←</a>
       </div>
       {{-- <div class="flex py-4">
         <div class="w-[475px] grid gap-y-6">
@@ -202,30 +209,6 @@
           {!! $chart->container() !!}
         </div>
       </div> --}}
-    </div>
-  </section>
-
-  <section class="grid grid-cols-2 font-['Tajawal'] mx-[7.7rem] w-auto
-  2xl:mx-20
-  xl:mx-4 xl:w-fit xl:gap-x-4 xl:grid-cols-2
-  md:grid-cols-1 md:gap-y-6 md:mx-24
-  max-md:grid-cols-1 max-md:mx-10 max-md:gap-y-4">
-    <div class="h-[302px] bg-white rounded-md p-7 border-2 border-[#ECEEF6]
-    2xl:w-[64rem]
-    xl:w-[30.6rem] xl:mx-0
-    md:w-[32rem] md:mx-7
-    max-md:w-[16rem]">
-      <h1 class="font-bold text-base">إجمالي الدخل السنوي</h1>
-      {!! $viewGrossAnnualIncome->container() !!}
-    </div>
-
-    <div class="h-[302px] bg-white rounded-md p-7 border-2 border-[#ECEEF6]
-    2xl:w-[64rem]
-    xl:w-[30.6rem] xl:mx-0
-    md:w-[32rem] md:mx-7
-    max-md:w-[16rem]">
-      <h1 class="font-bold text-base">إجمالي الدخل الحالي</h1>
-      {!! $viewCurrentGrossIncome->container() !!}
     </div>
   </section>
 </div>

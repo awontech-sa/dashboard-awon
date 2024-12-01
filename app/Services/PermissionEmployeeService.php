@@ -19,4 +19,11 @@ class PermissionEmployeeService
 
         return $collection;
     }
+
+    public function getTechTeamPermission($employee)
+    {
+        $techPermission = PowersUserSections::where('user_id', $employee->id)->where('powers_sections_id', 3)->get();
+
+        return $techPermission;
+    }
 }

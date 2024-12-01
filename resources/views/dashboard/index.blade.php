@@ -153,7 +153,7 @@
       max-md:w-[16rem] max-md:px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
-        <a href="{{ route('admin.percentage') }}" class="link text-blue-600">عرض الكل ←</a>
+       {{-- <a href="{{ route('admin.percentage') }}" class="link text-blue-600">عرض الكل ←</a> --}}
       </div>
       <div class="w-auto grid gap-y-6">
         @foreach($dashboard as $project)

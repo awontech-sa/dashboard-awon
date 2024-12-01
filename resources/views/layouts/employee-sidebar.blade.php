@@ -84,7 +84,7 @@
                                     مشاريع التقنية
                                 </summary>
                                 <ul class="font-['Tajawal']">
-                                    @foreach($dashboard as $project)
+                                    @foreach($projects as $project)
                                     <li>
                                         <a class="flex items-center gap-x-3" href="{{ route('employee.show.project', $project->id) }}">
                                             <x-far-folder class="text-gray-500 w-6 h-6" />
@@ -105,7 +105,6 @@
                                     <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                     مشاريع تنمية الموارد
                                 </summary>
-                                //
                             </details>
                         </li>
                     </ul>
@@ -205,7 +204,7 @@
                                                         مشاريع التقنية
                                                     </summary>
                                                     <ul class="font-['Tajawal']">
-                                                        @foreach($dashboard as $project)
+                                                        @foreach($projects as $project)
                                                         <li>
                                                             <a class="flex items-center gap-x-3" href="{{ route('admin.show.project', $project->id) }}">
                                                                 <x-far-folder class="text-gray-500 w-6 h-6" />
