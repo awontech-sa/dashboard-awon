@@ -35,7 +35,6 @@ class ProjectController extends Controller
     public function index($step = 1)
     {
         $dashboard = [];
-        $stages = [];
         $employee = Auth::user();
         $users = User::all();
         $projects = Projects::all();
@@ -65,7 +64,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 2:
@@ -80,7 +78,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 3:
@@ -95,7 +92,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 4:
@@ -110,7 +106,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 5:
@@ -125,7 +120,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 6:
@@ -140,7 +134,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 7:
@@ -155,7 +148,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             default:
@@ -640,7 +632,6 @@ class ProjectController extends Controller
         return view('employee.projects.project.show', [
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
-            'stages' => $stages,
             'employee' => $this->employee,
             'projects' => $projects,
             'phases' => $phases,
@@ -669,7 +660,6 @@ class ProjectController extends Controller
     public function updateShow($step = 1, $id)
     {
         $dashboard = [];
-        $stages = [];
         $employee = Auth::user();
         $users = User::all();
         $projects = Projects::all();
@@ -699,7 +689,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 2:
@@ -714,7 +703,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 3:
@@ -729,7 +717,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 4:
@@ -744,7 +731,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 5:
@@ -759,7 +745,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 6:
@@ -774,7 +759,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             case 7:
@@ -789,7 +773,6 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'dashboard' => $dashboard,
-                    'stages' => $stages,
                     'techPermission' => $techPermission->last()
                 ]);
             default:

@@ -60,6 +60,10 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::post('/projects/create/{step}', [ProjectController::class, 'create'])->name('create.project');
     Route::post('/projects/create', [ProjectController::class, 'finalCreateProject'])->name('create.project.final');
 
+    Route::get('/projects/update/{step}/{id}', [ProjectController::class, 'updateShow'])->name('update.project.show');
+    Route::post('/projects/update/{step}/{id}', [ProjectController::class, 'update'])->name('update.project');
+    Route::post('/projects/update', [ProjectController::class, 'finalUpdateProject'])->name('update.project.final');
+
     Route::get('/project/{id}', [ProjectController::class, 'show'])->name('show.project');
     Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('delete.project');
 });

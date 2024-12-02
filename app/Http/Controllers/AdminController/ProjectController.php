@@ -571,7 +571,7 @@ class ProjectController extends Controller
         $supporter = $project->supporter()->first();
 
         $doneStages = $project->stages;
-        $stages = $project->stage()->get()->map(function($stage) {
+        $stages = $project->stage()->get()->map(function ($stage) {
             return ['stage_name' => $stage->stage_name];
         });
 
@@ -616,5 +616,104 @@ class ProjectController extends Controller
         $project->delete();
 
         return redirect()->route('admin.dashboard')->with('success_message', 'تم حذف المشروع بنجاح');
+    }
+
+    public function updateShow($step = 1, $id)
+    {
+        $dashboard = [];
+        $admin = Auth::user();
+        $users = User::all();
+        $projects = Projects::all();
+
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject', 'stage', 'files')->where('id', $id)->get();
+        }
+
+        $data = session("project_step{$step}", []);
+
+        switch ($step) {
+            case 1:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 2:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 3:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 4:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 5:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 6:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            case 7:
+                return view('admin.projects.update.update', [
+                    'step' => $step,
+                    'dashboard' => $dashboard,
+                    'data' => $data,
+                    "admin" => $admin,
+                    'projects' => $projects,
+                    "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
+                    "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+                    'users' => $users
+                ]);
+            default:
+                return back();
+        }
     }
 }

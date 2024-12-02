@@ -32,6 +32,7 @@ class RoleMiddleware
                 url('/admin/settings'),
                 url("/admin/powers/{$request->id}"),
                 url("/admin/projects/create/{$request->step}"),
+                url("/admin/projects/update/{$request->step}/{$request->id}"),
                 url("/admin/project/{$request->id}")
             ];
 
