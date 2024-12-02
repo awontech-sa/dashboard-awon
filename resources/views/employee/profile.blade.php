@@ -85,10 +85,51 @@
         </div>
     </div>
 
-    <div class="grid grid-cols-3">
+    <div class="grid grid-cols-1 gap-x-4 gap-y-0
+    laptop:grid-cols-3
+    desktop:grid-cols-4">
         @foreach($projects as $project)
         @foreach($stages as $stage)
-        <div class="grid grid-cols-2 font-['Tajawal']">
+        <div class="grid font-['Tajawal']">
+            <div class="w-fit h-auto bg-white rounded-md border-2 border-[#ECEEF6] my-11
+            2xl:w-auto">
+                <div class="flex items-center gap-x-4 mx-5 my-6">
+                    <x-far-folder class="w-6 h-6 text-gray-500" />
+                    <a href="{{ route('employee.show.project', ['id'=>$project->id]) }}" class="font-bold text-base">{{ $project->p_name }}</a>
+                </div>
+                <div class="flex gap-x-5 items-center my-9 mx-9">
+                    <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
+                </div>
+            </div>
+        </div>
+        <div class="grid font-['Tajawal']">
+            <div class="w-fit h-auto bg-white rounded-md border-2 border-[#ECEEF6] my-11
+            2xl:w-auto">
+                <div class="flex items-center gap-x-4 mx-5 my-6">
+                    <x-far-folder class="w-6 h-6 text-gray-500" />
+                    <a href="{{ route('employee.show.project', ['id'=>$project->id]) }}" class="font-bold text-base">{{ $project->p_name }}</a>
+                </div>
+                <div class="flex gap-x-5 items-center my-9 mx-9">
+                    <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
+                </div>
+            </div>
+        </div>
+        <div class="grid font-['Tajawal']">
+            <div class="w-fit h-auto bg-white rounded-md border-2 border-[#ECEEF6] my-11
+            2xl:w-auto">
+                <div class="flex items-center gap-x-4 mx-5 my-6">
+                    <x-far-folder class="w-6 h-6 text-gray-500" />
+                    <a href="{{ route('employee.show.project', ['id'=>$project->id]) }}" class="font-bold text-base">{{ $project->p_name }}</a>
+                </div>
+                <div class="flex gap-x-5 items-center my-9 mx-9">
+                    <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
+                </div>
+            </div>
+        </div>
+        <div class="grid font-['Tajawal']">
             <div class="w-fit h-auto bg-white rounded-md border-2 border-[#ECEEF6] my-11
             2xl:w-auto">
                 <div class="flex items-center gap-x-4 mx-5 my-6">
