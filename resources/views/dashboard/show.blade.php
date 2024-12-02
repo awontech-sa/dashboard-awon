@@ -2,15 +2,8 @@
 @section('content')
 <div class="grid font-['Tajawal'] font-bold text-xl mx-auto w-auto">
     <section>
-        <div class="flex items-center justify-between mx-20
-        2xl:mx-96
-        xl:mx-56">
-            <h1>{{ $project->p_name }}</h1>
-        </div>
-        <div class="grid grid-cols-2 gap-y-8 my-7 mx-auto w-fit
-        2xl:gap-x-16 2xl:grid-cols-4
-        xl:gap-x-4
-        md:gap-x-4">
+        <div class="grid grid-cols-2 gap-y-8 my-7 mx-auto w-fit gap-x-4
+        desktop:grid-cols-4">
             <!-- start of project status section -->
             <div class="w-auto h-28 bg-white border-[#ECEEF6] grid place-items-center rounded-md border-2">
                 <div class="flex items-center gap-x-[7.2rem]">
@@ -30,7 +23,7 @@
             <!-- end of project status section -->
 
             <!-- start of project success section -->
-            <div class="w-[20.2rem] pt-6 pr-5 h-28 bg-white border-[#ECEEF6] rounded-md border-2">
+            <div class="w-[20.2rem] grid pt-6 pr-5 h-28 bg-white border-[#ECEEF6] rounded-md border-2">
                 <div>
                     <p class="font-bold text-base">نسبة إنجاز المشروع</p>
                 </div>
@@ -48,7 +41,7 @@
                     {{-- <img src="{{ asset("assets/icons/benef_projects.png") }}" class="w-5" alt="project-status" /> --}}
                 </div>
                 <div class="pr-4 py-4">
-                    <p class="font-bold text-3xl">{{ ($project->total_cost === null) ? 'مجانًا' : $project->total_cost }}</p>
+                    <p class="font-bold text-2xl">{{ ($project->total_cost === null) ? 'مجانًا' : $project->total_cost }}</p>
                 </div>
             </div>
             <!-- end of project success section -->

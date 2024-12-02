@@ -7,7 +7,6 @@ use App\Models\Projects;
 use App\Models\ProjectSupporters;
 use App\Models\ProjectUser;
 use App\Services\ViewChartService;
-use Illuminate\Http\Request;
 
 class VisitorController extends Controller
 {
@@ -85,13 +84,29 @@ class VisitorController extends Controller
             'project' => $project,
             "chart" => $viewChart,
             'supporter' => $supporter,
-            'dashboard' => $dashboard,
+            'projects' => $dashboard,
             'files' => $files,
             'team' => $team,
             'details' => $details,
             'stages' => $stages,
             'bigBoss' => $bigBoss,
             'installment' => $installment,
+        ]);
+    }
+
+    public function showPercentage()
+    {
+        $viewChart = $this->viewChartService->getProjectsIncome();
+
+        $projects = Projects::all();
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject')->take(4)->get();
+        }
+
+        return view('dashboard.percentage-projects', [
+            'chart' => $viewChart,
+            'projects' => $projects,
+            'dashboard' => $dashboard,
         ]);
     }
 }
