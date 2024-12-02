@@ -33,7 +33,7 @@
                 </div>
                 <div class="flex items-center gap-x-2">
                     <small class="text-sm font-normal text-gray-500">{{ $project->stages->count() }}/{{ $project->stage->count() }} إنجاز المراحل</small>
-                    <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="5"></progress>
+                    <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="{{ $project->stage->count() }}"></progress>
                 </div>
             </div>
             <!-- end of project success section -->

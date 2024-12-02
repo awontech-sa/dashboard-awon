@@ -66,9 +66,9 @@
             @foreach($stages as $stage)
             <div class="grid grid-cols-3 items-center">
                 <p>{{ $project->p_name }}</p>
-                <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                <p>{{ $stage->stageOfProject->count() }}/{{ $project->stage->count() }} إنجاز المراحل</p>
                 <progress class="progress progress-success w-20
-                laptop:w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
+                laptop:w-32" value="{{ $stage->stageOfProject->count() }}" max="{{ $project->stage->count() }}"></progress>
             </div>
             @endforeach
             @endforeach
@@ -99,7 +99,7 @@
                 </div>
                 <div class="flex gap-x-5 items-center my-9 mx-9">
                     <p>{{ $project->stages->count() }}/{{ $project->stage->count() }} إنجاز المراحل</p>
-                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
+                    <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="{{ $project->stage->count() }}"></progress>
                 </div>
             </div>
         </div>
