@@ -1,5 +1,7 @@
 <div class="my-14">
-    <div class="grid grid-cols-2 gap-x-6">
+    <h1 class="font-bold text-xl">البيانات المالية</h1>
+
+    <div class="grid grid-cols-2 gap-x-6 mt-[0.82rem]">
         <div>
             <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>
             <div class="bg-white flex gap-x-4 p-2 rounded">

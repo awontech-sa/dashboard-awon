@@ -1,5 +1,5 @@
-<h1 class="font-bold text-xl py-14">برمجة المشروع</h1>
-<div class="grid grid-cols-2 gap-x-[3.3rem] text-base font-normal">
+<h1 class="font-bold text-xl mt-14">برمجة المشروع</h1>
+<div class="grid grid-cols-2 gap-x-[3.3rem] text-base font-normal mt-[0.82rem]">
     <div class="grid gap-y-5">
         <label>لغة البرمجة</label>
         <input class="input text-center text-base" disabled type="text" placeholder="{{ $details->program_language ?? '' }}" />
