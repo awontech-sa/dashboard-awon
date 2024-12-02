@@ -17,13 +17,6 @@ use App\Http\Controllers\ForgotPasswordController;
 use App\Http\Controllers\VisitorController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [VisitorController::class, 'index'])->name('home');
-Route::get('/{id}', [VisitorController::class, 'show'])->name('tech');
-Route::get('/login', [AuthController::class, 'index'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
-Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-// end auth routes
-
 //start forgot password route
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.password');  // Show forgot password form
 Route::post('/verification', [ForgotPasswordController::class, 'verification'])->name('verification');  // Send verification OTP
@@ -104,3 +97,9 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     //end project routes
 });
 // end employee route
+
+Route::get('/', [VisitorController::class, 'index'])->name('home');
+Route::get('/{id}', [VisitorController::class, 'show'])->name('tech');
+Route::get('/login', [AuthController::class, 'index'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
