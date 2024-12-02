@@ -26,8 +26,6 @@ class AdminController extends Controller
         $admin = Auth::user();
 
         $user = User::with('positions')->get();
-
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -48,7 +46,6 @@ class AdminController extends Controller
             'user' => $user,
             'admin' => $admin,
             'projects' => $projects,
-            'chart' => $viewChart,
             'dashboard' => $dashboard,
             'stages' => $stages,
             'completed_projects' => $completed_projects,
@@ -67,7 +64,6 @@ class AdminController extends Controller
         $dashboard = [];
         $admin = Auth::user();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -78,7 +74,6 @@ class AdminController extends Controller
 
         return view('admin.percentage-projects', [
             'admin' => $admin,
-            'chart' => $viewChart,
             'projects' => $projects,
             'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,

@@ -232,7 +232,6 @@
             </div>
             <div class="pt-11 pb-52">
                 @yield('admin-content')
-                {!! $chart->script() !!}
                 {!! $viewGrossAnnualIncome->script() !!}
                 {!! $viewCurrentGrossIncome->script() !!}
             </div>

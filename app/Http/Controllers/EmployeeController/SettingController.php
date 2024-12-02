@@ -33,7 +33,6 @@ class SettingController extends Controller
         $user = User::with('positions')->findOrFail($this->employee->id);
         $dashboard = Projects::with('stageOfProject')->get();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -47,7 +46,6 @@ class SettingController extends Controller
             'collectionPermission' => $collection->last(),
             "position" => $position[0],
             'employee' => $this->employee,
-            'chart' => $viewChart,
             'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
@@ -56,7 +54,6 @@ class SettingController extends Controller
 
     public function update(SettingRequest $request)
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -95,7 +92,6 @@ class SettingController extends Controller
         return back()->withInput([
             'position' => $position->p_name ?? null,
             'admin' => $user,
-            'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ])->with('success_message', 'تم تحديث البيانات بنجاح');

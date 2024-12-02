@@ -29,7 +29,6 @@ class EmployeeController extends Controller
         $dashboard = [];
         $stages = [];
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
@@ -51,7 +50,6 @@ class EmployeeController extends Controller
 
         return view('employee.index', [
             'employee' => $this->employee,
-            'chart' => $viewChart,
             'dashboard' => $dashboard,
             'stages' => $stages,
             'projects' => $projects,
@@ -74,7 +72,6 @@ class EmployeeController extends Controller
         $dashboard = [];
         $employee = Auth::user();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
@@ -88,7 +85,6 @@ class EmployeeController extends Controller
 
         return view('employee.percentage-projects', [
             'employee' => $employee,
-            'chart' => $viewChart,
             'projects' => $projects,
             'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,

@@ -28,7 +28,6 @@ class PowersController extends Controller
 
         $userPermissions = User::with('powersSections')->where('id', $id)->first();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         return view('admin.powers', [
@@ -38,7 +37,6 @@ class PowersController extends Controller
             'projects' => $projects,
             'id' => $id,
             'admin' => $admin,
-            'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             // 'userPermissions' => $userPermissions

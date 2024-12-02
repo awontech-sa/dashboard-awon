@@ -26,7 +26,6 @@ class ProfileController extends Controller
     }
     public function index()
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
@@ -45,7 +44,6 @@ class ProfileController extends Controller
 
         return view('employee.profile', [
             'employee' => $this->employee,
-            'chart' => $viewChart,
             'projects' => $projects,
             'stages' => $stages,
             'dashboard' => $dashboard,

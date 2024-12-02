@@ -29,7 +29,6 @@ class ProjectController extends Controller
         $users = User::all();
         $projects = Projects::all();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -42,7 +41,6 @@ class ProjectController extends Controller
                     'data' => $data,
                     "admin" => $admin,
                     'projects' => $projects,
-                    "chart" => $viewChart,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users
@@ -52,7 +50,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -63,7 +60,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -74,7 +70,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -85,7 +80,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -96,7 +90,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -107,7 +100,6 @@ class ProjectController extends Controller
                     'step' => $step,
                     'data' => $data,
                     "admin" => $admin,
-                    "chart" => $viewChart,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
@@ -596,7 +588,6 @@ class ProjectController extends Controller
 
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -604,7 +595,6 @@ class ProjectController extends Controller
             "admin" => $admin,
             'phases' => $phases,
             'project' => $project,
-            "chart" => $viewChart,
             'supporter' => $supporter,
             'projects' => $projects,
             'files' => $files,

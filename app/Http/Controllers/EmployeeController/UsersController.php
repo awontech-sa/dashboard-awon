@@ -31,7 +31,6 @@ class UsersController extends Controller
 
     public function index()
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -50,7 +49,6 @@ class UsersController extends Controller
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
             'employee' => $this->employee,
-            'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'users' => $users
@@ -59,7 +57,6 @@ class UsersController extends Controller
 
     public function show($id)
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -86,7 +83,6 @@ class UsersController extends Controller
             'permission' => $permission,
             "userPosition" => $userPosition,
             "employee" => $this->employee,
-            "chart" => $viewChart,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome
         ]);
@@ -106,7 +102,6 @@ class UsersController extends Controller
 
         $position = $user->positions->pluck("p_name");
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -122,7 +117,6 @@ class UsersController extends Controller
             "user" => $user,
             "id" => $id,
             "employee" => $this->employee,
-            "chart" => $viewChart,
             'projects' => $projects,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome
@@ -131,7 +125,6 @@ class UsersController extends Controller
 
     public function update(SettingRequest $request)
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -161,7 +154,6 @@ class UsersController extends Controller
         return back()->withInput([
             'position' => $position->p_name ?? null,
             'admin' => $user,
-            'chart' => $viewChart,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ])->with('success_message', 'تم تحديث البيانات بنجاح');

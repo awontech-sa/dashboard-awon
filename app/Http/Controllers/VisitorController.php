@@ -22,8 +22,6 @@ class VisitorController extends Controller
     {
         $dashboard = [];
 
-        $viewChart = $this->viewChartService->getProjectsIncome();
-
         $projects = Projects::all();
         if (!empty($projects)) {
             $dashboard = Projects::with('stageOfProject', 'stage')->take(4)->get();
@@ -39,7 +37,6 @@ class VisitorController extends Controller
 
         return view('dashboard.index', [
             'projects' => $projects,
-            'chart' => $viewChart,
             'dashboard' => $dashboard,
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
@@ -52,8 +49,6 @@ class VisitorController extends Controller
 
     public function show($id)
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
-
         $project = Projects::findOrFail($id);
         $dashboard = Projects::all();
         $phases = ProjectPhases::find($project->id);
@@ -80,10 +75,8 @@ class VisitorController extends Controller
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
         return view('dashboard.show', [
-            'chart' => $viewChart,
             'phases' => $phases,
             'project' => $project,
-            "chart" => $viewChart,
             'supporter' => $supporter,
             'projects' => $dashboard,
             'files' => $files,
@@ -98,15 +91,12 @@ class VisitorController extends Controller
 
     public function showPercentage()
     {
-        $viewChart = $this->viewChartService->getProjectsIncome();
-
         $projects = Projects::all();
         if (!empty($projects)) {
             $dashboard = Projects::with('stageOfProject')->take(4)->get();
         }
 
         return view('dashboard.percentage-projects', [
-            'chart' => $viewChart,
             'projects' => $projects,
             'dashboard' => $dashboard,
         ]);
