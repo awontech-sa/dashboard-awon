@@ -1,8 +1,7 @@
 @extends('layouts.admin-sidebar')
 
 @section('admin-content')
-<section class="font-['Tajawal'] m-[5.7rem]
-2xl:mx-96">
+<section class="font-['Tajawal'] m-[5.7rem]">
     <h1 class="font-bold text-xl">البيانات الشخصية</h1>
 
     @if(session('success_message'))
@@ -15,16 +14,15 @@
         @csrf
         @method('PUT')
         <div class="mt-6 grid gap-y-3">
-            <input value="{{ $admin->profile_image }}" name="profile_image" type="file" class="file-input w-20 h-20 rounded-full
-            max-md:file-input-sm" />
             <small>رفع صورة</small>
+            <input value="{{ $admin->profile_image }}" name="profile_image" type="file" class="file-input w-auto" />
             @error('profile_image')
             <span class="text-red-600">{{ $message }}</span>
             @enderror
         </div>
         <div class="grid grid-cols-1 mt-6 gap-y-7
-        2xl:grid-cols-2
-        xl:grid-cols-2 xl:gap-x-4">
+        desktop:grid-cols-2 desktop:gap-x-4
+        laptop:grid-cols-2 laptop:gap-x-4">
             <div class="grid gap-y-5">
                 <small>الاسم الشخصي <span class="text-error">*</span></small>
                 <input value="{{ $admin->name }}" name="name" type="text" placeholder="{{ $admin->name }}" class="input w-auto" />
@@ -66,8 +64,8 @@
         <div class="grid mt-9">
             <h1 class="text-xl font-bold">مواقع التواصل الإجتماعي</h1>
             <div class="grid grid-cols-1 mt-6
-            2xl:grid-cols-2
-            xl:grid-cols-2 xl:gap-x-4">
+            laptop:grid-cols-2 laptop:gap-x-4
+            desktop:grid-cols-2 desktop:gap-x-4">
                 <div class="grid gap-y-5">
                     <small>منصة X</small>
                     <input value="{{ $admin->x }}" name="x" type="text" placeholder="{{ $admin->x }}" class="input w-auto" />
@@ -85,11 +83,12 @@
             </div>
         </div>
 
-        <div class="mt-[3.8rem] mx-40
-        max-md:mx-0
-        2xl:mx-[40rem]
-        xl:mx-80">
-            <button type="submit" class="btn btn-wide text-white bg-cyan-700 font-bold text-base">تحديث البيانات</button>
+        <div class="mt-[3.8rem]
+        laptop:mx-72
+        desktop:mx-[45rem]">
+            <button type="submit" class="btn btn-sm text-white bg-cyan-600 font-bold text-base
+            laptop:btn-wide laptop:btn laptop:bg-cyan-600
+            desktop:btn-wide desktop:btn desktop:bg-cyan-600">تحديث البيانات</button>
         </div>
     </form>
 </section>

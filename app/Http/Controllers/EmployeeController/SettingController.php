@@ -33,6 +33,8 @@ class SettingController extends Controller
         $user = User::with('positions')->findOrFail($this->employee->id);
         $dashboard = Projects::with('stageOfProject')->get();
 
+        $projects = Projects::all();
+
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
@@ -47,6 +49,7 @@ class SettingController extends Controller
             "position" => $position[0],
             'employee' => $this->employee,
             'dashboard' => $dashboard,
+            'projects' => $projects,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome
         ]);
