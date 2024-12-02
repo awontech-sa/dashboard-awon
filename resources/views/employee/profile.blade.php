@@ -85,7 +85,7 @@
         </div>
     </div>
 
-    <div class="grid">
+    <div class="grid grid-cols-3">
         @foreach($projects as $project)
         @foreach($stages as $stage)
         <div class="grid grid-cols-2 font-['Tajawal']">
