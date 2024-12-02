@@ -16,21 +16,21 @@
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">بيانات عامة</h1>
-                @include('admin.projects.general-data')
+                @include('admin.projects.update.general-data')
             </div>
         </div>
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="02" {{ $step == 2 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">البيانات المالية</h1>
-                @include('admin.projects.financial-data', ['step' => $step])
+                @include('admin.projects.update.financial-data', ['step' => $step])
             </div>
         </div>
 
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="03" {{ $step == 3 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
-                @include('admin.projects.attachments', ['step' => $step])
+                @include('admin.projects.update.attachments', ['step' => $step])
             </div>
         </div>
 
@@ -39,17 +39,17 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">حالة المشروع</h1>
 
-                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @include('admin.projects.status')
+                    @include('admin.projects.update.status')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 4 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
                             hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white
                             hover:bg-cyan-700">
                                 التالي
                             </button>
@@ -65,17 +65,17 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">مراحل المشروع</h1>
 
-                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @include('admin.projects.level')
+                    @include('admin.projects.update.level')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 5 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
                             hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white
                             hover:bg-cyan-700">
                                 التالي
                             </button>
@@ -91,17 +91,17 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">برمجة المشروع</h1>
 
-                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @include('admin.projects.code')
+                    @include('admin.projects.update.code')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 6 && $step < 8)
-                            <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
                             hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                             </a>
-                            <button type="submit" href="{{ route('admin.create.project', ['step' => $step + 1]) }}" class="join-item btn bg-cyan-700 text-base text-white
+                            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white
                             hover:bg-cyan-700">
                                 التالي
                             </button>
@@ -116,19 +116,19 @@
             <div class="my-20">
                 <h1 class="font-bold text-xl">فريق العمل</h1>
 
-                <form action="{{ route('admin.create.project', ['step' => $step]) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
-                    @include('admin.projects.team', ['users' => $users])
+                    @include('admin.projects.update.team', ['users' => $users])
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 7)
-                        <a type="submit" href="{{ route('admin.create.project', ['step' => $step - 1]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+                        <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
                         hover:bg-cyan-700/30 hover:text-cyan-700">
                             السابق
                         </a>
-                        <button type="submit" href="{{ route('admin.create.project.final') }}" class="join-item btn bg-cyan-700 text-xs text-white
+                        <button type="submit" href="{{ route('admin.update.project.final') }}" class="join-item btn bg-cyan-700 text-xs text-white
                         hover:bg-cyan-700">
-                            إضافة المشروع
+                            تعديل المشروع
                         </button>
                         @endif
                     </div>
