@@ -98,7 +98,7 @@
                     <a href="{{ route('employee.show.project', ['id'=>$project->id]) }}" class="font-bold text-base">{{ $project->p_name }}</a>
                 </div>
                 <div class="flex gap-x-5 items-center my-9 mx-9">
-                    <p>{{ $stage->stageOfProject->count() }}/5 إنجاز المراحل</p>
+                    <p>{{ $project->stages->count() }}/{{ $project->stage->count() }} إنجاز المراحل</p>
                     <progress class="progress progress-success w-32" value="{{ $stage->stageOfProject->count() }}" max="5"></progress>
                 </div>
             </div>

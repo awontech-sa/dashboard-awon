@@ -2,7 +2,9 @@
 
 @section('employee-content')
 <div>
+  @if($techPermission && $techPermission->permission === 'تعديل')
   <a href="{{ route('employee.new.project.show', ['step' => 1]) }}" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mx-12 my-5">إضافة مشروع جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+  @endif
 
   <section class="grid grid-cols-1 gap-y-4
   laptop:grid-cols-4 laptop:mx-12 laptop:gap-x-4">

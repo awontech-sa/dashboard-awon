@@ -54,24 +54,28 @@
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
+                @if($accountsPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                     </div>
                 </li>
+                @endif
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
                         <x-fas-list class="text-cyan-700 w-7 h-7" />
                         <a class="text-right text-base mt-2">أقسام المشاريع</a>
                     </div>
                 </li>
+                @if($collectionPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-hand-holding-dollar class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-right mt-2">التحصيل</a>
                     </div>
                 </li>
+                @endif
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>

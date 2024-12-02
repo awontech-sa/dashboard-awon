@@ -32,7 +32,7 @@
                     <p class="font-bold text-base">نسبة إنجاز المشروع</p>
                 </div>
                 <div class="flex items-center gap-x-2">
-                    <small class="text-sm font-normal text-gray-500">{{ count($stages) }}/5 إنجاز المراحل</small>
+                    <small class="text-sm font-normal text-gray-500">{{ $project->stages->count() }}/{{ $project->stage->count() }} إنجاز المراحل</small>
                     <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="5"></progress>
                 </div>
             </div>
