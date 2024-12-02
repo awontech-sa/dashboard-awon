@@ -628,7 +628,10 @@ class ProjectController extends Controller
 
         $supporter = $project->supporter()->first();
 
-        $stages = $project->stages;
+        $doneStages = $project->stages;
+        $stages = $project->stage()->get()->map(function($stage) {
+            return ['stage_name' => $stage->stage_name];
+        });
 
         $details = $project->details()->where('projects_id', $project->id)->first();
         
@@ -654,6 +657,7 @@ class ProjectController extends Controller
             'project' => $project,
             "chart" => $viewChart,
             'supporter' => $supporter,
+            'doneStages' => $doneStages,
             'files' => $files,
             'team' => $team,
             'details' => $details,

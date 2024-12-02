@@ -28,8 +28,8 @@
                     <p class="font-bold text-base">نسبة إنجاز المشروع</p>
                 </div>
                 <div class="flex items-center gap-x-2">
-                    <small class="text-sm font-normal text-gray-500">{{ count($stages) }}/5 إنجاز المراحل</small>
-                    <progress class="progress progress-success w-44" value="{{ count($stages) }}" max="5"></progress>
+                    <small class="text-sm font-normal text-gray-500">{{ count($doneStages) }}/5 إنجاز المراحل</small>
+                    <progress class="progress progress-success w-44" value="{{ count($doneStages) }}" max="5"></progress>
                 </div>
             </div>
             <!-- end of project success section -->

@@ -21,7 +21,6 @@ class VisitorController extends Controller
     public function index()
     {
         $dashboard = [];
-        $stages = [];
 
         $viewChart = $this->viewChartService->getProjectsIncome();
 
@@ -42,7 +41,6 @@ class VisitorController extends Controller
             'projects' => $projects,
             'chart' => $viewChart,
             'dashboard' => $dashboard,
-            'stages' => $stages,
             'completed_projects' => $completed_projects,
             'stopped_projects' => $stopped_projects,
             'progress_projects' => $progress_projects,
@@ -63,7 +61,10 @@ class VisitorController extends Controller
 
         $supporter = $project->supporter()->first();
 
-        $stages = $project->stages;
+        $doneStages = $project->stages;
+        $stages = $project->stage()->get()->map(function($stage) {
+            return ['stage_name' => $stage->stage_name];
+        });
 
         $details = $project->details()->where('projects_id', $project->id)->first();
 
@@ -89,6 +90,7 @@ class VisitorController extends Controller
             'team' => $team,
             'details' => $details,
             'stages' => $stages,
+            'doneStages' => $doneStages,
             'bigBoss' => $bigBoss,
             'installment' => $installment,
         ]);
