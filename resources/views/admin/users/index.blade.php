@@ -5,19 +5,11 @@
     @if(session('success_message'))
     @include('layouts.success-message')
     @endif
-    <div class="flex items-center p-8
-    xl:justify-center xl:gap-x-[44rem]
-    max-md:grid max-md:gap-y-4
-    md:gap-x-[28rem]
-    2xl:justify-center 2xl:gap-x-[54rem]">
+    <div class="flex items-center py-8 justify-around">
         <h1 class="font-bold text-xl">الحسابات</h1>
-        <a href="{{ route('admin.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base
-        max-md:w-fit">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
+        <a href="{{ route('admin.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
     </div>
-    <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-0
-    md:w-[46rem]
-    2xl:w-[1103px] 2xl:table
-    xl:w-[60rem] xl:table">
+    <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-auto">
         <!-- head -->
         <thead>
             <tr class="text-center">

@@ -5,15 +5,10 @@
     @if(session('success_message'))
     @include('layouts.success-message')
     @endif
-    <div class="flex items-center justify-between p-8
-    max-md:justify-start max-md:gap-x-32
-    2xl:justify-evenly">
+    <div class="flex items-center justify-evenly py-8">
         <h1 class="font-bold text-xl">الحسابات</h1>
-        {{-- <a href="{{ route('employee.create.show') }}" class="btn btn-sm bg-white shadow-none font-normal text-base">إنشاء حساب جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a> --}}
     </div>
-    <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-0
-    2xl:w-[1103px] 2xl:table
-    xl:w-[1103px] xl:table">
+    <table class="table font-['Tajawal'] rounded-lg mx-auto table-xs w-auto">
         <!-- head -->
         <thead>
             <tr class="text-center">

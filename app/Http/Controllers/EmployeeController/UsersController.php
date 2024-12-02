@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SettingRequest;
 use App\Models\Positions;
 use App\Models\PowersUserSections;
+use App\Models\Projects;
 use App\Models\User;
 use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
@@ -37,12 +38,15 @@ class UsersController extends Controller
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
+        $projects = Projects::all();
+
         $users = User::with(['positions.department', 'projects'])->get();
 
         $permission = PowersUserSections::where('user_id', $this->employee->id)->where('powers_sections_id', 1)->get(['permission']);
 
         return view('employee.users.index', [
             'permission' => $permission,
+            'projects' => $projects,
             'accountsPermission' => $accounts->last(),
             'collectionPermission' => $collection->last(),
             'employee' => $this->employee,
@@ -64,6 +68,8 @@ class UsersController extends Controller
 
         $permission = PowersUserSections::where('user_id', $this->employee->id)->get(['permission']);
 
+        $projects = Projects::all();
+
         $user = User::where('id', $id)->get();
         $userPosition = [];
 
@@ -76,6 +82,7 @@ class UsersController extends Controller
             'collectionPermission' => $collection->last(),
             "id" => $id,
             "user" => $user,
+            'projects' => $projects,
             'permission' => $permission,
             "userPosition" => $userPosition,
             "employee" => $this->employee,
@@ -103,6 +110,8 @@ class UsersController extends Controller
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
 
+        $projects = Projects::all();
+
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
@@ -114,6 +123,7 @@ class UsersController extends Controller
             "id" => $id,
             "employee" => $this->employee,
             "chart" => $viewChart,
+            'projects' => $projects,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome
         ]);

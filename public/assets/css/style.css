@@ -52,3 +52,7 @@ input.tab.tab-power:is(input:checked) {
 .select[disabled] {
     background-color: white !important;
 }
+
+::placeholder {
+    color: rgba(108, 122, 137, 1) !important;
+}

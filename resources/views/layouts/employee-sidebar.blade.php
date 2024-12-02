@@ -18,14 +18,9 @@
 </head>
 
 <body>
-    <div class="grid
-    2xl:flex
-    xl:flex
-    lg:flex">
-        <div class="hidden h-full flex-[0.3]
-        lg:grid
-        2xl:grid
-        xl:grid">
+    <div class="flex">
+        <div class="h-full flex-[0.3] hidden
+        laptop:block">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
                 @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($employee->profile_image)))
                 <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14 rounded-full" alt="image-profile" />
@@ -41,8 +36,7 @@
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn m-1">. . .</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
-                        <li><a href="{{ route('employee.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
+                        <li><a href="{{ route('employee.setting.show') }}" class="font-bold text-cyan-700 text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                         <li>
                             <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
                                 @csrf
@@ -59,22 +53,24 @@
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
-                @if($accountsPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                     </div>
                 </li>
-                @endif
-                @if($collectionPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
-                    <div class="flex items-center gap-x-4 text-lg my-auto">
-                        <x-fas-users class="text-cyan-700 w-7 h-7" />
-                        <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
+                    <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
+                        <x-fas-list class="text-cyan-700 w-7 h-7" />
+                        <a class="text-right text-base mt-2">أقسام المشاريع</a>
                     </div>
                 </li>
-                @endif
+                <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                    <div class="flex items-center gap-x-4 text-lg my-auto">
+                        <x-fas-hand-holding-dollar class="text-cyan-700 w-7 h-7" />
+                        <a class="font-['Tajawal'] text-right mt-2">التحصيل</a>
+                    </div>
+                </li>
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
@@ -102,7 +98,6 @@
                         <li>
                             <details>
                                 <summary class="font-['Tajawal']">
-                                    <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                     مشاريع تنمية الموارد
                                 </summary>
                             </details>
@@ -116,8 +111,7 @@
             <div class="bg-[#F8FAFB] h-full">
                 <div class="top-0 w-full">
                     <div class="navbar bg-base-100 hidden
-                    2xl:block
-                    xl:block">
+                    laptop:block">
                         <div class="navbar-start justify-around w-full">
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
                             {{-- <div class="flex items-center mt-6 gap-x-3">
@@ -130,9 +124,7 @@
                     </div>
                 </div>
                 <nav class="navbar bg-body-tertiary block
-                    lg:hidden
-                    2xl:hidden
-                    xl:hidden">
+                laptop:hidden">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
@@ -157,7 +149,6 @@
                                     <div class="dropdown">
                                         <div tabindex="0" role="button" class="btn m-1">. . .</div>
                                         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                            <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
                                             <li><a href="{{ route('employee.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                                             <li>
                                                 <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
@@ -176,7 +167,6 @@
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                                         </div>
                                     </li>
-                                    @if($accountsPermission)
                                     <li class="nav-item
                                     hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
@@ -184,8 +174,13 @@
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                                         </div>
                                     </li>
-                                    @endif
-                                    @if($collectionPermission)
+                                    <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                                        <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
+                                            <x-fas-list class="text-cyan-700 w-7 h-7" />
+                                            <a class="text-right text-base mt-2">أقسام المشاريع</a>
+                                        </div>
+                                    </li>
                                     <li class="nav-item
                                     hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
@@ -193,7 +188,6 @@
                                             <a class="font-['Tajawal'] text-center mt-2">التحصيل</a>
                                         </div>
                                     </li>
-                                    @endif
                                     <li class="nav-item
                                     hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <ul class="menu menu-lg rounded-lg w-full max-w-xs">
@@ -206,7 +200,7 @@
                                                     <ul class="font-['Tajawal']">
                                                         @foreach($projects as $project)
                                                         <li>
-                                                            <a class="flex items-center gap-x-3" href="{{ route('admin.show.project', $project->id) }}">
+                                                            <a class="flex items-center gap-x-3" href="{{ route('employee.show.project', $project->id) }}">
                                                                 <x-far-folder class="text-gray-500 w-6 h-6" />
                                                                 <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                                             </a>
@@ -223,10 +217,8 @@
                                             <li>
                                                 <details>
                                                     <summary class="font-['Tajawal']">
-                                                        <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
                                                         مشاريع تنمية الموارد
                                                     </summary>
-                                                    //
                                                 </details>
                                             </li>
                                         </ul>
@@ -238,7 +230,7 @@
                 </nav>
 
             </div>
-            <div class="pt-11 pb-28">
+            <div class="pt-11 pb-52">
                 @yield('employee-content')
                 {!! $chart->script() !!}
                 {!! $viewGrossAnnualIncome->script() !!}

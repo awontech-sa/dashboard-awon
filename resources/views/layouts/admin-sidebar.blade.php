@@ -18,14 +18,9 @@
 </head>
 
 <body>
-    <div class="grid
-    2xl:flex
-    xl:flex
-    lg:flex">
-        <div class="hidden h-full flex-[0.3]
-        lg:grid
-        2xl:grid
-        xl:grid">
+    <div class="flex">
+        <div class="h-full flex-[0.3] hidden
+        laptop:block">
             <div class="flex items-center gap-x-4 font-['Tajawal'] font-bold text-lg mr-6 mt-8">
                 @if(!preg_match('/\.(jpg|jpeg|png|gif)$/i', basename($admin->profile_image)))
                 <img src="{{ asset("assets/images/user-profile.png") }}" class="w-14 rounded-full" alt="image-profile" />
@@ -116,8 +111,7 @@
             <div class="bg-[#F8FAFB] h-full">
                 <div class="top-0 w-full">
                     <div class="navbar bg-base-100 hidden
-                    2xl:block
-                    xl:block">
+                    laptop:block">
                         <div class="navbar-start justify-around w-full">
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
                             {{-- <div class="flex items-center mt-6 gap-x-3">
@@ -130,9 +124,7 @@
                     </div>
                 </div>
                 <nav class="navbar bg-body-tertiary block
-                    lg:hidden
-                    2xl:hidden
-                    xl:hidden">
+                laptop:hidden">
                     <div class="container-fluid">
                         <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>

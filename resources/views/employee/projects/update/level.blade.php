@@ -1,5 +1,5 @@
-<div class="flex justify-between">
-    <label for="project-name">اختر مراحل المشروع المناسبة <span class="text-red-600">*</span></label>
+<div class="flex justify-between items-center">
+    <label for="project-name">اختر مراحل المشروع المنجزة <span class="text-red-600">*</span></label>
     <a href="#my_modal_9" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">
         إضافة مرحلة جديدة
         <x-fas-plus class="w-4 h-4 text-gray-600" />
@@ -35,7 +35,7 @@
 <input type="hidden" name="stages-done">
 
 <div class="my-8">
-    <label for="project-name">اختر مراحل المشروع المنجزة <span class="text-red-600">*</span></label>
+    <label for="project-name">مراحل المشروع المنجزة</label>
     <div class="mt-8 grid gap-y-7 bottom-list stages-done" id="stages-done"></div>
 </div>
 
