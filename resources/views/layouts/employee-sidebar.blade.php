@@ -36,7 +36,7 @@
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn m-1">. . .</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
+                        <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-cyan-700 text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
                         <li><a href="{{ route('employee.setting.show') }}" class="font-bold text-cyan-700 text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                         <li>
                             <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
