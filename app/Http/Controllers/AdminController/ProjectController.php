@@ -637,7 +637,7 @@ class ProjectController extends Controller
         $phases = ProjectPhases::where('project_id', $id)->get();
 
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject', 'stage', 'files', 'supporter')->where('id', $id)->get();
+            $dashboard = Projects::with('stageOfProject', 'stage', 'files', 'supporter', 'details')->where('id', $id)->get();
         }
 
         $data = session("project_step{$step}", []);
@@ -1168,39 +1168,39 @@ class ProjectController extends Controller
                     ]);
                 }
 
-                // if ($data['level']['all-stages'] !== null) {
-                //     foreach (json_decode($data['level']['all-stages']) as $level) {
-                //         Stages::updateOrCreate([
-                //             'stage_name' => $level->stage_name,
-                //             'stage_number' => $level->stage_number,
-                //             'projects_id' => $id
-                //         ]);
-                //     }
+                if ($data['level']['all-stages'] !== null) {
+                    foreach (json_decode($data['level']['all-stages']) as $level) {
+                        Stages::updateOrCreate([
+                            'stage_name' => $level->stage_name,
+                            'stage_number' => $level->stage_number,
+                            'projects_id' => $id
+                        ]);
+                    }
 
-                //     if ($data['level']['stages-done'] !== null) {
-                //         foreach (json_decode($data['level']['stages-done']) as $done) {
-                //             $stageDone = Stages::where('stage_name', $done->stage_name)->first();
-                //             if ($stageDone) {
-                //                 $p = Projects::find($id);
-                //                 if ($p) {
-                //                     $p->stages()->attach($stageDone->id);
-                //                 }
-                //             }
-                //         }
-                //     }
-                // }
+                    if ($data['level']['stages-done'] !== null) {
+                        foreach (json_decode($data['level']['stages-done']) as $done) {
+                            $stageDone = Stages::where('stage_name', $done->stage_name)->first();
+                            if ($stageDone) {
+                                $p = Projects::find($id);
+                                if ($p) {
+                                    $p->stages()->attach($stageDone->id);
+                                }
+                            }
+                        }
+                    }
+                }
 
-                // if (!empty($data['code'])) {
-                //     ProjectDetails::where('projects_id', $id)->update([
-                //         'program_language' => $data['code']['program_language'],
-                //         "framework" => $data['code']['framework'],
-                //         "github" => $data['code']['github'],
-                //         "link" => $data['code']['link'],
-                //         "ios" => $data['code']['ios'],
-                //         "android" => $data['code']['android'],
-                //         "dashboard" => $data['code']['dashboard']
-                //     ]);
-                // }
+                if (!empty($data['code'])) {
+                    ProjectDetails::where('projects_id', $id)->update([
+                        'program_language' => $data['code']['program_language'],
+                        "framework" => $data['code']['framework'],
+                        "github" => $data['code']['github'],
+                        "link" => $data['code']['link'],
+                        "ios" => $data['code']['ios'],
+                        "android" => $data['code']['android'],
+                        "dashboard" => $data['code']['dashboard']
+                    ]);
+                }
 
                 // if (!empty($data['team'])) {
                 //     if ($data['team']['role'] !== '[]') {
