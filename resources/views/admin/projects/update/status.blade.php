@@ -5,7 +5,7 @@
             <label for="start-project">حالة المشروع</label>
             <select class="select select-bordered select-lg w-full max-w-xs" name="project-status">
                 @foreach (App\Enums\ProjectStatus::cases() as $status)
-                <option value="{{ $status->value }}" {{ old('project-status', $data['project_status'] ?? '') == $status->value ? 'selected' : '' }}>
+                <option value="{{ $status->value }}" {{ $project->project_status == $status->value ? 'selected' : '' }}>
                     {{ $status->value }}
                 </option>
                 @endforeach

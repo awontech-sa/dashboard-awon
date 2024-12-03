@@ -1161,12 +1161,12 @@ class ProjectController extends Controller
                 }
 
 
-                // if (!empty($data['status'])) {
-                //     Projects::where('id', $id)->update([
-                //         'project_status' => $data['status']['project_status'],
-                //         'comment' => $data['status']['comment']
-                //     ]);
-                // }
+                if (!empty($data['status'])) {
+                    Projects::where('id', $id)->update([
+                        'project_status' => $data['status']['project_status'],
+                        'comment' => $data['status']['comment']
+                    ]);
+                }
 
                 // if ($data['level']['all-stages'] !== null) {
                 //     foreach (json_decode($data['level']['all-stages']) as $level) {
