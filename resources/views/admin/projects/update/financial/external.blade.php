@@ -40,7 +40,7 @@
                     </td>
                     <td class="border px-4 py-2">
                         @if($i->receipt_proof)
-                        <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                        <div class="h-[4.1rem] bg-white rounded flex items-center justify-between">
                             <div class="flex gap-x-5 p-4 items-center">
                                 <img src="{{ asset('assets/icons/pdf.png') }}" class="w-[1.4rem] h-7" alt="pdf" />
                             </div>
@@ -86,7 +86,7 @@
                 row.innerHTML = `
                 <td class="border px-4 py-2">${i + 1}</td>
                 <td class="border px-4 py-2">
-                    <input type="number" name="installments[${i}][amount]" min="0" class="input" value="" />
+                    <input type="number" name="installments[${i}][amount]" min="0" class="input" />
                 </td>
                 <td class="border px-4 py-2">
                     <label class="label cursor-pointer">
@@ -94,8 +94,8 @@
                         <span class="label-text">تم استلام الدفعة</span>
                     </label>
                 </td>
-                <td class="border px-4 py-2">
-                    <input type="file" name="installments[${i}][proof]" class="file-input" />
+                <td class="border">
+                    <input type="file" name="installments[${i}][proof]" class="file-input file-input-md" />
                 </td>
             `;
                 installmentsTable.appendChild(row);

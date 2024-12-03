@@ -58,85 +58,79 @@
         @endforeach
 
         <div class="supporter-data-full hidden" id="supporterDataSection">
-            @include('admin.projects.update.financial.full-support')
         </div>
         <div class="supporter-data-part hidden" id="supporterDataSection">
-            @include('admin.projects.update.financial.part-support')
-        </div>
-        <div class="supporter-comp-internal hidden">
-            <div class="mt-8">
-                <div class="grid">
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة</label>
-                            <input type="text" class="input" value="{{ $project->expected_cost }}" name="project-expected-income-not-support">
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                            <input type="text" class="input" value="{{ $project->actual_cost }}" name="project-real-income-not-support">
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">عدد المراحل</label>
-                            <input type="number" min="0" class="input" name="stages-count-not-support" id="stages_count_not_support">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <table class="w-full border mt-2 table text-center">
-                            <tr>
-                                <th class="border px-4 py-2">المرحلة</th>
-                                <th class="border px-4 py-2">تكلفة المرحلة</th>
-                                <th class="border px-4 py-2">حالة الصرف</th>
-                                <th class="border px-4 py-2">اثبات الصرف</th>
-                            </tr>
-
-                            <tbody id="phases-table">
-                                @foreach( $phases as $key => $phase )
-                                <tr class="border px-4 py-2">
-                                    <td class="border px-4 py-2">{{ $key + 1 }}</td>
-                                    <td class="border px-4 py-2">
-                                        <input type="number" name="phases[{{ $key }}][amount]" min="0" class="input" value="{{ $phase->phase_cost }}" />
-                                    </td>
-                                    <td class="border px-4 py-2">
-                                        <label class="label cursor-pointer">
-                                            <input type="checkbox" name="phases[{{ $key }}][status]" class="checkbox" {{ $phase->disbursement_status === 1 ? 'checked' : '' }} />
-                                            <span class="label-text">تم استلام الصرف</span>
-                                        </label>
-                                    </td>
-                                    <td class="border px-4 py-2">
-                                        @if($phase->disbursement_proof)
-                                        <div class="h-[4.1rem] bg-white rounded flex items-center justify-between">
-                                            <div class="flex gap-x-5 p-4 items-center">
-                                                <img src="{{ asset('assets/icons/pdf.png') }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                            </div>
-                                            <a class="btn btn-md bg-[#FBFDFE] text-[#0F91D2]" href="{{ $phase->disbursement_proof }}" download>عرض الملف</a>
-                                        </div>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
         </div>
         <div class="supporter-comp-external hidden" id="supporterDataSection">
-            @include('admin.projects.update.financial.external')
+            <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
+                <div class="grid gap-y-5">
+                    <label>اسم الجهة</label>
+                    <input type="text" name="comp-name" value="{{ $supporter->supporter_name }}" class="input" />
+                </div>
+                <div class="grid gap-y-5">
+                    <label>تكلفة المشروع</label>
+                    <input type="text" name="income-project" value="{{ $project->total_cost }}" class="input" />
+                </div>
+                <div class="grid gap-y-5">
+                    <label>عدد الدفعات</label>
+                    <input type="number" id="installments-count" name="num-not-support" min="0" value="{{ $supporter->installments_count }}" class="input" />
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <table class="w-full border mt-2 font-medium text-base table text-center">
+                    <thead>
+                        <tr>
+                            <th class="border px-4 py-2">الدفعة</th>
+                            <th class="border px-4 py-2">قيمة الدفعة</th>
+                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                            <th class="border px-4 py-2">إثبات استلام الدفعة</th>
+                        </tr>
+                    </thead>
+                    <tbody id="installments-table">
+                        @foreach($installment as $key => $i)
+                        <tr>
+                            <td class="border px-4 py-2">{{ $key + 1 }}</td>
+                            <td class="border px-4 py-2">
+                                <input type="number" name="installments[{{ $key }}][amount]" min="0" class="input" value="{{ $i->installment_amount }}" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <label class="label cursor-pointer">
+                                    <input type="checkbox" name="installments[{{ $key }}][status]" class="checkbox" {{ $i->installment_receipt_status === 1 ? 'checked' : '' }} />
+                                    <span class="label-text">تم استلام الدفعة</span>
+                                </label>
+                            </td>
+                            <td class="border px-4 py-2">
+                                @if($i->receipt_proof)
+                                <div class="h-[4.1rem] bg-white rounded flex items-center justify-between">
+                                    <div class="flex gap-x-5 p-4 items-center">
+                                        <img src="{{ asset('assets/icons/pdf.png') }}" class="w-[1.4rem] h-7" alt="pdf" />
+                                    </div>
+                                    <a class="btn btn-md bg-[#FBFDFE] text-[#0F91D2]" href="{{ $i->receipt_proof }}" download>عرض الملف</a>
+                                </div>
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="supporter-comp-internal hidden" id="supporterDataSection">
         </div>
     </div>
 
-    <!-- <div class="join grid grid-cols-2 w-1/4 float-left">
+    <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 2 && $step < 8)
             <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
             hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white
-            hover:bg-cyan-700">
+            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                 التالي
             </button>
             @endif
-    </div> -->
+    </div>
 </form>
 @endforeach
 
@@ -148,6 +142,7 @@
             let supportType = document.querySelector('input[name="support-type"]:checked')?.value;
             let supporter = document.querySelector('input[name="supporter"]:checked')?.value;
 
+            // Form containers
             let externalSupportForm = document.querySelector('.external-support');
             let supporterFullDataContainer = document.querySelector('.supporter-data-full');
             let supporterPartDataContainer = document.querySelector('.supporter-data-part');
@@ -157,6 +152,7 @@
             let numberSupportForm = document.querySelector('.number-support-form');
             let costSupportForm = document.querySelector('.cost-project-form');
 
+            // Logic to show/hide forms
             if (supportStatus === 'مدعوم') {
                 supportTypeForm?.classList.remove('hidden');
                 externalSupportForm?.classList.add('hidden');
@@ -169,8 +165,8 @@
                 supportTypeForm?.classList.add('hidden');
                 if (supporter === 'جهة خارجية') {
                     externalSupportForm?.classList.remove('hidden');
-                    externalSupportContainer?.classList.remove('hidden');
                     internalSupportContainer?.classList.add('hidden');
+                    externalSupportContainer?.classList.remove('hidden');
                 } else if (supporter === 'عون التقنية') {
                     externalSupportForm?.classList.remove('hidden');
                     externalSupportContainer?.classList.add('hidden');
@@ -179,80 +175,7 @@
             }
         }
 
-        let installmentCountInput = document.getElementById("installments-count");
-        let installmentsTable = document.getElementById("installments-table");
-
-        // تهيئة الصفوف بناءً على البيانات الموجودة
-        function populateExistingInstallments() {
-            let existingRows = @json($installment);
-            existingRows.forEach((installment, index) => {
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                    <td class="border px-4 py-2">${index + 1}</td>
-                    <td class="border px-4 py-2">
-                        <input type="number" name="installments[${index}][amount]" value="${installment.installment_amount}" min="0" class="input" />
-                    </td>
-                    <td class="border px-4 py-2">
-                        <label class="label cursor-pointer">
-                            <input type="checkbox" name="installments[${index}][status]" class="checkbox" ${installment.installment_receipt_status === 1 ? 'checked' : ''} />
-                            <span class="label-text">تم استلام الدفعة</span>
-                        </label>
-                    </td>
-                    <td class="border px-4 py-2">
-                        ${installment.receipt_proof ? `
-                            <div class="h-[4.1rem] bg-white rounded flex items-center justify-between">
-                                <div class="flex gap-x-5 p-4 items-center">
-                                    <img src="{{ asset('assets/icons/pdf.png') }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                </div>
-                                <a class="btn btn-md bg-[#FBFDFE] text-[#0F91D2]" href="${installment.receipt_proof}" download>عرض الملف</a>
-                            </div>
-                        ` : `
-                            <input type="file" name="installments[${index}][proof]" class="file-input file-input-md" />
-                        `}
-                    </td>
-                `;
-                installmentsTable.appendChild(row);
-            });
-        }
-
-        // تحديث الصفوف بناءً على عدد الدفعات المدخل
-        function updateTableRows() {
-            let newCount = parseInt(installmentCountInput.value) || 0;
-            let currentCount = installmentsTable.children.length;
-
-            // إضافة صفوف جديدة
-            for (let i = currentCount; i < newCount; i++) {
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                    <td class="border px-4 py-2">${i + 1}</td>
-                    <td class="border px-4 py-2">
-                        <input type="number" name="installments[${i}][amount]" min="0" class="input" />
-                    </td>
-                    <td class="border px-4 py-2">
-                        <label class="label cursor-pointer">
-                            <input type="checkbox" name="installments[${i}][status]" class="checkbox" />
-                            <span class="label-text">تم استلام الدفعة</span>
-                        </label>
-                    </td>
-                    <td class="border px-4 py-2">
-                        <input type="file" name="installments[${i}][proof]" class="file-input file-input-md" />
-                    </td>
-                `;
-                installmentsTable.appendChild(row);
-            }
-
-            // إزالة الصفوف الزائدة
-            for (let i = currentCount - 1; i >= newCount; i--) {
-                installmentsTable.removeChild(installmentsTable.children[i]);
-            }
-        }
-
-        // ربط الأحداث
-        installmentCountInput.addEventListener("input", updateTableRows);
-
-        // استدعاء تهيئة البيانات الموجودة
-        populateExistingInstallments();
-
+        // Add event listeners
         document.querySelectorAll('input[name="support-status"]').forEach(radio => {
             radio.addEventListener('change', toggleForms);
         });
@@ -265,7 +188,47 @@
             radio.addEventListener('change', toggleForms);
         });
 
+        // Initial call
         toggleForms();
+
+        const installmentCountInput = document.getElementById("installments-count");
+        const installmentsTable = document.getElementById("installments-table");
+        let existingRows = @json($installment); // Existing installments from the database
+
+        // Function to update the table rows dynamically
+        function updateTableRows() {
+            const newCount = parseInt(installmentCountInput.value) || 0;
+            const currentCount = installmentsTable.children.length;
+
+            // Add new rows if the count increases
+            for (let i = currentCount; i < newCount; i++) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td class="border px-4 py-2">${i + 1}</td>
+                <td class="border px-4 py-2">
+                    <input type="number" name="installments[${i}][amount]" min="0" class="input" />
+                </td>
+                <td class="border px-4 py-2">
+                    <label class="label cursor-pointer">
+                        <input type="checkbox" name="installments[${i}][status]" class="checkbox" />
+                        <span class="label-text">تم استلام الدفعة</span>
+                    </label>
+                </td>
+                <td class="border">
+                    <input type="file" name="installments[${i}][proof]" class="file-input file-input-md" />
+                </td>
+            `;
+                installmentsTable.appendChild(row);
+            }
+
+            // Remove rows if the count decreases
+            for (let i = currentCount - 1; i >= newCount; i--) {
+                installmentsTable.removeChild(installmentsTable.children[i]);
+            }
+        }
+
+        // Add event listener to handle input change
+        installmentCountInput.addEventListener("input", updateTableRows);
     });
 </script>
 @endpush

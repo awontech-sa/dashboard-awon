@@ -951,7 +951,7 @@ class ProjectController extends Controller
                             break;
                         case 'عون التقنية':
                             if ($request->input("stages-count-not-support") !== 0) {
-                                for ($i = 1; $i <= $request->input("stages-count-not-support"); $i++) {
+                                for ($i = 0; $i < $request->input("stages-count-not-support"); $i++) {
                                     if ($request->hasFile("phases.{$i}.proof")) {
                                         $file = $request->file("phases.{$i}.proof");
                                         $fileName = time() . '.' . $file->getClientOriginalExtension();
