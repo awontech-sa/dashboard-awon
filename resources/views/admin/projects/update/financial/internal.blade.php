@@ -56,19 +56,6 @@
             </div>
         </div>
     </div>
-
-    <div class="join grid grid-cols-2 w-1/4 float-left">
-        @if($step == 2 && $step < 8)
-            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
-            hover:bg-cyan-700/30 hover:text-cyan-700">
-            السابق
-            </a>
-            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white
-            hover:bg-cyan-700">
-                التالي
-            </button>
-            @endif
-    </div>
 </form>
 
 @push('scripts')

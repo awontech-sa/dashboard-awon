@@ -1100,51 +1100,41 @@ class ProjectController extends Controller
                     }
 
                     if (!empty($data['financial-data']['project_phases'])) {
-                        $existingPhase = ProjectPhases::where('project_id', $id)->first()->phases;
+                        Projects::where('id', $project->id)->update([
+                            'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
+                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
+                        ]);
 
-                        foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
-                            $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
+                        ProjectSupporters::where('projects_id', $project->id)->update([
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                        ]);
 
-                            if ($existingInstallment) {
-                                $existingInstallment->update([
-                                    'installment_amount' => $installmentProject["amount"] ?? 0,
-                                    'installment_receipt_status' => isset($installmentProject['status']) ? true : false,
-                                    'receipt_proof' => $installmentProject["proof"] ?? null,
-                                ]);
-                            } else {
-                                $supporter = ProjectSupporters::where('projects_id', $id)->first();
+                        $existingPhases = ProjectPhases::where('project_id', $project->id)->get();
+                        $newPhases = $data['financial-data']['project_phases'];
+                        $newPhasesCount = count($newPhases);
 
-                                $supporter->installments()->create([
-                                    'project_id' => $id,
-                                    'installment_amount' => $installmentProject["amount"] ?? 0,
-                                    'installment_receipt_status' => isset($installmentProject['status']) ? true : false,
-                                    'receipt_proof' => $installmentProject["proof"] ?? null,
-                                ]);
-                            }
+                        foreach ($newPhases as $key => $phase) {
+                            $disbursementProof = $phase['proof'] ?? null;
+
+                            ProjectPhases::updateOrCreate(
+                                [
+                                    'project_id' => $project->id,
+                                    'id' => $existingPhases[$key]->id ?? null, // Match by ID if exists
+                                ],
+                                [
+                                    'phase_cost' => $phase['amount'] ?? 0,
+                                    'disbursement_status' => isset($phase['status']) && $phase['status'] === 'on',
+                                    'disbursement_proof' => $disbursementProof,
+                                    'stages_count' => $newPhasesCount, // Store the count of phases
+                                ]
+                            );
                         }
 
-                        foreach ($existingInstallments as $existingInstallment) {
-                            if (!isset($data['financial-data']["installments"][$existingInstallment->installment_number - 1])) {
-                                $existingInstallment->delete();
-                            }
+                        if ($existingPhases->count() > $newPhasesCount) {
+                            $phasesToDelete = $existingPhases->slice($newPhasesCount);
+                            ProjectPhases::whereIn('id', $phasesToDelete->pluck('id'))->delete();
                         }
-                        // Projects::where('id', $project->id)->update([
-                        //     'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
-                        //     'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
-                        // ]);
-                        // ProjectSupporters::where('project_id', $project->id)->update([
-                        //     'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                        //     'p_support_status' => $data['financial-data']['p_support_status'] ?? null
-                        // ]);
-
-                        // foreach ($data['financial-data']['project_phases'] as $phase) {
-                        //     ProjectPhases::updateOrCreate([
-                        //         'project_id' => $project->id,
-                        //         'phase_cost' => $phase['phase_cost'] ?? 0,
-                        //         'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
-                        //         'disbursement_proof' => $phase['disbursement_proof']
-                        //     ]);
-                        // }
                     }
                 }
 
