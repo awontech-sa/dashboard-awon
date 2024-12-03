@@ -11,7 +11,7 @@ class ProjectPhases extends Model
 
     protected $table = 'project_phases';
 
-    protected $fillable = ['project_id', 'phase_cost', 'disbursement_proof', 'disbursement_status'];
+    protected $fillable = ['project_id', 'phase_cost', 'disbursement_proof', 'disbursement_status', 'stages_count'];
 
     public function projects()
     {

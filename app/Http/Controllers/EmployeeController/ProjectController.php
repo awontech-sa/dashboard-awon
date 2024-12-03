@@ -598,6 +598,7 @@ class ProjectController extends Controller
 
     public function show($id)
     {
+        $stages= [];
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
@@ -644,6 +645,7 @@ class ProjectController extends Controller
             'techPermission' => $techPermission->last(),
             'bigBoss' => $bigBoss,
             'installment' => $installment ?? [],
+            'stages' => $stages,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
         ]);

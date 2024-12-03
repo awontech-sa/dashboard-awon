@@ -23,7 +23,7 @@
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">البيانات المالية</h1>
-                @include('admin.projects.update.financial-data', ['step' => $step])
+                @include('admin.projects.update.financial.index', ['step' => $step])
             </div>
         </div>
 
