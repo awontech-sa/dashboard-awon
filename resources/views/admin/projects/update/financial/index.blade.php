@@ -130,7 +130,7 @@
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">عدد المراحل</label>
-                            <input type="number" min="0" class="input" value="{{ $phases->last()->stages_count }}" name="stages-count-not-support" id="stages_count_not_support">
+                            <input type="number" min="0" class="input" value="{{ $phases->last()->stages_count ?? 0 }}" name="stages-count-not-support" id="stages_count_not_support">
                         </div>
                     </div>
                     <div class="mt-4">

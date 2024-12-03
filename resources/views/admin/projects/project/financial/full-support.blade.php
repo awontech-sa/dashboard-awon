@@ -1,7 +1,7 @@
 @if($supporter->supporter_number > 0)
 <div class="supporter-div">
-    @for($i=1; $i <= $supporter->supporter_number; $i++)
-        <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $i }}</h1>
+    @for($index=1; $index <= $supporter->supporter_number; $index++)
+        <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $index }}</h1>
 
         <div class="grid grid-cols-2 gap-x-7">
             <div class="grid my-2">

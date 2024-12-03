@@ -988,15 +988,26 @@ class ProjectController extends Controller
             return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
         } elseif ($step == 3) {
             $validated = [];
+
             if ($request->hasFile('attachment-file')) {
                 foreach ($request->file('attachment-file') as $key => $file) {
                     if ($file->isValid()) {
                         $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
+                        $filePath = Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName);
                         $validated[] = [
-                            'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
+                            'file' => $filePath ?? null,
                             'file_name' => $request->input('file-name')[$key] ?? null,
                         ];
                     }
+                }
+            } else if ($request->has('deleted_files')) {
+                foreach ($request->input('deleted_files') as $fileId) {
+                    $fileRecord = ProjectFiles::find($fileId);
+                    if ($fileRecord) {
+                        Storage::disk('digitalocean')->delete($fileRecord->file);
+                        $fileRecord->delete();
+                    }
+                    $validated = $fileRecord;
                 }
             }
             session(['project_step3' => $validated]);
@@ -1138,15 +1149,17 @@ class ProjectController extends Controller
                     }
                 }
 
-                // if (!empty($data['attachment'])) {
-                //     foreach ($data['attachment'] as $attachment) {
-                //         $file = $request->file($attachment["file_name"]);
-                //         ProjectFiles::where('projects_id', $id)->update([
-                //             'file' => $attachment["file"],
-                //             'file_name' => $attachment["file_name"],
-                //         ]);
-                //     }
-                // }
+                if (!empty($data['attachment'])) {
+                    foreach ($data['attachment'] as $attachment) {
+                        if (is_array($attachment) && isset($attachment["file"], $attachment["file_name"])) {
+                            $project->files()->create([
+                                'file' => $attachment["file"],
+                                'file_name' => $attachment["file_name"],
+                            ]);
+                        }
+                    }
+                }
+
 
                 // if (!empty($data['status'])) {
                 //     Projects::where('id', $id)->update([
