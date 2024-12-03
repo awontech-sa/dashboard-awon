@@ -1202,34 +1202,34 @@ class ProjectController extends Controller
                     ]);
                 }
 
-                // if (!empty($data['team'])) {
-                //     if ($data['team']['role'] !== '[]') {
-                //         $roles = json_decode($data['team']['role']);
-                //         $role = array_map(fn($r) => ['roles' => $r], $roles);
+                if (!empty($data['team'])) {
+                    if ($data['team']['role'] !== '[]') {
+                        $roles = json_decode($data['team']['role']);
+                        $role = array_map(fn($r) => ['roles' => $r], $roles);
 
-                //         if (count($role) !== 0) {
-                //             foreach ($roles as $user) {
-                //                 ProjectUser::updateOrCreate([
-                //                     'role' => $user->role,
-                //                     'user_id' => $user->id,
-                //                     'projects_id' => $id,
-                //                     'project_manager' => $data['team']['project_manager'],
-                //                     'sub_project_manager' => $data['team']['sub_project_manager']
-                //                 ]);
-                //             }
-                //         }
-                //     } else {
-                //         $user = User::select('id')->where('name', $data['team']['project_manager'])->first();
-                //         if ($user) {
-                //             ProjectUser::updateOrCreate([
-                //                 'user_id' => $user->id,
-                //                 'projects_id' => $id,
-                //                 'project_manager' => $data['team']['project_manager'],
-                //                 'sub_project_manager' => $data['team']['sub_project_manager']
-                //             ]);
-                //         }
-                //     }
-                // }
+                        if (count($role) !== 0) {
+                            foreach ($roles as $user) {
+                                ProjectUser::updateOrCreate([
+                                    'role' => $user->role,
+                                    'user_id' => $user->id,
+                                    'projects_id' => $id,
+                                    'project_manager' => $data['team']['project_manager'],
+                                    'sub_project_manager' => $data['team']['sub_project_manager']
+                                ]);
+                            }
+                        }
+                    } else {
+                        $user = User::select('id')->where('name', $data['team']['project_manager'])->first();
+                        if ($user) {
+                            ProjectUser::updateOrCreate([
+                                'user_id' => $user->id,
+                                'projects_id' => $id,
+                                'project_manager' => $data['team']['project_manager'],
+                                'sub_project_manager' => $data['team']['sub_project_manager']
+                            ]);
+                        }
+                    }
+                }
             }
             session()->forget(['project_step1', 'project_step2', 'project_step3', 'project_step4', 'project_step5', 'project_step6', 'project_step7']);
 

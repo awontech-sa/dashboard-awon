@@ -1,7 +1,7 @@
 @foreach($dashboard as $project)
 <form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data" id="myForm">
     @csrf
-    
+
     <div class="grid font-normal text-base my-6 gap-y-5">
         <label for="project-name">اسم المشروع</label>
         <input type="text" name="project-name" value="{{ $project->p_name }}" class="input" />
@@ -39,10 +39,12 @@
     <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
         <div class="grid gap-y-5
         2xl:w-auto">
-            <label for="type-benef">نوع المستفيدين من المشروع</label>
+            <label>نوع المستفيدين من المشروع</label>
             <select class="select select-bordered w-full" name="type-benef">
                 @foreach (App\Enums\TypeBenefEnum::cases() as $status)
-                <option value="{{ $project->type_benef }}">{{ $status->value }}</option>
+                <option value="{{ $status->value }}" {{ $project->type_benef == $status->value ? 'selected' : '' }}>
+                    {{ $status->value }}
+                </option>
                 @endforeach
             </select>
         </div>

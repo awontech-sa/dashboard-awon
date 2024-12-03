@@ -56,12 +56,12 @@
             <!-- start of project benefit section -->
             <div class="w-[20.2rem] h-28 bg-white border-[#ECEEF6] rounded-md border-2">
                 <div class="flex items-center gap-x-7 pr-4 pt-3">
-                    <p class="font-bold text-base">عدد المستفيدين من الجهات</p>
+                    <p class="font-bold text-base">عدد المستفيدين من {{ $project->type_benef === 'جهة' ? 'الجهات' : 'الأفراد'}}</p>
                     <img src="{{ asset("assets/icons/benef_projects.png") }}" class="w-5" alt="project-status" />
                 </div>
                 <div class="pr-4">
                     <p class="font-bold text-3xl">{{ $project->p_num_beneficiaries }}</p>
-                    <small class="text-gray-500 text-sm font-normal">جهة</small>
+                    <small class="text-gray-500 text-sm font-normal">{{ $project->type_benef === 'جهة' ? 'جهة' : 'فرد'}}</small>
                 </div>
             </div>
             <!-- end of project benefit section -->
