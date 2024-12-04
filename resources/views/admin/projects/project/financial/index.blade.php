@@ -57,7 +57,7 @@
         </div>
         @endif
     </div>
-    @endforeach
+
 
     @if($s->p_support_status === 'غير مدعوم' && $s->p_support_type === 'عون التقنية')
     @include('admin.projects.project.financial.internal')
@@ -74,4 +74,6 @@
     @if($s->p_support_status === 'مدعوم' && $s->p_support_type === 'جزئي')
     @include('admin.projects.project.financial.part-support')
     @endif
+
+    @endforeach
 </div>

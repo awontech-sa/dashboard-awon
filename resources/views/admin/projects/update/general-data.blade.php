@@ -1,6 +1,7 @@
 @foreach($dashboard as $project)
 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data" id="myForm">
     @csrf
+    @method('PUT')
     
     <div class="grid font-normal text-base my-6 gap-y-5">
         <label for="project-name">اسم المشروع</label>

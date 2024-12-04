@@ -12,7 +12,6 @@ use App\Models\ProjectSupporters;
 use App\Models\ProjectUser;
 use App\Models\Stages;
 use App\Models\User;
-use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -21,34 +20,20 @@ use Illuminate\Support\Facades\Storage;
 class ProjectController extends Controller
 {
     private ViewChartService $viewChartService;
-    private PermissionEmployeeService $permissionService;
-    public $employee;
 
-    public function __construct(ViewChartService $viewChartService, PermissionEmployeeService $permissionService)
+    public function __construct(ViewChartService $viewChartService)
     {
         $this->viewChartService = $viewChartService;
-        $this->permissionService = $permissionService;
-
-        // /** @var \App\Models\User */
-        $this->employee = Auth::user();
     }
 
     public function index($step = 1)
     {
-        $dashboard = [];
         $employee = Auth::user();
         $users = User::all();
         $projects = Projects::all();
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
-        $accounts = $this->permissionService->getAccountPermission($this->employee);
-        $collection = $this->permissionService->getCollectionPermission($this->employee);
-        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
-
-        if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject', 'stage')->take(4)->get();
-        }
 
         $data = session("project_step{$step}", []);
 
@@ -61,11 +46,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 2:
                 return view('employee.projects.create', [
@@ -75,11 +56,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 3:
                 return view('employee.projects.create', [
@@ -89,11 +66,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 4:
                 return view('employee.projects.create', [
@@ -103,11 +76,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 5:
                 return view('employee.projects.create', [
@@ -117,11 +86,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 6:
                 return view('employee.projects.create', [
@@ -131,11 +96,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             case 7:
                 return view('employee.projects.create', [
@@ -145,11 +106,7 @@ class ProjectController extends Controller
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'users' => $users
                 ]);
             default:
                 return back();
@@ -159,24 +116,33 @@ class ProjectController extends Controller
     public function create(Request $request, $step)
     {
         if ($step == 1) {
-            $validated = [
-                'p_name' => $request->input('project-name'),    //اسم المشروع
-                'p_num_beneficiaries' => $request->input('benef_number'),     //عدد المستفيدين
-                'p_date_start' => $request->input('start-project'),    //تاريخ بداية المشروع
-                'p_date_end' => $request->input('end-project'),    //تاريخ نهاية المشروع
-                'p_remaining' => $request->input('project-remaining'),     //المدة المتبقية
-                'p_description' => $request->input('project-description'),    //عن المشروع
-                'p_duration' => $request->input('project-duration'),      //مدة المشروع
-                'type_benef' => $request->input('type-benef'),     //نوع المستفيدين من المشروع
-            ];
-            session(['project_step1' => $validated]);
-            return redirect()->route('employee.create.project', ['step' => 2]);
+            if (
+                $request->input('project-name') === null || $request->input('start-project') === null ||
+                $request->input('end-project') === null ||  $request->input('project-description') === null
+                || $request->input('benef_number') === null
+            ) {
+                return back()->with('error_message', 'نرجوا إدخال البيانات الإجبارية (*)');
+            } else {
+                $validated = [
+                    'p_name' => $request->input('project-name'),    //اسم المشروع
+                    'p_num_beneficiaries' => $request->input('benef_number'),     //عدد المستفيدين
+                    'p_date_start' => $request->input('start-project'),    //تاريخ بداية المشروع
+                    'p_date_end' => $request->input('end-project'),    //تاريخ نهاية المشروع
+                    'p_remaining' => $request->input('project-remaining'),     //المدة المتبقية
+                    'p_description' => $request->input('project-description'),    //عن المشروع
+                    'p_duration' => $request->input('project-duration'),      //مدة المشروع
+                    'type_benef' => $request->input('type-benef'),     //نوع المستفيدين من المشروع
+                ];
+                session(['project_step1' => $validated]);
+                return redirect()->route('employee.create.project', ['step' => 2]);
+            }
         } elseif ($step == 2) {
             $validated = [];
             $reportFiles = [];
             $paymentFiles = [];
             $receiptProof = [];
             $disbursementProof = [];
+            $supporter = [];
 
             switch ($request->input('support-status')) {
                 case 'مدعوم':
@@ -227,17 +193,21 @@ class ProjectController extends Controller
                                             }
                                         }
                                     }
-                                    $validated = [
-                                        'supporter_number' => $request->input('number-support') ?? 0,
-                                        'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
-                                        'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
-                                        'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                    $supporter[] = [
                                         'supporter_name' => $request->input("comp-support-{$i}") ?? null,   //الجهة الداعمة
                                         'support_amount' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'installments_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
                                         'installments' => $receiptProof ?? [],
                                         'report_files' => $reportFiles ?? [],  //ملفات التقارير
                                         'payment_order_files' => $paymentFiles ?? []  //ملفات أوامر الصرف
+                                    ];
+
+                                    $validated = [
+                                        'supporter_number' => $request->input('number-support') ?? 0,
+                                        'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
+                                        'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                        'supporters' => $supporter
                                     ];
                                 }
                             }
@@ -387,6 +357,7 @@ class ProjectController extends Controller
                             }
 
                             $validated = [
+                                'stages_count' => $request->input('stages-count-not-support') ?? 0,
                                 'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
                                 'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
                                 'project_phases' => $disbursementProof ?? [],
@@ -469,16 +440,20 @@ class ProjectController extends Controller
                         ? json_encode(array_map(fn($order) => ['payment_order' => $order], $data['financial-data']["payment_order_files"]))
                         : '[]';
 
-                    $supporter = $project->supporter()->create([
-                        'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
-                        'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
-                        'installments_count' => $data['financial-data']["installments_count"] ?? 0,
-                        'report_files' => $reportFiles,
-                        'payment_order_files' => $paymentOrderFiles,
-                        'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                        'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                        'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                    ]);
+                    if (isset($data['financial-data']['supporters'])) {
+                        foreach ($data['financial-data']['supporters'] as $supporter) {
+                            $supporter = $project->supporter()->create([
+                                'supporter_name' => $supporter["supporter_name"] ?? null,
+                                'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                'installments_count' => $supporter["installments_count"] ?? 0,
+                                'report_files' => $reportFiles,
+                                'payment_order_files' => $paymentOrderFiles,
+                                'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                            ]);
+                        }
+                    }
 
                     Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
                         ? trim($data['financial-data']["total_cost"] ?? '') : null]);
@@ -516,7 +491,6 @@ class ProjectController extends Controller
 
                 if (!empty($data['attachment'])) {
                     foreach ($data['attachment'] as $attachment) {
-                        $file = $request->file($attachment["file_name"]);
                         $project->files()->create([
                             'file' => $attachment["file"],
                             'file_name' => $attachment["file_name"],
@@ -599,13 +573,8 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $stages= [];
-        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
-        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
-        $accounts = $this->permissionService->getAccountPermission($this->employee);
-        $collection = $this->permissionService->getCollectionPermission($this->employee);
-        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
-
+        $employee = Auth::user();
+        $users = User::all();
         $project = Projects::findOrFail($id);
         $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
@@ -614,13 +583,13 @@ class ProjectController extends Controller
         $supporter = $project->supporter()->get();
 
         $doneStages = $project->stages;
-        $stages = $project->stage()->get()->map(function($stage) {
+        $stages = $project->stage()->get()->map(function ($stage) {
             return ['stage_name' => $stage->stage_name];
         });
 
         $details = $project->details()->where('projects_id', $project->id)->first();
-        
-        $installment = Installments::where('project_id', $project->id)->get();
+
+        $installment = Installments::where('project_id', $project->id)->get()->unique($id);
 
         $team = $project->members()->get()->map(function ($user) {
             return [
@@ -631,24 +600,25 @@ class ProjectController extends Controller
 
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
         return view('employee.projects.project.show', [
-            'accountsPermission' => $accounts->last(),
-            'collectionPermission' => $collection->last(),
-            'employee' => $this->employee,
-            'projects' => $projects,
+            "employee" => $employee,
             'phases' => $phases,
             'project' => $project,
             'supporter' => $supporter,
-            'doneStages' => $doneStages,
+            'projects' => $projects,
             'files' => $files,
+            'doneStages' => $doneStages,
             'team' => $team,
             'details' => $details,
-            'techPermission' => $techPermission->last(),
-            'bigBoss' => $bigBoss,
-            'installment' => $installment ?? [],
             'stages' => $stages,
+            'bigBoss' => $bigBoss,
+            'installment' => $installment,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
+            'users' => $users
         ]);
     }
 
@@ -669,12 +639,13 @@ class ProjectController extends Controller
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
-        $accounts = $this->permissionService->getAccountPermission($this->employee);
-        $collection = $this->permissionService->getCollectionPermission($this->employee);
-        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
+
+        $installment = Installments::where('project_id', $id)->get();
+
+        $phases = ProjectPhases::where('project_id', $id)->get();
 
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject', 'stage', 'files')->where('id', $id)->get();
+            $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
         }
 
         $data = session("project_step{$step}", []);
@@ -683,100 +654,93 @@ class ProjectController extends Controller
             case 1:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 2:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 3:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 4:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 5:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 6:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             case 7:
                 return view('employee.projects.update.update', [
                     'step' => $step,
+                    'dashboard' => $dashboard,
                     'data' => $data,
                     "employee" => $employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
-                    'collectionPermission' => $collection->last(),
-                    'dashboard' => $dashboard,
-                    'techPermission' => $techPermission->last()
+                    'installment' => $installment,
+                    'phases' => $phases
                 ]);
             default:
                 return back();
@@ -804,6 +768,7 @@ class ProjectController extends Controller
             $paymentFiles = [];
             $receiptProof = [];
             $disbursementProof = [];
+            $supporters = [];
 
             switch ($request->input('support-status')) {
                 case 'مدعوم':
@@ -854,17 +819,22 @@ class ProjectController extends Controller
                                             }
                                         }
                                     }
-                                    $validated = [
-                                        'supporter_number' => $request->input('number-support') ?? 0,
-                                        'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
-                                        'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
-                                        'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+
+                                    $supporters[] = [
                                         'supporter_name' => $request->input("comp-support-{$i}") ?? null,   //الجهة الداعمة
                                         'support_amount' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'installments_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
                                         'installments' => $receiptProof ?? [],
                                         'report_files' => $reportFiles ?? [],  //ملفات التقارير
                                         'payment_order_files' => $paymentFiles ?? []  //ملفات أوامر الصرف
+                                    ];
+
+                                    $validated = [
+                                        'supporter_number' => $request->input('number-support') ?? 0,
+                                        'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
+                                        'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
+                                        'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                        'supporters' => $supporters
                                     ];
                                 }
                             }
@@ -966,19 +936,19 @@ class ProjectController extends Controller
                     switch ($request->input('supporter')) {
                         case 'جهة خارجية':
                             if ($request->input("num-not-support") !== 0) {
-                                for ($i = 1; $i <= $request->input("num-not-support"); $i++) {    //2
-                                    if ($request->hasFile("installment_files_0_{$i}")) {
-                                        $file = $request->file("installment_files_0_{$i}");
-                                        $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                for ($i = 0; $i < $request->input("num-not-support"); $i++) {
+                                    if ($request->hasFile("installments.{$i}.proof")) {
+                                        $file = $request->file("installments.{$i}.proof");
+                                        $fileName = time() . '_' . $i . '.' . $file->getClientOriginalExtension();
                                         $receiptProof[] = [
-                                            'installment_amount' => $request->input("installment_amount_0_{$i}") ?? 0,  //قيمة الدفعة
-                                            'installment_receipt_status' => $request->input("installment_status_0_{$i}") ?? false,  //حالة استلام الدفعة
-                                            'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null,
+                                            'amount' => $request->input("installments.{$i}.amount") ?? 0,  //قيمة الدفعة
+                                            'status' => $request->input("installments.{$i}.status") ?? false,  //حالة استلام الدفعة
+                                            'proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null
                                         ];
                                     } else {
                                         $receiptProof[] = [
-                                            'installment_amount' => $request->input("installment_amount_0_{$i}") ?? 0,  //قيمة الدفعة
-                                            'installment_receipt_status' => $request->input("installment_status_0_{$i}") ?? false
+                                            'amount' => $request->input("installments.{$i}.amount") ?? 0,  //قيمة الدفعة
+                                            'status' => $request->input("installments.{$i}.status") ?? false,  //حالة استلام الدفعة
                                         ];
                                     }
                                 }
@@ -995,25 +965,26 @@ class ProjectController extends Controller
                             break;
                         case 'عون التقنية':
                             if ($request->input("stages-count-not-support") !== 0) {
-                                for ($i = 1; $i <= $request->input("stages-count-not-support"); $i++) {
-                                    if ($request->hasFile("stages_files_0_{$i}")) {
-                                        $file = $request->file("stages_files_0_{$i}");
+                                for ($i = 0; $i < $request->input("stages-count-not-support"); $i++) {
+                                    if ($request->hasFile("phases.{$i}.proof")) {
+                                        $file = $request->file("phases.{$i}.proof");
                                         $fileName = time() . '.' . $file->getClientOriginalExtension();
                                         $disbursementProof[] = [
-                                            'phase_cost' => $request->input("stages_amount_0_{$i}") ?? 0,
-                                            'disbursement_status' => $request->input("stages_status_0_{$i}") ?? false,  //حالة الصرف
-                                            'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
+                                            'amount' => $request->input("phases.{$i}.amount") ?? 0,
+                                            'status' => $request->input("phases.{$i}.status") ?? false,  //حالة الصرف
+                                            'proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
                                         ];
                                     } else {
                                         $disbursementProof[] = [
-                                            'phase_cost' => $request->input("stages_amount_0_{$i}") ?? 0,
-                                            'disbursement_status' => $request->input("stages_status_0_{$i}") ?? false,  //حالة الصرف
+                                            'amount' => $request->input("phases.{$i}.amount") ?? 0,
+                                            'status' => $request->input("phases.{$i}.status") ?? false  //حالة الصرف
                                         ];
                                     }
                                 }
                             }
 
                             $validated = [
+                                'stages_count' => $request->input('stages-count-not-support') ?? 0,
                                 'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
                                 'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
                                 'project_phases' => $disbursementProof ?? [],
@@ -1028,17 +999,29 @@ class ProjectController extends Controller
                 default:
                     return back();
             }
+            return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
         } elseif ($step == 3) {
             $validated = [];
+
             if ($request->hasFile('attachment-file')) {
                 foreach ($request->file('attachment-file') as $key => $file) {
                     if ($file->isValid()) {
                         $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
+                        $filePath = Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName);
                         $validated[] = [
-                            'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
+                            'file' => $filePath ?? null,
                             'file_name' => $request->input('file-name')[$key] ?? null,
                         ];
                     }
+                }
+            } else if ($request->has('deleted_files')) {
+                foreach ($request->input('deleted_files') as $fileId) {
+                    $fileRecord = ProjectFiles::find($fileId);
+                    if ($fileRecord) {
+                        Storage::disk('digitalocean')->delete($fileRecord->file);
+                        $fileRecord->delete();
+                    }
+                    $validated = $fileRecord;
                 }
             }
             session(['project_step3' => $validated]);
@@ -1085,7 +1068,8 @@ class ProjectController extends Controller
             $data['code'] = session('project_step6');
             $data['team'] = session('project_step7');
             if (!empty($data['general-data'])) {
-                $project = Projects::where('id', $id)->update($data['general-data']);
+                Projects::where('id', $id)->update($data['general-data']);
+                $project = Projects::findOrFail($id);
 
                 if (!empty($data['financial-data'])) {
                     $reportFiles = isset($data['financial-data']["report_files"])
@@ -1096,60 +1080,131 @@ class ProjectController extends Controller
                         ? json_encode(array_map(fn($order) => ['payment_order' => $order], $data['financial-data']["payment_order_files"]))
                         : '[]';
 
-                    $supporter = ProjectSupporters::where('projects_id', $id)->update([
-                        'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
-                        'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
-                        'installments_count' => $data['financial-data']["installments_count"] ?? 0,
-                        'report_files' => $reportFiles,
-                        'payment_order_files' => $paymentOrderFiles,
-                        'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                        'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                        'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                    ]);
+                    if (isset($data['financial-data']['supporters'])) {
+                        foreach (($data['financial-data']['supporters']) as $index => $supporter) {
+                            $existingSupporter = $project->supporter()->skip($index)->first();
+
+                            if ($existingSupporter) {
+                                $existingSupporter->update([
+                                    'supporter_name' => $supporter["supporter_name"] ?? null,
+                                    'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                    'installments_count' => $supporter["installments_count"] ?? 0,
+                                    'report_files' => $reportFiles,
+                                    'payment_order_files' => $paymentOrderFiles,
+                                    'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                    'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                ]);
+                            } else {
+                                $project->supporter()->create([
+                                    'supporter_name' => $supporter["supporter_name"] ?? null,
+                                    'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                    'installments_count' => $supporter["installments_count"] ?? 0,
+                                    'report_files' => $reportFiles,
+                                    'payment_order_files' => $paymentOrderFiles,
+                                    'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                    'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                ]);
+                            }
+                        }
+                    } else {
+                        $project->supporter()->update([
+                            'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
+                            'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
+                            'installments_count' => $data['financial-data']["installments_count"] ?? 0,
+                            'report_files' => $reportFiles,
+                            'payment_order_files' => $paymentOrderFiles,
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                            'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                        ]);
+                    }
+
 
                     Projects::where('id', $id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
                         ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                     if (!empty($data['financial-data']["installments"])) {
-                        foreach ($data['financial-data']["installments"] as $installmentProject) {
-                            $supporter->Installments()->update([
-                                'project_id' => $id,
-                                'installment_amount' => $installmentProject["installment_amount"] ?? 0,
-                                'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
-                            ]);
+                        $existingInstallments = ProjectSupporters::where('projects_id', $id)->first()->installments;
+
+                        foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
+                            $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
+
+                            if ($existingInstallment) {
+                                $existingInstallment->update([
+                                    'installment_amount' => $installmentProject["amount"] ?? 0,
+                                    'installment_receipt_status' => isset($installmentProject['status']) ? true : false,
+                                    'receipt_proof' => $installmentProject["proof"] ?? null,
+                                ]);
+                            } else {
+                                $supporter = ProjectSupporters::where('projects_id', $id)->first();
+
+                                $supporter->installments()->create([
+                                    'project_id' => $id,
+                                    'installment_amount' => $installmentProject["amount"] ?? 0,
+                                    'installment_receipt_status' => isset($installmentProject['status']) ? true : false,
+                                    'receipt_proof' => $installmentProject["proof"] ?? null,
+                                ]);
+                            }
+                        }
+
+                        foreach ($existingInstallments as $existingInstallment) {
+                            if (!isset($data['financial-data']["installments"][$existingInstallment->installment_number - 1])) {
+                                $existingInstallment->delete();
+                            }
                         }
                     }
 
                     if (!empty($data['financial-data']['project_phases'])) {
                         Projects::where('id', $project->id)->update([
                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
-                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
-                        ]);
-                        ProjectSupporters::where('project_id', $project->id)->update([
-                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null
+                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
                         ]);
 
-                        foreach ($data['financial-data']['project_phases'] as $phase) {
-                            ProjectPhases::updateOrCreate([
-                                'project_id' => $project->id,
-                                'phase_cost' => $phase['phase_cost'] ?? 0,
-                                'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
-                                'disbursement_proof' => $phase['disbursement_proof']
-                            ]);
+                        ProjectSupporters::where('projects_id', $project->id)->update([
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                        ]);
+
+                        $existingPhases = ProjectPhases::where('project_id', $project->id)->get();
+                        $newPhases = $data['financial-data']['project_phases'];
+                        $newPhasesCount = count($newPhases);
+
+                        foreach ($newPhases as $key => $phase) {
+                            $disbursementProof = $phase['proof'] ?? null;
+
+                            ProjectPhases::updateOrCreate(
+                                [
+                                    'project_id' => $project->id,
+                                    'id' => $existingPhases[$key]->id ?? null, // Match by ID if exists
+                                ],
+                                [
+                                    'phase_cost' => $phase['amount'] ?? 0,
+                                    'disbursement_status' => isset($phase['status']) && $phase['status'] === 'on',
+                                    'disbursement_proof' => $disbursementProof,
+                                    'stages_count' => $newPhasesCount, // Store the count of phases
+                                ]
+                            );
+                        }
+
+                        if ($existingPhases->count() > $newPhasesCount) {
+                            $phasesToDelete = $existingPhases->slice($newPhasesCount);
+                            ProjectPhases::whereIn('id', $phasesToDelete->pluck('id'))->delete();
                         }
                     }
                 }
 
                 if (!empty($data['attachment'])) {
                     foreach ($data['attachment'] as $attachment) {
-                        $file = $request->file($attachment["file_name"]);
-                        ProjectFiles::where('projects_id', $id)->update([
-                            'file' => $attachment["file"],
-                            'file_name' => $attachment["file_name"],
-                        ]);
+                        if (is_array($attachment) && isset($attachment["file"], $attachment["file_name"])) {
+                            $project->files()->create([
+                                'file' => $attachment["file"],
+                                'file_name' => $attachment["file_name"],
+                            ]);
+                        }
                     }
                 }
+
 
                 if (!empty($data['status'])) {
                     Projects::where('id', $id)->update([

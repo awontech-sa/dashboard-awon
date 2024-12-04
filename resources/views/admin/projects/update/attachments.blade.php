@@ -1,6 +1,8 @@
 @foreach($dashboard as $project)
 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
+    
     <div class="flex justify-between">
         <h1 class="font-bold text-xl">مرفقات</h1>
         <a href="#my_modal_8" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مرفق جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>

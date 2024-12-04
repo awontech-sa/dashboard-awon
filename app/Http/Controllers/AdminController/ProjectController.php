@@ -440,17 +440,19 @@ class ProjectController extends Controller
                         ? json_encode(array_map(fn($order) => ['payment_order' => $order], $data['financial-data']["payment_order_files"]))
                         : '[]';
 
-                    foreach ($data['financial-data']['supporters'] as $supporter) {
-                        $supporter = $project->supporter()->create([
-                            'supporter_name' => $supporter["supporter_name"] ?? null,
-                            'support_amount' => $supporter["support_amount"] ?? 0.00,
-                            'installments_count' => $supporter["installments_count"] ?? 0,
-                            'report_files' => $reportFiles,
-                            'payment_order_files' => $paymentOrderFiles,
-                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                            'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                        ]);
+                    if (isset($data['financial-data']['supporters'])) {
+                        foreach ($data['financial-data']['supporters'] as $supporter) {
+                            $supporter = $project->supporter()->create([
+                                'supporter_name' => $supporter["supporter_name"] ?? null,
+                                'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                'installments_count' => $supporter["installments_count"] ?? 0,
+                                'report_files' => $reportFiles,
+                                'payment_order_files' => $paymentOrderFiles,
+                                'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                            ]);
+                        }
                     }
 
                     Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
@@ -489,7 +491,6 @@ class ProjectController extends Controller
 
                 if (!empty($data['attachment'])) {
                     foreach ($data['attachment'] as $attachment) {
-                        $file = $request->file($attachment["file_name"]);
                         $project->files()->create([
                             'file' => $attachment["file"],
                             'file_name' => $attachment["file_name"],

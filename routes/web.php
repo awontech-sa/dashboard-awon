@@ -61,8 +61,8 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::post('/projects/create', [ProjectController::class, 'finalCreateProject'])->name('create.project.final');
 
     Route::get('/projects/update/{step}/{id}', [ProjectController::class, 'updateShow'])->name('update.project.show');
-    Route::post('/projects/update/{step}/{id}', [ProjectController::class, 'update'])->name('update.project');
-    Route::post('/projects/update', [ProjectController::class, 'finalUpdateProject'])->name('update.project.final');
+    Route::put('/projects/update/{step}/{id}', [ProjectController::class, 'update'])->name('update.project');
+    Route::put('/projects/update', [ProjectController::class, 'finalUpdateProject'])->name('update.project.final');
 
     Route::get('/project/{id}', [ProjectController::class, 'show'])->name('show.project');
     Route::delete('/project/{id}', [ProjectController::class, 'destroy'])->name('delete.project');
@@ -97,8 +97,8 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
     Route::post('/projects/create', [EmployeeProjectController::class, 'finalCreateProject'])->name('create.project.final');
 
     Route::get('/projects/update/{step}/{id}', [EmployeeProjectController::class, 'updateShow'])->name('update.project.show');
-    Route::post('/projects/update/{step}/{id}', [EmployeeProjectController::class, 'update'])->name('update.project');
-    Route::post('/projects/update', [EmployeeProjectController::class, 'finalUpdateProject'])->name('update.project.final');
+    Route::put('/projects/update/{step}/{id}', [EmployeeProjectController::class, 'update'])->name('update.project');
+    Route::put('/projects/update', [EmployeeProjectController::class, 'finalUpdateProject'])->name('update.project.final');
 
     Route::get('/project/{id}', [EmployeeProjectController::class, 'show'])->name('show.project');
     Route::delete('/project/{id}', [EmployeeProjectController::class, 'destroy'])->name('delete.project');

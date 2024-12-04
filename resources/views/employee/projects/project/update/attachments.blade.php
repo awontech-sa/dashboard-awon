@@ -1,6 +1,8 @@
 @foreach($dashboard as $project)
-<form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
+    
     <div class="flex justify-between">
         <h1 class="font-bold text-xl">مرفقات</h1>
         <a href="#my_modal_8" class="font-['Tajawal'] btn btn-sm bg-white shadow-none font-normal text-base mr-32 mb-5">إضافة مرفق جديد <x-fas-plus class="w-4 h-4 text-gray-600" /></a>
@@ -8,12 +10,18 @@
     <div id="attachment-files">
         @if(count($project->files) > 0)
         @foreach($project->files as $file)
-        <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between mb-4">
-            <div class="flex gap-x-5 p-4 items-center">
-                <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                <p class="font-normal text-base">{{ $file->file_name}}</p>
+        <div class="flex items-center gap-x-4">
+            <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between mb-4">
+                <div class="flex gap-x-5 p-4 items-center">
+                    <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
+                    <p class="font-normal text-base">{{ $file->file_name}}</p>
+                </div>
+                <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file }}" download="">عرض الملف</a>
             </div>
-            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file }}" download="">عرض الملف</a>
+            <button type="button" onclick="deleteAttachment('{{ $file->id }}')">
+                <x-far-trash-can class="w-6 h-6 text-red-500" />
+            </button>
+            <input type="hidden" name="deleted_files[]">
         </div>
         @endforeach
         @endif
@@ -33,13 +41,14 @@
             </div>
         </div>
     </div>
+
     <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 3 && $step < 8)
-            <a type="submit" href="{{ route('employee.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
             hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('employee.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                 التالي
             </button>
             @endif
@@ -105,6 +114,18 @@
         }
         document.querySelectorAll('.errorLabel').forEach(label => (label.textContent = ''));
         return true;
+    }
+
+    function deleteAttachment(fileId) {
+        if (confirm("هل أنت متأكد من حذف هذا المرفق؟")) {
+            let hiddenInput = document.createElement('input');
+            hiddenInput.type = 'hidden';
+            hiddenInput.name = 'deleted_files[]';
+            hiddenInput.value = fileId;
+            document.getElementById('attachmentForm').appendChild(hiddenInput);
+            const fileDiv = event.target.closest('.flex.items-center');
+            fileDiv.remove();
+        }
     }
 </script>
 @endpush

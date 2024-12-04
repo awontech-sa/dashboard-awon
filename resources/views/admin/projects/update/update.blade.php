@@ -41,6 +41,8 @@
 
                 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     @include('admin.projects.update.status')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
@@ -67,6 +69,8 @@
 
                 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     @include('admin.projects.update.level')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
@@ -93,6 +97,8 @@
 
                 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+
                     @include('admin.projects.update.code')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
@@ -118,6 +124,8 @@
 
                 <form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
+                    
                     @include('admin.projects.update.team', ['users' => $users])
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
