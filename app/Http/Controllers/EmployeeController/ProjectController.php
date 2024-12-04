@@ -12,6 +12,7 @@ use App\Models\ProjectSupporters;
 use App\Models\ProjectUser;
 use App\Models\Stages;
 use App\Models\User;
+use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,20 +21,29 @@ use Illuminate\Support\Facades\Storage;
 class ProjectController extends Controller
 {
     private ViewChartService $viewChartService;
+    private PermissionEmployeeService $permissionService;
+    public $employee;
 
-    public function __construct(ViewChartService $viewChartService)
+    public function __construct(ViewChartService $viewChartService, PermissionEmployeeService $permissionService)
     {
         $this->viewChartService = $viewChartService;
+        $this->permissionService = $permissionService;
+
+        /** @var \App\Models\User */
+        $this->employee = Auth::user();
     }
 
     public function index($step = 1)
     {
-        $employee = Auth::user();
         $users = User::all();
         $projects = Projects::all();
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
 
         $data = session("project_step{$step}", []);
 
@@ -42,71 +52,85 @@ class ProjectController extends Controller
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 2:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 3:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 4:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 5:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 6:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             case 7:
                 return view('employee.projects.create', [
                     'step' => $step,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-                    'users' => $users
+                    'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                 ]);
             default:
                 return back();
@@ -573,12 +597,12 @@ class ProjectController extends Controller
 
     public function show($id)
     {
-        $employee = Auth::user();
+        $this->employee = Auth::user();
         $users = User::all();
         $project = Projects::findOrFail($id);
         $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
-        $files = $project->files()->where('projects_id', $project->id)->get();
+        $files = $project->files()->get();
 
         $supporter = $project->supporter()->get();
 
@@ -587,7 +611,7 @@ class ProjectController extends Controller
             return ['stage_name' => $stage->stage_name];
         });
 
-        $details = $project->details()->where('projects_id', $project->id)->first();
+        $details = $project->details()->first();
 
         $installment = Installments::where('project_id', $project->id)->get()->unique($id);
 
@@ -602,9 +626,11 @@ class ProjectController extends Controller
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
 
         return view('employee.projects.project.show', [
-            "employee" => $employee,
+            "employee" => $this->employee,
             'phases' => $phases,
             'project' => $project,
             'supporter' => $supporter,
@@ -618,7 +644,9 @@ class ProjectController extends Controller
             'installment' => $installment,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
-            'users' => $users
+            'users' => $users,
+            'accountsPermission' => $accounts->last(),
+            'collectionPermission' => $collection->last(),
         ]);
     }
 
@@ -633,12 +661,14 @@ class ProjectController extends Controller
     public function updateShow($step = 1, $id)
     {
         $dashboard = [];
-        $employee = Auth::user();
+        $this->employee = Auth::user();
         $users = User::all();
         $projects = Projects::all();
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
 
         $installment = Installments::where('project_id', $id)->get();
 
@@ -656,11 +686,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -669,11 +701,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -682,11 +716,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -695,11 +731,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -708,11 +746,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -721,11 +761,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
@@ -734,11 +776,13 @@ class ProjectController extends Controller
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
-                    "employee" => $employee,
+                    "employee" => $this->employee,
                     'projects' => $projects,
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
+                    'accountsPermission' => $accounts->last(),
+                    'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases
                 ]);
