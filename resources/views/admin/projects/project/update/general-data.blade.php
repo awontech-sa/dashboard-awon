@@ -1,5 +1,5 @@
 @foreach($dashboard as $project)
-<form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data" id="myForm">
+<form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data" id="myForm">
     @csrf
     @method('PUT')
     
@@ -55,7 +55,7 @@
 
     <div class="join grid float-left w-1/4">
         @if($step == 1)
-        <button type="submit" href="{{ route('employee.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+        <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
             التالي
         </button>
         @endif

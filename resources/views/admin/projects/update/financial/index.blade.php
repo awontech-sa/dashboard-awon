@@ -26,7 +26,7 @@
                 </div>
             </div>
 
-            <div class="support-type-form hidden">
+            <div class="support-type-form">
                 <label class="font-normal text-base mb-2">نوع الدعم</label>
                 <div class="bg-white flex gap-x-4 p-2 rounded">
                     @foreach (App\Enums\SupportType::cases() as $type)
@@ -41,7 +41,7 @@
                 </div>
             </div>
 
-            <div class="external-support hidden">
+            <div class="external-support">
                 <label class="font-normal text-base mb-2">مالك المشروع</label>
                 <div class="bg-white flex gap-x-4 p-2 rounded">
                     @foreach (App\Enums\SupportComp::cases() as $type)
@@ -68,8 +68,8 @@
         @endforeach
 
         <div class="supporter-data-full hidden" id="supporterDataSection">
-            @if($supporter->supporter_number > 0)
             @foreach($project->supporter as $key => $supporter)
+            @if($supporter->supporter_number > 0)
             <div class="supporter-div" id="supporter_div">
                 <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key+1  }}</h1>
 
@@ -168,10 +168,8 @@
                     </div>
                 </div>
             </div>
-            @endforeach
             @endif
-        </div>
-        <div class="supporter-data-part hidden" id="supporterDataSection">
+            @endforeach
         </div>
         <div class="supporter-comp-external hidden" id="supporterDataSection">
             <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
@@ -227,6 +225,8 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+        <div class="supporter-data-part hidden" id="supporterDataSection">
         </div>
         <div class="supporter-comp-internal hidden" id="supporterDataSection">
             <div class="mt-8">
@@ -401,7 +401,7 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         function updateSupportContainer() {

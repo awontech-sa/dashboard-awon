@@ -682,7 +682,7 @@ class ProjectController extends Controller
 
         switch ($step) {
             case 1:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -697,7 +697,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 2:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -712,7 +712,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 3:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -727,7 +727,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 4:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -742,7 +742,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 5:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -757,7 +757,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 6:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -772,7 +772,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 7:
-                return view('employee.projects.update.update', [
+                return view('employee.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,

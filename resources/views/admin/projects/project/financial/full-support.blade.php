@@ -1,9 +1,7 @@
-@foreach($supporter as $s)
+@foreach($supporter as $key => $s)
 @if($s->supporter_number > 0)
 <div class="supporter-div">
-    @foreach($supporter as $key => $s)
     <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key + 1 }}</h1>
-
     <div class="grid grid-cols-2 gap-x-7">
         <div class="grid my-2">
             <label class="font-normal text-base mb-2">الجهة الداعمة</label>
@@ -92,7 +90,6 @@
             </div>
         </div>
     </div>
-    @endforeach
 </div>
 @endif
 @endforeach

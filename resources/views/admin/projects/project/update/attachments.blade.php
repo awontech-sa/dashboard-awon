@@ -1,5 +1,5 @@
 @foreach($dashboard as $project)
-<form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" id="attachmentForm" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     
@@ -44,11 +44,11 @@
 
     <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 3 && $step < 8)
-            <a type="submit" href="{{ route('employee.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
             hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('employee.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                 التالي
             </button>
             @endif
