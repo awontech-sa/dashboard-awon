@@ -16,21 +16,21 @@
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">بيانات عامة</h1>
-                @include('employee.projects.update.general-data')
+                @include('employee.projects.project.update.general-data')
             </div>
         </div>
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="02" {{ $step == 2 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">البيانات المالية</h1>
-                @include('employee.projects.update.financial.index', ['step' => $step])
+                @include('employee.projects.project.update.financial.index', ['step' => $step])
             </div>
         </div>
 
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="03" {{ $step == 3 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
-                @include('employee.projects.update.attachments', ['step' => $step])
+                @include('employee.projects.project.update.attachments', ['step' => $step])
             </div>
         </div>
 
@@ -43,7 +43,7 @@
                     @csrf
                     @method('PUT')
 
-                    @include('employee.projects.update.status')
+                    @include('employee.projects.project.update.status')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 4 && $step < 8)
@@ -71,7 +71,7 @@
                     @csrf
                     @method('PUT')
 
-                    @include('employee.projects.update.level')
+                    @include('employee.projects.project.update.level')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 5 && $step < 8)
@@ -99,7 +99,7 @@
                     @csrf
                     @method('PUT')
 
-                    @include('employee.projects.update.code')
+                    @include('employee.projects.project.update.code')
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 6 && $step < 8)
@@ -126,7 +126,7 @@
                     @csrf
                     @method('PUT')
                     
-                    @include('employee.projects.update.team', ['users' => $users])
+                    @include('employee.projects.project.update.team', ['users' => $users])
 
                     <div class="join grid grid-cols-2 w-1/4 float-left">
                         @if($step == 7)
