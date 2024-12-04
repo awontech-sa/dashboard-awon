@@ -3,7 +3,7 @@
     @csrf
 
     <div class="my-5">
-        @foreach($project->supporter as $supporter)
+        @foreach($project->supporter->unique('projects_id') as $supporter)
         <div class="grid grid-cols-2 gap-x-6">
             <div>
                 <label class="font-normal text-base mb-2">حالة الدعم</label>
@@ -54,10 +54,121 @@
                     @endforeach
                 </div>
             </div>
+
+            <div class="grid my-8 number-support-form">
+                <label class="font-normal text-base mb-2">عدد الجهات الداعمة</label>
+                <input type="number" min="0" value="{{ $supporter->supporter_number }}" class="input" name="number-support" id="number_support" />
+            </div>
+            <div class="grid my-8 cost-project-form">
+                <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
+                <input type="number" min="0" class="input" name="project-income" value="{{ $project->total_cost }}" />
+            </div>
         </div>
         @endforeach
 
         <div class="supporter-data-full hidden" id="supporterDataSection">
+            @if($supporter->supporter_number > 0)
+            @foreach($project->supporter as $key => $supporter)
+            <div class="supporter-div" id="supporter_div">
+                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key+1  }}</h1>
+
+                <div class="grid grid-cols-2 gap-x-7">
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">الجهة الداعمة</label>
+                        <input class="input" name="comp-support-{{ $key+1  }}" value="{{ $supporter->supporter_name }}">
+                    </div>
+
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
+                        <input class="input" name="project-income-total-{{ $key+1  }}" value="{{ $supporter->support_amount }}">
+                    </div>
+
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">عدد الدفعات</label>
+                        <input class="input" id="payment_count_{{ $key+1  }}" name="payment-count-{{ $key+1  }}" value="{{ $supporter->installments_count }}">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <table class="w-full border mt-2 font-medium text-base table text-center">
+                        <tr>
+                            <th class="border px-4 py-2">الدفعة</th>
+                            <th class="border px-4 py-2">قيمة الدفعة</th>
+                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                        </tr>
+                        @if($supporter->installments_count > 0)
+                        @foreach($installment as $key => $i)
+                        <tbody>
+                            <tr>
+                                <td class="border px-4 py-2">{{ $key + 1 }}</td>
+                                <td class="border px-4 py-2">
+                                    <input type="number" name="payments[{{ $key }}][amount]" min="0" class="input" value="{{ $i->installment_amount }}" />
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <label class="label cursor-pointer">
+                                        <input type="checkbox" name="payments[{{ $key }}][status]" class="checkbox"
+                                            {{ $i->installment_receipt_status === 1 ? 'checked' : '' }} />
+                                        <span class="label-text">تم استلام الدفعة</span>
+                                    </label>
+                                </td>
+                                <td>
+                                    @if( $i->receipt_proof !== null )
+                                    <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                                        <div class="flex gap-x-5 p-4 items-center">
+                                            <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
+                                        </div>
+                                        <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $i->receipt_proof ?? '' }}" download="">عرض الملف</a>
+                                    </div>
+                                    @endif
+                                </td>
+                            </tr>
+                        </tbody>
+                        @endforeach
+                        @endif
+                    </table>
+                </div>
+
+                <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
+                    <div class="installment-report my-4" id="installment_report_${i}">
+                        <div class="flex gap-x-4 my-7">
+                            <p>تقارير للجهة الداعمة</p>
+                        </div>
+                        <div class="grid gap-y-4">
+                            @if($supporter->report_files)
+                            @foreach(json_decode($supporter->report_files) as $report)
+                            <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                                <div class="flex gap-x-5 p-4 items-center">
+                                    <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
+                                </div>
+                                <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $report->report }}" download="">عرض الملف</a>
+                            </div>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div>
+
+                    <div class="installment-files my-4" id="installment_files_${i}">
+                        <div class="flex gap-x-4 my-7">
+                            <p>أوامر الصرف</p>
+                        </div>
+                        <div class="grid gap-y-4">
+                            @if($supporter->payment_order_files)
+                            @foreach(json_decode($supporter->payment_order_files) as $file)
+                            <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                                <div class="flex gap-x-5 p-4 items-center">
+                                    <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
+                                </div>
+                                <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->payment_order ?? '' }}" download="">عرض الملف</a>
+                            </div>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @endforeach
+            @endif
         </div>
         <div class="supporter-data-part hidden" id="supporterDataSection">
         </div>
@@ -248,9 +359,8 @@
 
         const installmentCountInput = document.getElementById("installments-count");
         const installmentsTable = document.getElementById("installments-table");
-        let existingRows = @json($installment); // Existing installments from the database
+        let existingRows = @json($installment);
 
-        // Function to update the table rows dynamically
         function updateTableRows() {
             const newCount = parseInt(installmentCountInput.value) || 0;
             const currentCount = installmentsTable.children.length;
@@ -270,7 +380,7 @@
                     </label>
                 </td>
                 <td class="border">
-                    <input type="file" name="installments[${i}][proof]" class="file-input file-input-md" />
+                    <input type="file" name="installments[${i}][proof]" class="file-input" />
                 </td>
             `;
                 installmentsTable.appendChild(row);
@@ -284,6 +394,87 @@
 
         // Add event listener to handle input change
         installmentCountInput.addEventListener("input", updateTableRows);
+
+        let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
+        let existingSupport = @json($supporter); //الجهة الداعمة الموجودة
+        let supporterContainer = document.getElementById("supporterDataSection")
+
+        function updateSupportContainer() {
+            let newCount = parseInt(numSupport.value) || 0;
+            let currentCount = supporterContainer.children.length;
+            for (let i = currentCount; i < newCount; i++) {
+                let container = document.createElement("div")
+                container.innerHTML = `
+                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i}</h1>
+
+                    <div class="grid grid-cols-2 gap-x-7">
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">الجهة الداعمة</label>
+                            <input class="input" name="supporter-name">
+                        </div>
+
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
+                            <input class="input" name="support-amount">
+                        </div>
+
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">عدد الدفعات</label>
+                            <input class="input" id="payment_count_${i}" name="payment-count-${i}">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <table class="w-full border mt-2 font-medium text-base table text-center">
+                            <th class="border px-4 py-2">الدفعة</th>
+                            <th class="border px-4 py-2">قيمة الدفعة</th>
+                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                            <tbody>
+                                <td class="border px-4 py-2">${ i + 1 }</td>
+                                <td class="border px-4 py-2">
+                                    <input type="number" name="payments[${i}][amount]" min="0" class="input" />
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <label class="label cursor-pointer">
+                                        <input type="checkbox" name="payments[${i}][status]" class="checkbox" />
+                                        <span class="label-text">تم استلام الدفعة</span>
+                                    </label>
+                                </td>
+                                <td class="border">
+                                    <input type="file" name="payments[${i}][proof]" class="file-input" />
+                                </td>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
+                        <div class="installment-report my-4" id="installment_report_${i}">
+                            <div class="flex gap-x-4 my-7">
+                                <p>تقارير للجهة الداعمة</p>
+                            </div>
+                            <div class="grid gap-y-4">
+                            <input type="file" name="payments[${i}][report]" class="file-input" />
+                            </div>
+                        </div>
+
+                        <div class="installment-files my-4" id="installment_files_${i}">
+                            <div class="flex gap-x-4 my-7">
+                                <p>أوامر الصرف</p>
+                            </div>
+                            <div class="grid gap-y-4">
+                            <input type="file" name="payments[${i}][order]" class="file-input" />
+                            </div>
+                        </div>
+                    </div>
+                `
+                supporterContainer.appendChild(container)
+            }
+            for (let i = currentCount - 1; i >= newCount; i--) {
+                supporterContainer.removeChild(supporterContainer.children[i]);
+            }
+        }
+        numSupport.addEventListener("input", updateSupportContainer)
 
         const phasesCountInput = document.getElementById("stages_count_not_support");
         const phasesTable = document.getElementById("phases-table");
@@ -307,7 +498,7 @@
                     </label>
                 </td>
                 <td class="border">
-                    <input type="file" name="phases[${i}][proof]" class="file-input file-input-md" />
+                    <input type="file" name="phases[${i}][proof]" class="file-input" />
                 </td>
             `;
                 phasesTable.appendChild(row);
