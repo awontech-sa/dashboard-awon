@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
+use App\Models\Installments;
 use App\Models\ProjectDetails;
 use App\Models\ProjectFiles;
 use App\Models\ProjectPhases;
@@ -619,7 +620,7 @@ class ProjectController extends Controller
 
         $details = $project->details()->where('projects_id', $project->id)->first();
         
-        $installment = $supporter->installments()->where('project_id', $project->id)->get();
+        $installment = Installments::where('project_id', $project->id)->get();
 
         $team = $project->members()->get()->map(function ($user) {
             return [
