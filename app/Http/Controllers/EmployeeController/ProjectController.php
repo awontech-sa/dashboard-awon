@@ -610,7 +610,7 @@ class ProjectController extends Controller
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();
 
-        $supporter = $project->supporter()->first();
+        $supporter = $project->supporter()->get();
 
         $doneStages = $project->stages;
         $stages = $project->stage()->get()->map(function($stage) {
