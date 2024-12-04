@@ -580,9 +580,6 @@ class ProjectController extends Controller
         $files = $project->files()->where('projects_id', $project->id)->get();
 
         $supporter = $project->supporter()->get();
-        foreach ($supporter as $s) {
-            dd($s);
-        }
 
         $doneStages = $project->stages;
         $stages = $project->stage()->get()->map(function ($stage) {
