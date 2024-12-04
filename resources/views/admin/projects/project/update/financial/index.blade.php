@@ -400,7 +400,7 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($project - > supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         function updateSupportContainer() {

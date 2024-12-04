@@ -652,7 +652,7 @@ class ProjectController extends Controller
 
         switch ($step) {
             case 1:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -665,7 +665,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 2:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -678,7 +678,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 3:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -691,7 +691,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 4:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -704,7 +704,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 5:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -717,7 +717,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 6:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -730,7 +730,7 @@ class ProjectController extends Controller
                     'phases' => $phases
                 ]);
             case 7:
-                return view('admin.projects.update.update', [
+                return view('admin.projects.project.update.update', [
                     'step' => $step,
                     'dashboard' => $dashboard,
                     'data' => $data,
@@ -1205,20 +1205,20 @@ class ProjectController extends Controller
                     }
                 }
 
-
                 if (!empty($data['status'])) {
                     Projects::where('id', $id)->update([
                         'project_status' => $data['status']['project_status'],
                         'comment' => $data['status']['comment']
                     ]);
                 }
-
+                
                 if ($data['level']['all-stages'] !== null) {
                     foreach (json_decode($data['level']['all-stages']) as $level) {
-                        Stages::updateOrCreate([
+                        Stages::where([
+                            'projects_id' => $id
+                        ])->update([
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number,
-                            'projects_id' => $id
                         ]);
                     }
 
@@ -1228,7 +1228,7 @@ class ProjectController extends Controller
                             if ($stageDone) {
                                 $p = Projects::find($id);
                                 if ($p) {
-                                    $p->stages()->attach($stageDone->id);
+                                    $p->stages()->detach($stageDone->id);
                                 }
                             }
                         }

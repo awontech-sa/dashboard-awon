@@ -1,9 +1,6 @@
-<div id="errorMessage" class="error-message-overlay text-balance text-center flex flex-col font-['Tajawal'] w-72 h-72 left-12 absolute z-10 bg-white rounded-md place-items-center shadow-2xl items-center justify-center top-1/2 -translate-y-1/2
-2xl:left-[38%] 2xl:w-[32.6rem] 2xl:h-[32rem]
-xl:left-1/3 xl:w-[32.6rem] xl:h-[32rem]
-lg:left-64 lg:w-[32.6rem] lg:h-[32rem]
-md:w-96 md:h-96 md:left-80
-max-md:left-20">
+<div id="errorMessage" class="error-message-overlay text-balance text-center flex flex-col font-['Tajawal'] w-72 h-72 absolute left-10 z-10 bg-white rounded-md place-items-center shadow-2xl items-center justify-center top-1/2 -translate-y-1/2
+desktop:left-[50rem]
+laptop:left-[25rem]">
     <img src="{{ asset("assets/icons/success.png") }}" class="w-[9.2rem] h-[9.2rem]" alt="error-icon" />
     <p class="font-bold text-2xl">{{ session('success_message') }}</p>
 </div>

@@ -192,7 +192,6 @@
         }
 
     }
-
     Array.from(stages.children).forEach(addDragAndDropListeners);
 </script>
 @endpush
