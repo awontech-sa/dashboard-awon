@@ -40,7 +40,8 @@
                                     @foreach($projects as $project)
                                     <li>
                                         <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
-                                            <x-far-folder class="text-gray-500 min-w-6" />{{ $project->p_name }}
+                                            <x-far-folder class="text-gray-500 w-6" />
+                                            <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                         </a>
                                     </li>
                                     @endforeach
@@ -72,82 +73,83 @@
                             <img src="{{ asset("assets/images/logo.svg") }}" alt="awon-logo" />
                             {{-- <div class="flex items-center mt-6 gap-x-3">
                                 <img src="{{ asset("assets/icons/search.svg") }}" alt="search-icon" />
-                            <input type="text" class="font-['Tajawal'] input input-lg" name="search" id="search" placeholder="ابحث باسم المشروع..." />
-                        </div> --}}
-                        <a href="{{ route('login') }}">
-                            <x-fas-right-to-bracket class="w-6 h-7 text-gray-600" />
-                        </a>
-                        {{-- <div class="bg-gray-50 p-3 rounded-2xl">
+                                <input type="text" class="font-['Tajawal'] input input-lg" name="search" id="search" placeholder="ابحث باسم المشروع..." />
+                            </div> --}}
+                            <a href="{{ route('login') }}">
+                                <x-fas-right-to-bracket class="w-6 h-7 text-gray-600" />
+                            </a>
+                            {{-- <div class="bg-gray-50 p-3 rounded-2xl">
                                 <x-far-bell class="w-6 h-7 text-gray-600" />
                             </div> --}}
-                    </div>
-                </div>
-                <nav class="navbar bg-body-tertiary block
-                laptop:hidden">
-                    <div class="container-fluid">
-                        <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
-                        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-                            <div class="offcanvas-header">
-                                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                            </div>
-                            <div class="offcanvas-body">
-                                <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
-                                    <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
-                                        <div class="flex items-center gap-x-4 text-lg my-auto">
-                                            <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
-                                            <a class="font-['Tajawal'] text-center mt-2" href="{{ route('home') }}">لوحة التحكم</a>
-                                        </div>
-                                    </li>
-                                    <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
-                                        <ul class="menu menu-lg rounded-lg w-full max-w-xs">
-                                            <li>
-                                                <details>
-                                                    <summary class="font-['Tajawal']">
-                                                        <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
-                                                        مشاريع التقنية
-                                                    </summary>
-                                                    <ul class="font-['Tajawal']">
-                                                        @foreach($projects as $project)
-                                                        <li>
-                                                            <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
-                                                                <x-far-folder class="text-gray-500 min-w-6" />{{ $project->p_name }}
-                                                            </a>
-                                                        </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </details>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                    <li class="nav-item
-                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
-                                        <ul class="menu menu-lg rounded-lg w-full max-w-xs">
-                                            <li>
-                                                <details>
-                                                    <summary class="font-['Tajawal']">
-                                                        مشاريع تنمية الموارد
-                                                    </summary>
-                                                </details>
-                                            </li>
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
-                </nav>
+                    <nav class="navbar bg-body-tertiary block
+                laptop:hidden">
+                        <div class="container-fluid">
+                            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
+                                <div class="offcanvas-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+                                </div>
+                                <div class="offcanvas-body">
+                                    <ul class="navbar-nav justify-content-end flex-grow-1 pe-3 my-16">
+                                        <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                                            <div class="flex items-center gap-x-4 text-lg my-auto">
+                                                <x-fas-table-columns class="text-cyan-700 w-7 h-7" />
+                                                <a class="font-['Tajawal'] text-center mt-2" href="{{ route('home') }}">لوحة التحكم</a>
+                                            </div>
+                                        </li>
+                                        <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                                            <ul class="menu menu-lg rounded-lg w-full max-w-xs">
+                                                <li>
+                                                    <details>
+                                                        <summary class="font-['Tajawal']">
+                                                            <x-fas-diagram-project class="text-cyan-700 w-7 h-7" />
+                                                            مشاريع التقنية
+                                                        </summary>
+                                                        <ul class="font-['Tajawal']">
+                                                            @foreach($projects as $project)
+                                                            <li>
+                                                                <a class="flex items-center gap-x-3" href="{{ route('tech', $project->id) }}">
+                                                                    <x-far-folder class="text-gray-500 w-6" />
+                                                                    <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
+                                                                </a>
+                                                            </li>
+                                                            @endforeach
+                                                        </ul>
+                                                    </details>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="nav-item
+                                    hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
+                                            <ul class="menu menu-lg rounded-lg w-full max-w-xs">
+                                                <li>
+                                                    <details>
+                                                        <summary class="font-['Tajawal']">
+                                                            مشاريع تنمية الموارد
+                                                        </summary>
+                                                    </details>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </nav>
 
+                </div>
+                <div class="pt-11 pb-52">
+                    @yield('content')
+                </div>
             </div>
-            <div class="pt-11 pb-52">
-                @yield('content')
-            </div>
+
         </div>
-
-    </div>
 </body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.min.js" charset="utf-8"></script>
