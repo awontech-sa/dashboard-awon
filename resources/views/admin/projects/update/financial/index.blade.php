@@ -329,7 +329,11 @@
                 }
             } else if (supportStatus === 'غير مدعوم') {
                 supportTypeForm?.classList.add('hidden');
+                externalSupportForm?.classList.remove('hidden');
                 if (supporter === 'جهة خارجية') {
+                    costSupportForm?.classList.add('hidden')
+                    numberSupportForm?.classList.add('hidden')
+                    supporterFullDataContainer?.classList.add('hidden');
                     externalSupportForm?.classList.remove('hidden');
                     internalSupportContainer?.classList.add('hidden');
                     externalSupportContainer?.classList.remove('hidden');

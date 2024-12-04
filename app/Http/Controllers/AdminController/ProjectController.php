@@ -1079,32 +1079,45 @@ class ProjectController extends Controller
                         ? json_encode(array_map(fn($order) => ['payment_order' => $order], $data['financial-data']["payment_order_files"]))
                         : '[]';
 
-                    foreach ($data['financial-data']['supporters'] as $index => $supporter) {
-                        $existingSupporter = $project->supporter()->skip($index)->first();
+                    if (isset($data['financial-data']['supporters'])) {
+                        foreach (($data['financial-data']['supporters']) as $index => $supporter) {
+                            $existingSupporter = $project->supporter()->skip($index)->first();
 
-                        if ($existingSupporter) {
-                            $existingSupporter->update([
-                                'supporter_name' => $supporter["supporter_name"] ?? null,
-                                'support_amount' => $supporter["support_amount"] ?? 0.00,
-                                'installments_count' => $supporter["installments_count"] ?? 0,
-                                'report_files' => $reportFiles,
-                                'payment_order_files' => $paymentOrderFiles,
-                                'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                                'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                                'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                            ]);
-                        } else {
-                            $project->supporter()->create([
-                                'supporter_name' => $supporter["supporter_name"] ?? null,
-                                'support_amount' => $supporter["support_amount"] ?? 0.00,
-                                'installments_count' => $supporter["installments_count"] ?? 0,
-                                'report_files' => $reportFiles,
-                                'payment_order_files' => $paymentOrderFiles,
-                                'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                                'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                                'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                            ]);
+                            if ($existingSupporter) {
+                                $existingSupporter->update([
+                                    'supporter_name' => $supporter["supporter_name"] ?? null,
+                                    'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                    'installments_count' => $supporter["installments_count"] ?? 0,
+                                    'report_files' => $reportFiles,
+                                    'payment_order_files' => $paymentOrderFiles,
+                                    'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                    'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                ]);
+                            } else {
+                                $project->supporter()->create([
+                                    'supporter_name' => $supporter["supporter_name"] ?? null,
+                                    'support_amount' => $supporter["support_amount"] ?? 0.00,
+                                    'installments_count' => $supporter["installments_count"] ?? 0,
+                                    'report_files' => $reportFiles,
+                                    'payment_order_files' => $paymentOrderFiles,
+                                    'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                                    'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                ]);
+                            }
                         }
+                    } else {
+                        $project->supporter()->update([
+                            'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
+                            'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
+                            'installments_count' => $data['financial-data']["installments_count"] ?? 0,
+                            'report_files' => $reportFiles,
+                            'payment_order_files' => $paymentOrderFiles,
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                            'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                        ]);
                     }
 
 

@@ -1,7 +1,8 @@
+@foreach($supporter as $s)
 <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
     <div class="grid gap-y-5">
         <label>اسم الجهة</label>
-        <input type="text" disabled placeholder="{{ $supporter->supporter_name ?? '' }}" class="input" />
+        <input type="text" disabled placeholder="{{ $s->supporter_name ?? '' }}" class="input" />
     </div>
     <div class="grid gap-y-5">
         <label>تكلفة المشروع</label>
@@ -9,9 +10,10 @@
     </div>
     <div class="grid gap-y-5">
         <label>عدد الدفعات</label>
-        <input type="number" min="0" disabled placeholder="{{ $supporter->installments_count ?? 0 }}" class="input" />
+        <input type="number" min="0" disabled placeholder="{{ $s->installments_count ?? 0 }}" class="input" />
     </div>
 </div>
+@endforeach
 
 <div class="mt-4">
     <table class="w-full border mt-2 font-medium text-base table text-center">
