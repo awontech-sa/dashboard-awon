@@ -32,8 +32,10 @@
 <div class="grid gap-y-7 top-list stage-checkbox" id="stages"></div>
 @endif
 @endforeach
-<input type="hidden" name="array-stages">
-<input type="hidden" name="stages-done">
+<input type="hidden" name="array-stages"> <!-- all stages -->
+<input type="hidden" name="stages-done"> <!-- complete stages -->
+<input type="hidden" name="stages-removed"> <!-- removed stages -->
+<input type="hidden" name="stages-add"> <!-- add stages -->
 
 <div class="my-8">
     <label for="project-name">مراحل المشروع المنجزة</label>
@@ -79,6 +81,8 @@
     let stageOrder = document.getElementById('stage_order');
     let arrayStages = [];
     let doneStages = [];
+    let newStages = [];
+    let removeStages = [];
 
     function addNewStage() {
         let nameValue = stageName.value.trim();
@@ -125,6 +129,12 @@
 
         formControl.appendChild(stageLabel);
 
+        newStages.push({
+            stage_name: nameValue,
+            stage_number: orderValue
+        })
+        document.querySelector('input[name="stages-add"]').value = JSON.stringify(newStages);
+
         let deleteStage = document.createElement('button');
         deleteStage.type = 'button';
         deleteStage.innerHTML = `<x-far-trash-can class="w-6 h-6 text-red-500" />`;
@@ -134,8 +144,6 @@
         stageContainer.appendChild(deleteStage);
 
         stages.appendChild(stageContainer);
-
-        document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
 
         addDragAndDropListeners(stageContainer);
 
@@ -216,19 +224,30 @@
 
     function removeStage(event) {
         const deleteButton = event.target.closest('button');
-
         const stageToRemove = deleteButton.closest('.new-stage');
 
         if (stageToRemove) {
             const orderValue = stageToRemove.querySelector('input[name="stages[]"]').value;
+            const stageName = stageToRemove.querySelector('.label-text').innerText;
 
-            arrayStages = arrayStages.filter(stage => stage.stage_number !== orderValue);
-            document.querySelector('input[name="array-stages"]').value = JSON.stringify(arrayStages);
+            removeStages.push({
+                stage_number: orderValue,
+                stage_name: stageName
+            });
 
+            document.querySelector('input[name="stages-removed"]').value = JSON.stringify(removeStages);
+
+            const completedStageList = document.getElementById('stages-done');
+            const completedStages = completedStageList.querySelectorAll('.completed-stage .form-control');
+
+            completedStages.forEach(stage => {
+                const completedStageName = stage.querySelector('.label-text').innerText;
+                if (completedStageName === stageName) {
+                    stage.remove();
+                }
+            });
             stageToRemove.remove();
-
         }
-
     }
     Array.from(stages.children).forEach(addDragAndDropListeners);
 </script>

@@ -1036,7 +1036,9 @@ class ProjectController extends Controller
         } elseif ($step == 5) {
             $validated = [
                 'all-stages' => $request->input('array-stages'),
-                'stages-done' => $request->input('stages-done')
+                'stages-done' => $request->input('stages-done'),
+                'stages-removed' => $request->input('stages-removed'),
+                'stages-add' => $request->input('stages-add')
             ];
             session(['project_step5' => $validated]);
             return redirect()->route('admin.update.project', ['step' => 6, 'id' => $id]);
@@ -1211,25 +1213,52 @@ class ProjectController extends Controller
                         'comment' => $data['status']['comment']
                     ]);
                 }
-                
-                if ($data['level']['all-stages'] !== null) {
-                    foreach (json_decode($data['level']['all-stages']) as $level) {
-                        Stages::where([
-                            'projects_id' => $id
-                        ])->update([
+
+                if ($data['level']['stages-add'] !== null) {
+                    foreach (json_decode($data['level']['stages-add']) as $level) {
+                        Stages::create([
+                            'projects_id' => $id,
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number,
                         ]);
                     }
+                }
 
-                    if ($data['level']['stages-done'] !== null) {
-                        foreach (json_decode($data['level']['stages-done']) as $done) {
-                            $stageDone = Stages::where('stage_name', $done->stage_name)->first();
-                            if ($stageDone) {
-                                $p = Projects::find($id);
-                                if ($p) {
-                                    $p->stages()->detach($stageDone->id);
-                                }
+                if ($data['level']['stages-done'] !== null) {
+                    foreach (json_decode($data['level']['stages-done']) as $done) {
+                        $stageDone = Stages::where('stage_name', $done->stage_name)->first();
+                        if ($stageDone) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->attach($stageDone->id);
+                            }
+                        }
+                    }
+                }
+
+                if ($data['level']['stages-removed'] !== null) {
+                    foreach (json_decode($data['level']['stages-removed']) as $removed) {
+                        $stageRemove = Stages::where('stage_name', $removed->stage_name)->first();
+                        if ($stageRemove) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->detach($stageRemove->id);
+                            }
+                        }
+                        Stages::where([
+                            ['stage_name', '=', $removed->stage_name],
+                            ['projects_id', '=', $project->id]
+                        ])->delete();
+                    }
+                }
+
+                if ($data['level']['all-stages'] !== null) {
+                    foreach (json_decode($data['level']['all-stages']) as $stage) {
+                        $uncheckStage = Stages::where('stage_name', $stage->stage_name)->first();
+                        if ($uncheckStage) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->detach($uncheckStage->id);
                             }
                         }
                     }
