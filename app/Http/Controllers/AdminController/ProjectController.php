@@ -1329,6 +1329,10 @@ class ProjectController extends Controller
                                 if ($memberRemove) {
                                     $p = Projects::find($id);
                                     if ($p) {
+                                        ProjectUser::where('projects_id', $id)->update([
+                                            'project_manager' => $data['team']['project_manager'],
+                                            'sub_project_manager' => $data['team']['sub_project_manager']
+                                        ]);
                                         $p->members()->detach($memberRemove->id);
                                     }
                                 }
