@@ -23,14 +23,14 @@
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
                 <h1 class="font-bold text-xl">البيانات المالية</h1>
-                @include('employee.projects.project.update.financial.index', ['step' => $step])
+                @include('employee.projects.project.update.financial.index')
             </div>
         </div>
 
         <input type="radio" disabled name="my_tabs_2" role="tab" class="tab" aria-label="03" {{ $step == 3 ? "checked" : "" }} />
         <div role="tabpanel" class="tab-content">
             <div class="my-20">
-                @include('employee.projects.project.update.attachments', ['step' => $step])
+                @include('employee.projects.project.update.attachments')
             </div>
         </div>
 

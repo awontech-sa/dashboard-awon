@@ -674,6 +674,20 @@ class ProjectController extends Controller
 
         $phases = ProjectPhases::where('project_id', $id)->get();
 
+        $team = Projects::find($id)->members()->get()->map(function ($user) {
+            return [
+                'name' => $user->name,
+                'role' => $user->pivot->role,
+                'id' => $user->id
+            ];
+        });
+
+        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $id)->first();
+
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
+        }
+
         if (!empty($projects)) {
             $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
         }
@@ -694,7 +708,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 2:
                 return view('employee.projects.project.update.update', [
@@ -709,7 +725,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 3:
                 return view('employee.projects.project.update.update', [
@@ -724,7 +742,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 4:
                 return view('employee.projects.project.update.update', [
@@ -739,7 +759,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 5:
                 return view('employee.projects.project.update.update', [
@@ -754,7 +776,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 6:
                 return view('employee.projects.project.update.update', [
@@ -769,7 +793,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             case 7:
                 return view('employee.projects.project.update.update', [
@@ -784,7 +810,9 @@ class ProjectController extends Controller
                     'accountsPermission' => $accounts->last(),
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
-                    'phases' => $phases
+                    'phases' => $phases,
+                    'team' => $team,
+                    'bigBoss' => $bigBoss
                 ]);
             default:
                 return back();
@@ -1080,7 +1108,9 @@ class ProjectController extends Controller
         } elseif ($step == 5) {
             $validated = [
                 'all-stages' => $request->input('array-stages'),
-                'stages-done' => $request->input('stages-done')
+                'stages-done' => $request->input('stages-done'),
+                'stages-removed' => $request->input('stages-removed'),
+                'stages-add' => $request->input('stages-add')
             ];
             session(['project_step5' => $validated]);
             return redirect()->route('employee.update.project', ['step' => 6, 'id' => $id]);
@@ -1098,7 +1128,8 @@ class ProjectController extends Controller
             return redirect()->route('employee.update.project', ['step' => 7, 'id' => $id]);
         } elseif ($step == 7) {
             $validated = [
-                'role' => $request->input('array-members'),
+                'members' => $request->input('array-members'),
+                'delete_members' => $request->input('delete-members'),
                 'project_manager' => $request->input('manager'),
                 'sub_project_manager' => $request->input('sub-manager')
             ];
@@ -1249,7 +1280,6 @@ class ProjectController extends Controller
                     }
                 }
 
-
                 if (!empty($data['status'])) {
                     Projects::where('id', $id)->update([
                         'project_status' => $data['status']['project_status'],
@@ -1257,23 +1287,51 @@ class ProjectController extends Controller
                     ]);
                 }
 
-                if ($data['level']['all-stages'] !== null) {
-                    foreach (json_decode($data['level']['all-stages']) as $level) {
-                        Stages::updateOrCreate([
+                if ($data['level']['stages-add'] !== null) {
+                    foreach (json_decode($data['level']['stages-add']) as $level) {
+                        Stages::create([
+                            'projects_id' => $id,
                             'stage_name' => $level->stage_name,
                             'stage_number' => $level->stage_number,
-                            'projects_id' => $id
                         ]);
                     }
+                }
 
-                    if ($data['level']['stages-done'] !== null) {
-                        foreach (json_decode($data['level']['stages-done']) as $done) {
-                            $stageDone = Stages::where('stage_name', $done->stage_name)->first();
-                            if ($stageDone) {
-                                $p = Projects::find($id);
-                                if ($p) {
-                                    $p->stages()->attach($stageDone->id);
-                                }
+                if ($data['level']['stages-done'] !== null) {
+                    foreach (json_decode($data['level']['stages-done']) as $done) {
+                        $stageDone = Stages::where('stage_name', $done->stage_name)->first();
+                        if ($stageDone) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->attach($stageDone->id);
+                            }
+                        }
+                    }
+                }
+
+                if ($data['level']['stages-removed'] !== null) {
+                    foreach (json_decode($data['level']['stages-removed']) as $removed) {
+                        $stageRemove = Stages::where('stage_name', $removed->stage_name)->first();
+                        if ($stageRemove) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->detach($stageRemove->id);
+                            }
+                        }
+                        Stages::where([
+                            ['stage_name', '=', $removed->stage_name],
+                            ['projects_id', '=', $project->id]
+                        ])->delete();
+                    }
+                }
+
+                if ($data['level']['all-stages'] !== null) {
+                    foreach (json_decode($data['level']['all-stages']) as $stage) {
+                        $uncheckStage = Stages::where('stage_name', $stage->stage_name)->first();
+                        if ($uncheckStage) {
+                            $p = Projects::find($id);
+                            if ($p) {
+                                $p->stages()->detach($uncheckStage->id);
                             }
                         }
                     }
@@ -1292,37 +1350,34 @@ class ProjectController extends Controller
                 }
 
                 if (!empty($data['team'])) {
-                    if ($data['team']['role'] !== '[]') {
-                        $roles = json_decode($data['team']['role']);
-                        $role = array_map(fn($r) => ['roles' => $r], $roles);
+                    // dd($data['team']);
+
+                    if ($data['team']['delete_members'] !== '[]') {
+                        $roles = json_decode($data['team']['delete_members']);
+                        $role = array_map(fn($r) => ['members' => $r], $roles);
 
                         if (count($role) !== 0) {
                             foreach ($roles as $user) {
-                                ProjectUser::updateOrCreate([
-                                    'role' => $user->role,
-                                    'user_id' => $user->id,
-                                    'projects_id' => $id,
-                                    'project_manager' => $data['team']['project_manager'],
-                                    'sub_project_manager' => $data['team']['sub_project_manager']
-                                ]);
+                                $memberRemove = User::where('name', $user->name)->first();
+                                if ($memberRemove) {
+                                    $p = Projects::find($id);
+                                    if ($p) {
+                                        $p->members()->detach($memberRemove->id);
+                                    }
+                                }
                             }
                         }
                     } else {
-                        $user = User::select('id')->where('name', $data['team']['project_manager'])->first();
-                        if ($user) {
-                            ProjectUser::updateOrCreate([
-                                'user_id' => $user->id,
-                                'projects_id' => $id,
-                                'project_manager' => $data['team']['project_manager'],
-                                'sub_project_manager' => $data['team']['sub_project_manager']
-                            ]);
-                        }
+                        ProjectUser::where('projects_id', $id)->update([
+                            'project_manager' => $data['team']['project_manager'],
+                            'sub_project_manager' => $data['team']['sub_project_manager']
+                        ]);
                     }
                 }
             }
-            session()->forget(['project_step1', 'project_step2', 'project_step3', 'project_step4', 'project_step5', 'project_step6', 'project_step7']);
-
-            return redirect()->route('employee.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
         }
+        session()->forget(['project_step1', 'project_step2', 'project_step3', 'project_step4', 'project_step5', 'project_step6', 'project_step7']);
+
+        return redirect()->route('employee.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
     }
 }

@@ -168,7 +168,9 @@
                     </div>
                 </div>
             </div>
+
         </div>
+        <div class="supporter-data-part hidden" id="supporterDataSection"></div>
         <div class="supporter-comp-external hidden" id="supporterDataSection">
             <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
                 <div class="grid gap-y-5">
@@ -225,8 +227,6 @@
             </div>
             @endif
             @endforeach
-        </div>
-        <div class="supporter-data-part hidden" id="supporterDataSection">
         </div>
         <div class="supporter-comp-internal hidden" id="supporterDataSection">
             <div class="mt-8">
@@ -401,7 +401,7 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($project->supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         function updateSupportContainer() {

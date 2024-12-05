@@ -656,7 +656,7 @@ class ProjectController extends Controller
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $id)->first();
 
         if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details', 'members')->where('id', $id)->get();
+            $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
         }
 
         $data = session("project_step{$step}", []);
