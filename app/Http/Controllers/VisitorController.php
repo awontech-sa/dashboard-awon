@@ -10,14 +10,6 @@ use App\Services\ViewChartService;
 
 class VisitorController extends Controller
 {
-    private ViewChartService $viewChartService;
-
-    public function __construct(ViewChartService $viewChartService)
-    {
-        $this->viewChartService = $viewChartService;
-    }
-
-
     public function index()
     {
         $dashboard = [];
@@ -52,12 +44,11 @@ class VisitorController extends Controller
         $project = Projects::findOrFail($id);
         $dashboard = Projects::all();
         $phases = ProjectPhases::find($project->id);
-        $files = $project->files()->where('projects_id', $project->id)->get();
 
         $supporter = $project->supporter()->first();
 
         $doneStages = $project->stages;
-        $stages = $project->stage()->get()->map(function($stage) {
+        $stages = $project->stage()->get()->map(function ($stage) {
             return ['stage_name' => $stage->stage_name];
         });
 
@@ -79,26 +70,12 @@ class VisitorController extends Controller
             'project' => $project,
             'supporter' => $supporter,
             'projects' => $dashboard,
-            'files' => $files,
             'team' => $team,
             'details' => $details,
             'stages' => $stages,
             'doneStages' => $doneStages,
             'bigBoss' => $bigBoss,
             'installment' => $installment,
-        ]);
-    }
-
-    public function showPercentage()
-    {
-        $projects = Projects::all();
-        if (!empty($projects)) {
-            $dashboard = Projects::with('stageOfProject')->take(4)->get();
-        }
-
-        return view('dashboard.percentage-projects', [
-            'projects' => $projects,
-            'dashboard' => $dashboard,
         ]);
     }
 }

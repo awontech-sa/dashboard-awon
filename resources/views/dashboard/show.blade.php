@@ -84,24 +84,19 @@
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="03" />
             <div role="tabpanel" class="tab-content">
-                @include('dashboard.project-files')
+                @include('dashboard.project-status')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="04" />
             <div role="tabpanel" class="tab-content">
-                @include('dashboard.project-status')
+                @include('dashboard.project-level')
             </div>
 
             <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="05" />
             <div role="tabpanel" class="tab-content">
-                @include('dashboard.project-level')
-            </div>
-
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
-            <div role="tabpanel" class="tab-content">
                 @include('dashboard.project-code')
             </div>
-            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="07" />
+            <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="06" />
             <div role="tabpanel" class="tab-content">
                 @include('dashboard.project-team')
             </div>
