@@ -5,7 +5,7 @@
         <label for="type-benef">مدير المشروع</label>
         <select class="select select-bordered w-full max-w-xs" name="manager" value="">
             @foreach($users as $user)
-            <option {{ $user->name === $bigBoss->project_manager ? 'selected' : '' }}>
+            <option {{ isset($bigBoss) && $user->name === $bigBoss->project_manager ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
             @endforeach
@@ -15,7 +15,7 @@
         <label for="benef_number">نائب مدير المشروع</label>
         <select class="select select-bordered w-full max-w-xs" name="sub-manager" value="">
             @foreach($users as $user)
-            <option {{ $user->name === $bigBoss->sub_project_manager ? 'selected' : '' }}>
+            <option {{ isset($bigBoss) && $user->name === $bigBoss->project_manager ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
             @endforeach
