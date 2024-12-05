@@ -1355,7 +1355,6 @@ class ProjectController extends Controller
                         $role = array_map(fn($r) => ['members' => $r], $roles);
                         if (count($role) !== 0) {
                             foreach ($roles as $user) {
-                                dd($user);
                                 ProjectUser::create([
                                     'role' => $user->role,
                                     'user_id' => $user->id,
