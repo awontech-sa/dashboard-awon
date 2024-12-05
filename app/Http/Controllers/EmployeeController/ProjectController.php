@@ -1350,7 +1350,22 @@ class ProjectController extends Controller
                 }
 
                 if (!empty($data['team'])) {
-                    // dd($data['team']);
+                    if ($data['team']['members'] !== '[]') {
+                        $roles = json_decode($data['team']['members']);
+                        $role = array_map(fn($r) => ['members' => $r], $roles);
+                        if (count($role) !== 0) {
+                            foreach ($roles as $user) {
+                                dd($user);
+                                ProjectUser::create([
+                                    'role' => $user->role,
+                                    'user_id' => $user->id,
+                                    'projects_id' => $project->id,
+                                    'project_manager' => $data['team']['project_manager'],
+                                    'sub_project_manager' => $data['team']['sub_project_manager']
+                                ]);
+                            }
+                        }
+                    }
 
                     if ($data['team']['delete_members'] !== '[]') {
                         $roles = json_decode($data['team']['delete_members']);

@@ -114,13 +114,15 @@
         memberSelect.addEventListener('change', function() {
             let memberId = memberSelect.value;
             let memberName = memberSelect.selectedOptions[0].textContent.trim();
-
+            let memberRole = memberRoleInput.value
+            
             // إضافة العضو إلى المصفوفة مع الدور الفارغ مؤقتاً
             let memberObject = {
                 id: memberId,
                 member: memberName,
                 role: ''
             };
+            
             arrayMembers.push(memberObject);
 
             updateHiddenInput();
@@ -128,11 +130,13 @@
 
         // عند تعديل الدور
         memberRoleInput.addEventListener('blur', function() {
-            let existingMember = arrayMembers.find(member => member.uniqueId === uniqueId);
-
+            let memberId = memberSelect.value;
+            let existingMember = arrayMembers.find(member => member.id === memberId);
+            
             if (existingMember) {
                 existingMember.role = memberRoleInput.value.trim();
             }
+
 
             updateHiddenInput();
         });

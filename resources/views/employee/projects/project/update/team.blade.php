@@ -128,14 +128,18 @@
 
         // عند تعديل الدور
         memberRoleInput.addEventListener('blur', function() {
-            let existingMember = arrayMembers.find(member => member.uniqueId === uniqueId);
+            let memberId = memberSelect.value;
+            let existingMember = arrayMembers.find(member => member.id === memberId);
 
             if (existingMember) {
                 existingMember.role = memberRoleInput.value.trim();
             }
 
+
             updateHiddenInput();
         });
+
+
     }
 
     // حذف العضو
