@@ -80,4 +80,19 @@ class AdminController extends Controller
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
         ]);
     }
+
+    public function showIncome()
+    {
+        $admin = Auth::user();
+        $projects = Projects::all();
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+
+        return view('admin.projects-income', [
+            'projects' => $projects,
+            'admin' => $admin,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome
+        ]);
+    }
 }

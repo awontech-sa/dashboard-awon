@@ -100,7 +100,7 @@
     </div>
   </section>
 
-  <section class="font-['Tajawal'] mx-4">
+  <section class="flex items-center font-['Tajawal'] mx-4">
     <div class="w-auto h-auto bg-white border-2 border-[#ECEEF6] rounded-md mx-6 px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
@@ -114,6 +114,23 @@
           <progress class="progress progress-success" value="{{ $project->stages->count() }}" max="{{ $project->stage->count() }}"></progress>
         </div>
         @endforeach
+      </div>
+    </div>
+
+    <div class="w-auto h-auto bg-white border-2 border-[#ECEEF6] rounded-md mx-6 px-4">
+      <div class="flex justify-between py-6">
+        <p class="font-bold text-base">إجمالي دخل المشاريع</p>
+        <a href="{{ route('admin.show.income') }}" class="link text-blue-600">عرض الكل ←</a>
+      </div>
+      <div class="flex py-4">
+        <div class="w-[475px] grid gap-y-6">
+          @foreach($dashboard as $project)
+          <div class="grid grid-cols-2 gap-x-4 items-center">
+            <p>{{ $project->p_name }}</p>
+            <p class="text-gray-500">{{ $project->total_cost }}</p>
+          </div>
+          @endforeach
+        </div>
       </div>
     </div>
   </section>

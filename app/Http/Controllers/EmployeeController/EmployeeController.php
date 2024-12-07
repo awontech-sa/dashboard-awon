@@ -70,7 +70,6 @@ class EmployeeController extends Controller
     public function show()
     {
         $dashboard = [];
-        $employee = Auth::user();
 
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
@@ -84,9 +83,30 @@ class EmployeeController extends Controller
         }
 
         return view('employee.percentage-projects', [
-            'employee' => $employee,
+            'employee' => $this->employee,
             'projects' => $projects,
             'dashboard' => $dashboard,
+            'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
+            'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
+            'accountsPermission' => $accounts->last(),
+            'collectionPermission' => $collection->last(),
+            'techPermission' => $techPermission->last()
+        ]);
+    }
+
+    public function showIncome()
+    {
+        $projects = Projects::all();
+
+        $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
+        $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
+        $accounts = $this->permissionService->getAccountPermission($this->employee);
+        $collection = $this->permissionService->getCollectionPermission($this->employee);
+        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
+
+        return view('employee.projects-income', [
+            'projects' => $projects,
+            'employee' => $this->employee,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'accountsPermission' => $accounts->last(),

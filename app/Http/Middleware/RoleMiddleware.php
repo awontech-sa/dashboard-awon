@@ -25,6 +25,7 @@ class RoleMiddleware
             $adminUrls = [
                 url('/admin/panel'),
                 url('/admin/percentage-projects'),
+                url('/admin/projects-income'),
                 url('/admin/users'),
                 url("/admin/users/{$request->id}"),
                 url("/admin/users/update/{$request->id}"),
@@ -46,6 +47,7 @@ class RoleMiddleware
             $employeeUrls = [
                 url('/employee/panel'),
                 url('/employee/projects-percentage'),
+                url('/employee/projects-income'),
                 url('/employee/settings'),
                 url('/employee/profile'),
                 url('/employee/users'),

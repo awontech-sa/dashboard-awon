@@ -34,6 +34,7 @@ Route::post('/reset-password/{token}/{email}', [ForgotPasswordController::class,
 Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
     Route::get('/panel', [AdminController::class, 'index'])->name('dashboard');
     Route::get('/percentage-projects', [AdminController::class, 'show'])->name('percentage');
+    Route::get('/projects-income', [AdminController::class, 'showIncome'])->name('show.income');
 
     //start users route
     Route::get('/users', [UsersController::class, 'index'])->name('users');
@@ -73,6 +74,7 @@ Route::name('admin.')->prefix('admin')->middleware('role')->group(function () {
 Route::name('employee.')->prefix('employee')->middleware('role')->group(function () {
     Route::get('/panel', [EmployeeController::class, 'index'])->name('dashboard');
     Route::get('/projects-percentage', [EmployeeController::class, 'show'])->name('percentage');
+    Route::get('/projects-income', [EmployeeController::class, 'showIncome'])->name('show.income');
 
     //start setting route
     Route::get('/settings', [EmployeeSettingController::class, 'index'])->name('setting.show');
