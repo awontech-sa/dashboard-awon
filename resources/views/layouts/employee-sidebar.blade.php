@@ -36,7 +36,6 @@
                 <div class="dropdown">
                     <div tabindex="0" role="button" class="btn m-1">. . .</div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                        <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-cyan-700 text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
                         <li><a href="{{ route('employee.setting.show') }}" class="font-bold text-cyan-700 text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                         <li>
                             <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
@@ -54,28 +53,24 @@
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
-                @if($accountsPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                     </div>
                 </li>
-                @endif
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
                         <x-fas-list class="text-cyan-700 w-7 h-7" />
                         <a class="text-right text-base mt-2">أقسام المشاريع</a>
                     </div>
                 </li>
-                @if($collectionPermission)
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-hand-holding-dollar class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-right mt-2">التحصيل</a>
                     </div>
                 </li>
-                @endif
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <ul class="menu menu-lg rounded-lg w-full max-w-xs">
                         <li>
@@ -87,7 +82,7 @@
                                 <ul class="font-['Tajawal']">
                                     @foreach($projects as $project)
                                     <li>
-                                        <a class="flex items-center gap-x-3" href="{{ route('employee.show.project', $project->id) }}">
+                                        <a href="{{ route('employee.show.project', $project->id) }}">
                                             <x-far-folder class="text-gray-500 w-6" />
                                             <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                         </a>
@@ -154,7 +149,6 @@
                                     <div class="dropdown">
                                         <div tabindex="0" role="button" class="btn m-1">. . .</div>
                                         <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
-                                            <li><a href="{{ route('employee.profile.show') }}" class="fobt-bold text-lg"><x-far-user class="text-cyan-700 w-7 h-7" /> الملف الشخصي</a></li>
                                             <li><a href="{{ route('employee.setting.show') }}" class="fobt-bold text-lg"><x-fas-gear class="text-cyan-700 w-7 h-7" /> الإعدادات</a></li>
                                             <li>
                                                 <form method="POST" action="{{ route('auth.logout') }}" dir="rtl">
@@ -206,7 +200,7 @@
                                                     <ul class="font-['Tajawal']">
                                                         @foreach($projects as $project)
                                                         <li>
-                                                            <a class="flex items-center gap-x-3" href="{{ route('employee.show.project', $project->id) }}">
+                                                            <a href="{{ route('employee.show.project', $project->id) }}">
                                                                 <x-far-folder class="text-gray-500 w-6" />
                                                                 <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                                             </a>

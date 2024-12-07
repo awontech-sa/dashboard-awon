@@ -82,7 +82,7 @@
                                 <ul class="font-['Tajawal']">
                                     @foreach($projects as $project)
                                     <li>
-                                        <a class="flex items-center w-fit gap-x-3" href="{{ route('admin.show.project', $project->id) }}">
+                                        <a href="{{ route('admin.show.project', $project->id) }}">
                                             <x-far-folder class="text-gray-500 w-6" />
                                             <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                         </a>
@@ -200,7 +200,7 @@
                                                     <ul class="font-['Tajawal']">
                                                         @foreach($projects as $project)
                                                         <li>
-                                                            <a class="flex items-center gap-x-3" href="{{ route('admin.show.project', $project->id) }}">
+                                                            <a href="{{ route('admin.show.project', $project->id) }}">
                                                                 <x-far-folder class="text-gray-500 w-6" />
                                                                 <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                                             </a>
