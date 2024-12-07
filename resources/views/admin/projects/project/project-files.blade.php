@@ -2,39 +2,29 @@
     <h1 class="font-bold text-xl">مرفقات</h1>
 
     <div class="grid mt-[2.9rem] gap-y-5 pb-52">
-        @foreach($files as $key => $file)
-        <!-- start of files section -->
-        @if(str_contains(basename($file->file), 'pdf'))
-        <small class="font-normal text-base">{{ $file->file_name ?? ''}}</small>
+        @foreach($files as $file)
+        @php
+            $fileName = $file->file_name ?? '';
+            $filePath = $file->file ?? '';
+            $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
+            $icon = match($fileType) {
+                'pdf' => 'pdf.png',
+                'mp4' => 'video.png',
+                'doc', 'docx' => 'docx.png',
+                default => '', // Replace with a generic file icon if needed
+            };
+        @endphp
+
+        <small class="font-normal text-base">{{ $fileName }}</small>
         <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between">
             <div class="flex gap-x-5 p-4 items-center">
-                <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                <p class="font-normal text-base">{{ $file->file_name ?? '' }}</p>
+                @if($icon !== '')
+                <img src="{{ asset("assets/icons/$icon") }}" class="w-[1.4rem] h-7" alt="{{ $fileType }}" />
+                @endif
+                <p class="font-normal text-base">{{ $fileName }}</p>
             </div>
-            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file ?? '' }}" download="">عرض الملف</a>
+            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $filePath }}" download="">عرض الملف</a>
         </div>
-        @else
-        <small class="font-normal text-base">{{ $file->file_name ?? ''}}</small>
-        <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between">
-            <div class="flex gap-x-5 p-4 items-center">
-                <p class="font-normal text-base">{{ $file->file_name ?? '' }}</p>
-            </div>
-            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file ?? '' }}" download="">عرض الملف</a>
-        </div>
-        @endif
-        <!-- end of files section -->
-        @if(str_contains(basename($file->file), 'mp4'))
-        <!-- start of video section -->
-        <small class="font-normal text-base">{{$file->file_name ?? ''}}</small>
-        <div class="w-[52rem] h-[4.1rem] bg-white rounded flex justify-between">
-            <div class="flex gap-x-5 p-4 items-center">
-                <img src="{{ asset("assets/icons/video.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                <p class="font-normal text-base">{{ $file->file_name ?? '' }}</p>
-            </div>
-            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->file ?? '' }}" download="">عرض الملف</a>
-        </div>
-        <!-- end of video section -->
-        @endif
         @endforeach
     </div>
 </section>
