@@ -71,22 +71,22 @@
             @foreach($project->supporter as $key => $supporter)
             @if($supporter->supporter_number > 0)
             <div class="supporter-div" id="supporter_div">
-                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key+1  }}</h1>
+                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key + 1  }}</h1>
 
                 <div class="grid grid-cols-2 gap-x-7">
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">الجهة الداعمة</label>
-                        <input class="input" name="comp-support-{{ $key+1  }}" value="{{ $supporter->supporter_name }}">
+                        <input class="input" name="comp-support-{{ $key + 1  }}" value="{{ $supporter->supporter_name }}">
                     </div>
 
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
-                        <input class="input" name="project-income-total-{{ $key+1  }}" value="{{ $supporter->support_amount }}">
+                        <input class="input" name="project-income-total-{{ $key + 1  }}" value="{{ $supporter->support_amount }}">
                     </div>
 
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">عدد الدفعات</label>
-                        <input class="input" id="payment_count_{{ $key+1  }}" name="payment-count-{{ $key+1  }}" value="{{ $supporter->installments_count }}">
+                        <input class="input" id="payment_count_{{ $key + 1  }}" name="payment-count-{{ $key + 1  }}" value="{{ $supporter->installments_count }}">
                     </div>
                 </div>
 
@@ -324,7 +324,12 @@
                 supportTypeForm?.classList.remove('hidden');
                 externalSupportForm?.classList.add('hidden');
                 if (supportType === 'كلي') {
+                    costSupportForm?.classList.remove('hidden')
+                    numberSupportForm?.classList.remove('hidden')
                     supporterFullDataContainer?.classList.remove('hidden');
+                    externalSupportContainer?.classList.add('hidden');
+                    externalSupportForm?.classList.add('hidden');
+                    internalSupportContainer?.classList.add('hidden');
                 } else if (supportType === 'جزئي') {
                     supporterPartDataContainer?.classList.remove('hidden');
                 }
@@ -339,6 +344,8 @@
                     internalSupportContainer?.classList.add('hidden');
                     externalSupportContainer?.classList.remove('hidden');
                 } else if (supporter === 'عون التقنية') {
+                    costSupportForm?.classList.add('hidden')
+                    numberSupportForm?.classList.add('hidden')
                     externalSupportForm?.classList.remove('hidden');
                     externalSupportContainer?.classList.add('hidden');
                     internalSupportContainer?.classList.remove('hidden');
@@ -410,22 +417,22 @@
             for (let i = currentCount; i < newCount; i++) {
                 let container = document.createElement("div")
                 container.innerHTML = `
-                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i}</h1>
+                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i + 1}</h1>
 
                     <div class="grid grid-cols-2 gap-x-7">
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">الجهة الداعمة</label>
-                            <input class="input" name="supporter-name">
+                            <input class="input" name="comp-support-${i + 1}">
                         </div>
 
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
-                            <input class="input" name="support-amount">
+                            <input class="input" name="project-income-total-${i + 1}">
                         </div>
 
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">عدد الدفعات</label>
-                            <input class="input" id="payment_count_${i}" name="payment-count-${i}">
+                            <input class="input" id="payment_count_${i}" name="payment-count-${i + 1}">
                         </div>
                     </div>
 
@@ -438,37 +445,37 @@
                             <tbody>
                                 <td class="border px-4 py-2">${ i + 1 }</td>
                                 <td class="border px-4 py-2">
-                                    <input type="number" name="payments[${i}][amount]" min="0" class="input" />
+                                    <input type="number" name="payments[${i + 1}][amount]" min="0" class="input" />
                                 </td>
                                 <td class="border px-4 py-2">
                                     <label class="label cursor-pointer">
-                                        <input type="checkbox" name="payments[${i}][status]" class="checkbox" />
+                                        <input type="checkbox" name="payments[${i + 1}][status]" class="checkbox" />
                                         <span class="label-text">تم استلام الدفعة</span>
                                     </label>
                                 </td>
                                 <td class="border">
-                                    <input type="file" name="payments[${i}][proof]" class="file-input" />
+                                    <input type="file" name="payments[${i + 1}][proof]" class="file-input" />
                                 </td>
                             </tbody>
                         </table>
                     </div>
 
                     <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
-                        <div class="installment-report my-4" id="installment_report_${i}">
+                        <div class="installment-report my-4" id="installment_report_${i + 1}">
                             <div class="flex gap-x-4 my-7">
                                 <p>تقارير للجهة الداعمة</p>
                             </div>
                             <div class="grid gap-y-4">
-                            <input type="file" name="payments[${i}][report]" class="file-input" />
+                            <input type="file" name="payments[${i + 1}][report]" class="file-input" />
                             </div>
                         </div>
 
-                        <div class="installment-files my-4" id="installment_files_${i}">
+                        <div class="installment-files my-4" id="installment_files_${i + 1}">
                             <div class="flex gap-x-4 my-7">
                                 <p>أوامر الصرف</p>
                             </div>
                             <div class="grid gap-y-4">
-                            <input type="file" name="payments[${i}][order]" class="file-input" />
+                            <input type="file" name="payments[${i + 1}][order]" class="file-input" />
                             </div>
                         </div>
                     </div>
