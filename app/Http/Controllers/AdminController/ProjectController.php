@@ -1111,9 +1111,11 @@ class ProjectController extends Controller
                         : '[]';
 
                     if (isset($data['financial-data']['supporters'])) {
-                        foreach (($data['financial-data']['supporters']) as $index => $supporter) {
-                            $existingSupporter = $project->supporter()->skip($index)->first();
+                        $submittedSupporters = $data['financial-data']['supporters'];
+                        $currentSupporters = $project->supporter()->get();
 
+                        foreach ($submittedSupporters as $index => $supporter) {
+                            $existingSupporter = $currentSupporters->skip($index)->first();
                             if ($existingSupporter) {
                                 $existingSupporter->update([
                                     'supporter_name' => $supporter["supporter_name"] ?? null,
@@ -1123,7 +1125,7 @@ class ProjectController extends Controller
                                     'payment_order_files' => $paymentOrderFiles,
                                     'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                                     'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0,
                                 ]);
                             } else {
                                 $project->supporter()->create([
@@ -1134,23 +1136,15 @@ class ProjectController extends Controller
                                     'payment_order_files' => $paymentOrderFiles,
                                     'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                                     'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
+                                    'supporter_number' => $data['financial-data']["supporter_number"] ?? 0,
                                 ]);
                             }
                         }
-                    } else {
-                        $project->supporter()->update([
-                            'supporter_name' => $data['financial-data']["supporter_name"] ?? null,
-                            'support_amount' => $data['financial-data']["support_amount"] ?? 0.00,
-                            'installments_count' => $data['financial-data']["installments_count"] ?? 0,
-                            'report_files' => $reportFiles,
-                            'payment_order_files' => $paymentOrderFiles,
-                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
-                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                            'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
-                        ]);
-                    }
 
+                        if ($currentSupporters->count() > count($submittedSupporters)) {
+                            $currentSupporters->splice(count($submittedSupporters))->each->delete();
+                        }
+                    }
 
                     Projects::where('id', $id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
                         ? trim($data['financial-data']["total_cost"] ?? '') : null]);
@@ -1168,7 +1162,10 @@ class ProjectController extends Controller
                                 ]);
                             } else {
                                 $supporter = ProjectSupporters::where('projects_id', $id)->first();
-
+                                $supporter->update([
+                                    'p_support_status' => $data['financial-data']['p_support_status'],
+                                    'p_support_type' => $data['financial-data']['p_support_type'],
+                                ]);
                                 $supporter->installments()->create([
                                     'project_id' => $id,
                                     'installment_amount' => $installmentProject["amount"] ?? 0,
