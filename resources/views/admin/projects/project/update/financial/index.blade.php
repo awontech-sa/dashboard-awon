@@ -168,6 +168,8 @@
                     </div>
                 </div>
             </div>
+            @endif
+            @endforeach
 
         </div>
         <div class="supporter-data-part hidden" id="supporterDataSection"></div>
@@ -225,8 +227,6 @@
                     </tbody>
                 </table>
             </div>
-            @endif
-            @endforeach
         </div>
         <div class="supporter-comp-internal hidden" id="supporterDataSection">
             <div class="mt-8">

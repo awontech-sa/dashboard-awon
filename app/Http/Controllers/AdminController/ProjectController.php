@@ -590,7 +590,7 @@ class ProjectController extends Controller
 
         $details = $project->details()->where('projects_id', $project->id)->first();
 
-        $installment = Installments::where('project_id', $project->id)->get()->unique($id);
+        $installment = Installments::where('project_id', $project->id)->get();
 
         $team = $project->members()->get()->map(function ($user) {
             return [
@@ -598,6 +598,8 @@ class ProjectController extends Controller
                 'role' => $user->pivot->role,
             ];
         });
+
+        $phases = ProjectPhases::where('project_id', $id)->get();
 
         $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
 
