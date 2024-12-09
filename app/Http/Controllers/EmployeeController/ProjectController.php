@@ -629,6 +629,7 @@ class ProjectController extends Controller
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
         $collection = $this->permissionService->getCollectionPermission($this->employee);
+        $techPermission = $this->permissionService->getTechTeamPermission($this->employee);
 
         return view('employee.projects.project.show', [
             "employee" => $this->employee,
@@ -647,6 +648,7 @@ class ProjectController extends Controller
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
             'users' => $users,
             'accountsPermission' => $accounts,
+            'techPermission' => $techPermission,
             'collectionPermission' => $collection->last(),
         ]);
     }

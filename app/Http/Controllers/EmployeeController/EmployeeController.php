@@ -63,7 +63,7 @@ class EmployeeController extends Controller
             'supporterIndividual' => $supporterIndividual,
             'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
-            'techPermission' => $techPermission->last()
+            'techPermission' => $techPermission
         ]);
     }
 
@@ -90,7 +90,7 @@ class EmployeeController extends Controller
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
-            'techPermission' => $techPermission->last()
+            'techPermission' => $techPermission
         ]);
     }
 
@@ -111,7 +111,7 @@ class EmployeeController extends Controller
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
             'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
-            'techPermission' => $techPermission->last()
+            'techPermission' => $techPermission
         ]);
     }
 }
