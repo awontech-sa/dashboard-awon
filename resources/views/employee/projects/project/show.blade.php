@@ -8,7 +8,7 @@
                 @foreach($techPermission as $permission)
                 @if($permission->permission === 'تعديل')
                 <a class="btn btn-sm btn-link border rounded-lg border-gray-500 bg-[#FAFBFD]" href="{{ route('employee.update.project.show', ['step' => 1, 'id' => $project->id]) }}"><x-far-pen-to-square class="w-4 h-4 text-gray-600" /></a>
-                @else
+                @elseif($permission->permission === 'حذف')
                 <button class="btn btn-sm bg-[#FAFBFD]" onclick="my_modal_1.showModal()">حذف المشروع <x-far-trash-can class="w-4 h-4 text-red-500" /></button>
                 @endif
                 @endforeach
