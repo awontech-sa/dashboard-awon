@@ -50,7 +50,7 @@ class ProfileController extends Controller
             'stoppedProjects' => $stoppedProjects,
             'completedProjects' => $completedProjects,
             'inProgressProjects' => $inProgressProjects,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome

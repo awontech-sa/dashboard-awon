@@ -17,14 +17,16 @@
 
 <div class="mt-4">
     <table class="w-full border mt-2 font-medium text-base table text-center">
-        <tr>
-            <th class="border px-4 py-2">الدفعة</th>
-            <th class="border px-4 py-2">قيمة الدفعة</th>
-            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-        </tr>
+        <thead>
+            <tr>
+                <th class="border px-4 py-2">الدفعة</th>
+                <th class="border px-4 py-2">قيمة الدفعة</th>
+                <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+            </tr>
+        </thead>
+        @foreach($installment[$s->id] as $key => $i)
         <tbody>
-            @foreach($installment as $key => $i)
             <tr>
                 <td class="border px-4 py-2">{{ $key+1 }}</td>
                 <td class="border px-4 py-2">{{ $i->installment_amount }}</td>
@@ -46,7 +48,7 @@
                     @endif
                 </td>
             </tr>
-            @endforeach
         </tbody>
+        @endforeach
     </table>
 </div>

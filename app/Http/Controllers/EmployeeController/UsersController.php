@@ -46,7 +46,7 @@ class UsersController extends Controller
         return view('employee.users.index', [
             'permission' => $permission,
             'projects' => $projects,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             'employee' => $this->employee,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
@@ -75,7 +75,7 @@ class UsersController extends Controller
         }
 
         return view('employee.users.user', [
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             "id" => $id,
             "user" => $user,
@@ -111,7 +111,7 @@ class UsersController extends Controller
         $collection = $this->permissionService->getCollectionPermission($this->employee);
 
         return view('employee.users.update', [
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             "position" => $position[0],
             "user" => $user,

@@ -53,12 +53,16 @@
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                     </div>
                 </li>
+                @foreach($accountsPermission as $permission)
+                @if($permission->permission === 'مشاهدة')
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto">
                         <x-fas-users class="text-cyan-700 w-7 h-7" />
                         <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                     </div>
                 </li>
+                @endif
+                @endforeach
                 <li class="hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                     <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">
                         <x-fas-list class="text-cyan-700 w-7 h-7" />
@@ -167,6 +171,8 @@
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.dashboard') }}">لوحة التحكم</a>
                                         </div>
                                     </li>
+                                    @foreach($accountsPermission as $permission)
+                                    @if($permission->permission === 'مشاهدة')
                                     <li class="nav-item
                                     hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto">
@@ -174,6 +180,8 @@
                                             <a class="font-['Tajawal'] text-center mt-2" href="{{ route('employee.users') }}">الحسابات</a>
                                         </div>
                                     </li>
+                                    @endif
+                                    @endforeach
                                     <li class="nav-item
                                     hover:bg-cyan-[#F8F8F8] hover:text-cyan-700 my-2">
                                         <div class="flex items-center gap-x-4 text-lg my-auto font-['Tajawal']">

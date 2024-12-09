@@ -61,7 +61,7 @@ class EmployeeController extends Controller
             'supporter' => $supporter,
             'supporterComp' => $supporterComp,
             'supporterIndividual' => $supporterIndividual,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             'techPermission' => $techPermission->last()
         ]);
@@ -88,7 +88,7 @@ class EmployeeController extends Controller
             'dashboard' => $dashboard,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             'techPermission' => $techPermission->last()
         ]);
@@ -109,7 +109,7 @@ class EmployeeController extends Controller
             'employee' => $this->employee,
             'viewGrossAnnualIncome' => $viewGrossAnnualIncome,
             'viewCurrentGrossIncome' => $viewCurrentGrossIncome,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             'techPermission' => $techPermission->last()
         ]);

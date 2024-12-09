@@ -44,7 +44,7 @@ class SettingController extends Controller
         $position = $user->positions->pluck("p_name");
 
         return view('employee.setting', [
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
             "position" => $position[0],
             'employee' => $this->employee,

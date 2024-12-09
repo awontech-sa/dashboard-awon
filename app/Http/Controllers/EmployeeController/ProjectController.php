@@ -57,7 +57,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 2:
@@ -69,7 +69,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 3:
@@ -81,7 +81,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 4:
@@ -93,7 +93,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 5:
@@ -105,7 +105,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 6:
@@ -117,7 +117,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             case 7:
@@ -129,7 +129,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                 ]);
             default:
@@ -646,7 +646,7 @@ class ProjectController extends Controller
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
             'users' => $users,
-            'accountsPermission' => $accounts->last(),
+            'accountsPermission' => $accounts,
             'collectionPermission' => $collection->last(),
         ]);
     }
@@ -706,7 +706,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -723,7 +723,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -740,7 +740,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -757,7 +757,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -774,7 +774,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -791,7 +791,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
@@ -808,7 +808,7 @@ class ProjectController extends Controller
                     "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
                     "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
                     'users' => $users,
-                    'accountsPermission' => $accounts->last(),
+                    'accountsPermission' => $accounts,
                     'collectionPermission' => $collection->last(),
                     'installment' => $installment,
                     'phases' => $phases,
