@@ -201,6 +201,7 @@
                         </tr>
                     </thead>
                     <tbody id="installments-table">
+                        @if(isset($installment[$supporter->id]))
                         @foreach($installment[$supporter->id] as $key => $i)
                         <tr>
                             <td class="border px-4 py-2">{{ $key + 1 }}</td>
@@ -225,6 +226,7 @@
                             </td>
                         </tr>
                         @endforeach
+                        @endif
                     </tbody>
                 </table>
             </div>
