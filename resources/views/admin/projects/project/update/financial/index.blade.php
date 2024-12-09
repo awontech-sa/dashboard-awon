@@ -76,39 +76,41 @@
                 <div class="grid grid-cols-2 gap-x-7">
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">الجهة الداعمة</label>
-                        <input class="input" name="comp-support-{{ $key + 1  }}" value="{{ $supporter->supporter_name }}">
+                        <input class="input" name="comp-support-{{ $key+1 }}" value="{{ $supporter->supporter_name }}">
                     </div>
 
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
-                        <input class="input" name="project-income-total-{{ $key + 1  }}" value="{{ $supporter->support_amount }}">
+                        <input class="input" name="project-income-total-{{ $key+1 }}" value="{{ $supporter->support_amount }}">
                     </div>
 
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">عدد الدفعات</label>
-                        <input class="input" id="payment_count_{{ $key + 1  }}" name="payment-count-{{ $key + 1  }}" value="{{ $supporter->installments_count }}">
+                        <input class="input" type="number" min="0" id="payment_count_{{ $key+1 }}" name="payment-count-{{ $key+1 }}" value="{{ $supporter->installments_count }}">
                     </div>
                 </div>
 
                 <div class="mt-4">
                     <table class="w-full border mt-2 font-medium text-base table text-center">
-                        <tr>
-                            <th class="border px-4 py-2">الدفعة</th>
-                            <th class="border px-4 py-2">قيمة الدفعة</th>
-                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-                        </tr>
-                        @if($supporter->installments_count > 0)
-                        @foreach($installment as $key => $i)
-                        <tbody>
+                        <thead>
                             <tr>
-                                <td class="border px-4 py-2">{{ $key + 1 }}</td>
+                                <th class="border px-4 py-2">الدفعة</th>
+                                <th class="border px-4 py-2">قيمة الدفعة</th>
+                                <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                                <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payment-table-{{ $key+1 }}">
+                            @if($supporter->installments_count > 0)
+                            @foreach($installment[$supporter->id] as $index => $i)
+                            <tr>
+                                <td class="border px-4 py-2">{{ $index + 1 }}</td>
                                 <td class="border px-4 py-2">
-                                    <input type="number" name="payments[{{ $key }}][amount]" min="0" class="input" value="{{ $i->installment_amount }}" />
+                                    <input type="number" name="payments[{{ $key+1 }}][{{ $index+1 }}][amount]" min="0" class="input" value="{{ $i->installment_amount }}" />
                                 </td>
                                 <td class="border px-4 py-2">
                                     <label class="label cursor-pointer">
-                                        <input type="checkbox" name="payments[{{ $key }}][status]" class="checkbox"
+                                        <input type="checkbox" name="payments[{{ $key+1 }}][{{ $index+1 }}][status]" class="checkbox"
                                             {{ $i->installment_receipt_status === 1 ? 'checked' : '' }} />
                                         <span class="label-text">تم استلام الدفعة</span>
                                     </label>
@@ -124,9 +126,9 @@
                                     @endif
                                 </td>
                             </tr>
+                            @endforeach
+                            @endif
                         </tbody>
-                        @endforeach
-                        @endif
                     </table>
                 </div>
 
@@ -170,10 +172,9 @@
             </div>
             @endif
             @endforeach
-
         </div>
-        <div class="supporter-data-part hidden" id="supporterDataSection"></div>
-        <div class="supporter-comp-external hidden" id="supporterDataSection">
+        <div class="supporter-data-part hidden"></div>
+        <div class="supporter-comp-external hidden">
             <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
                 <div class="grid gap-y-5">
                     <label>اسم الجهة</label>
@@ -200,7 +201,7 @@
                         </tr>
                     </thead>
                     <tbody id="installments-table">
-                        @foreach($installment as $key => $i)
+                        @foreach($installment[$supporter->id] as $key => $i)
                         <tr>
                             <td class="border px-4 py-2">{{ $key + 1 }}</td>
                             <td class="border px-4 py-2">
@@ -228,7 +229,7 @@
                 </table>
             </div>
         </div>
-        <div class="supporter-comp-internal hidden" id="supporterDataSection">
+        <div class="supporter-comp-internal hidden">
             <div class="mt-8">
                 <div class="grid">
                     <div class="grid grid-cols-2 gap-x-7">
@@ -352,8 +353,6 @@
                 }
             }
         }
-
-        // Add event listeners
         document.querySelectorAll('input[name="support-status"]').forEach(radio => {
             radio.addEventListener('change', toggleForms);
         });
@@ -365,19 +364,14 @@
         document.querySelectorAll('input[name="supporter"]').forEach(radio => {
             radio.addEventListener('change', toggleForms);
         });
-
-        // Initial call
         toggleForms();
 
         const installmentCountInput = document.getElementById("installments-count");
         const installmentsTable = document.getElementById("installments-table");
         let existingRows = @json($installment);
-
         function updateTableRows() {
             const newCount = parseInt(installmentCountInput.value) || 0;
             const currentCount = installmentsTable.children.length;
-
-            // Add new rows if the count increases
             for (let i = currentCount; i < newCount; i++) {
                 const row = document.createElement("tr");
                 row.innerHTML = `
@@ -403,17 +397,14 @@
                 installmentsTable.removeChild(installmentsTable.children[i]);
             }
         }
-
-        // Add event listener to handle input change
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
         let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
-
         function updateSupportContainer() {
-            let newCount = parseInt(numSupport.value) || 0;
-            let currentCount = supporterContainer.children.length;
+            const newCount = parseInt(numSupport.value) || 0;
+            const currentCount = supporterContainer.children.length;
             for (let i = currentCount; i < newCount; i++) {
                 let container = document.createElement("div")
                 container.innerHTML = `
@@ -422,65 +413,84 @@
                     <div class="grid grid-cols-2 gap-x-7">
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">الجهة الداعمة</label>
-                            <input class="input" name="comp-support-${i + 1}">
+                            <input class="input" name="comp-support-${i+1}">
                         </div>
 
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
-                            <input class="input" name="project-income-total-${i + 1}">
+                            <input class="input" name="project-income-total-${i+1}">
                         </div>
 
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">عدد الدفعات</label>
-                            <input class="input" id="payment_count_${i}" name="payment-count-${i + 1}">
+                            <input class="input" min="0" type="number" id="payment_count_${i+1}" name="payment-count-${i+1}">
                         </div>
                     </div>
 
                     <div class="mt-4">
                         <table class="w-full border mt-2 font-medium text-base table text-center">
-                            <th class="border px-4 py-2">الدفعة</th>
-                            <th class="border px-4 py-2">قيمة الدفعة</th>
-                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
-                            <tbody>
-                                <td class="border px-4 py-2">${ i + 1 }</td>
-                                <td class="border px-4 py-2">
-                                    <input type="number" name="payments[${i + 1}][amount]" min="0" class="input" />
-                                </td>
-                                <td class="border px-4 py-2">
-                                    <label class="label cursor-pointer">
-                                        <input type="checkbox" name="payments[${i + 1}][status]" class="checkbox" />
-                                        <span class="label-text">تم استلام الدفعة</span>
-                                    </label>
-                                </td>
-                                <td class="border">
-                                    <input type="file" name="payments[${i + 1}][proof]" class="file-input" />
-                                </td>
-                            </tbody>
+                            <thead>
+                                <tr>
+                                    <th class="border px-4 py-2">الدفعة</th>
+                                    <th class="border px-4 py-2">قيمة الدفعة</th>
+                                    <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                                    <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payment-table-${i+1}"></tbody>
                         </table>
                     </div>
 
                     <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
-                        <div class="installment-report my-4" id="installment_report_${i + 1}">
+                        <div class="installment-report my-4" id="installment_report_${i+1}">
                             <div class="flex gap-x-4 my-7">
                                 <p>تقارير للجهة الداعمة</p>
                             </div>
                             <div class="grid gap-y-4">
-                            <input type="file" name="payments[${i + 1}][report]" class="file-input" />
+                            <input type="file" name="payments[${i+1}][report]" class="file-input" />
                             </div>
                         </div>
 
-                        <div class="installment-files my-4" id="installment_files_${i + 1}">
+                        <div class="installment-files my-4" id="installment_files_${i+1}">
                             <div class="flex gap-x-4 my-7">
                                 <p>أوامر الصرف</p>
                             </div>
                             <div class="grid gap-y-4">
-                            <input type="file" name="payments[${i + 1}][order]" class="file-input" />
+                            <input type="file" name="payments[${i+1}][order]" class="file-input" />
                             </div>
                         </div>
                     </div>
                 `
                 supporterContainer.appendChild(container)
+                const paymentCountInput = document.getElementById(`payment_count_${i+1}`)
+                const paymentTable = document.getElementById(`payment-table-${i+1}`)
+                paymentCountInput.addEventListener("input", function() {
+                    let newCountPayment = parseInt(paymentCountInput.value) || 0
+                    let currentCountPayment = paymentTable.children.length
+                    for (let j = currentCountPayment; j < newCountPayment; j++) {
+                        let tableContainer = document.createElement('tr')
+                        tableContainer.classList.add('mt-4')
+                        tableContainer.innerHTML = `
+                            <td class="border px-4 py-2">${ j + 1 }</td>
+                            <td class="border px-4 py-2">
+                                <input type="number" name="payments[${i+1}][${j+1}][amount]" min="0" class="input" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <label class="label cursor-pointer">
+                                    <input type="checkbox" name="payments[${i+1}][${j+1}][status]" class="checkbox" />
+                                    <span class="label-text">تم استلام الدفعة</span>
+                                </label>
+                            </td>
+                            <td class="border">
+                                <input type="file" name="payments[${i+1}][${j+1}][proof]" class="file-input" />
+                            </td>
+                        `
+                        paymentTable.appendChild(tableContainer)
+                    }
+                    for (let index = currentCountPayment - 1; index >= newCountPayment; index--) {
+                        paymentTable.removeChild(paymentTable.children[index])
+                    }
+                })
             }
             for (let i = currentCount - 1; i >= newCount; i--) {
                 supporterContainer.removeChild(supporterContainer.children[i]);
@@ -491,7 +501,6 @@
         const phasesCountInput = document.getElementById("stages_count_not_support");
         const phasesTable = document.getElementById("phases-table");
         let existingPhaseRows = @json($phases);
-
         function updatePhaseRows() {
             const newCount = parseInt(phasesCountInput.value) || 0;
             const currentCount = phasesTable.children.length;
@@ -521,8 +530,6 @@
                 phasesTable.removeChild(phasesTable.children[i]);
             }
         }
-
-        // Add event listener to handle input change
         phasesCountInput.addEventListener("input", updatePhaseRows);
     });
 </script>
