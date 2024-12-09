@@ -1290,6 +1290,15 @@ class ProjectController extends Controller
                             $phasesToDelete = $existingPhases->slice($newPhasesCount);
                             ProjectPhases::whereIn('id', $phasesToDelete->pluck('id'))->delete();
                         }
+                    } else {
+                        Projects::where('id', $project->id)->update([
+                            'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
+                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
+                        ]);
+                        ProjectSupporters::where('projects_id', $project->id)->update([
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                        ]);
                     }
                 }
 

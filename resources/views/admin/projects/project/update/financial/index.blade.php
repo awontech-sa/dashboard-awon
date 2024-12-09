@@ -347,9 +347,10 @@
                 } else if (supporter === 'عون التقنية') {
                     costSupportForm?.classList.add('hidden')
                     numberSupportForm?.classList.add('hidden')
+                    supporterFullDataContainer?.classList.add('hidden');
                     externalSupportForm?.classList.remove('hidden');
-                    externalSupportContainer?.classList.add('hidden');
                     internalSupportContainer?.classList.remove('hidden');
+                    externalSupportContainer?.classList.add('hidden');
                 }
             }
         }

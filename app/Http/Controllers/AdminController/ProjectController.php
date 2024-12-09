@@ -1144,7 +1144,7 @@ class ProjectController extends Controller
                                 if (!$currentSupporter) {
                                     continue;
                                 }
-                                $existingInstallments = $currentSupporter->installments; 
+                                $existingInstallments = $currentSupporter->installments;
                                 foreach ($supporter["installments"] as $index => $installmentProject) {
                                     $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
                                     $installmentData = [
@@ -1242,6 +1242,15 @@ class ProjectController extends Controller
                             $phasesToDelete = $existingPhases->slice($newPhasesCount);
                             ProjectPhases::whereIn('id', $phasesToDelete->pluck('id'))->delete();
                         }
+                    } else {
+                        Projects::where('id', $project->id)->update([
+                            'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
+                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
+                        ]);
+                        ProjectSupporters::where('projects_id', $project->id)->update([
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                        ]);
                     }
                 }
 
