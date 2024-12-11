@@ -1,20 +1,23 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
     <input type="hidden" name="array-members" value="[]" />
+    <input type="hidden" name="managers" value="[]" />
+    <input type="hidden" name="sub-managers" value="[]" />
+
     <div class="grid gap-y-5">
         <label for="type-benef">مدير المشروع</label>
-        <select class="select select-bordered w-full max-w-xs" name="manager" value="">
+        <select class="select select-bordered w-full max-w-xs" name="manager" onchange="selectManagers()">
             <option></option>
             @foreach($users as $user)
-            <option id="{{ $user->id }}">{{ $user->name }}</option>
+            <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach
         </select>
     </div>
     <div class="grid gap-y-5">
         <label for="benef_number">نائب مدير المشروع</label>
-        <select class="select select-bordered w-full max-w-xs" name="sub-manager" value="">
+        <select class="select select-bordered w-full max-w-xs" name="sub-manager" onchange="selectSubManager()">
             <option></option>
             @foreach($users as $user)
-            <option id="{{ $user->id }}">{{ $user->name }}</option>
+            <option value="{{ $user->id }}">{{ $user->name }}</option>
             @endforeach
         </select>
     </div>
@@ -29,6 +32,32 @@
 @push('scripts')
 <script>
     let arrayMembers = [];
+    let projectManager = []
+    let projectSubManager = []
+
+    function selectManagers() {
+        let manager = document.querySelector('select[name="manager"]')
+        let managersObject = {
+            name: manager.selectedOptions[0].textContent.trim(),
+            id: manager.value,
+            role: 'manager'
+        }
+        projectManager.push(managersObject)
+
+        updateHiddenInput()
+    }
+
+    function selectSubManager() {
+        let subManager = document.querySelector('select[name="sub-manager"]')
+        let subManagerObject = {
+            name: subManager.selectedOptions[0].textContent.trim(),
+            id: subManager.value,
+            role: 'sub manager'
+        }
+        projectSubManager.push(subManagerObject)
+
+        updateHiddenInput()
+    }
 
     function addMember(users) {
         let fileContainer = document.getElementById('new-member');
@@ -128,7 +157,12 @@
     // تحديث الحقل المخفي
     function updateHiddenInput() {
         document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
-        console.log('Updated arrayMembers:', arrayMembers);
+        document.querySelector('input[name="managers"]').value = JSON.stringify(projectManager);
+        document.querySelector('input[name="sub-managers"]').value = JSON.stringify(projectSubManager);
+
+        console.log(arrayMembers);
+        console.log(projectManager);
+        console.log(projectSubManager);
     }
 </script>
 @endpush

@@ -440,8 +440,8 @@ class ProjectController extends Controller
         } elseif ($step == 7) {
             $validated = [
                 'role' => $request->input('array-members'),
-                'project_manager' => $request->input('manager'),
-                'sub_project_manager' => $request->input('sub-manager')
+                'project_manager' => $request->input('managers'),
+                'sub_project_manager' => $request->input('sub-managers')
             ];
             session(['project_step7' => $validated]);
 
@@ -570,21 +570,39 @@ class ProjectController extends Controller
                                 ProjectUser::create([
                                     'role' => $user->role,
                                     'user_id' => $user->id,
-                                    'projects_id' => $project->id,
-                                    'project_manager' => $data['team']['project_manager'],
-                                    'sub_project_manager' => $data['team']['sub_project_manager']
+                                    'projects_id' => $project->id
                                 ]);
                             }
                         }
-                    } else {
-                        $user = User::select('id')->where('name', $data['team']['project_manager'])->first();
-                        if ($user) {
-                            ProjectUser::create([
-                                'user_id' => $user->id,
-                                'projects_id' => $project->id,
-                                'project_manager' => $data['team']['project_manager'],
-                                'sub_project_manager' => $data['team']['sub_project_manager']
-                            ]);
+                    }
+
+                    if ($data['team']['project_manager'] !== '[]') {
+                        $managers = json_decode($data['team']['project_manager']);
+                        $manager = array_map(fn($m) => ['manager' => $m], $managers);
+
+                        if (count($manager) !== 0) {
+                            foreach ($managers as $user) {
+                                ProjectUser::create([
+                                    'role' => $user->role,
+                                    'user_id' => $user->id,
+                                    'projects_id' => $project->id
+                                ]);
+                            }
+                        }
+                    }
+
+                    if ($data['team']['sub_project_manager'] !== '[]') {
+                        $subManagers = json_decode($data['team']['sub_project_manager']);
+                        $subManager = array_map(fn($sm) => ['sub-manager' => $sm], $subManagers);
+
+                        if (count($subManager) !== 0) {
+                            foreach ($subManagers as $user) {
+                                ProjectUser::create([
+                                    'role' => $user->role,
+                                    'user_id' => $user->id,
+                                    'projects_id' => $project->id
+                                ]);
+                            }
                         }
                     }
                 }
