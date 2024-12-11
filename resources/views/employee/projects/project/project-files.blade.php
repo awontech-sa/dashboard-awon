@@ -12,7 +12,7 @@
                 'mp4' => 'video.png',
                 'doc', 'docx' => 'docx.png',
                 'xlsx' => 'xlsx.png',
-                'pptx' => 'pptx.png'
+                'pptx' => 'pptx.png',
                 default => '', // Replace with a generic file icon if needed
             };
         @endphp
