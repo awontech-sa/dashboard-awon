@@ -700,8 +700,6 @@ class ProjectController extends Controller
             ];
         });
 
-        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $id)->first();
-
         if (!empty($projects)) {
             $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
         }
@@ -728,7 +726,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 2:
                 return view('employee.projects.project.update.update', [
@@ -745,7 +742,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 3:
                 return view('employee.projects.project.update.update', [
@@ -762,7 +758,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 4:
                 return view('employee.projects.project.update.update', [
@@ -779,7 +774,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 5:
                 return view('employee.projects.project.update.update', [
@@ -796,7 +790,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 6:
                 return view('employee.projects.project.update.update', [
@@ -813,7 +806,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             case 7:
                 return view('employee.projects.project.update.update', [
@@ -830,7 +822,6 @@ class ProjectController extends Controller
                     'installment' => $installment,
                     'phases' => $phases,
                     'team' => $team,
-                    'bigBoss' => $bigBoss
                 ]);
             default:
                 return back();
