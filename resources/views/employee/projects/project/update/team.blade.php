@@ -1,11 +1,21 @@
 <div class="grid grid-cols-2 gap-x-[3.3rem] my-8">
     <input type="hidden" name="array-members" value="[]" />
     <input type="hidden" name="delete-members" value="[]" />
+    <input type="hidden" name="managers" value="[]" />
+    <input type="hidden" name="sub-managers" value="[]" />
+
     <div class="grid gap-y-5">
         <label for="type-benef">مدير المشروع</label>
-        <select class="select select-bordered w-full max-w-xs" name="manager" value="">
+        @php
+        $manager = $team->firstWhere('role', 'manager');
+        $subManager = $team->firstWhere('role', 'sub manager');
+        $filteredTeam = $team->reject(function ($member) {
+        return in_array($member['role'], ['manager', 'sub manager']);
+        });
+        @endphp
+        <select class="select select-bordered w-full max-w-xs" name="manager" onchange="selectManagers()">
             @foreach($users as $user)
-            <option {{ isset($bigBoss) && $user->name === $bigBoss->project_manager ? 'selected' : '' }}>
+            <option value="{{ $user->id }}" {{ isset($manager) && $user->name === $manager['name'] ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
             @endforeach
@@ -13,9 +23,9 @@
     </div>
     <div class="grid gap-y-5">
         <label for="benef_number">نائب مدير المشروع</label>
-        <select class="select select-bordered w-full max-w-xs" name="sub-manager" value="">
+        <select class="select select-bordered w-full max-w-xs" name="sub-manager" onchange="selectSubManager()">
             @foreach($users as $user)
-            <option {{ isset($bigBoss) && $user->name === $bigBoss->project_manager ? 'selected' : '' }}>
+            <option value="{{ $user->id }}" {{ isset($subManager) && $user->name === $subManager['name'] ? 'selected' : '' }}>
                 {{ $user->name }}
             </option>
             @endforeach
@@ -28,14 +38,14 @@
     <button type="button" class="btn btn-xs font-normal bg-white" onclick="addMember({{ json_encode($users) }})">إضافة عضو</button>
 </div>
 <div id="new-member">
-    @foreach($team as $member)
+    @foreach($filteredTeam as $member)
     <div class="grid grid-cols-3 gap-x-5 items-center mb-4" id="{{ $member['id'] }}">
         <!-- Member Name -->
         <div class="grid gap-y-5">
             <label>إسم العضو</label>
             <select class="select select-bordered w-full max-w-xs" name="member-select">
                 @foreach($users as $user)
-                <option {{ $user->name === $member['name'] ? 'selected' : '' }}>
+                <option value="{{ $user->id }}" {{ $user->name === $member['name'] ? 'selected' : '' }}>
                     {{ $user->name }}
                 </option>
                 @endforeach
@@ -58,6 +68,33 @@
 <script>
     let arrayMembers = [];
     let removeMembers = []
+    let projectManager = []
+    let projectSubManager = []
+
+    function selectManagers() {
+        let manager = document.querySelector('select[name="manager"]')
+        
+        let managersObject = {
+            name: manager.selectedOptions[0].textContent.trim(),
+            id: manager.value,
+            role: 'manager'
+        }
+        projectManager.push(managersObject)
+
+        updateHiddenInput()
+    }
+
+    function selectSubManager() {
+        let subManager = document.querySelector('select[name="sub-manager"]')
+        let subManagerObject = {
+            name: subManager.selectedOptions[0].textContent.trim(),
+            id: subManager.value,
+            role: 'sub manager'
+        }
+        projectSubManager.push(subManagerObject)
+
+        updateHiddenInput()
+    }
 
     function addMember(users) {
         let fileContainer = document.getElementById('new-member');
@@ -114,6 +151,7 @@
         memberSelect.addEventListener('change', function() {
             let memberId = memberSelect.value;
             let memberName = memberSelect.selectedOptions[0].textContent.trim();
+            let memberRole = memberRoleInput.value
 
             // إضافة العضو إلى المصفوفة مع الدور الفارغ مؤقتاً
             let memberObject = {
@@ -121,6 +159,7 @@
                 member: memberName,
                 role: ''
             };
+
             arrayMembers.push(memberObject);
 
             updateHiddenInput();
@@ -138,8 +177,6 @@
 
             updateHiddenInput();
         });
-
-
     }
 
     // حذف العضو
@@ -163,6 +200,8 @@
     function updateHiddenInput() {
         document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
         document.querySelector('input[name="delete-members"]').value = JSON.stringify(removeMembers);
+        document.querySelector('input[name="managers"]').value = JSON.stringify(projectManager);
+        document.querySelector('input[name="sub-managers"]').value = JSON.stringify(projectSubManager);
     }
 </script>
 @endpush

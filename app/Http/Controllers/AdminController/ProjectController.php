@@ -487,6 +487,15 @@ class ProjectController extends Controller
                                 'disbursement_proof' => $phase['disbursement_proof'] ?? ''
                             ]);
                         }
+                    } else {
+                        Projects::where('id', $project->id)->update([
+                            'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
+                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
+                        ]);
+                        $project->supporter()->create([
+                            'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                            'p_support_status' => $data['financial-data']['p_support_status'] ?? null
+                        ]);
                     }
                 }
 
@@ -670,8 +679,6 @@ class ProjectController extends Controller
             ];
         });
 
-        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $id)->first();
-
         if (!empty($projects)) {
             $dashboard = Projects::with('stageOfProject', 'supporter', 'stage', 'files', 'details')->where('id', $id)->get();
         }
@@ -691,8 +698,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 2:
                 return view('admin.projects.project.update.update', [
@@ -706,8 +712,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 3:
                 return view('admin.projects.project.update.update', [
@@ -721,8 +726,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 4:
                 return view('admin.projects.project.update.update', [
@@ -736,8 +740,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 5:
                 return view('admin.projects.project.update.update', [
@@ -751,8 +754,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 6:
                 return view('admin.projects.project.update.update', [
@@ -766,8 +768,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             case 7:
                 return view('admin.projects.project.update.update', [
@@ -781,8 +782,7 @@ class ProjectController extends Controller
                     'users' => $users,
                     'installment' => $installment,
                     'phases' => $phases,
-                    'team' => $team,
-                    'bigBoss' => $bigBoss
+                    'team' => $team
                 ]);
             default:
                 return back();
@@ -1099,8 +1099,8 @@ class ProjectController extends Controller
             $validated = [
                 'members' => $request->input('array-members'),
                 'delete_members' => $request->input('delete-members'),
-                'project_manager' => $request->input('manager'),
-                'sub_project_manager' => $request->input('sub-manager')
+                'project_manager' => $request->input('managers'),
+                'sub_project_manager' => $request->input('sub-managers')
             ];
             session(['project_step7' => $validated]);
 
@@ -1358,9 +1358,7 @@ class ProjectController extends Controller
                                 ProjectUser::create([
                                     'role' => $user->role,
                                     'user_id' => $user->id,
-                                    'projects_id' => $project->id,
-                                    'project_manager' => $data['team']['project_manager'],
-                                    'sub_project_manager' => $data['team']['sub_project_manager']
+                                    'projects_id' => $project->id
                                 ]);
                             }
                         }
@@ -1376,20 +1374,65 @@ class ProjectController extends Controller
                                 if ($memberRemove) {
                                     $p = Projects::find($id);
                                     if ($p) {
-                                        ProjectUser::where('projects_id', $id)->update([
-                                            'project_manager' => $data['team']['project_manager'],
-                                            'sub_project_manager' => $data['team']['sub_project_manager']
-                                        ]);
                                         $p->members()->detach($memberRemove->id);
                                     }
                                 }
                             }
                         }
-                    } else {
-                        ProjectUser::where('projects_id', $id)->update([
-                            'project_manager' => $data['team']['project_manager'],
-                            'sub_project_manager' => $data['team']['sub_project_manager']
-                        ]);
+                    }
+
+                    if ($data['team']['project_manager'] !== '[]') {
+                        $managers = json_decode($data['team']['project_manager']);
+                        $projectManagerIds = array_map(fn($m) => $m->id, $managers);
+
+                        // Remove existing managers for the project
+                        ProjectUser::where('projects_id', $project->id)
+                            ->where('role', 'manager')
+                            ->whereNotIn('user_id', $projectManagerIds)
+                            ->delete();
+
+                        // Add or update the manager(s)
+                        foreach ($managers as $manager) {
+                            ProjectUser::updateOrCreate(
+                                [
+                                    'projects_id' => $project->id,
+                                    'user_id' => $manager->id,
+                                    'role' => 'manager'
+                                ],
+                                [
+                                    'user_id' => $manager->id,
+                                    'projects_id' => $project->id,
+                                    'role' => 'manager'
+                                ]
+                            );
+                        }
+                    }
+
+                    if ($data['team']['sub_project_manager'] !== '[]') {
+                        $subManagers = json_decode($data['team']['sub_project_manager']);
+                        $subManagerIds = array_map(fn($sm) => $sm->id, $subManagers);
+
+                        // Remove existing sub-managers for the project
+                        ProjectUser::where('projects_id', $project->id)
+                            ->where('role', 'sub manager')
+                            ->whereNotIn('user_id', $subManagerIds)
+                            ->delete();
+
+                        // Add or update the sub-manager(s)
+                        foreach ($subManagers as $subManager) {
+                            ProjectUser::updateOrCreate(
+                                [
+                                    'projects_id' => $project->id,
+                                    'user_id' => $subManager->id,
+                                    'role' => 'sub manager'
+                                ],
+                                [
+                                    'user_id' => $subManager->id,
+                                    'projects_id' => $project->id,
+                                    'role' => 'sub manager'
+                                ]
+                            );
+                        }
                     }
                 }
             }

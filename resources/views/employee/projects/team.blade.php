@@ -159,10 +159,6 @@
         document.querySelector('input[name="array-members"]').value = JSON.stringify(arrayMembers);
         document.querySelector('input[name="managers"]').value = JSON.stringify(projectManager);
         document.querySelector('input[name="sub-managers"]').value = JSON.stringify(projectSubManager);
-
-        console.log(arrayMembers);
-        console.log(projectManager);
-        console.log(projectSubManager);
     }
 </script>
 @endpush
