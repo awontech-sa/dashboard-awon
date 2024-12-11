@@ -65,8 +65,6 @@ class VisitorController extends Controller
             ];
         });
 
-        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
-
         return view('dashboard.show', [
             'phases' => $phases,
             'project' => $project,
@@ -76,7 +74,6 @@ class VisitorController extends Controller
             'details' => $details,
             'stages' => $stages,
             'doneStages' => $doneStages,
-            'bigBoss' => $bigBoss,
             'installment' => $installment,
         ]);
     }
