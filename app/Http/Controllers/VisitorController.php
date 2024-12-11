@@ -54,7 +54,9 @@ class VisitorController extends Controller
 
         $details = $project->details()->where('projects_id', $project->id)->first();
 
-        $installment = $supporter->installments()->where('project_id', $project->id)->get();
+        if ($supporter) {
+            $installment = $supporter->installments()->where('project_id', $project->id)->get();
+        }
 
         $team = $project->members()->get()->map(function ($user) {
             return [
