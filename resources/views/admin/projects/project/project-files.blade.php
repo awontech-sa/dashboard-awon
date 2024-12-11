@@ -13,9 +13,9 @@
                 'jpg', 'png' => 'Image.png',
                 'mp4', 'mov' => 'video.png',
                 'doc', 'docx' => 'docx.png',
-                'xlsx' => 'xlsx.png',
+                'xlsx', 'ods' => 'xlsx.png',
                 'pptx' => 'pptx.png',
-                default => '', // Replace with a generic file icon if needed
+                default => 'Link.png', // Replace with a generic file icon if needed
             };
         @endphp
 

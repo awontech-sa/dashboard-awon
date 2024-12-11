@@ -374,17 +374,31 @@ class ProjectController extends Controller
             }
         } elseif ($step == 3) {
             $validated = [];
+
             if ($request->hasFile('attachment-file')) {
                 foreach ($request->file('attachment-file') as $key => $file) {
                     if ($file->isValid()) {
                         $fileName = time() . '-' . $key . '.' . $file->getClientOriginalExtension();
                         $validated[] = [
                             'file' => Storage::disk('digitalocean')->putFileAs('attachment', $file, $fileName) ?? null,
-                            'file_name' => $request->input('file-name')[$key] ?? null,
+                            'file_name' => $request->input('attachment-name')[$key] ?? null,
                         ];
                     }
                 }
             }
+
+            if ($request->input('attachment-link')) {
+                foreach ($request->input('attachment-link') as $key => $link) {
+                    // dd($request->input('attachment-name')[$key]);
+                    $validated[] = [
+                        'file' => $link,
+                        'file_name' => $request->input('attachment-name')[$key] ?? null,
+                    ];
+                }
+            }
+
+            dd($validated);
+
             session(['project_step3' => $validated]);
             return redirect()->route('admin.create.project', ['step' => 4]);
         } elseif ($step == 4) {
@@ -500,11 +514,18 @@ class ProjectController extends Controller
                 }
 
                 if (!empty($data['attachment'])) {
-                    foreach ($data['attachment'] as $attachment) {
+                    if (count($data['attachment']) > 1) {
                         $project->files()->create([
-                            'file' => $attachment["file"],
-                            'file_name' => $attachment["file_name"],
+                            'file' => $data['attachment']["file"],
+                            'file_name' => $data['attachment']["file_name"],
                         ]);
+                    } else {
+                        foreach ($data['attachment'] as $attachment) {
+                            $project->files()->create([
+                                'file' => $attachment["file"],
+                                'file_name' => $attachment["file_name"],
+                            ]);
+                        }
                     }
                 }
 
