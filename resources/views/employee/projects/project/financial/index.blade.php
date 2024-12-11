@@ -58,6 +58,7 @@
         @endif
     </div>
 
+
     @if($s->p_support_status === 'غير مدعوم' && $s->p_support_type === 'عون التقنية')
     @include('employee.projects.project.financial.internal')
     @endif

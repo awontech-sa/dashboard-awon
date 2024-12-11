@@ -25,8 +25,9 @@
                 <th class="border px-4 py-2">اثبات استلام الدفعة</th>
             </tr>
         </thead>
-        @foreach($installment[$s->id] as $key => $i)
         <tbody>
+            @if(isset($installment[$s->id]))
+            @foreach($installment[$s->id] as $key => $i)
             <tr>
                 <td class="border px-4 py-2">{{ $key+1 }}</td>
                 <td class="border px-4 py-2">{{ $i->installment_amount }}</td>
@@ -48,7 +49,8 @@
                     @endif
                 </td>
             </tr>
+            @endforeach
+            @endif
         </tbody>
-        @endforeach
     </table>
 </div>
