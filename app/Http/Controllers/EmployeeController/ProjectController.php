@@ -641,8 +641,6 @@ class ProjectController extends Controller
 
         $phases = ProjectPhases::where('project_id', $id)->get();
 
-        $bigBoss = ProjectUser::select('project_manager', 'sub_project_manager')->where('projects_id', $project->id)->first();
-
         $viewGrossAnnualIncome = $this->viewChartService->getGrossAnnualIncome();
         $viewCurrentGrossIncome = $this->viewChartService->getCurrentGrossIncome();
         $accounts = $this->permissionService->getAccountPermission($this->employee);
@@ -660,7 +658,6 @@ class ProjectController extends Controller
             'team' => $team,
             'details' => $details,
             'stages' => $stages,
-            'bigBoss' => $bigBoss,
             'installment' => $installment,
             "viewGrossAnnualIncome" => $viewGrossAnnualIncome,
             "viewCurrentGrossIncome" => $viewCurrentGrossIncome,
