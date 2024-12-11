@@ -121,7 +121,7 @@
           @foreach($dashboard as $project)
           <div class="grid grid-cols-2 gap-x-4 items-center">
             <p>{{ $project->p_name }}</p>
-            <p class="text-gray-500">{{ $project->total_cost ?? 'مجانًا' }}</p>
+            <p class="text-gray-500">{{ ($project->total_cost === null || $project->total_cost === 0) ? 'مجانًا' : $project->total_cost }}</p>
           </div>
           @endforeach
         </div>
