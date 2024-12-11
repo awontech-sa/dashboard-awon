@@ -13,7 +13,7 @@
                             name="support-status"
                             value="{{ $supporter->p_support_status ?? '' }}"
                             class="radio"
-                            id="support-status-{{ $supporter->id }}"
+                            id="support-status-{{ $supporter->id ?? '' }}"
                             checked />
                     </label>
                 </div>
@@ -26,7 +26,7 @@
                 <div class="form-control">
                     <label class="label cursor-pointer">
                         <span class="label-text">{{ $supporter->p_support_type ?? '' }}</span>
-                        <input type="radio" value="{{ $supporter->p_support_type ?? '' }}" name="support-type" class="radio" id="support-type-{{ $supporter->id }}" checked />
+                        <input type="radio" value="{{ $supporter->p_support_type ?? '' }}" name="support-type" class="radio" id="support-type-{{ $supporter->id ?? '' }}" checked />
                     </label>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                 <div class="form-control">
                     <label class="label cursor-pointer">
                         <span class="label-text">{{ $supporter->p_support_type ?? '' }}</span>
-                        <input type="radio" value="{{ $supporter->p_support_type ?? '' }}" name="supporter" class="radio" id="support-comp-{{ $supporter->id }}" checked />
+                        <input type="radio" value="{{ $supporter->p_support_type ?? '' }}" name="supporter" class="radio" id="support-comp-{{ $supporter->id ?? '' }}" checked />
                     </label>
                 </div>
             </div>
