@@ -10,20 +10,12 @@
         <div class="modal-box">
             <div class="modal-action justify-center">
                 <div class="grid">
-                    <h3 class="text-2xl font-bold text-center">إضافة مرفق</h3>
-                    <div class="grid mt-20 gap-y-2">
+                    <h3 class="text-2xl font-bold">إضافة مرفق</h3>
+                    <div class="grid mt-20 gap-y-5">
                         <label for="project-name">اسم المرفق <span class="text-error">*</span></label>
                         <input type="text" class="input border" name="attachment-name" id="attachment_name" />
                     </div>
-                    <div class="grid mt-20 gap-y-2">
-                        <label for="project-name">إذا كان المرفق ملف</label>
-                        <input type="file" class="input file-input border" name="attachment-file[]" id="attachment_file" />
-                    </div>
-                    <div class="grid mt-20 gap-y-2">
-                        <label for="project-name">إذا كان المرفق رابط</label>
-                        <input type="text" class="input border" name="attachment-link[]" id="attachment_link" />
-                    </div>
-                    <a href="#" type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base mx-auto" onclick="addAttachment()">إضافة</a>
+                    <a href="#" type="button" class="btn btn-wide mt-28 bg-cyan-700 text-white font-bold text-base" onclick="addAttachment()">إضافة</a>
                 </div>
             </div>
         </div>
@@ -45,67 +37,60 @@
 <script>
     let attachments = document.getElementById('attachment-files');
     let attachmentName = document.getElementById('attachment_name');
-    let attachmentLink = document.getElementById('attachment_link')
-    let attachmentFile = document.getElementById('attachment_file')
+
+    document.getElementById('attachmentForm').onsubmit = function(e) {
+        if (!fileExist()) {
+            e.preventDefault();
+        }
+    };
 
     function addAttachment() {
         let nameValue = attachmentName.value.trim();
-        let link = attachmentLink.value.trim();
-        let file = attachmentFile.files[0]; // Use files array for file input
-
         if (!nameValue) {
             alert('يجب إدخال اسم المرفق!');
             return;
         }
 
-        if (!link && !file) {
-            alert('يجب إدخال ملف أو رابط للمرفق!');
-            return;
-        }
+        let fileContainer = document.createElement('div');
+        fileContainer.classList.add('my-8', 'grid', 'gap-y-5');
 
-        let container = document.createElement('div');
-        container.classList.add('w-auto', 'h-[4.1rem]', 'bg-white', 'rounded', 'flex', 'justify-between', 'mb-4');
+        let fileLabel = document.createElement('label');
+        fileLabel.classList.add('text-base', 'font-normal');
+        fileLabel.textContent = nameValue;
+        fileContainer.appendChild(fileLabel);
 
-        let leftSection = document.createElement('div');
-        leftSection.classList.add('flex', 'gap-x-5', 'p-4', 'items-center');
+        let fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.classList.add('input', 'file-input');
+        fileInput.name = 'attachment-file[]';
+        fileContainer.appendChild(fileInput);
 
-        let paragraph = document.createElement('p');
-        paragraph.classList.add('font-normal', 'text-base');
-        paragraph.textContent = nameValue;
-
-        leftSection.appendChild(paragraph);
-        container.appendChild(leftSection);
-
-        let anchor = document.createElement('a');
-        anchor.classList.add('btn', 'm-2', 'btn-md', 'bg-[#FBFDFE]', 'rounded-md', 'border-[#0F91D2]', 'text-[#0F91D2]');
-        anchor.href = link || '#'; // Use '#' if no link is provided
-        anchor.download = '';
-        anchor.textContent = 'عرض';
-        container.appendChild(anchor);
-
-        // Hidden input for file name
         let hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
-        hiddenInput.name = 'attachment-name[]';
-        hiddenInput.value = nameValue;
-        container.appendChild(hiddenInput);
+        hiddenInput.name = 'file-name[]';
+        hiddenInput.value = nameValue; // Set the name of the file
+        fileContainer.appendChild(hiddenInput);
 
-        // Hidden input for link
-        if (link) {
-            let linkInput = document.createElement('input');
-            linkInput.type = 'hidden';
-            linkInput.name = 'attachment-link[]';
-            linkInput.value = link;
-            container.appendChild(linkInput);
-        }
+        let fileError = document.createElement('label');
+        fileError.classList.add('text-error', 'errorLabel');
+        fileError.name = 'fileError';
+        fileContainer.appendChild(fileError);
 
-        // Append the container to the attachments section
-        attachments.appendChild(container);
+        attachments.appendChild(fileContainer);
 
-        // Clear inputs
         attachmentName.value = '';
-        attachmentLink.value = '';
-        attachmentFile.value = '';
+    }
+
+    function fileExist() {
+        let fileInputs = document.querySelectorAll('input[name="attachment-file[]"]');
+        for (let i = 0; i < fileInputs.length; i++) {
+            if (fileInputs[i].value === '') {
+                document.querySelectorAll('.errorLabel')[i].textContent = 'الرجاء إرفاق ملف';
+                return false;
+            }
+        }
+        document.querySelectorAll('.errorLabel').forEach(label => (label.textContent = ''));
+        return true;
     }
 </script>
 @endpush
