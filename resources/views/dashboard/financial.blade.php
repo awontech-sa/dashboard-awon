@@ -1,6 +1,7 @@
 <div class="my-14">
     <h1 class="font-bold text-xl">البيانات المالية</h1>
 
+    @if(isset($supporter) || !empty($supporter))
     <div class="grid grid-cols-2 gap-x-6 mt-[0.82rem]">
         <div>
             <label class="font-normal text-base mb-2">حالة الدعم <span class="text-red-600">*</span></label>
@@ -19,7 +20,6 @@
                 </div>
             </div>
         </div>
-        @if($supporter->p_support_type !== null || $supporter->p_support_type !== '')
         @if($supporter->p_support_type === 'كلي' || $supporter->p_support_type === 'جزئي')
         <div class="support-type-form">
             <label class="font-normal text-base mb-2">نوع الدعم <span class="text-red-600">*</span></label>
@@ -45,6 +45,6 @@
             </div>
         </div>
         @endif
-        @endif
     </div>
+    @endif
 </div>
