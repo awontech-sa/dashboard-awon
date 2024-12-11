@@ -9,7 +9,9 @@
             $fileType = pathinfo($filePath, PATHINFO_EXTENSION);
             $icon = match($fileType) {
                 'pdf' => 'pdf.png',
-                'mp4' => 'video.png',
+                'ai' => 'Illustrator.png',
+                'jpg', 'png' => 'Image.png',
+                'mp4', 'mov' => 'video.png',
                 'doc', 'docx' => 'docx.png',
                 'xlsx' => 'xlsx.png',
                 'pptx' => 'pptx.png',
