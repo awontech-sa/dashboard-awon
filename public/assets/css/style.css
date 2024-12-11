@@ -54,6 +54,6 @@ input.tab.tab-power:is(input:checked) {
 }
 
 ::placeholder {
-    color: rgba(108, 122, 137, 1) !important;
+    color: black !important;
     font-weight: normal !important;
 }
