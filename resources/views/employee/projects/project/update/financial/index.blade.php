@@ -175,6 +175,7 @@
         </div>
 
         <div class="supporter-data-part hidden">
+            @foreach($project->supporter as $key => $supporter)
             @if($supporter->supporter_number > 0)
             <div class="supporter-div">
                 @for($i=1; $i <= $supporter->supporter_number; $i++)
@@ -313,9 +314,11 @@
                     @endfor
             </div>
             @endif
+            @endforeach
         </div>
 
         <div class="supporter-comp-external hidden">
+            @foreach($project->supporter as $key => $supporter)
             <div class="grid grid-cols-2 gap-x-4 mt-8 gap-y-10 font-normal text-base">
                 <div class="grid gap-y-5">
                     <label>اسم الجهة</label>
@@ -371,6 +374,7 @@
                     </tbody>
                 </table>
             </div>
+            @endforeach
         </div>
 
         <div class="supporter-comp-internal hidden">
@@ -546,7 +550,7 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project - > supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         function updateSupportContainer() {
