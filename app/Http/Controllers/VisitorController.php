@@ -41,6 +41,7 @@ class VisitorController extends Controller
 
     public function show($id)
     {
+        $installment = [];
         $project = Projects::findOrFail($id);
         $dashboard = Projects::all();
         $phases = ProjectPhases::find($project->id);
