@@ -359,11 +359,8 @@
                                 </label>
                             </td>
                             <td class="border px-4 py-2">
-                                @if($i->receipt_proof)
+                                @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($i->receipt_proof)))
                                 <div class="h-[4.1rem] bg-white rounded flex items-center justify-between">
-                                    <div class="flex gap-x-5 p-4 items-center">
-                                        <img src="{{ asset('assets/icons/pdf.png') }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                    </div>
                                     <a class="btn btn-md bg-[#FBFDFE] text-[#0F91D2]" href="{{ $i->receipt_proof }}" download>عرض الملف</a>
                                 </div>
                                 @endif
@@ -550,7 +547,7 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project - > supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         function updateSupportContainer() {

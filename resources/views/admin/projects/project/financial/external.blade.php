@@ -39,7 +39,7 @@
                     </label>
                 </td>
                 <td>
-                    @if( $i->receipt_proof !== null )
+                    @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($i->receipt_proof)))
                     <div class="h-[4.1rem] bg-white rounded flex justify-between">
                         <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $i->receipt_proof ?? '' }}" download="">عرض الملف</a>
                     </div>

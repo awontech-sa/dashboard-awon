@@ -468,13 +468,13 @@ class ProjectController extends Controller
                     }
 
                     if (!empty($data['financial-data']["installments"])) {
+                        $supporter = $project->supporter()->create([
+                            'supporter_name' => $data['financial-data']['supporter_name'],
+                            'p_support_status' => $data['financial-data']['p_support_status'],
+                            'p_support_type' => $data['financial-data']['p_support_type'],
+                            'installments_count' => $data['financial-data']['installments_count']
+                        ]);
                         foreach ($data['financial-data']["installments"] as $installmentProject) {
-                            $supporter = $project->supporter()->create([
-                                'supporter_name' => $data['financial-data']['supporter_name'],
-                                'p_support_status' => $data['financial-data']['p_support_status'],
-                                'p_support_type' => $data['financial-data']['p_support_type'],
-                                'installments_count' => $data['financial-data']['installments_count']
-                            ]);
                             $supporter->installments()->create([
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,

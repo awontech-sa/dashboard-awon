@@ -43,11 +43,9 @@
                         </label>
                     </td>
                     <td class="border px-4 py-2">
-                        @if($i->receipt_proof)
+                        @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($i->receipt_proof)))
                         <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
                             href="{{ $i->receipt_proof }}" download="">عرض الملف</a>
-                        @else
-                        <span>لا يوجد</span>
                         @endif
                     </td>
                 </tr>
