@@ -3,15 +3,12 @@
 namespace App\Http\Controllers\AdminController;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\NewUserRequest;
 use App\Http\Requests\SettingRequest;
 use App\Models\Positions;
 use App\Models\Projects;
 use App\Models\User;
 use App\Services\ViewChartService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
 class SettingController extends Controller

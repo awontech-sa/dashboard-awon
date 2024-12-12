@@ -22,7 +22,7 @@ class Installments extends Model
         return $this->belongsTo(ProjectSupporters::class, 'project_supporter_id');
     }
 
-    public function getFileAttribute()
+    public function getReceiptProofAttribute()
     {
         return config('filesystems.disks.digitalocean.url') . '/' . $this->attributes['receipt_proof'];
     }

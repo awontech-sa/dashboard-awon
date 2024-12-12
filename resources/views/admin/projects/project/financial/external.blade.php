@@ -41,9 +41,6 @@
                 <td>
                     @if( $i->receipt_proof !== null )
                     <div class="h-[4.1rem] bg-white rounded flex justify-between">
-                        <div class="flex gap-x-5 p-4 items-center">
-                            <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                        </div>
                         <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $i->receipt_proof ?? '' }}" download="">عرض الملف</a>
                     </div>
                     @endif

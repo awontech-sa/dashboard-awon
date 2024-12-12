@@ -466,7 +466,7 @@ class ProjectController extends Controller
 
                     if (isset($data['financial-data']['supporters'])) {
                         foreach ($data['financial-data']['supporters'] as $supporter) {
-                            $supporter = $project->supporter()->create([
+                            $s = $project->supporter()->create([
                                 'supporter_name' => $supporter["supporter_name"] ?? null,
                                 'support_amount' => $supporter["support_amount"] ?? 0.00,
                                 'installments_count' => $supporter["installments_count"] ?? 0,
@@ -476,20 +476,38 @@ class ProjectController extends Controller
                                 'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
                                 'supporter_number' => $data['financial-data']["supporter_number"] ?? 0
                             ]);
+
+                            if (!empty($supporter['installments'])) {
+                                foreach ($supporter['installments'] as $installmentProject) {
+                                    $project->supporter()->create(['supporter_name' => $supporter["supporter_name"]]);
+                                    $s->installments()->create([
+                                        'project_id' => $project->id,
+                                        'installment_amount' => $installmentProject["installment_amount"] ?? 0,
+                                        'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
+                                        'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
+                                    ]);
+                                }
+                            }
                         }
                     }
 
-                    Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
-                        ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                     if (!empty($data['financial-data']["installments"])) {
                         foreach ($data['financial-data']["installments"] as $installmentProject) {
-                            $supporter->Installments()->create([
+                            $supporter = $project->supporter()->create([
+                                'supporter_name' => $data['financial-data']['supporter_name'],
+                                'p_support_status' => $data['financial-data']['p_support_status'],
+                                'p_support_type' => $data['financial-data']['p_support_type'],
+                                'installments_count' => $data['financial-data']['installments_count']
+                            ]);
+                            $supporter->installments()->create([
                                 'project_id' => $project->id,
                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
                                 'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
                                 'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
                             ]);
                         }
+                        Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
+                            ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                     }
 
                     if (!empty($data['financial-data']['project_phases'])) {
@@ -497,20 +515,30 @@ class ProjectController extends Controller
                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
                             'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
                         ]);
-                        ProjectSupporters::where('project_id', $project->id)->update([
+                        $project->supporter()->create([
                             'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                             'p_support_status' => $data['financial-data']['p_support_status'] ?? null
                         ]);
-
                         foreach ($data['financial-data']['project_phases'] as $phase) {
                             ProjectPhases::create([
+                                'stages_count' => $data['financial-data']['stages_count'],
                                 'project_id' => $project->id,
                                 'phase_cost' => $phase['phase_cost'] ?? 0,
                                 'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
-                                'disbursement_proof' => $phase['disbursement_proof']
+                                'disbursement_proof' => $phase['disbursement_proof'] ?? ''
                             ]);
                         }
                     }
+                    // else {
+                    //     Projects::where('id', $project->id)->update([
+                    //         'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
+                    //         'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
+                    //     ]);
+                    //     $project->supporter()->update([
+                    //         'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
+                    //         'p_support_status' => $data['financial-data']['p_support_status'] ?? null
+                    //     ]);
+                    // }
                 }
 
                 if (!empty($data['attachment'])) {
