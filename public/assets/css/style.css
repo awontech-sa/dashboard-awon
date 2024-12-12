@@ -18,7 +18,8 @@ input.tab.tab-power:is(input:checked) {
 }
 
 .tab:is(input[type="radio"]) {
-    margin-left: 5rem;
+    margin-left: 4rem;
+    margin-right: 4rem;
     width: 32px !important;
     height: 32px !important;
     border-color: #d5d5d5;

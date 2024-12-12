@@ -123,7 +123,7 @@
         <a href="{{ route('admin.show.income') }}" class="link text-blue-600">عرض الكل ←</a>
       </div>
       <div class="flex py-4">
-        <div class="w-[475px] grid gap-y-6">
+        <div class="grid gap-y-6">
           @foreach($dashboard as $project)
           <div class="grid grid-cols-2 gap-x-4 items-center">
             <p>{{ $project->p_name }}</p>
