@@ -15,6 +15,7 @@
     @vite('resources/css/app.css')
 
     <title>employee dashboard</title>
+    <link rel="icon" type="image/x-icon" href="{{ asset("assets/images/logo.svg") }}">
 </head>
 
 <body>
