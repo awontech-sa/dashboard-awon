@@ -227,12 +227,16 @@ class ProjectController extends Controller
                                                 $file = $request->file("installment_files_{$i}_{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $receiptProof[] = [
+                                                    'supporter_name' => $request->input("comp-support-{$i}") ?? null,
+                                                    'installments_count' => $request->input("payment-count-{$i}"),
                                                     'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
                                                     'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}") ?? false,  //حالة استلام الدفعة
                                                     'receipt_proof' => Storage::disk('digitalocean')->putFileAs('receipts', $file, $fileName) ?? null
                                                 ];
                                             } else {
                                                 $receiptProof[] = [
+                                                    'supporter_name' => $request->input("comp-support-{$i}") ?? null,
+                                                    'installments_count' => $request->input("payment-count-{$i}"),
                                                     'installment_amount' => $request->input("installment_amount_{$i}_{$j}") ?? 0,  //قيمة الدفعة
                                                     'installment_receipt_status' => $request->input("installment_status_{$i}_{$j}") ?? false,  //حالة استلام الدفعة
                                                 ];
@@ -287,8 +291,7 @@ class ProjectController extends Controller
                                         'supporter_number' => $request->input('number-support') ?? 0,
                                         'p_support_type' => $request->input('support-type') ?? null,    //كلي أو جزئي
                                         'p_support_status' => $request->input('support-status') ?? false,
-                                        'total_cost' => $request->input('project-income') ?? 0,  //إجمالي تكلفة المشروع
-                                        'comp_support' => $request->input("comp-support-{$i}") ?? null,   //الجهة الداعمة
+                                        'total_cost' => $request->input('project-income') ?? 0, //الجهة الداعمة
                                         'project_income_total' => $request->input("project-income-total-{$i}") ?? 0,   //إجمالي مبلغ الدعم
                                         'payment_count' => $request->input("payment-count-{$i}") ?? 0,   //عدد الدفعات
                                         'installments' => $receiptProof ?? [],
@@ -467,26 +470,51 @@ class ProjectController extends Controller
                         }
                     }
 
-                    if (!empty($data['financial-data']["installments"])) {
-                        $supporter = $project->supporter()->create([
-                            'supporter_name' => $data['financial-data']['supporter_name'],
-                            'p_support_status' => $data['financial-data']['p_support_status'],
-                            'p_support_type' => $data['financial-data']['p_support_type'],
-                            'installments_count' => $data['financial-data']['installments_count']
-                        ]);
-                        foreach ($data['financial-data']["installments"] as $installmentProject) {
-                            $supporter->installments()->create([
-                                'project_id' => $project->id,
-                                'installment_amount' => $installmentProject["installment_amount"] ?? 0,
-                                'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
+                    if ($data['financial-data']['p_support_type'] === 'جزئي' && $data['financial-data']['p_support_status'] === 'مدعوم') {
+                        if (!empty($data['financial-data']["installments"])) {
+                            $supporter = $project->supporter()->create([
+                                'p_support_status' => $data['financial-data']['p_support_status'],
+                                'p_support_type' => $data['financial-data']['p_support_type'],
                             ]);
+                            foreach ($data['financial-data']["installments"] as $installmentProject) {
+                                $supporter = $project->supporter()->create([
+                                    'supporter_name' => $installmentProject['supporter_name'],
+                                    'installments_count' => $installmentProject['installments_count']
+                                ]);
+                                $supporter->installments()->create([
+                                    'project_id' => $project->id,
+                                    'installment_amount' => $installmentProject["installment_amount"] ?? 0,
+                                    'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
+                                    'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
+                                ]);
+                            }
+                            Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
+                                ? trim($data['financial-data']["total_cost"] ?? '') : null]);
                         }
-                        Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
-                            ? trim($data['financial-data']["total_cost"] ?? '') : null]);
+                    } else {
+                        if (!empty($data['financial-data']["installments"])) {
+                            $supporter = $project->supporter()->create([
+                                'supporter_name' => $data['financial-data']['supporter_name'],
+                                'p_support_status' => $data['financial-data']['p_support_status'],
+                                'p_support_type' => $data['financial-data']['p_support_type'],
+                                'installments_count' => $data['financial-data']['installments_count']
+                            ]);
+                            foreach ($data['financial-data']["installments"] as $installmentProject) {
+                                $supporter->installments()->create([
+                                    'project_id' => $project->id,
+                                    'installment_amount' => $installmentProject["installment_amount"] ?? 0,
+                                    'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
+                                    'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
+                                ]);
+                            }
+                            Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
+                                ? trim($data['financial-data']["total_cost"] ?? '') : null]);
+                        }
                     }
 
+
                     if (!empty($data['financial-data']['project_phases'])) {
+                        dd($data['financial-data']);
                         Projects::where('id', $project->id)->update([
                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
                             'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
@@ -497,7 +525,7 @@ class ProjectController extends Controller
                         ]);
                         foreach ($data['financial-data']['project_phases'] as $phase) {
                             ProjectPhases::create([
-                                'stages_count' => $data['financial-data']['stages_count'],
+                                'stages_count' => $data['financial-data']['payment_count'],
                                 'project_id' => $project->id,
                                 'phase_cost' => $phase['phase_cost'] ?? 0,
                                 'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
