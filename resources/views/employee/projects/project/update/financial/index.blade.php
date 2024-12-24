@@ -1,5 +1,5 @@
 @foreach($dashboard as $project)
-<form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -115,14 +115,10 @@
                                         <span class="label-text">تم استلام الدفعة</span>
                                     </label>
                                 </td>
-                                <td>
-                                    @if( $i->receipt_proof !== null )
-                                    <div class="h-[4.1rem] bg-white rounded flex justify-between">
-                                        <div class="flex gap-x-5 p-4 items-center">
-                                            <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                        </div>
-                                        <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $i->receipt_proof ?? '' }}" download="">عرض الملف</a>
-                                    </div>
+                                <td class="border px-4 py-2">
+                                    @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($i->reciept_proof)))
+                                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
+                                        href="{{ $i->reciept_proof }}" download="">عرض الملف</a>
                                     @endif
                                 </td>
                             </tr>
@@ -174,144 +170,159 @@
             @endforeach
         </div>
 
-        <div class="supporter-data-part hidden">
+        <div class="supporter-data-part hidden" id="partSupporterDataSection">
             @foreach($project->supporter as $key => $supporter)
             @if($supporter->supporter_number > 0)
             <div class="supporter-div">
-                @for($i=1; $i <= $supporter->supporter_number; $i++)
-                    <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $i }}</h1>
+                <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم {{ $key + 1 }}</h1>
 
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">الجهة الداعمة</label>
-                            <input class="input" disabled value="{{ $supporter->supporter_name }}">
-                        </div>
-
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
-                            <input class="input" disabled value="{{ $supporter->support_amount }}">
-                        </div>
-
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">عدد الدفعات</label>
-                            <input class="input" disabled value="{{ $supporter->installments_count }}">
-                        </div>
+                <div class="grid grid-cols-2 gap-x-7">
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">الجهة الداعمة</label>
+                        <input class="input" value="{{ $supporter->supporter_name }}">
                     </div>
 
-                    <div class="mt-4">
-                        <table class="w-full border mt-2 font-medium text-base table text-center">
-                            <th class="border px-4 py-2">الدفعة</th>
-                            <th class="border px-4 py-2">قيمة الدفعة</th>
-                            <th class="border px-4 py-2">حالة استلام الدفعة</th>
-                            <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
+                        <input class="input" value="{{ $supporter->support_amount }}">
+                    </div>
+
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">عدد الدفعات</label>
+                        <input class="input" value="{{ $supporter->installments_count }}">
+                    </div>
+                </div>
+
+                <div class="mt-4">
+                    <table class="w-full border mt-2 font-medium text-base table text-center">
+                        <thead>
+                            <tr>
+                                <th class="border px-4 py-2">الدفعة</th>
+                                <th class="border px-4 py-2">قيمة الدفعة</th>
+                                <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                                <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                            </tr>
+                        </thead>
+                        <tbody id="payment-table-{{ $key+1 }}">
                             @if($supporter->installments_count > 0)
-                            @foreach($installment as $i)
-                            <tbody>
-                                <td class="border px-4 py-2">{{ $i->id }}</td>
-                                <td class="border px-4 py-2">{{ $i->installment_amount }}</td>
+                            @foreach($installment[$supporter->id] as $index => $i)
+                            <tr>
+                                <td class="border px-4 py-2">{{ $index + 1 }}</td>
+                                <td class="border px-4 py-2">
+                                    <input type="number" name="payments[{{ $key+1 }}][{{ $index+1 }}][amount]" min="0" class="input" value="{{ $i->installment_amount }}" />
+                                </td>
                                 <td class="border px-4 py-2">
                                     <label class="label cursor-pointer">
-                                        <input type="checkbox" disabled class="checkbox"
+                                        <input type="checkbox" name="payments[{{ $key+1 }}][{{ $index+1 }}][status]" class="checkbox"
                                             {{ $i->installment_receipt_status === 1 ? 'checked' : '' }} />
                                         <span class="label-text">تم استلام الدفعة</span>
                                     </label>
                                 </td>
-                                <td>
-                                    @if( $i->receipt_proof !== null )
-                                    <div class="h-[4.1rem] bg-white rounded flex justify-between">
-                                        <div class="flex gap-x-5 p-4 items-center">
-                                            <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                        </div>
-                                        <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $i->receipt_proof ?? '' }}" download="">عرض الملف</a>
-                                    </div>
+                                <td class="border px-4 py-2">
+                                    @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($i->reciept_proof)))
+                                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
+                                        href="{{ $i->reciept_proof }}" download="">عرض الملف</a>
                                     @endif
                                 </td>
-                            </tbody>
+                            </tr>
                             @endforeach
                             @endif
-                        </table>
-                    </div>
+                        </tbody>
+                    </table>
+                </div>
 
-                    <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
-                        <div class="installment-report my-4" id="installment_report_${i}">
-                            <div class="flex gap-x-4 my-7">
-                                <p>تقارير للجهة الداعمة</p>
-                            </div>
-                            <div class="grid gap-y-4">
-                                @if($supporter->report_files)
-                                @foreach(json_decode($supporter->report_files) as $report)
-                                <div class="h-[4.1rem] bg-white rounded flex justify-between" key="{{ $i }}">
-                                    <div class="flex gap-x-5 p-4 items-center">
-                                        <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                    </div>
-                                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $report->report }}" download="">عرض الملف</a>
-                                </div>
-                                @endforeach
-                                @endif
-                            </div>
+                <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
+                    <div class="installment-report my-4" id="installment_report_${i}">
+                        <div class="flex gap-x-4 my-7">
+                            <p>تقارير للجهة الداعمة</p>
                         </div>
-
-                        <div class="installment-files my-4" id="installment_files_${i}" key="{{ $i }}">
-                            <div class="flex gap-x-4 my-7">
-                                <p>أوامر الصرف</p>
-                            </div>
-                            <div class="grid gap-y-4">
-                                @if($supporter->payment_order_files)
-                                @foreach(json_decode($supporter->payment_order_files) as $file)
-                                <div class="h-[4.1rem] bg-white rounded flex justify-between">
-                                    <div class="flex gap-x-5 p-4 items-center">
-                                        <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
-                                    </div>
-                                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->payment_order ?? '' }}" download="">عرض الملف</a>
+                        <div class="grid gap-y-4">
+                            @if($supporter->report_files)
+                            @foreach(json_decode($supporter->report_files) as $report)
+                            <div class="h-[4.1rem] bg-white rounded flex justify-between" key="{{ $i }}">
+                                <div class="flex gap-x-5 p-4 items-center">
+                                    <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
                                 </div>
-                                @endforeach
-                                @endif
+                                <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $report->report }}" download="">عرض الملف</a>
                             </div>
+                            @endforeach
+                            @endif
                         </div>
                     </div>
 
-                    <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
-                    <div class="grid">
-                        <div class="grid grid-cols-2 gap-x-7">
-                            <div class="grid my-2">
-                                <label class="font-normal text-base mb-2">
-                                    تكلفة المشروع المتوقعة
-                                    <span class="text-red-600">*</span>
-                                </label>
-                                <input type="text" key="{{ $i }}" class="input" placeholder="{{ $supporter->expected_cost }}">
-                            </div>
-                            <div class="grid my-2">
-                                <label class="font-normal text-base mb-2">
-                                    تكلفة المشروع الفعلية
-                                    <span class="text-red-600">*</span>
-                                </label>
-                                <input type="text" class="input" placeholder="{{ $supporter->real_cost }}">
-                            </div>
-                            <div class="grid my-2">
-                                <label class="font-normal text-base mb-2">
-                                    عدد المراحل
-                                    <span class="text-red-600">*</span>
-                                </label>
-                                <input type="number" class="input" placeholder="stages-count-${i}" id="stages_count_${i}">
-                            </div>
+                    <div class="installment-files my-4">
+                        <div class="flex gap-x-4 my-7">
+                            <p>أوامر الصرف</p>
                         </div>
-                        <div class="mt-4">
-                            <table class="w-full border mt-2 table text-center">
+                        <div class="grid gap-y-4">
+                            @if($supporter->payment_order_files)
+                            @foreach(json_decode($supporter->payment_order_files) as $file)
+                            <div class="h-[4.1rem] bg-white rounded flex justify-between">
+                                <div class="flex gap-x-5 p-4 items-center">
+                                    <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
+                                </div>
+                                <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->payment_order ?? '' }}" download="">عرض الملف</a>
+                            </div>
+                            @endforeach
+                            @endif
+                        </div>
+                    </div>
+                </div>
+
+                <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+                <div class="grid">
+                    <div class="grid grid-cols-2 gap-x-7">
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">
+                                تكلفة المشروع المتوقعة
+                                <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" class="input" placeholder="{{ $supporter->expected_cost }}">
+                        </div>
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">
+                                تكلفة المشروع الفعلية
+                                <span class="text-red-600">*</span>
+                            </label>
+                            <input type="text" class="input" placeholder="{{ $supporter->real_cost }}">
+                        </div>
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">
+                                عدد المراحل
+                                <span class="text-red-600">*</span>
+                            </label>
+                            <input type="number" class="input" placeholder="" id="stages_count_${i}">
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <table class="w-full border mt-2 table text-center">
+                            <tr>
                                 <th class="border px-4 py-2">المرحلة</th>
                                 <th class="border px-4 py-2">تكلفة المرحلة</th>
                                 <th class="border px-4 py-2">حالة الصرف</th>
                                 <th class="border px-4 py-2">اثبات الصرف</th>
+                            </tr>
 
-                                <tbody>
-                                    <tr class="border px-4 py-2"></tr>
-                                    <tr class="border px-4 py-2"></tr>
-                                    <tr class="border px-4 py-2"></tr>
-                                    <tr class="border px-4 py-2"></tr>
-                                </tbody>
-                            </table>
-                        </div>
+                            <tbody>
+                                @foreach($phases as $key => $phase)
+                                @if($phase->stages_count > 0)
+                                <tr>
+                                    <td class="border px-4 py-2">{{ $key + 1}}</td>
+                                    <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
+                                    <td class="border px-4 py-2">{{ $phase->disbursement_status }}</td>
+                                    <td class="border px-4 py-2">
+                                        @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
+                                        <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
+                                            href="{{ $phase->disbursement_proof }}" download="">عرض الملف</a>
+                                        @endif
+                                    </td>
+                                </tr>
+                                @endif
+                                @endforeach
+                            </tbody>
+                        </table>
                     </div>
-                    @endfor
+                </div>
             </div>
             @endif
             @endforeach
@@ -435,11 +446,11 @@
 
     <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 2 && $step < 8)
-            <a type="submit" href="{{ route('employee.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
             hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('employee.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                 التالي
             </button>
             @endif
@@ -547,8 +558,180 @@
         installmentCountInput.addEventListener("input", updateTableRows);
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
-        let existingSupport = @json($project - > supporter); //الجهة الداعمة الموجودة
+
+        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
+
+        let partSupporterContainer = document.getElementById('partSupporterDataSection')
+
+        function updatePartSupport() {
+            const newCount = parseInt(numSupport.value) || 0;
+            const currentCount = partSupporterContainer.children.length;
+            for (let i = currentCount; i < newCount; i++) {
+                let container = document.createElement("div")
+                container.innerHTML = `
+                    <div class="supporter-div">
+                    <h1 class="font-bold text-base mt-4">بيانات الجهة الداعمة رقم ${i+1}</h1>
+
+                    <div class="grid grid-cols-2 gap-x-7">
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">الجهة الداعمة</label>
+                            <input class="input" name="comp-support-${i+1}">
+                        </div>
+
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">إجمالي مبلغ الدعم</label>
+                            <input class="input" name="project-income-total-${i+1}">
+                        </div>
+
+                        <div class="grid my-2">
+                            <label class="font-normal text-base mb-2">عدد الدفعات</label>
+                            <input class="input" name="payment-count-${i+1}" id="payment_count_${i+1}">
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <table class="w-full border mt-2 font-medium text-base table text-center">
+                            <thead>
+                                <tr>
+                                    <th class="border px-4 py-2">الدفعة</th>
+                                    <th class="border px-4 py-2">قيمة الدفعة</th>
+                                    <th class="border px-4 py-2">حالة استلام الدفعة</th>
+                                    <th class="border px-4 py-2">اثبات استلام الدفعة</th>
+                                </tr>
+                            </thead>
+                            <tbody id="payment-table-${i+1}"></tbody>
+                        </table>
+                    </div>
+
+                    <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
+                        <div class="grid grid-cols-2 my-14 text-base font-normal gap-x-9">
+                            <div class="installment-report my-4" id="installment_report_${i+1}">
+                                <div class="flex gap-x-4 my-7">
+                                    <p>تقارير للجهة الداعمة</p>
+                                </div>
+                                <div class="grid gap-y-4">
+                                <input type="file" name="payments[${i+1}][report]" class="file-input" />
+                                </div>
+                            </div>
+
+                            <div class="installment-files my-4" id="installment_files_${i+1}">
+                                <div class="flex gap-x-4 my-7">
+                                    <p>أوامر الصرف</p>
+                                </div>
+                                <div class="grid gap-y-4">
+                                <input type="file" name="payments[${i+1}][order]" class="file-input" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+                        <div class="grid">
+                            <div class="grid grid-cols-2 gap-x-7">
+                                <div class="grid my-2">
+                                    <label class="font-normal text-base mb-2">
+                                        تكلفة المشروع المتوقعة
+                                        <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" class="input" name="project-expected-income-${i+1}">
+                                </div>
+                                <div class="grid my-2">
+                                    <label class="font-normal text-base mb-2">
+                                        تكلفة المشروع الفعلية
+                                        <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="text" class="input" name="project-expected-real-${i+1}">
+                                </div>
+                                <div class="grid my-2">
+                                    <label class="font-normal text-base mb-2">
+                                        عدد المراحل
+                                        <span class="text-red-600">*</span>
+                                    </label>
+                                    <input type="number" class="input" name="stages-count-${i+1}" placeholder="" id="stages_count_${i+1}">
+                                </div>
+                            </div>
+                            <div class="mt-4">
+                                <table class="w-full border mt-2 table text-center">
+                                    <tr>
+                                        <th class="border px-4 py-2">المرحلة</th>
+                                        <th class="border px-4 py-2">تكلفة المرحلة</th>
+                                        <th class="border px-4 py-2">حالة الصرف</th>
+                                        <th class="border px-4 py-2">اثبات الصرف</th>
+                                    </tr>
+
+                                    <tbody id="phases-table-${i+1}"></tbody>
+                                </table>
+                            </div>
+                        </div>
+                </div>
+                `
+                partSupporterContainer.appendChild(container)
+                const paymentCountInput = document.getElementById(`payment_count_${i+1}`)
+                const paymentTable = document.getElementById(`payment-table-${i+1}`)
+                paymentCountInput.addEventListener("input", function() {
+                    let newCountPayment = parseInt(paymentCountInput.value) || 0
+                    let currentCountPayment = paymentTable.children.length
+                    for (let j = currentCountPayment; j < newCountPayment; j++) {
+                        let tableContainer = document.createElement('tr')
+                        tableContainer.classList.add('mt-4')
+                        tableContainer.innerHTML = `
+                            <td class="border px-4 py-2">${ j + 1 }</td>
+                            <td class="border px-4 py-2">
+                                <input type="number" name="payments[${i+1}][${j+1}][amount]" min="0" class="input" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <label class="label cursor-pointer">
+                                    <input type="checkbox" name="payments[${i+1}][${j+1}][status]" class="checkbox" />
+                                    <span class="label-text">تم استلام الدفعة</span>
+                                </label>
+                            </td>
+                            <td class="border">
+                                <input type="file" name="payments[${i+1}][${j+1}][proof]" class="file-input" />
+                            </td>
+                        `
+                        paymentTable.appendChild(tableContainer)
+                    }
+                    for (let index = currentCountPayment - 1; index >= newCountPayment; index--) {
+                        paymentTable.removeChild(paymentTable.children[index])
+                    }
+                })
+
+                const stagesCountInput = document.getElementById(`stages_count_${i+1}`)
+                const stagesTable = document.getElementById(`phases-table-${i+1}`)
+                stagesCountInput.addEventListener('input', function() {
+                    const newCount = parseInt(stagesCountInput.value) || 0;
+                    const currentCount = stagesTable.children.length;
+
+                    for (let j = currentCount; j < newCount; j++) {
+                        const row = document.createElement("tr");
+                        row.innerHTML = `
+                            <td class="border px-4 py-2">${ j+1 }</td>
+                            <td class="border px-4 py-2">
+                                <input type="number" name="stages[${i+1}][${j+1}][amount]" min="0" class="input" />
+                            </td>
+                            <td class="border px-4 py-2">
+                                <label class="label cursor-pointer">
+                                    <input type="checkbox" name="stages[${i+1}][${j+1}][status]" class="checkbox" />
+                                    <span class="label-text">تم استلام الصرف</span>
+                                </label>
+                            </td>
+                            <td class="border">
+                                <input type="file" name="stages[${i+1}][${j+1}][proof]" class="file-input" />
+                            </td>
+                        `;
+                        stagesTable.appendChild(row);
+                    }
+                    for (let i = currentCount - 1; i >= newCount; i--) {
+                        stagesTable.removeChild(stagesTable.children[i]);
+                    }
+                })
+            }
+            for (let i = currentCount - 1; i >= newCount; i--) {
+                partSupporterContainer.removeChild(partSupporterContainer.children[i]);
+            }
+        }
+        numSupport.addEventListener("input", updatePartSupport)
 
         function updateSupportContainer() {
             const newCount = parseInt(numSupport.value) || 0;
@@ -647,7 +830,7 @@
         numSupport.addEventListener("input", updateSupportContainer)
 
         const phasesCountInput = document.getElementById("stages_count_not_support");
-        const phasesTable = document.getElementById("phases-table");
+        const phasesTable = document.getElementById(`phases-table`);
         let existingPhaseRows = @json($phases);
 
         function updatePhaseRows() {

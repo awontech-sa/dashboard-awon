@@ -200,13 +200,15 @@
                 addReportButton.name = 'add-report'
                 addReportButton.id = 'add_report'
                 addReportButton.onclick = () => {
-                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport);
+                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport, i);
                     reportDiv.appendChild(reportFiles);
                     countReport = reports
                     hiddenCountReport.value = countReport
+                    
 
                     removeReportBtn.onclick = () => {
                         removeReport(reportFiles)
+                        countReport--
                     }
                 }
 
@@ -234,7 +236,7 @@
                 addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
                 addFileButton.textContent = 'إضافة أمر صرف جديد';
                 addFileButton.onclick = () => {
-                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles)
+                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles, i)
                     fileDiv.appendChild(pyamentFiles);
                     paymentCountFiles = payments
                     hiddenCountFiles.value = paymentCountFiles
@@ -341,13 +343,14 @@
                 addReportButton.name = 'add-report'
                 addReportButton.id = 'add_report'
                 addReportButton.onclick = () => {
-                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport);
+                    let [reportFiles, reports, removeReportBtn] = addReportInput(countReport, i);
                     reportDiv.appendChild(reportFiles);
                     countReport = reports
                     hiddenCountReport.value = countReport
 
                     removeReportBtn.onclick = () => {
                         removeReport(reportFiles)
+                        countReport--
                     }
                 }
 
@@ -374,7 +377,7 @@
                 addFileButton.classList.add('btn', 'btn-xs', 'font-normal', 'bg-white');
                 addFileButton.textContent = 'إضافة أمر صرف جديد';
                 addFileButton.onclick = () => {
-                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles)
+                    let [pyamentFiles, payments, removeFileBtn] = addFileInput(paymentCountFiles, i)
                     fileDiv.appendChild(pyamentFiles);
                     paymentCountFiles = payments
                     hiddenCountFiles.value = paymentCountFiles
@@ -698,7 +701,7 @@
         }
     }
 
-    function addReportInput(reports) {
+    function addReportInput(reports, i) {
         reports++
 
         let reportContentDiv = document.createElement('div');
@@ -707,8 +710,8 @@
         let fileReport = document.createElement('input')
         fileReport.classList.add('input', 'file-input', 'my-2');
         fileReport.type = 'file'
-        fileReport.name = `installment-report-${reports}`
-        fileReport.id = `installment_report_file_${reports}`
+        fileReport.name = `installment-report-${i}-${reports}`
+        fileReport.id = `installment_report_file_${i}_${reports}`
 
         let removeReportButton = document.createElement('button');
         removeReportButton.type = 'button';
@@ -723,7 +726,7 @@
         return [reportContentDiv, reports, removeReportButton]
     }
 
-    function addFileInput(files) {
+    function addFileInput(files, i) {
         files++
         let filesDivContent = document.createElement('div');
         filesDivContent.classList.add('my-4');
@@ -731,8 +734,8 @@
         let fileInput = document.createElement('input');
         fileInput.classList.add('input', 'file-input', 'my-2');
         fileInput.type = 'file';
-        fileInput.name = `payment-report-${files}`
-        fileInput.id = `payment_report_${files}`
+        fileInput.name = `payment-report-${i}-${files}`
+        fileInput.id = `payment_report_${i}_${files}`
 
         let removeFileButton = document.createElement('button')
         removeFileButton.classList.add('btn', 'btn-xs', 'w-16', 'h-12', 'text-white', 'mx-4');
