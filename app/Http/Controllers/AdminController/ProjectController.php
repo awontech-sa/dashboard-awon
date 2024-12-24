@@ -1425,8 +1425,10 @@ class ProjectController extends Controller
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
                                     if (!empty($data['financial-data']["installments"])) {
+                                        Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
                                         ProjectSupporters::where('projects_id', $id)->update([
-                                            'supporter_name' => $data['financial-data']["supporter_name"]
+                                            'supporter_name' => $data['financial-data']["supporter_name"],
+                                            'installments_count' => $data['financial-data']['installments_count'],
                                         ]);
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
@@ -1460,11 +1462,13 @@ class ProjectController extends Controller
                                         Projects::where('id', $project->id)->update([
                                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
                                             'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
+                                            'total_cost' => $data['financial-data']['total_cost']
                                         ]);
 
                                         ProjectSupporters::where('projects_id', $project->id)->update([
                                             'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                                             'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
+                                            'installments_count' => $data['financial-data']['installments_count']
                                         ]);
 
                                         $existingPhases = ProjectPhases::where('project_id', $project->id)->get();
