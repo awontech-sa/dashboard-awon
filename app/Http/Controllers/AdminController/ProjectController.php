@@ -1150,6 +1150,7 @@ class ProjectController extends Controller
                                 'p_support_status' => $request->input('support-status') ?? null,
                                 'p_support_type' => $request->input('supporter') ?? null
                             ];
+                            dd($validated);
                             break;
                     }
                     session(['project_step2' => $validated]);
