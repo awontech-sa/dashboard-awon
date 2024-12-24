@@ -1150,8 +1150,9 @@ class ProjectController extends Controller
                                 'p_support_status' => $request->input('support-status') ?? null,
                                 'p_support_type' => $request->input('supporter') ?? null
                             ];
-                            dd($validated);
                             break;
+                        default:
+                            return back();
                     }
                     session(['project_step2' => $validated]);
                     return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
@@ -1452,6 +1453,7 @@ class ProjectController extends Controller
                                     }
                                     break;
                                 case 'عون التقنية':
+                                    dd($data['financial-data']['project_phases']);
                                     if (!empty($data['financial-data']['project_phases'])) {
                                         Projects::where('id', $project->id)->update([
                                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
