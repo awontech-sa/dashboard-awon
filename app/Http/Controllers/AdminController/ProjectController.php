@@ -1424,6 +1424,7 @@ class ProjectController extends Controller
                         case 'غير مدعوم':
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
+                                    dd($data['financial-data']["installments"]);
                                     if (!empty($data['financial-data']["installments"])) {
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
@@ -1453,7 +1454,6 @@ class ProjectController extends Controller
                                     }
                                     break;
                                 case 'عون التقنية':
-                                    dd($data['financial-data']['project_phases']);
                                     if (!empty($data['financial-data']['project_phases'])) {
                                         Projects::where('id', $project->id)->update([
                                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
