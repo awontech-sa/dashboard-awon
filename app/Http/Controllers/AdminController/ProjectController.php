@@ -1428,11 +1428,11 @@ class ProjectController extends Controller
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
                                             ->first();
-                                            dd($currentSupporter);
                                         if (!$currentSupporter) {
                                             continue;
                                         }
                                         $existingInstallments = $currentSupporter->installments;
+                                        dd($existingInstallments);
                                         foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
                                             $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
                                             $installmentData = [
