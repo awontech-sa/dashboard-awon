@@ -1425,12 +1425,13 @@ class ProjectController extends Controller
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
                                     if (!empty($data['financial-data']["installments"])) {
-                                        $x = ProjectSupporters::where('projects_id', $id)
-                                        ->update(['supporter_name' => $data['financial-data']["supporter_name"]]);
-                                        dd($data['financial-data'], $x);
+                                        $x = ProjectSupporters::where('projects_id', $id)->update([
+                                            'supporter_name' => $data['financial-data']["supporter_name"]
+                                        ]);
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
                                             ->first();
+                                            dd($currentSupporter);
                                         if (!$currentSupporter) {
                                             continue;
                                         }
