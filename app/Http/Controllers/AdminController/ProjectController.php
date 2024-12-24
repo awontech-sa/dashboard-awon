@@ -1424,11 +1424,11 @@ class ProjectController extends Controller
                         case 'غير مدعوم':
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
-                                    dd($data['financial-data']["installments"]);
                                     if (!empty($data['financial-data']["installments"])) {
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
                                             ->first();
+                                            dd($currentSupporter);
                                         if (!$currentSupporter) {
                                             continue;
                                         }
