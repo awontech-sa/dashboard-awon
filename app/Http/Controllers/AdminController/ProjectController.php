@@ -1435,7 +1435,6 @@ class ProjectController extends Controller
                                                 continue;
                                             }
                                             $existingInstallments = $currentSupporter->installments;
-                                            dd($existingInstallments);
                                         foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
                                             $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
                                             $installmentData = [
