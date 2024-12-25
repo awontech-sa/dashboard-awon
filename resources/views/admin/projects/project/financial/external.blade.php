@@ -6,7 +6,7 @@
     </div>
     <div class="grid gap-y-5">
         <label>تكلفة المشروع</label>
-        <input type="text" disabled placeholder="{{ $project->total_cost ?? 0 }}" class="input" />
+        <input type="text" disabled placeholder="{{ $project->actual_cost ?? 0 }}" class="input" />
     </div>
     <div class="grid gap-y-5">
         <label>عدد الدفعات</label>

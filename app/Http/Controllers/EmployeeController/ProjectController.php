@@ -176,7 +176,7 @@ class ProjectController extends Controller
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status'),
-                                    'total_cost' => $request->input('project-income')
+                                    'actual_cost' => $request->input('project-income')
                                 ];
                             } else {
                                 for ($i = 1; $i <= $request->input('number-support'); $i++) {
@@ -237,7 +237,7 @@ class ProjectController extends Controller
                                     'supporter_number' => $request->input('number-support') ?? 0,
                                     'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
-                                    'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                    'actual_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
                                     'supporters' => $supporter
                                 ];
                             }
@@ -248,7 +248,7 @@ class ProjectController extends Controller
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status'),
-                                    'total_cost' => $request->input('project-income')
+                                    'actual_cost' => $request->input('project-income')
                                 ];
                             } else {
                                 for ($i = 1; $i <= $request->input('number-support'); $i++) {
@@ -334,7 +334,7 @@ class ProjectController extends Controller
                                     'supporter_number' => $request->input('number-support') ?? 0,
                                     'p_support_type' => $request->input('support-type') ?? null,    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status') ?? false,
-                                    'total_cost' => $request->input('project-income') ?? 0, //الجهة الداعمة
+                                    'actual_cost' => $request->input('project-income') ?? 0, //الجهة الداعمة
                                     'supporters' => $supporter ?? [],   //عدد الدفعات
                                     'installments' => $receiptProof ?? [],
                                     'report_files' => $reportFiles ?? [],  //ملفات التقارير
@@ -373,7 +373,7 @@ class ProjectController extends Controller
 
                             $validated = [
                                 'supporter_name' => $request->input("comp-name") ?? null,  //اسم الجهة الداعمة
-                                'total_cost' => $request->input("income-project") ?? 0,  //التكلفة الإجمالية
+                                'actual_cost' => $request->input("income-project") ?? 0,  //التكلفة الإجمالية
                                 'installments_count' => $request->input("num-not-support") ?? 0,  //عدد الدفعات
                                 'installments' => $receiptProof ?? [],
                                 'p_support_status' => $request->input('support-status') ?? false,
@@ -481,7 +481,7 @@ class ProjectController extends Controller
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'كلي':
                                     if (isset($data['financial-data']['supporters'])) {
-                                        $data['financial-data']['total_cost'] === null ? null : Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
+                                        $data['financial-data']['actual_cost'] === null ? null : Projects::where('id', $project->id)->update(['actual_cost' => $data['financial-data']['actual_cost']]);
                                         foreach ($data['financial-data']['supporters'] as $supporter) {
                                             $reportFiles = isset($supporter["report_files"]) ? json_encode(array_map(fn($report) => ['report' => $report], $supporter["report_files"])) : '[]';
                                             $paymentOrderFiles = isset($supporter["payment_order_files"]) ? json_encode(array_map(fn($order) => ['payment_order' => $order], $supporter["payment_order_files"])) : '[]';
@@ -501,11 +501,9 @@ class ProjectController extends Controller
                                                     $s->installments()->create([
                                                         'project_id' => $project->id,
                                                         'installment_amount' => $installment['installment_amount'],
-                                                        'installment_receipt_status' => ($installment['installment_receipt_status'] === "on") ? true : false
+                                                        'installment_receipt_status' => ($installment['installment_receipt_status'] === "on") ? true : false,
+                                                        'receipt_proof' => $installment['receipt_proof'] ?? ''
                                                     ]);
-                                                    if (isset($installment['receipt_proof'])) {
-                                                        $s->installments()->create(['receipt_proof' => $installment['receipt_proof']]);
-                                                    }
                                                 }
                                             }
                                         }
@@ -514,7 +512,7 @@ class ProjectController extends Controller
                                             'p_support_status' => $data['financial-data']['p_support_status'],
                                             'p_support_type' => $data['financial-data']['p_support_type']
                                         ]);
-                                        $data['financial-data']['total_cost'] === null ? null : Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
+                                        $data['financial-data']['actual_cost'] === null ? null : Projects::where('id', $project->id)->update(['actual_cost' => $data['financial-data']['actual_cost']]);
                                     }
                                     break;
 
@@ -540,11 +538,9 @@ class ProjectController extends Controller
                                                 $s->installments()->create([
                                                     'project_id' => $project->id,
                                                     'installment_amount' => $installment['installment_amount'],
-                                                    'installment_receipt_status' => ($installment['installment_receipt_status'] === "on") ? true : false
+                                                    'installment_receipt_status' => ($installment['installment_receipt_status'] === "on") ? true : false,
+                                                    'receipt_proof' => $installment['receipt_proof'] ?? ''
                                                 ]);
-                                                if (isset($installment['receipt_proof'])) {
-                                                    $s->installments()->create(['receipt_proof' => $installment['receipt_proof']]);
-                                                }
                                             }
                                         }
 
@@ -563,10 +559,8 @@ class ProjectController extends Controller
                                                         'project_id' => $project->id,
                                                         'phase_cost' => $phase['phase_cost'] ?? 0,
                                                         'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
+                                                        'disbursement_proof' => $phase['disbursement_proof'] ?? ''
                                                     ]);
-                                                }
-                                                if (isset($phase['disbursement_proof'])) {
-                                                    ProjectPhases::create(['disbursement_proof' => $phase['disbursement_proof'] ?? '']);
                                                 }
                                             }
                                         }
@@ -574,9 +568,9 @@ class ProjectController extends Controller
                                         $project->supporter()->create([
                                             'p_support_status' => $data['financial-data']['p_support_status'],
                                             'p_support_type' => $data['financial-data']['p_support_type'],
-                                            'total_cost' => $data['financial-data']['total_cost']
+                                            'actual_cost' => $data['financial-data']['actual_cost']
                                         ]);
-                                        $data['financial-data']['total_cost'] === null ? null : Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
+                                        $data['financial-data']['actual_cost'] === null ? null : Projects::where('id', $project->id)->update(['actual_cost' => $data['financial-data']['actual_cost']]);
                                     }
                                     break;
                             }
@@ -596,24 +590,24 @@ class ProjectController extends Controller
                                                 'project_id' => $project->id,
                                                 'installment_amount' => $installmentProject["installment_amount"] ?? 0,
                                                 'installment_receipt_status' => ($installmentProject['installment_receipt_status'] === "on") ? true : false,
-                                                'receipt_proof' => $installmentProject["receipt_proof"] ?? null,
+                                                'receipt_proof' => $installmentProject["receipt_proof"] ?? '',
                                             ]);
                                         }
-                                        Projects::where('id', $project->id)->update(['total_cost' => is_numeric(trim($data['financial-data']["total_cost"] ?? ''))
-                                            ? trim($data['financial-data']["total_cost"] ?? '') : null]);
+                                        Projects::where('id', $project->id)->update(['actual_cost' => is_numeric(trim($data['financial-data']["actual_cost"] ?? ''))
+                                            ? trim($data['financial-data']["actual_cost"] ?? '') : null]);
                                     }
                                     break;
                                 case 'عون التقنية':
+                                    Projects::where('id', $project->id)->update([
+                                        'expected_cost' => $data['financial-data']['expected_cost'],
+                                        'actual_cost' => $data['financial-data']['actual_cost'],
+                                    ]);
+                                    $project->supporter()->create([
+                                        'p_support_status' => $data['financial-data']['p_support_status'],
+                                        'p_support_type' => $data['financial-data']['p_support_type'],
+                                    ]);
                                     if (!empty($data['financial-data']['project_phases'])) {
                                         foreach ($data['financial-data']['project_phases'] as $phase) {
-                                            Projects::where('id', $project->id)->update([
-                                                'expected_cost' => $data['financial-data']['expected_cost'],
-                                                'actual_cost' => $data['financial-data']['actual_cost'],
-                                            ]);
-                                            $project->supporter()->create([
-                                                'p_support_status' => $data['financial-data']['p_support_status'],
-                                                'p_support_type' => $data['financial-data']['p_support_type'],
-                                            ]);
                                             ProjectPhases::create([
                                                 'stages_count' => $data['financial-data']['stages_count'],
                                                 'project_id' => $project->id,
@@ -956,7 +950,7 @@ class ProjectController extends Controller
                 'type_benef' => $request->input('type-benef'),     //نوع المستفيدين من المشروع
             ];
             session(['project_step1' => $validated]);
-            return redirect()->route('admin.update.project', ['step' => 2, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 2, 'id' => $id]);
         } elseif ($step == 2) {
             $validated = [];
             $reportFiles = [];
@@ -1028,7 +1022,7 @@ class ProjectController extends Controller
                                     'supporter_number' => $request->input('number-support') ?? 0,
                                     'p_support_type' => $request->input('support-type') ?? null,      //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status') ?? null,   //مدعوم أو غير مدعوم
-                                    'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
+                                    'actual_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
                                     'supporters' => $supporters
                                 ];
                             }
@@ -1039,7 +1033,7 @@ class ProjectController extends Controller
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status'),
-                                    'total_cost' => $request->input('project-income')
+                                    'actual_cost' => $request->input('project-income')
                                 ];
                             } else {
                                 for ($i = 1; $i <= $request->input('number-support'); $i++) {
@@ -1125,7 +1119,7 @@ class ProjectController extends Controller
                                     'supporter_number' => $request->input('number-support') ?? 0,
                                     'p_support_type' => $request->input('support-type') ?? null,    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status') ?? false,
-                                    'total_cost' => $request->input('project-income') ?? 0, //الجهة الداعمة
+                                    'actual_cost' => $request->input('project-income') ?? 0, //الجهة الداعمة
                                     'supporters' => $supporter ?? [],   //عدد الدفعات
                                     'installments' => $receiptProof ?? [],
                                     'report_files' => $reportFiles ?? [],  //ملفات التقارير
@@ -1138,7 +1132,7 @@ class ProjectController extends Controller
                             return back();
                     }
                     session(['project_step2' => $validated]);
-                    return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
+                    return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
                     break;
                 case 'غير مدعوم':
                     switch ($request->input('supporter')) {
@@ -1164,7 +1158,7 @@ class ProjectController extends Controller
 
                             $validated = [
                                 'supporter_name' => $request->input("comp-name") ?? null,  //اسم الجهة الداعمة
-                                'total_cost' => $request->input("income-project") ?? 0,  //التكلفة الإجمالية
+                                'actual_cost' => $request->input("income-project") ?? 0,  //التكلفة الإجمالية
                                 'installments_count' => $request->input("num-not-support") ?? 0,  //عدد الدفعات
                                 'installments' => $receiptProof ?? [],
                                 'p_support_status' => $request->input('support-status') ?? false,
@@ -1203,12 +1197,12 @@ class ProjectController extends Controller
                             return back();
                     }
                     session(['project_step2' => $validated]);
-                    return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
+                    return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
                     break;
                 default:
                     return back();
             }
-            return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
         } elseif ($step == 3) {
             $validated = [];
 
@@ -1234,14 +1228,14 @@ class ProjectController extends Controller
                 }
             }
             session(['project_step3' => $validated]);
-            return redirect()->route('admin.update.project', ['step' => 4, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 4, 'id' => $id]);
         } elseif ($step == 4) {
             $validated = [
                 'project_status' => $request->input('project-status') ?? null,
                 'comment' => $request->input('comment') ?? null
             ];
             session(['project_step4' => $validated]);
-            return redirect()->route('admin.update.project', ['step' => 5, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 5, 'id' => $id]);
         } elseif ($step == 5) {
             $validated = [
                 'all-stages' => $request->input('array-stages'),
@@ -1250,7 +1244,7 @@ class ProjectController extends Controller
                 'stages-add' => $request->input('stages-add')
             ];
             session(['project_step5' => $validated]);
-            return redirect()->route('admin.update.project', ['step' => 6, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 6, 'id' => $id]);
         } elseif ($step == 6) {
             $validated = [
                 'program_language' => $request->input('program-language'),
@@ -1262,7 +1256,7 @@ class ProjectController extends Controller
                 'dashboard' => $request->input('dashboard')
             ];
             session(['project_step6' => $validated]);
-            return redirect()->route('admin.update.project', ['step' => 7, 'id' => $id]);
+            return redirect()->route('employee.update.project', ['step' => 7, 'id' => $id]);
         } elseif ($step == 7) {
             $validated = [
                 'members' => $request->input('array-members'),
@@ -1349,7 +1343,7 @@ class ProjectController extends Controller
                                         }
                                     } else {
                                         Projects::where('id', $project->id)->update([
-                                            'total_cost' => $data['financial-data']["total_cost"]
+                                            'actual_cost' => $data['financial-data']["actual_cost"]
                                         ]);
                                         $project->supporter()->update([
                                             'supporter_number' => $data['financial-data']['supporter_number'],
@@ -1458,7 +1452,7 @@ class ProjectController extends Controller
                                         }
                                     } else {
                                         Projects::where('id', $project->id)->update([
-                                            'total_cost' => $data['financial-data']["total_cost"]
+                                            'actual_cost' => $data['financial-data']["actual_cost"]
                                         ]);
                                         $project->supporter()->update([
                                             'supporter_number' => $data['financial-data']['supporter_number'],
@@ -1472,7 +1466,7 @@ class ProjectController extends Controller
                         case 'غير مدعوم':
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
-                                    Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
+                                    Projects::where('id', $project->id)->update(['actual_cost' => $data['financial-data']['actual_cost']]);
                                     ProjectSupporters::where('projects_id', $id)->update([
                                         'supporter_name' => $data['financial-data']["supporter_name"],
                                         'installments_count' => $data['financial-data']['installments_count'],
@@ -1509,14 +1503,13 @@ class ProjectController extends Controller
                                     if (!empty($data['financial-data']['project_phases'])) {
                                         Projects::where('id', $project->id)->update([
                                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
-                                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
-                                            'total_cost' => $data['financial-data']['total_cost']
+                                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
                                         ]);
 
                                         ProjectSupporters::where('projects_id', $project->id)->update([
                                             'p_support_type' => $data['financial-data']['p_support_type'] ?? null,
                                             'p_support_status' => $data['financial-data']['p_support_status'] ?? null,
-                                            'installments_count' => $data['financial-data']['installments_count']
+                                            'installments_count' => $data['financial-data']['installments_count'] ?? 0
                                         ]);
 
                                         $existingPhases = ProjectPhases::where('project_id', $project->id)->get();
@@ -1721,6 +1714,6 @@ class ProjectController extends Controller
         }
         session()->forget(['project_step1', 'project_step2', 'project_step3', 'project_step4', 'project_step5', 'project_step6', 'project_step7']);
 
-        return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
+        return redirect()->route('employee.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
     }
 }

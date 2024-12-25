@@ -20,7 +20,6 @@ class Projects extends Model
         'p_remaining',
         'p_description',
         'p_duration',
-        'total_cost',
         'expected_cost',
         'actual_cost',
         'comment',

@@ -11,9 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('projects', function (Blueprint $table) {
-            $table->bigInteger('actual_cost')->nullable()->change();
-        });
+        Schema::dropColumns('projects', 'actual_cost');
     }
 
     /**
