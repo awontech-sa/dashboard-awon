@@ -1282,7 +1282,7 @@ class ProjectController extends Controller
                                                         'project_id' => $id,
                                                         'installment_number' => $index + 1,
                                                         'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                        'installment_receipt_status' => isset($installmentProject['status']),
+                                                        'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                         'receipt_proof' => $installmentProject["proof"] ?? null,
                                                     ];
                                                     if ($existingInstallment) {
@@ -1353,7 +1353,7 @@ class ProjectController extends Controller
                                                         'project_id' => $id,
                                                         'installment_number' => $index + 1,
                                                         'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                        'installment_receipt_status' => isset($installmentProject['status']),
+                                                        'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                         'receipt_proof' => $installmentProject["proof"] ?? null,
                                                     ];
                                                     if ($existingInstallment) {
@@ -1425,25 +1425,25 @@ class ProjectController extends Controller
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
                                     Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
-                                        ProjectSupporters::where('projects_id', $id)->update([
-                                            'supporter_name' => $data['financial-data']["supporter_name"],
-                                            'installments_count' => $data['financial-data']['installments_count'],
-                                        ]);
+                                    ProjectSupporters::where('projects_id', $id)->update([
+                                        'supporter_name' => $data['financial-data']["supporter_name"],
+                                        'installments_count' => $data['financial-data']['installments_count'],
+                                    ]);
                                     if (!empty($data['financial-data']["installments"])) {
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
                                             ->first();
-                                            if (!$currentSupporter) {
-                                                continue;
-                                            }
-                                            $existingInstallments = $currentSupporter->installments;
+                                        if (!$currentSupporter) {
+                                            continue;
+                                        }
+                                        $existingInstallments = $currentSupporter->installments;
                                         foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
                                             $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
                                             $installmentData = [
                                                 'project_id' => $id,
                                                 'installment_number' => $index + 1,
                                                 'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                'installment_receipt_status' => isset($installmentProject['status']),
+                                                'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                 'receipt_proof' => $installmentProject["proof"] ?? null,
                                             ];
                                             if ($existingInstallment) {

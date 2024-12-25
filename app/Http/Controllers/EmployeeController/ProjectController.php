@@ -956,7 +956,7 @@ class ProjectController extends Controller
                 'type_benef' => $request->input('type-benef'),     //نوع المستفيدين من المشروع
             ];
             session(['project_step1' => $validated]);
-            return redirect()->route('employee.update.project', ['step' => 2, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 2, 'id' => $id]);
         } elseif ($step == 2) {
             $validated = [];
             $reportFiles = [];
@@ -1138,7 +1138,7 @@ class ProjectController extends Controller
                             return back();
                     }
                     session(['project_step2' => $validated]);
-                    return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
+                    return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
                     break;
                 case 'غير مدعوم':
                     switch ($request->input('supporter')) {
@@ -1203,12 +1203,12 @@ class ProjectController extends Controller
                             return back();
                     }
                     session(['project_step2' => $validated]);
-                    return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
+                    return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
                     break;
                 default:
                     return back();
             }
-            return redirect()->route('employee.update.project', ['step' => 3, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 3, 'id' => $id]);
         } elseif ($step == 3) {
             $validated = [];
 
@@ -1234,14 +1234,14 @@ class ProjectController extends Controller
                 }
             }
             session(['project_step3' => $validated]);
-            return redirect()->route('employee.update.project', ['step' => 4, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 4, 'id' => $id]);
         } elseif ($step == 4) {
             $validated = [
                 'project_status' => $request->input('project-status') ?? null,
                 'comment' => $request->input('comment') ?? null
             ];
             session(['project_step4' => $validated]);
-            return redirect()->route('employee.update.project', ['step' => 5, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 5, 'id' => $id]);
         } elseif ($step == 5) {
             $validated = [
                 'all-stages' => $request->input('array-stages'),
@@ -1250,7 +1250,7 @@ class ProjectController extends Controller
                 'stages-add' => $request->input('stages-add')
             ];
             session(['project_step5' => $validated]);
-            return redirect()->route('employee.update.project', ['step' => 6, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 6, 'id' => $id]);
         } elseif ($step == 6) {
             $validated = [
                 'program_language' => $request->input('program-language'),
@@ -1262,7 +1262,7 @@ class ProjectController extends Controller
                 'dashboard' => $request->input('dashboard')
             ];
             session(['project_step6' => $validated]);
-            return redirect()->route('employee.update.project', ['step' => 7, 'id' => $id]);
+            return redirect()->route('admin.update.project', ['step' => 7, 'id' => $id]);
         } elseif ($step == 7) {
             $validated = [
                 'members' => $request->input('array-members'),
@@ -1330,7 +1330,7 @@ class ProjectController extends Controller
                                                         'project_id' => $id,
                                                         'installment_number' => $index + 1,
                                                         'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                        'installment_receipt_status' => isset($installmentProject['status']),
+                                                        'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                         'receipt_proof' => $installmentProject["proof"] ?? null,
                                                     ];
                                                     if ($existingInstallment) {
@@ -1401,7 +1401,7 @@ class ProjectController extends Controller
                                                         'project_id' => $id,
                                                         'installment_number' => $index + 1,
                                                         'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                        'installment_receipt_status' => isset($installmentProject['status']),
+                                                        'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                         'receipt_proof' => $installmentProject["proof"] ?? null,
                                                     ];
                                                     if ($existingInstallment) {
@@ -1473,25 +1473,25 @@ class ProjectController extends Controller
                             switch ($data['financial-data']['p_support_type']) {
                                 case 'جهة خارجية':
                                     Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
-                                        ProjectSupporters::where('projects_id', $id)->update([
-                                            'supporter_name' => $data['financial-data']["supporter_name"],
-                                            'installments_count' => $data['financial-data']['installments_count'],
-                                        ]);
+                                    ProjectSupporters::where('projects_id', $id)->update([
+                                        'supporter_name' => $data['financial-data']["supporter_name"],
+                                        'installments_count' => $data['financial-data']['installments_count'],
+                                    ]);
                                     if (!empty($data['financial-data']["installments"])) {
                                         $currentSupporter = ProjectSupporters::where('projects_id', $id)
                                             ->where('supporter_name', $data['financial-data']["supporter_name"])
                                             ->first();
-                                            if (!$currentSupporter) {
-                                                continue;
-                                            }
-                                            $existingInstallments = $currentSupporter->installments;
+                                        if (!$currentSupporter) {
+                                            continue;
+                                        }
+                                        $existingInstallments = $currentSupporter->installments;
                                         foreach ($data['financial-data']["installments"] as $index => $installmentProject) {
                                             $existingInstallment = $existingInstallments->where('installment_number', $index + 1)->first();
                                             $installmentData = [
                                                 'project_id' => $id,
                                                 'installment_number' => $index + 1,
                                                 'installment_amount' => $installmentProject["amount"] ?? 0,
-                                                'installment_receipt_status' => isset($installmentProject['status']),
+                                                'installment_receipt_status' => ($installmentProject['status'] === 'on') ? true : false,
                                                 'receipt_proof' => $installmentProject["proof"] ?? null,
                                             ];
                                             if ($existingInstallment) {
@@ -1721,6 +1721,6 @@ class ProjectController extends Controller
         }
         session()->forget(['project_step1', 'project_step2', 'project_step3', 'project_step4', 'project_step5', 'project_step6', 'project_step7']);
 
-        return redirect()->route('employee.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
+        return redirect()->route('admin.dashboard')->with('success', 'تم إنشاء المشروع بنجاح');
     }
 }
