@@ -4,10 +4,8 @@ namespace App\Http\Controllers\EmployeeController;
 
 use App\Http\Controllers\Controller;
 use App\Models\Projects;
-use App\Models\Stages;
 use App\Services\PermissionEmployeeService;
 use App\Services\ViewChartService;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller

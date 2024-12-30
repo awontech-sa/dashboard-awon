@@ -16,7 +16,6 @@ use App\Services\ViewChartService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use SebastianBergmann\CodeCoverage\Report\Xml\Project;
 
 class ProjectController extends Controller
 {
@@ -254,8 +253,8 @@ class ProjectController extends Controller
 
                                     if ($request->input('countReport') !== 0) {
                                         for ($j = 1; $j <= $request->input('countReport'); $j++) {
-                                            if ($request->hasFile("installment-report-{$j}")) {
-                                                $file = $request->file("installment-report-{$j}");
+                                            if ($request->hasFile("installment-report-{$i}-{$j}")) {
+                                                $file = $request->file("installment-report-{$i}-{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $reportFiles[] = Storage::disk('digitalocean')->putFileAs('reports', $file, $fileName);
                                             }
@@ -264,8 +263,8 @@ class ProjectController extends Controller
 
                                     if ($request->input('paymentCountFiles') !== 0) {
                                         for ($k = 1; $k <= $request->input('paymentCountFiles'); $k++) {
-                                            if ($request->hasFile("payment-report-{$k}")) {
-                                                $file = $request->file("payment-report-{$k}");
+                                            if ($request->hasFile("payment-report-{$i}-{$k}")) {
+                                                $file = $request->file("payment-report-{$i}-{$k}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $paymentFiles[] = Storage::disk('digitalocean')->putFileAs('payments', $file, $fileName);
                                             }

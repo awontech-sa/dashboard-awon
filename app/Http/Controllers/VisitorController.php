@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\ProjectPhases;
 use App\Models\Projects;
 use App\Models\ProjectSupporters;
-use App\Models\ProjectUser;
-use App\Services\ViewChartService;
 
 class VisitorController extends Controller
 {
