@@ -123,37 +123,37 @@
                 <input type="number" class="input" placeholder="" id="stages_count_${i}">
             </div>
         </div>
-        <div class="mt-4">
-            <table class="w-full border mt-2 table text-center">
-                <tr>
-                    <th class="border px-4 py-2">المرحلة</th>
-                    <th class="border px-4 py-2">تكلفة المرحلة</th>
-                    <th class="border px-4 py-2">حالة الصرف</th>
-                    <th class="border px-4 py-2">اثبات الصرف</th>
-                </tr>
-                <tbody>
-                    @foreach($phases as $key => $phase)
-                    <tr>
-                        <td class="border px-4 py-2">{{ $key + 1 }}</td>
-                        <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
-                        <td class="border px-4 py-2">
-                            <label class="label cursor-pointer">
-                                <input type="checkbox" disabled class="checkbox"
-                                    {{ $phase->disbursement_status ? 'checked' : '' }} />
-                                <span class="label-text">تم استلام الصرف</span>
-                            </label>
-                        </td>
-                        <td class="border px-4 py-2">
-                            @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
-                            <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
-                                href="{{ $phase->disbursement_proof }}" download="">عرض الملف</a>
-                            @endif
-                        </td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
     </div>
+</div>
+<div class="mt-4">
+    <table class="w-full border mt-2 table text-center">
+        <tr>
+            <th class="border px-4 py-2">المرحلة</th>
+            <th class="border px-4 py-2">تكلفة المرحلة</th>
+            <th class="border px-4 py-2">حالة الصرف</th>
+            <th class="border px-4 py-2">اثبات الصرف</th>
+        </tr>
+        <tbody>
+            @foreach($phases as $key => $phase)
+            <tr>
+                <td class="border px-4 py-2">{{ $key + 1 }}</td>
+                <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
+                <td class="border px-4 py-2">
+                    <label class="label cursor-pointer">
+                        <input type="checkbox" disabled class="checkbox"
+                            {{ $phase->disbursement_status ? 'checked' : '' }} />
+                        <span class="label-text">تم استلام الصرف</span>
+                    </label>
+                </td>
+                <td class="border px-4 py-2">
+                    @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
+                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
+                        href="{{ $phase->disbursement_proof }}" download="">عرض الملف</a>
+                    @endif
+                </td>
+            </tr>
+            @endforeach
+        </tbody>
+    </table>
 </div>
 @endforeach

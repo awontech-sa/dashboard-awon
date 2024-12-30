@@ -612,7 +612,8 @@ class ProjectController extends Controller
                                                 'stages_count' => $data['financial-data']['stages_count'],
                                                 'project_id' => $project->id,
                                                 'phase_cost' => $phase['phase_cost'] ?? 0,
-                                                'disbursement_proof' => $phase['disbursement_proof'] ?? ''
+                                                'disbursement_proof' => $phase['disbursement_proof'] ?? '',
+                                                'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false
                                             ]);
                                         }
                                     }
