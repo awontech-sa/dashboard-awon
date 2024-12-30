@@ -593,7 +593,6 @@ class ProjectController extends Controller
                                                 'receipt_proof' => $installmentProject["receipt_proof"] ?? '',
                                             ]);
                                         }
-                                        dd($project);
                                         Projects::where('id', $project->id)->update(['actual_cost' => is_numeric(trim($data['financial-data']["actual_cost"] ?? ''))
                                             ? trim($data['financial-data']["actual_cost"] ?? '') : null]);
                                     }
