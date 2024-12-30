@@ -61,8 +61,30 @@
                 <input type="number" min="0" class="input" name="project-income" value="{{ old('project-income', $data['total_cost'] ?? '') }}" />
             </div>
         </div>
+
         <div class="supporter-data hidden" id="supporterDataSection"></div>
         <div class="supporter-comp hidden" id="supporterDataSection"></div>
+
+        <div class="finan-data-not-support hidden">
+            <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+            <div class="grid">
+                <div class="grid grid-cols-2 gap-x-7">
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة</label>
+                        <input type="text" class="input" name="project-expected-income">
+                    </div>
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
+                        <input type="text" class="input" name="project-expected-real">
+                    </div>
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">عدد المراحل</label>
+                        <input type="number" class="input" name="stages-count" id="stages_count" min="0">
+                    </div>
+                </div>
+                <div class="stages-table mt-4" id="stages_table"></div>
+            </div>
+        </div>
     </div>
 
     <div class="join grid grid-cols-2 w-1/4 float-left">
@@ -101,6 +123,7 @@
         let notSupporterDataContainer = document.querySelector('.supporter-comp');
         let externalSupport = document.querySelector('.external-support');
         let costSupportForm = document.querySelector('.cost-project-form');
+        let finanDataNotSupportForm = document.querySelector('.finan-data-not-support');
         let supportForm = document.querySelector('.support-type-form');
         let numberSupportForm = document.querySelector('.number-support-form');
         let isSupported = document.querySelector('input[name="support-status"]:checked')?.value === 'مدعوم';
@@ -117,6 +140,7 @@
             costSupportForm.classList.remove('hidden');
             supporterDataContainer.classList.remove('hidden');
             notSupporterDataContainer.classList.add('hidden')
+            finanDataNotSupportForm.classList.add('hidden');
         }
 
         if (isSupported && isFullSupport && numSupport >= 0) {
@@ -264,6 +288,7 @@
             }
         } else if (isSupported && isPartSupport && numSupport >= 0) {
             supporterDataContainer.classList.remove('hidden');
+            finanDataNotSupportForm.classList.remove('hidden');
             supporterDataContainer.innerHTML = '';
 
             for (let i = 1; i <= numSupport; i++) {
@@ -399,74 +424,13 @@
                 reportFilesGrid.appendChild(fileDiv);
                 supporterDataContainer.appendChild(supporterDiv);
 
-                let finanDataNotSupport = document.createElement('div')
-                let finanDataNotSupportHeading = document.createElement('h1');
-                finanDataNotSupportHeading.classList.add('font-bold', 'text-base', 'mt-4')
-                finanDataNotSupportHeading.textContent = 'البيانات المالية للجزء الغير مدعوم'
-                finanDataNotSupport.appendChild(finanDataNotSupportHeading)
-                supporterDataContainer.appendChild(finanDataNotSupport)
-
-                let finanDataContainer = document.createElement('div')
-                finanDataContainer.classList.add('grid')
-                let finanData = document.createElement('div')
-                finanData.classList.add('grid', 'grid-cols-2', 'gap-x-7')
-                let projectExpectIncomeContainer = document.createElement('div')
-                projectExpectIncomeContainer.classList.add('grid', 'my-2')
-                let projectExpectIncomeLabel = document.createElement('label')
-                projectExpectIncomeLabel.classList.add('font-normal', 'text-base', 'mb-2')
-                projectExpectIncomeLabel.textContent = 'تكلفة المشروع المتوقعة'
-                let projectExpectIncomeInput = document.createElement('input')
-                projectExpectIncomeInput.type = 'text'
-                projectExpectIncomeInput.classList.add('input')
-                projectExpectIncomeInput.name = `project-expected-income-${i}`
-                projectExpectIncomeContainer.appendChild(projectExpectIncomeLabel)
-                projectExpectIncomeContainer.appendChild(projectExpectIncomeInput)
-                finanData.appendChild(projectExpectIncomeContainer)
-
-                let projectExpectRealContainer = document.createElement('div')
-                projectExpectRealContainer.classList.add('grid', 'my-2')
-                let projectExpectRealLabel = document.createElement('label')
-                projectExpectRealLabel.classList.add('font-normal', 'text-base', 'mb-2')
-                projectExpectRealLabel.textContent = 'تكلفة المشروع الفعلية'
-                let projectExpectRealInput = document.createElement('input')
-                projectExpectRealInput.type = 'text'
-                projectExpectRealInput.classList.add('input')
-                projectExpectRealInput.name = `project-expected-real-${i}`
-                projectExpectRealContainer.appendChild(projectExpectRealLabel)
-                projectExpectRealContainer.appendChild(projectExpectRealInput)
-                finanData.appendChild(projectExpectRealContainer)
-
-                let stagesNumberContainer = document.createElement('div')
-                stagesNumberContainer.classList.add('grid', 'my-2')
-                let stagesNumberLabel = document.createElement('label')
-                stagesNumberLabel.classList.add('font-normal', 'text-base', 'mb-2')
-                stagesNumberLabel.textContent = 'عدد المراحل'
-                let stagesNumberInput = document.createElement('input')
-                stagesNumberInput.type = 'number'
-                stagesNumberInput.min = 0
-                stagesNumberInput.classList.add('input')
-                stagesNumberInput.name = `stages-count-${i}`
-                stagesNumberInput.id = `stages_count_${i}`
-                stagesNumberContainer.appendChild(stagesNumberLabel)
-                stagesNumberContainer.appendChild(stagesNumberInput)
-                finanData.appendChild(stagesNumberContainer)
-
-                finanDataContainer.appendChild(finanData)
-
-                let stagesTable = document.createElement('div')
-                stagesTable.classList.add('stages-table', 'mt-4')
-                stagesTable.id = `stages_table_${i}`
-                finanDataContainer.appendChild(stagesTable)
-
-                finanDataNotSupport.appendChild(finanDataContainer)
-
-                document.getElementById(`stages_count_${i}`).addEventListener('input', function() {
-                    generateStagesTable(i, this.value);
-                });
                 document.getElementById(`payment_count_${i}`).addEventListener('input', function() {
                     generateInstallmentTable(i, this.value);
                 });
             }
+            document.getElementById(`stages_count`).addEventListener('input', function() {
+                generateStagesTable(this.value);
+            });
         }
 
         if (isNotSupported) {
@@ -605,7 +569,7 @@
 
             let stagesTable = document.createElement('div');
             stagesTable.classList.add('stages-table', 'mt-4');
-            stagesTable.id = 'stages_table_0';
+            stagesTable.id = 'stages_table';
 
             gridContainer.appendChild(stagesTable);
 
@@ -614,7 +578,7 @@
             notSupporterDataContainer.appendChild(parentDiv);
 
             document.getElementById('stages_count_not_support').addEventListener('input', function() {
-                generateStagesTable(0, this.value)
+                generateStagesTable(this.value)
             });
         }
     }
@@ -751,8 +715,8 @@
         return [filesDivContent, files, removeFileButton]
     }
 
-    function generateStagesTable(supporterIndex, numStages) {
-        let tableContainer = document.getElementById(`stages_table_${supporterIndex}`);
+    function generateStagesTable(numStages) {
+        let tableContainer = document.getElementById(`stages_table`);
         tableContainer.innerHTML = ''; // Clear any existing content
 
         if (numStages > 0) {
@@ -793,7 +757,7 @@
                 let amountInput = document.createElement('input');
                 amountInput.type = 'number';
                 amountInput.min = 0
-                amountInput.name = `stages_amount_${supporterIndex}_${j}`;
+                amountInput.name = `stages_amount_${j}`;
                 amountInput.classList.add('input', 'w-full');
                 amountCell.appendChild(amountInput);
                 row.appendChild(amountCell);
@@ -809,7 +773,7 @@
                 let checkbox = document.createElement('input');
                 checkbox.type = 'checkbox';
                 checkbox.classList.add('checkbox', 'checkbox-lg', 'border', '[--chkbg:theme(colors.cyan.500)]', '[--chkfg:white]');
-                checkbox.name = `stages_status_${supporterIndex}_${j}`;
+                checkbox.name = `stages_status_${j}`;
                 label.appendChild(checkbox);
                 label.appendChild(span);
                 statusCell.appendChild(label);
@@ -821,7 +785,7 @@
                 let proofInput = document.createElement('input');
                 proofInput.type = 'file';
                 proofInput.classList.add('input', 'file-input', 'my-5');
-                proofInput.name = `stages_files_${supporterIndex}_${j}`;
+                proofInput.name = `stages_files_${j}`;
                 proofCell.appendChild(proofInput);
                 row.appendChild(proofCell);
 
