@@ -7,7 +7,7 @@
             </div>
             <div class="grid my-2">
                 <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                <input type="text" disabled placeholder="{{ $project->actual_cost ?? 0 }}" class="input" />
+                <input type="text" disabled placeholder="{{ $project->total_cost ?? 0 }}" class="input" />
             </div>
         </div>
         <div class="mt-4">

@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::table('projects', function (Blueprint $table) {
             $table->decimal('actual_cost')->nullable()->comment('التكلفة الإجمالية'); // التكلفة الإجمالية
             $table->decimal('expected_cost')->nullable()->comment('التكلفة المتوقعة'); // التكلفة المتوقعة في حالة دعم جزئي أو ملكية جمعية
-            $table->decimal('actual_cost')->nullable()->comment('التكلفة الفعلية'); // التكلفة الفعلية في حالة دعم جزئي أو ملكية جمعية
         });
     }
 

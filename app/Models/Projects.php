@@ -21,7 +21,7 @@ class Projects extends Model
         'p_description',
         'p_duration',
         'expected_cost',
-        'actual_cost',
+        'total_cost',
         'comment',
         'type_benef'
     ];

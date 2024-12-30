@@ -62,7 +62,7 @@
             </div>
             <div class="grid my-8 cost-project-form">
                 <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
-                <input type="number" min="0" class="input" name="project-income" value="{{ $project->actual_cost }}" />
+                <input type="number" min="0" class="input" name="project-income" value="{{ $project->total_cost }}" />
             </div>
         </div>
         @endforeach
@@ -337,7 +337,7 @@
                 </div>
                 <div class="grid gap-y-5">
                     <label>تكلفة المشروع</label>
-                    <input type="text" name="income-project" value="{{ $project->actual_cost }}" class="input" />
+                    <input type="text" name="income-project" value="{{ $project->total_cost }}" class="input" />
                 </div>
                 <div class="grid gap-y-5">
                     <label>عدد الدفعات</label>
@@ -395,7 +395,7 @@
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                            <input type="text" class="input" value="{{ $project->actual_cost }}" name="project-real-income-not-support">
+                            <input type="text" class="input" value="{{ $project->total_cost }}" name="project-real-income-not-support">
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">عدد المراحل</label>
@@ -559,7 +559,7 @@
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
 
-        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
+        let existingSupport = @json($project - > supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         let partSupporterContainer = document.getElementById('partSupporterDataSection')

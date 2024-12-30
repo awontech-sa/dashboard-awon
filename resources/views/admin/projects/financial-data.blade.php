@@ -58,7 +58,7 @@
             </div>
             <div class="grid my-8 cost-project-form">
                 <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع</label>
-                <input type="number" min="0" class="input" name="project-income" value="{{ old('project-income', $data['actual_cost'] ?? '') }}" />
+                <input type="number" min="0" class="input" name="project-income" value="{{ old('project-income', $data['total_cost'] ?? '') }}" />
             </div>
         </div>
         <div class="supporter-data hidden" id="supporterDataSection"></div>

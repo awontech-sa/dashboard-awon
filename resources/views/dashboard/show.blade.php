@@ -42,7 +42,7 @@
                     <x-fas-money-bill-1 class="w-5 text-gray-500" />
                 </div>
                 <div class="pr-4 py-4">
-                    <p class="font-bold text-2xl">{{ ($project->actual_cost === null || $project->actual_cost === 0) ? 'مجانًا' : $project->actual_cost }}</p>
+                    <p class="font-bold text-2xl">{{ ($project->total_cost === null || $project->total_cost === 0) ? 'مجانًا' : $project->total_cost }}</p>
                 </div>
             </div>
             <!-- end of project success section -->

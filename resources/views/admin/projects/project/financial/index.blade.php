@@ -53,7 +53,7 @@
         </div>
         <div class="grid my-8 cost-project-form">
             <label class="font-normal text-base mb-2">إجمالي تكلفة المشروع <span class="text-red-600">*</span></label>
-            <input disabled class="input" value="{{ $project->actual_cost }}" />
+            <input disabled class="input" value="{{ $project->total_cost }}" />
         </div>
         @endif
     </div>

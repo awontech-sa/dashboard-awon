@@ -8,7 +8,7 @@
         @foreach($projects as $project)
         <div class="h-20 bg-white border-gray-500 border-[0.6px] rounded-xl grid grid-cols-2 w-1/2 p-4">
             <p class="font-medium text-base">{{ $project->p_name }}</p>
-            <p class="text-base font-normal">{{ ($project->actual_cost === null || $project->actual_cost === 0) ? 'مجانًا' : $project->actual_cost }}</p>
+            <p class="text-base font-normal">{{ ($project->total_cost === null || $project->total_cost === 0) ? 'مجانًا' : $project->total_cost }}</p>
         </div>
         @endforeach
     </div>
