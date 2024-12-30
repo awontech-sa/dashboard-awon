@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->decimal('actual_cost')->nullable()->comment('التكلفة الإجمالية'); // التكلفة الإجمالية
+            $table->decimal('total_cost')->nullable()->comment('التكلفة الإجمالية'); // التكلفة الإجمالية
             $table->decimal('expected_cost')->nullable()->comment('التكلفة المتوقعة'); // التكلفة المتوقعة في حالة دعم جزئي أو ملكية جمعية
         });
     }

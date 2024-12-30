@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('projects', function (Blueprint $table) {
-            $table->bigInteger('actual_cost')->nullable()->change();
+            $table->bigInteger('total_cost')->nullable()->change();
         });
     }
 
