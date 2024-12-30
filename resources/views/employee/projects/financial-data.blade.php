@@ -71,11 +71,11 @@
                 <div class="grid grid-cols-2 gap-x-7">
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة</label>
-                        <input type="text" class="input" name="project-expected-income">
+                        <input type="number" class="input" name="project-expected-income">
                     </div>
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                        <input type="text" class="input" name="project-expected-real">
+                        <input type="number" class="input" name="project-expected-real">
                     </div>
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">عدد المراحل</label>
@@ -434,7 +434,7 @@
         }
 
         if (isNotSupported) {
-
+            finanDataNotSupportForm.classList.add('hidden');
             supportForm.classList.add('hidden');
             externalSupport.classList.remove('hidden');
             numberSupportForm.classList.add('hidden');
@@ -522,7 +522,7 @@
             expectedCostLabel.innerHTML = 'تكلفة المشروع المتوقعة';
 
             let expectedCostInput = document.createElement('input');
-            expectedCostInput.type = 'text';
+            expectedCostInput.type = 'number';
             expectedCostInput.classList.add('input');
             expectedCostInput.name = 'project-expected-income-not-support';
 

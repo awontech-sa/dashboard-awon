@@ -391,7 +391,7 @@
                     <div class="grid grid-cols-2 gap-x-7">
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة</label>
-                            <input type="text" class="input" value="{{ $project->expected_cost }}" name="project-expected-income-not-support">
+                            <input type="number" class="input" value="{{ $project->expected_cost }}" name="project-expected-income-not-support">
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
@@ -634,14 +634,14 @@
                                         تكلفة المشروع المتوقعة
                                         <span class="text-red-600">*</span>
                                     </label>
-                                    <input type="text" class="input" name="project-expected-income-${i+1}">
+                                    <input type="number" class="input" name="project-expected-income-${i+1}">
                                 </div>
                                 <div class="grid my-2">
                                     <label class="font-normal text-base mb-2">
                                         تكلفة المشروع الفعلية
                                         <span class="text-red-600">*</span>
                                     </label>
-                                    <input type="text" class="input" name="project-expected-real-${i+1}">
+                                    <input type="number" class="input" name="project-expected-real-${i+1}">
                                 </div>
                                 <div class="grid my-2">
                                     <label class="font-normal text-base mb-2">
