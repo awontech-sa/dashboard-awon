@@ -91,7 +91,7 @@
         <img class="w-6 h-6" src="{{ asset("assets/icons/people.png") }}" alt="people" />
       </div>
       <div class="grid mx-9">
-        <p class="font-bold text-3xl">{{ count($supporterIndividual) }}</p>
+        <p class="font-bold text-3xl">{{ $supporterIndividual }}</p>
         <small class="text-sm text-gray-400">فرد</small>
       </div>
     </div>

@@ -43,7 +43,7 @@
             <label for="type-benef">نوع المستفيدين من المشروع</label>
             <select class="select select-bordered w-full" name="type-benef">
                 @foreach (App\Enums\TypeBenefEnum::cases() as $status)
-                <option value="{{ $project->type_benef }}">{{ $status->value }}</option>
+                <option>{{ $status->value }}</option>
                 @endforeach
             </select>
         </div>

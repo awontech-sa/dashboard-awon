@@ -40,7 +40,7 @@ class AdminController extends Controller
 
         $supporter = ProjectSupporters::where('p_support_status', 'مدعوم')->get();
         $supporterComp = Projects::where('type_benef', 'جهة')->get();
-        $supporterIndividual = Projects::where('type_benef', 'أفراد')->get();
+        $supporterIndividual = Projects::where('type_benef', 'أفراد')->sum('p_num_beneficiaries');
 
         return view('admin.index', [
             'user' => $user,
