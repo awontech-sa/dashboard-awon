@@ -97,32 +97,33 @@
             </div>
         </div>
     </div>
-    @endif
-    <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
-    <div class="grid">
-        <div class="grid grid-cols-2 gap-x-7">
-            <div class="grid my-2">
-                <label class="font-normal text-base mb-2">
-                    تكلفة المشروع المتوقعة
-                    <span class="text-red-600">*</span>
-                </label>
-                <input type="text" class="input" placeholder="{{ $s->expected_cost }}">
-            </div>
-            <div class="grid my-2">
-                <label class="font-normal text-base mb-2">
-                    تكلفة المشروع الفعلية
-                    <span class="text-red-600">*</span>
-                </label>
-                <input type="text" class="input" placeholder="{{ $s->real_cost }}">
-            </div>
-            <div class="grid my-2">
-                <label class="font-normal text-base mb-2">
-                    عدد المراحل
-                    <span class="text-red-600">*</span>
-                </label>
-                <input type="number" class="input" placeholder="" id="stages_count_${i}">
-            </div>
+</div>
+@endif
+
+<h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+<div class="grid">
+    <div class="grid grid-cols-2 gap-x-7">
+        <div class="grid my-2">
+            <label class="font-normal text-base mb-2">
+                تكلفة المشروع المتوقعة
+                <span class="text-red-600">*</span>
+            </label>
+            <input type="text" class="input" disabled placeholder="{{ $project->expected_cost }}">
         </div>
+        <div class="grid my-2">
+            <label class="font-normal text-base mb-2">
+                تكلفة المشروع الفعلية
+                <span class="text-red-600">*</span>
+            </label>
+            <input type="text" class="input" disabled placeholder="{{ $project->total_cost }}">
+        </div>
+        {{-- <div class="grid my-2">
+            <label class="font-normal text-base mb-2">
+                عدد المراحل
+                <span class="text-red-600">*</span>
+            </label>
+            <input type="number" class="input" placeholder="" disabled>
+        </div> --}}
     </div>
 </div>
 <div class="mt-4">
