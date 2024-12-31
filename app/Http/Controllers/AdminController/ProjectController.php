@@ -526,7 +526,7 @@ class ProjectController extends Controller
                                         ]);
                                         $data['financial-data']['total_cost'] === null ? null : Projects::where('id', $project->id)->update(['total_cost' => $data['financial-data']['total_cost']]);
                                     }
-
+                                    dd($data['financial-data']);
                                     if (isset($data['financial-data']['project_phase'])) {
                                         foreach ($data['financial-data']['project_phase'] as $phase) {
                                             Projects::where('id', $project->id)->update([
