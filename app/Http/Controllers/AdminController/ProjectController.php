@@ -702,6 +702,7 @@ class ProjectController extends Controller
         $admin = Auth::user();
         $users = User::all();
         $project = Projects::findOrFail($id);
+        dd($project);
         $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();
@@ -914,7 +915,7 @@ class ProjectController extends Controller
                 case 'مدعوم':
                     switch ($request->input('support-type')) {
                         case 'كلي':
-                            if ($request->input('number-support') === 0) {
+                            if ($request->input('number-support') === null) {
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status')
@@ -976,6 +977,7 @@ class ProjectController extends Controller
                                     'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
                                     'supporters' => $supporters
                                 ];
+                                dd($validated);
                             }
 
                             break;
