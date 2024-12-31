@@ -99,6 +99,7 @@
     </div>
 </div>
 @endif
+@endforeach
 
 <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
 <div class="grid">
@@ -157,4 +158,3 @@
         </tbody>
     </table>
 </div>
-@endforeach

@@ -558,11 +558,11 @@ class ProjectController extends Controller
                                                 'total_cost' => $phase['total_cost']
                                             ]);
                                             if (
-                                                isset($phase['payment_count']) &&
-                                                isset($phase['phase_cost']) && isset($phase['disbursement_status'])
+                                                isset($phase['payment_count']) ||
+                                                isset($phase['phase_cost']) || isset($phase['disbursement_status'])
                                             ) {
                                                 ProjectPhases::create([
-                                                    'stages_count' => $phase['payment_count'],
+                                                    'stages_count' => $phase['payment_count'] ?? 0,
                                                     'project_id' => $project->id,
                                                     'phase_cost' => $phase['phase_cost'] ?? 0,
                                                     'disbursement_status' => ($phase['disbursement_status'] === 'on') ? true : false,
