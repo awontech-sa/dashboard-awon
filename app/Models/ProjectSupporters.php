@@ -37,10 +37,9 @@ class ProjectSupporters extends Model
     {
         $baseUrl = config('filesystems.disks.digitalocean.url');
         $reportFiles = json_decode($this->attributes['report_files'], true);
-
         if (is_array($reportFiles)) {
             $formattedReportFiles = array_map(function ($report) use ($baseUrl) {
-                return $baseUrl . '/' . $report;
+                return $baseUrl . '/' . $report['report'];
             }, $reportFiles);
 
             return $formattedReportFiles;
@@ -53,10 +52,9 @@ class ProjectSupporters extends Model
     {
         $baseUrl = config('filesystems.disks.digitalocean.url');
         $paymentOrderFiles = json_decode($this->attributes['payment_order_files'], true);
-
         if (is_array($paymentOrderFiles)) {
             $formattedpaymentOrderFiles = array_map(function ($payment) use ($baseUrl) {
-                return $baseUrl . '/' . $payment;
+                return $baseUrl . '/' . $payment['payment_order'];
             }, $paymentOrderFiles);
 
             return $formattedpaymentOrderFiles;

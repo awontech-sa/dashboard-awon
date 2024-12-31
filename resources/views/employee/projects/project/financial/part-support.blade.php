@@ -67,12 +67,12 @@
             </div>
             <div class="grid gap-y-4">
                 @if($s->report_files)
-                @foreach(json_decode($s->report_files) as $report)
+                @foreach($s->report_files as $report)
                 <div class="h-[4.1rem] bg-white rounded flex justify-between">
                     <div class="flex gap-x-5 p-4 items-center">
                         <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
                     </div>
-                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $report->report }}" download="">عرض الملف</a>
+                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $report ?? '' }}" download="">عرض الملف</a>
                 </div>
                 @endforeach
                 @endif
@@ -85,12 +85,12 @@
             </div>
             <div class="grid gap-y-4">
                 @if($s->payment_order_files)
-                @foreach(json_decode($s->payment_order_files) as $file)
+                @foreach($s->payment_order_files as $file)
                 <div class="h-[4.1rem] bg-white rounded flex justify-between">
                     <div class="flex gap-x-5 p-4 items-center">
                         <img src="{{ asset("assets/icons/pdf.png") }}" class="w-[1.4rem] h-7" alt="pdf" />
                     </div>
-                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file->payment_order ?? '' }}" download="">عرض الملف</a>
+                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]" href="{{ $file ?? '' }}" download="">عرض الملف</a>
                 </div>
                 @endforeach
                 @endif
