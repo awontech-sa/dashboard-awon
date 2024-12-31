@@ -725,7 +725,6 @@ class ProjectController extends Controller
     {
         $users = User::all();
         $project = Projects::findOrFail($id);
-        dd($project);
         $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();

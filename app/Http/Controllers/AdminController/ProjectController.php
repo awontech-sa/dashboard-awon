@@ -702,7 +702,6 @@ class ProjectController extends Controller
         $admin = Auth::user();
         $users = User::all();
         $project = Projects::findOrFail($id);
-        dd($project);
         $projects = Projects::all();
         $phases = ProjectPhases::find($project->id);
         $files = $project->files()->where('projects_id', $project->id)->get();
@@ -977,7 +976,6 @@ class ProjectController extends Controller
                                     'total_cost' => $request->input('project-income') ?? null,  //إجمالي تكلفة المشروع
                                     'supporters' => $supporters
                                 ];
-                                dd($validated);
                             }
 
                             break;
