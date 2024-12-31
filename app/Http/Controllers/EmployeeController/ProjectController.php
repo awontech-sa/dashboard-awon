@@ -809,6 +809,22 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Projects::findOrFail($id);
+
+        $installmentRemoved = Installments::find($project->id);
+        if ($installmentRemoved) {
+            Storage::disk('digitalocean')->delete($installmentRemoved->receipt_proof);
+        }
+
+        $attachmentRemoved = ProjectFiles::find($project->id);
+        if ($attachmentRemoved) {
+            Storage::disk('digitalocean')->delete($attachmentRemoved->file);
+        }
+
+        $phaseRemoved = ProjectPhases::find($project->id);
+        if ($phaseRemoved) {
+            Storage::disk('digitalocean')->delete($phaseRemoved->disbursement_proof);
+        }
+
         $project->delete();
 
         return redirect()->route('employee.dashboard')->with('success_message', 'تم حذف المشروع بنجاح');
