@@ -271,6 +271,9 @@
             </div>
             @endif
             @endforeach
+        </div>
+
+        <div class="financ-part-support">
             <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
             <div class="grid">
                 <div class="grid grid-cols-2 gap-x-7">
@@ -399,7 +402,7 @@
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
-                            <input type="text" class="input" value="{{ $project->actual_cost }}" name="project-real-income-not-support">
+                            <input type="text" class="input" value="{{ $project->total_cost }}" name="project-real-income-not-support">
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">عدد المراحل</label>
@@ -479,6 +482,7 @@
             let supportTypeForm = document.querySelector('.support-type-form');
             let numberSupportForm = document.querySelector('.number-support-form');
             let costSupportForm = document.querySelector('.cost-project-form');
+            let financePartSupport = document.querySelector('.financ-part-support');
 
             // Logic to show/hide forms
             if (supportStatus === 'مدعوم') {
@@ -491,13 +495,16 @@
                     externalSupportContainer?.classList.add('hidden');
                     externalSupportForm?.classList.add('hidden');
                     internalSupportContainer?.classList.add('hidden');
+                    financePartSupport.classList.add('hidden')
                 } else if (supportType === 'جزئي') {
                     supporterPartDataContainer?.classList.remove('hidden');
+                    financePartSupport.classList.remove('hidden')
                 }
             } else if (supportStatus === 'غير مدعوم') {
                 supportTypeForm?.classList.add('hidden');
                 externalSupportForm?.classList.remove('hidden');
                 if (supporter === 'جهة خارجية') {
+                    financePartSupport.classList.add('hidden')
                     costSupportForm?.classList.add('hidden')
                     numberSupportForm?.classList.add('hidden')
                     supporterFullDataContainer?.classList.add('hidden');
@@ -511,6 +518,7 @@
                     externalSupportForm?.classList.remove('hidden');
                     internalSupportContainer?.classList.remove('hidden');
                     externalSupportContainer?.classList.add('hidden');
+                    financePartSupport.classList.remove('hidden')
                 }
             }
         }
