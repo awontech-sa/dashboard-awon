@@ -107,7 +107,7 @@
                         تكلفة المشروع الفعلية
                         <span class="text-red-600">*</span>
                     </label>
-                    <input type="text" class="input" placeholder="{{ $supporter->real_cost }}">
+                    <input type="text" class="input" placeholder="{{ $supporter->actual_cost }}">
                 </div>
                 <div class="grid my-2">
                     <label class="font-normal text-base mb-2">

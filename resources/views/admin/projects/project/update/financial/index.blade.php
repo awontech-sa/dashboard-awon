@@ -286,7 +286,7 @@
                             تكلفة المشروع الفعلية
                             <span class="text-red-600">*</span>
                         </label>
-                        <input type="number" min="0" class="input" name="project-expected-real" value="{{ $project->total_cost }}">
+                        <input type="number" min="0" class="input" name="project-expected-real" value="{{ $project->actual_cost }}">
                     </div>
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">
