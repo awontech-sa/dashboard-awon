@@ -525,7 +525,6 @@
 
         const installmentCountInput = document.getElementById("installments-count");
         const installmentsTable = document.getElementById("installments-table");
-        let existingRows = @json($installment);
 
         function updateTableRows() {
             const newCount = parseInt(installmentCountInput.value) || 0;
@@ -559,7 +558,6 @@
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
 
-        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         let partSupporterContainer = document.getElementById('partSupporterDataSection')
@@ -831,7 +829,6 @@
 
         const phasesCountInput = document.getElementById("stages_count_not_support");
         const phasesTable = document.getElementById(`phases-table`);
-        let existingPhaseRows = @json($phases);
 
         function updatePhaseRows() {
             const newCount = parseInt(phasesCountInput.value) || 0;

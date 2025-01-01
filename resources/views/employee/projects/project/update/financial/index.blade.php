@@ -1,5 +1,5 @@
 @foreach($dashboard as $project)
-<form action="{{ route('admin.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('employee.update.project', ['step' => $step, 'id' => $project->id]) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -391,7 +391,7 @@
                     <div class="grid grid-cols-2 gap-x-7">
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع المتوقعة</label>
-                            <input type="number" class="input" value="{{ $project->expected_cost }}" name="project-expected-income-not-support">
+                            <input type="text" class="input" value="{{ $project->expected_cost }}" name="project-expected-income-not-support">
                         </div>
                         <div class="grid my-2">
                             <label class="font-normal text-base mb-2">تكلفة المشروع الفعلية</label>
@@ -446,11 +446,11 @@
 
     <div class="join grid grid-cols-2 w-1/4 float-left">
         @if($step == 2 && $step < 8)
-            <a type="submit" href="{{ route('admin.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
+            <a type="submit" href="{{ route('employee.update.project', ['step' => $step - 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700/30 text-base text-cyan-700
             hover:bg-cyan-700/30 hover:text-cyan-700">
             السابق
             </a>
-            <button type="submit" href="{{ route('admin.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
+            <button type="submit" href="{{ route('employee.update.project', ['step' => $step + 1, 'id' => $project->id]) }}" class="join-item btn bg-cyan-700 text-base text-white hover:bg-cyan-700">
                 التالي
             </button>
             @endif
@@ -525,7 +525,6 @@
 
         const installmentCountInput = document.getElementById("installments-count");
         const installmentsTable = document.getElementById("installments-table");
-        let existingRows = @json($installment);
 
         function updateTableRows() {
             const newCount = parseInt(installmentCountInput.value) || 0;
@@ -559,7 +558,6 @@
 
         let numSupport = document.getElementById('number_support') //عدد الجهات الداعمة
 
-        let existingSupport = @json($project -> supporter); //الجهة الداعمة الموجودة
         let supporterContainer = document.getElementById("supporterDataSection")
 
         let partSupporterContainer = document.getElementById('partSupporterDataSection')
@@ -831,7 +829,6 @@
 
         const phasesCountInput = document.getElementById("stages_count_not_support");
         const phasesTable = document.getElementById(`phases-table`);
-        let existingPhaseRows = @json($phases);
 
         function updatePhaseRows() {
             const newCount = parseInt(phasesCountInput.value) || 0;
