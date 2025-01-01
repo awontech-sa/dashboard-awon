@@ -279,21 +279,21 @@
                             تكلفة المشروع المتوقعة
                             <span class="text-red-600">*</span>
                         </label>
-                        <input type="number" name="project-expected-income" class="input" placeholder="{{ $project->expected_cost }}">
+                        <input type="number" min="0" name="project-expected-income" class="input" value="{{ $project->expected_cost }}">
                     </div>
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">
                             تكلفة المشروع الفعلية
                             <span class="text-red-600">*</span>
                         </label>
-                        <input type="number" class="input" name="project-expected-real" placeholder="{{ $project->total_cost }}">
+                        <input type="number" min="0" class="input" name="project-expected-real" value="{{ $project->total_cost }}">
                     </div>
                     <div class="grid my-2">
                         <label class="font-normal text-base mb-2">
                             عدد المراحل
                             <span class="text-red-600">*</span>
                         </label>
-                        <input type="number" class="input" id="stages_count">
+                        <input type="number" name="stages-count" min="0" class="input" value="{{ $phases->last()->stages_count ?? 0 }}" id="stages_count">
                     </div>
                 </div>
                 <div class="mt-4">
@@ -305,13 +305,18 @@
                             <th class="border px-4 py-2">اثبات الصرف</th>
                         </tr>
 
-                        <tbody>
+                        <tbody id="phases_table">
                             @foreach($phases as $key => $phase)
                             @if($phase->stages_count > 0)
                             <tr>
                                 <td class="border px-4 py-2">{{ $key + 1}}</td>
-                                <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
-                                <td class="border px-4 py-2">{{ $phase->disbursement_status }}</td>
+                                <td class="border px-4 py-2">
+                                    <input type="number" value="{{ $phase->phase_cost }}" name="stages[{{ $key+1 }}][amount]" min="0" class="input" />
+                                </td>
+                                <td class="border px-4 py-2">
+                                    <input type="checkbox" name="stages[{{ $key+1 }}][status]" class="checkbox"
+                                        {{ $phase->disbursement_status === 1 ? 'checked' : '' }} />
+                                </td>
                                 <td class="border px-4 py-2">
                                     @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
                                     <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
@@ -625,65 +630,6 @@
                 </div>
                 `
                 partSupporterContainer.appendChild(container)
-                const paymentCountInput = document.getElementById(`payment_count_${i+1}`)
-                const paymentTable = document.getElementById(`payment-table-${i+1}`)
-                paymentCountInput.addEventListener("input", function() {
-                    let newCountPayment = parseInt(paymentCountInput.value) || 0
-                    let currentCountPayment = paymentTable.children.length
-                    for (let j = currentCountPayment; j < newCountPayment; j++) {
-                        let tableContainer = document.createElement('tr')
-                        tableContainer.classList.add('mt-4')
-                        tableContainer.innerHTML = `
-                            <td class="border px-4 py-2">${ j + 1 }</td>
-                            <td class="border px-4 py-2">
-                                <input type="number" name="payments[${i+1}][${j+1}][amount]" min="0" class="input" />
-                            </td>
-                            <td class="border px-4 py-2">
-                                <label class="label cursor-pointer">
-                                    <input type="checkbox" name="payments[${i+1}][${j+1}][status]" class="checkbox" />
-                                    <span class="label-text">تم استلام الدفعة</span>
-                                </label>
-                            </td>
-                            <td class="border">
-                                <input type="file" name="payments[${i+1}][${j+1}][proof]" class="file-input" />
-                            </td>
-                        `
-                        paymentTable.appendChild(tableContainer)
-                    }
-                    for (let index = currentCountPayment - 1; index >= newCountPayment; index--) {
-                        paymentTable.removeChild(paymentTable.children[index])
-                    }
-                })
-
-                const stagesCountInput = document.getElementById(`stages_count_${i+1}`)
-                const stagesTable = document.getElementById(`phases-table-${i+1}`)
-                stagesCountInput.addEventListener('input', function() {
-                    const newCount = parseInt(stagesCountInput.value) || 0;
-                    const currentCount = stagesTable.children.length;
-
-                    for (let j = currentCount; j < newCount; j++) {
-                        const row = document.createElement("tr");
-                        row.innerHTML = `
-                            <td class="border px-4 py-2">${ j+1 }</td>
-                            <td class="border px-4 py-2">
-                                <input type="number" name="stages[${i+1}][${j+1}][amount]" min="0" class="input" />
-                            </td>
-                            <td class="border px-4 py-2">
-                                <label class="label cursor-pointer">
-                                    <input type="checkbox" name="stages[${i+1}][${j+1}][status]" class="checkbox" />
-                                    <span class="label-text">تم استلام الصرف</span>
-                                </label>
-                            </td>
-                            <td class="border">
-                                <input type="file" name="stages[${i+1}][${j+1}][proof]" class="file-input" />
-                            </td>
-                        `;
-                        stagesTable.appendChild(row);
-                    }
-                    for (let i = currentCount - 1; i >= newCount; i--) {
-                        stagesTable.removeChild(stagesTable.children[i]);
-                    }
-                })
             }
             for (let i = currentCount - 1; i >= newCount; i--) {
                 partSupporterContainer.removeChild(partSupporterContainer.children[i]);
@@ -786,6 +732,39 @@
             }
         }
         numSupport.addEventListener("input", updateSupportContainer)
+
+        const paymentCountInput = document.getElementById(`stages_count`)
+        const paymentTable = document.getElementById(`phases_table`)
+
+        function updatePhasePartRows() {
+            const newCount = parseInt(paymentCountInput.value) || 0;
+            const currentCount = paymentTable.children.length;
+
+
+            for (let i = currentCount; i < newCount; i++) {
+                const row = document.createElement("tr");
+                row.innerHTML = `
+                <td class="border px-4 py-2">${i+1}</td>
+                <td class="border px-4 py-2">
+                    <input type="number" name="phases[${i+1}][amount]" min="0" class="input" />
+                </td>
+                <td class="border px-4 py-2">
+                    <label class="label cursor-pointer">
+                        <input type="checkbox" name="phases[${i+1}][status]" class="checkbox" />
+                        <span class="label-text">تم استلام الصرف</span>
+                    </label>
+                </td>
+                <td class="border">
+                    <input type="file" name="phases[${i+1}][proof]" class="file-input" />
+                </td>
+            `;
+                paymentTable.appendChild(row);
+            }
+            for (let i = currentCount - 1; i >= newCount; i--) {
+                paymentTable.removeChild(paymentTable.children[i]);
+            }
+        }
+        paymentCountInput.addEventListener("input", updatePhasePartRows)
 
         const phasesCountInput = document.getElementById("stages_count_not_support");
         const phasesTable = document.getElementById(`phases-table`);

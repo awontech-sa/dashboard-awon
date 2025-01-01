@@ -1041,7 +1041,7 @@ class ProjectController extends Controller
                                             ];
                                         } else {
                                             $disbursementProof[] = [
-                                                'payment_count' => $request->input("stages-count"),
+                                                'payment_count' => $request->input("stages-count") ?? 0,
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
                                                 'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
@@ -1107,37 +1107,37 @@ class ProjectController extends Controller
                                         }
                                     }
 
-                                    if ($request->input("stages-count-{$i}") !== null) {
-                                        for ($j = 1; $j <= $request->input("stages-count-{$i}"); $j++) {
-                                            if ($request->hasFile("stages_files_{$i}_{$j}")) {
-                                                $file = $request->file("stages_files_{$i}_{$j}");
-                                                $fileName = time() . '.' . $file->getClientOriginalExtension();
-                                                $disbursementProof[] = [
-                                                    'amount' => $request->input("stages.{$i}.{$j}.amount") ?? 0,  //تكلفة المرحلة
-                                                    'status' => $request->input("stages.{$i}.{$j}.status") ?? false,  //حالة الصرف
-                                                    'proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
-                                                ];
-                                            } else {
-                                                $disbursementProof[] = [
-                                                    'payment_count' => $request->input("stages-count-{$i}"),
-                                                    'amount' => $request->input("stages.{$i}.{$j}.amount") ?? 0,  //تكلفة المرحلة
-                                                    'status' => $request->input("stages.{$i}.{$j}.status") ?? false,  //حالة الصرف
-                                                ];
-                                            }
-                                        }
-                                    } else {
-                                        $disbursementProof[] = [
-                                            'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                            'total_cost' => $request->input("project-expected-real") ?? 0
-                                        ];
-                                    }
-
                                     $supporter[] = [
                                         'supporter_name' => $request->input("comp-support-{$i}"),
                                         'installments_count' => $request->input("payment-count-{$i}"),
                                         'support_amount' => $request->input("project-income-total-{$i}")
                                     ];
                                 }
+                                if ($request->input("stages-count") !== null) {
+                                    for ($j = 1; $j <= $request->input("stages-count"); $j++) {
+                                        if ($request->hasFile("stages_files_{$j}")) {
+                                            $file = $request->file("stages_files{$j}");
+                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                            $disbursementProof[] = [
+                                                'amount' => $request->input("stages.{$j}.amount") ?? 0,  //تكلفة المرحلة
+                                                'status' => $request->input("stages.{$j}.status") ?? false,  //حالة الصرف
+                                                'proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
+                                            ];
+                                        } else {
+                                            $disbursementProof[] = [
+                                                'payment_count' => $request->input("stages-count"),
+                                                'amount' => $request->input("stages.{$j}.amount") ?? 0,  //تكلفة المرحلة
+                                                'status' => $request->input("stages.{$j}.status") ?? false,  //حالة الصرف
+                                            ];
+                                        }
+                                    }
+                                } else {
+                                    $disbursementProof[] = [
+                                        'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
+                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                    ];
+                                }
+
                                 $validated = [
                                     'supporter_number' => $request->input('number-support') ?? 0,
                                     'p_support_type' => $request->input('support-type') ?? null,    //كلي أو جزئي
