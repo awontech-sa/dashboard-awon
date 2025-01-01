@@ -1027,10 +1027,40 @@ class ProjectController extends Controller
                             break;
                         case 'جزئي':
                             if ($request->input('number-support') === null) {
+                                if ($request->input("stages-count") !== null) {
+                                    for ($j = 1; $j <= $request->input("stages-count"); $j++) {
+                                        if ($request->hasFile("stages_files_{$j}")) {
+                                            $file = $request->file("stages_files_{$j}");
+                                            $fileName = time() . '.' . $file->getClientOriginalExtension();
+                                            $disbursementProof[] = [
+                                                'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
+                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
+                                                'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
+                                                'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
+                                            ];
+                                        } else {
+                                            $disbursementProof[] = [
+                                                'payment_count' => $request->input("stages-count"),
+                                                'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
+                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
+                                                'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
+                                            ];
+                                        }
+                                    }
+                                } else {
+                                    $disbursementProof[] = [
+                                        'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
+                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                    ];
+                                }
+
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status'),
-                                    'total_cost' => $request->input('project-income')
+                                    'total_cost' => $request->input('project-income'),
+                                    'project_phase' => $disbursementProof
                                 ];
                             } else {
                                 for ($i = 1; $i <= $request->input('number-support'); $i++) {
@@ -1083,8 +1113,6 @@ class ProjectController extends Controller
                                                 $file = $request->file("stages_files_{$i}_{$j}");
                                                 $fileName = time() . '.' . $file->getClientOriginalExtension();
                                                 $disbursementProof[] = [
-                                                    'expected_cost' => $request->input("project-expected-income-{$i}") ?? 0,  //تكلفة المشروع المتوقعة
-                                                    'total_cost' => $request->input("project-expected-real-{$i}") ?? 0,  //تكلفة المشروع الفعلية
                                                     'amount' => $request->input("stages.{$i}.{$j}.amount") ?? 0,  //تكلفة المرحلة
                                                     'status' => $request->input("stages.{$i}.{$j}.status") ?? false,  //حالة الصرف
                                                     'proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
@@ -1092,8 +1120,6 @@ class ProjectController extends Controller
                                             } else {
                                                 $disbursementProof[] = [
                                                     'payment_count' => $request->input("stages-count-{$i}"),
-                                                    'expected_cost' => $request->input("project-expected-income-{$i}") ?? 0,  //تكلفة المشروع المتوقعة
-                                                    'total_cost' => $request->input("project-expected-real-{$i}") ?? 0,  //تكلفة المشروع الفعلية
                                                     'amount' => $request->input("stages.{$i}.{$j}.amount") ?? 0,  //تكلفة المرحلة
                                                     'status' => $request->input("stages.{$i}.{$j}.status") ?? false,  //حالة الصرف
                                                 ];
@@ -1101,8 +1127,8 @@ class ProjectController extends Controller
                                         }
                                     } else {
                                         $disbursementProof[] = [
-                                            'expected_cost' => $request->input("project-expected-income-{$i}") ?? 0,  //تكلفة المشروع المتوقعة
-                                            'total_cost' => $request->input("project-expected-real-{$i}") ?? 0
+                                            'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
+                                            'total_cost' => $request->input("project-expected-real") ?? 0
                                         ];
                                     }
 

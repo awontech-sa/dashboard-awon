@@ -268,64 +268,63 @@
                         </div>
                     </div>
                 </div>
-
-                <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
-                <div class="grid">
-                    <div class="grid grid-cols-2 gap-x-7">
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">
-                                تكلفة المشروع المتوقعة
-                                <span class="text-red-600">*</span>
-                            </label>
-                            <input type="text" class="input" placeholder="{{ $supporter->expected_cost }}">
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">
-                                تكلفة المشروع الفعلية
-                                <span class="text-red-600">*</span>
-                            </label>
-                            <input type="text" class="input" placeholder="{{ $supporter->real_cost }}">
-                        </div>
-                        <div class="grid my-2">
-                            <label class="font-normal text-base mb-2">
-                                عدد المراحل
-                                <span class="text-red-600">*</span>
-                            </label>
-                            <input type="number" class="input" placeholder="" id="stages_count_${i}">
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <table class="w-full border mt-2 table text-center">
-                            <tr>
-                                <th class="border px-4 py-2">المرحلة</th>
-                                <th class="border px-4 py-2">تكلفة المرحلة</th>
-                                <th class="border px-4 py-2">حالة الصرف</th>
-                                <th class="border px-4 py-2">اثبات الصرف</th>
-                            </tr>
-
-                            <tbody>
-                                @foreach($phases as $key => $phase)
-                                @if($phase->stages_count > 0)
-                                <tr>
-                                    <td class="border px-4 py-2">{{ $key + 1}}</td>
-                                    <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
-                                    <td class="border px-4 py-2">{{ $phase->disbursement_status }}</td>
-                                    <td class="border px-4 py-2">
-                                        @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
-                                        <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
-                                            href="{{ $phase->disbursement_proof }}" download="">عرض الملف</a>
-                                        @endif
-                                    </td>
-                                </tr>
-                                @endif
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
             </div>
             @endif
             @endforeach
+            <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
+            <div class="grid">
+                <div class="grid grid-cols-2 gap-x-7">
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">
+                            تكلفة المشروع المتوقعة
+                            <span class="text-red-600">*</span>
+                        </label>
+                        <input type="number" name="project-expected-income" class="input" placeholder="{{ $project->expected_cost }}">
+                    </div>
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">
+                            تكلفة المشروع الفعلية
+                            <span class="text-red-600">*</span>
+                        </label>
+                        <input type="number" class="input" name="project-expected-real" placeholder="{{ $project->total_cost }}">
+                    </div>
+                    <div class="grid my-2">
+                        <label class="font-normal text-base mb-2">
+                            عدد المراحل
+                            <span class="text-red-600">*</span>
+                        </label>
+                        <input type="number" class="input" id="stages_count">
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <table class="w-full border mt-2 table text-center">
+                        <tr>
+                            <th class="border px-4 py-2">المرحلة</th>
+                            <th class="border px-4 py-2">تكلفة المرحلة</th>
+                            <th class="border px-4 py-2">حالة الصرف</th>
+                            <th class="border px-4 py-2">اثبات الصرف</th>
+                        </tr>
+
+                        <tbody>
+                            @foreach($phases as $key => $phase)
+                            @if($phase->stages_count > 0)
+                            <tr>
+                                <td class="border px-4 py-2">{{ $key + 1}}</td>
+                                <td class="border px-4 py-2">{{ $phase->phase_cost }}</td>
+                                <td class="border px-4 py-2">{{ $phase->disbursement_status }}</td>
+                                <td class="border px-4 py-2">
+                                    @if(preg_match('/\.(jpg|jpeg|png|pdf)$/i', basename($phase->disbursement_proof)))
+                                    <a class="btn m-2 btn-md bg-[#FBFDFE] rounded-md border-[#0F91D2] text-[#0F91D2]"
+                                        href="{{ $phase->disbursement_proof }}" download="">عرض الملف</a>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endif
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
 
         <div class="supporter-comp-external hidden">
@@ -623,45 +622,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <h1 class="font-bold text-base mt-4">البيانات المالية للجزء الغير مدعوم</h1>
-                        <div class="grid">
-                            <div class="grid grid-cols-2 gap-x-7">
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">
-                                        تكلفة المشروع المتوقعة
-                                        <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="number" class="input" name="project-expected-income-${i+1}">
-                                </div>
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">
-                                        تكلفة المشروع الفعلية
-                                        <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="number" class="input" name="project-expected-real-${i+1}">
-                                </div>
-                                <div class="grid my-2">
-                                    <label class="font-normal text-base mb-2">
-                                        عدد المراحل
-                                        <span class="text-red-600">*</span>
-                                    </label>
-                                    <input type="number" class="input" name="stages-count-${i+1}" placeholder="" id="stages_count_${i+1}">
-                                </div>
-                            </div>
-                            <div class="mt-4">
-                                <table class="w-full border mt-2 table text-center">
-                                    <tr>
-                                        <th class="border px-4 py-2">المرحلة</th>
-                                        <th class="border px-4 py-2">تكلفة المرحلة</th>
-                                        <th class="border px-4 py-2">حالة الصرف</th>
-                                        <th class="border px-4 py-2">اثبات الصرف</th>
-                                    </tr>
-
-                                    <tbody id="phases-table-${i+1}"></tbody>
-                                </table>
-                            </div>
-                        </div>
                 </div>
                 `
                 partSupporterContainer.appendChild(container)
