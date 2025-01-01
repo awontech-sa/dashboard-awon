@@ -251,7 +251,7 @@ class ProjectController extends Controller
                                             $fileName = time() . '.' . $file->getClientOriginalExtension();
                                             $disbursementProof[] = [
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                                 'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
@@ -260,7 +260,7 @@ class ProjectController extends Controller
                                             $disbursementProof[] = [
                                                 'payment_count' => $request->input("stages-count"),
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                             ];
@@ -269,7 +269,7 @@ class ProjectController extends Controller
                                 } else {
                                     $disbursementProof[] = [
                                         'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                        'actual_cost' => $request->input("project-expected-real") ?? 0
                                     ];
                                 }
 
@@ -341,7 +341,7 @@ class ProjectController extends Controller
                                             $fileName = time() . '.' . $file->getClientOriginalExtension();
                                             $disbursementProof[] = [
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                                 'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
@@ -350,7 +350,7 @@ class ProjectController extends Controller
                                             $disbursementProof[] = [
                                                 'payment_count' => $request->input("stages-count"),
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                             ];
@@ -359,7 +359,7 @@ class ProjectController extends Controller
                                 } else {
                                     $disbursementProof[] = [
                                         'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                        'actual_cost' => $request->input("project-expected-real") ?? 0
                                     ];
                                 }
 
@@ -433,7 +433,7 @@ class ProjectController extends Controller
                             $validated = [
                                 'stages_count' => $request->input('stages-count-not-support') ?? 0,
                                 'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
-                                'total_cost' => $request->input('project-real-income-not-support') ?? 0.00,
+                                'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
                                 'project_phases' => $disbursementProof ?? [],
                                 'p_support_status' => $request->input('support-status') ?? null,
                                 'p_support_type' => $request->input('supporter') ?? null
@@ -1083,7 +1083,7 @@ class ProjectController extends Controller
                                             $fileName = time() . '.' . $file->getClientOriginalExtension();
                                             $disbursementProof[] = [
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                                 'disbursement_proof' => Storage::disk('digitalocean')->putFileAs('proofs', $file, $fileName) ?? null
@@ -1092,7 +1092,7 @@ class ProjectController extends Controller
                                             $disbursementProof[] = [
                                                 'payment_count' => $request->input("stages-count") ?? 0,
                                                 'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                                'total_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
+                                                'actual_cost' => $request->input("project-expected-real") ?? 0,  //تكلفة المشروع الفعلية
                                                 'phase_cost' => $request->input("stages_amount_{$j}") ?? 0,  //تكلفة المرحلة
                                                 'disbursement_status' => $request->input("stages_status_{$j}") ?? false,  //حالة الصرف
                                             ];
@@ -1101,14 +1101,14 @@ class ProjectController extends Controller
                                 } else {
                                     $disbursementProof[] = [
                                         'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                        'actual_cost' => $request->input("project-expected-real") ?? 0
                                     ];
                                 }
 
                                 $validated = [
                                     'p_support_type' => $request->input('support-type'),    //كلي أو جزئي
                                     'p_support_status' => $request->input('support-status'),
-                                    'total_cost' => $request->input('project-income'),
+                                    'actual_cost' => $request->input('project-income'),
                                     'project_phase' => $disbursementProof
                                 ];
                             } else {
@@ -1183,7 +1183,7 @@ class ProjectController extends Controller
                                 } else {
                                     $disbursementProof[] = [
                                         'expected_cost' => $request->input("project-expected-income") ?? 0,  //تكلفة المشروع المتوقعة
-                                        'total_cost' => $request->input("project-expected-real") ?? 0
+                                        'actual_cost' => $request->input("project-expected-real") ?? 0
                                     ];
                                 }
 
@@ -1259,7 +1259,7 @@ class ProjectController extends Controller
                             $validated = [
                                 'stages_count' => $request->input('stages-count-not-support') ?? 0,
                                 'expected_cost' => $request->input('project-expected-income-not-support') ?? 0.00,  //تكلفة المشرع المتوقعة
-                                'total_cost' => $request->input('project-real-income-not-support') ?? 0.00,
+                                'actual_cost' => $request->input('project-real-income-not-support') ?? 0.00,
                                 'project_phases' => $disbursementProof ?? [],
                                 'p_support_status' => $request->input('support-status') ?? null,
                                 'p_support_type' => $request->input('supporter') ?? null
@@ -1484,7 +1484,7 @@ class ProjectController extends Controller
                                             if (!empty($data['financial-data']['project_phases'])) {
                                                 Projects::where('id', $project->id)->update([
                                                     'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
-                                                    'total_cost' => $data['financial-data']['total_cost'] ?? 0,
+                                                    'actual_cost' => $data['financial-data']['actual_cost'] ?? 0,
                                                 ]);
 
                                                 ProjectSupporters::where('projects_id', $project->id)->update([
@@ -1575,7 +1575,7 @@ class ProjectController extends Controller
                                     if (!empty($data['financial-data']['project_phases'])) {
                                         Projects::where('id', $project->id)->update([
                                             'expected_cost' => $data['financial-data']['expected_cost'] ?? 0,
-                                            'total_cost' => $data['financial-data']['total_cost'] ?? 0
+                                            'actual_cost' => $data['financial-data']['actual_cost'] ?? 0
                                         ]);
 
                                         ProjectSupporters::where('projects_id', $project->id)->update([
