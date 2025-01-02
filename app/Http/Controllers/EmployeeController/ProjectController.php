@@ -579,7 +579,6 @@ class ProjectController extends Controller
                                             'p_support_status' => $data['financial-data']['p_support_status'],
                                             'p_support_type' => $data['financial-data']['p_support_type']
                                         ]);
-                                        $data['financial-data']['actual_cost'] === null ? null : Projects::where('id', $project->id)->update(['actual_cost' => $data['financial-data']['actual_cost']]);
                                     }
                                     if (isset($data['financial-data']['project_phase'])) {
                                         foreach ($data['financial-data']['project_phase'] as $phase) {
