@@ -535,14 +535,14 @@
         });
         toggleForms();
 
-        const installmentCountInput = document.getElementById("installments-count");
-        const installmentsTable = document.getElementById("installments-table");
+        let installmentCountInput = document.getElementById("installments-count");
+        let installmentsTable = document.getElementById("installments-table");
 
         function updateTableRows() {
-            const newCount = parseInt(installmentCountInput.value) || 0;
-            const currentCount = installmentsTable.children.length;
+            let newCount = parseInt(installmentCountInput.value) || 0;
+            let currentCount = installmentsTable.children.length;
             for (let i = currentCount; i < newCount; i++) {
-                const row = document.createElement("tr");
+                let row = document.createElement("tr");
                 row.innerHTML = `
                 <td class="border px-4 py-2">${i + 1}</td>
                 <td class="border px-4 py-2">
@@ -575,8 +575,8 @@
         let partSupporterContainer = document.getElementById('partSupporterDataSection')
 
         function updatePartSupport() {
-            const newCount = parseInt(numSupport.value) || 0;
-            const currentCount = partSupporterContainer.children.length;
+            let newCount = parseInt(numSupport.value) || 0;
+            let currentCount = partSupporterContainer.children.length;
             for (let i = currentCount; i < newCount; i++) {
                 let container = document.createElement("div")
                 container.innerHTML = `
@@ -646,8 +646,8 @@
         numSupport.addEventListener("input", updatePartSupport)
 
         function updateSupportContainer() {
-            const newCount = parseInt(numSupport.value) || 0;
-            const currentCount = supporterContainer.children.length;
+            let newCount = parseInt(numSupport.value) || 0;
+            let currentCount = supporterContainer.children.length;
             for (let i = currentCount; i < newCount; i++) {
                 let container = document.createElement("div")
                 container.innerHTML = `
@@ -704,12 +704,12 @@
                         </div>
                     </div>
                 `
-                supporterContainer.appendChild(container)
-                const paymentCountInput = document.getElementById(`payment_count_${i+1}`)
-                const paymentTable = document.getElementById(`payment-table-${i+1}`)
+                let paymentCountInput = document.getElementById(`payment_count_${i+1}`)
+                let paymentSupportTable = document.getElementById(`payment-table-${i+1}`)
+                
                 paymentCountInput.addEventListener("input", function() {
                     let newCountPayment = parseInt(paymentCountInput.value) || 0
-                    let currentCountPayment = paymentTable.children.length
+                    let currentCountPayment = paymentSupportTable.children.length
                     for (let j = currentCountPayment; j < newCountPayment; j++) {
                         let tableContainer = document.createElement('tr')
                         tableContainer.classList.add('mt-4')
@@ -728,10 +728,12 @@
                                 <input type="file" name="payments[${i+1}][${j+1}][proof]" class="file-input" />
                             </td>
                         `
-                        paymentTable.appendChild(tableContainer)
+                        paymentSupportTable.appendChild(tableContainer)
+                        container.appendChild(paymentSupportTable)
                     }
+                    supporterContainer.appendChild(container);
                     for (let index = currentCountPayment - 1; index >= newCountPayment; index--) {
-                        paymentTable.removeChild(paymentTable.children[index])
+                        paymentSupportTable.removeChild(paymentSupportTable.children[index])
                     }
                 })
             }
@@ -741,16 +743,16 @@
         }
         numSupport.addEventListener("input", updateSupportContainer)
 
-        const paymentCountInput = document.getElementById(`stages_count`)
-        const paymentTable = document.getElementById(`phases_table`)
+        let paymentCountInput = document.getElementById(`stages_count`)
+        let paymentTable = document.getElementById(`phases_table`)
 
         function updatePhasePartRows() {
-            const newCount = parseInt(paymentCountInput.value) || 0;
-            const currentCount = paymentTable.children.length;
+            let newCount = parseInt(paymentCountInput.value) || 0;
+            let currentCount = paymentTable.children.length;
 
 
             for (let i = currentCount; i < newCount; i++) {
-                const row = document.createElement("tr");
+                let row = document.createElement("tr");
                 row.innerHTML = `
                 <td class="border px-4 py-2">${i+1}</td>
                 <td class="border px-4 py-2">
@@ -774,15 +776,14 @@
         }
         paymentCountInput.addEventListener("input", updatePhasePartRows)
 
-        const phasesCountInput = document.getElementById("stages_count_not_support");
-        const phasesTable = document.getElementById(`phases-table`);
+        let phasesCountInput = document.getElementById("stages_count_not_support");
+        let phasesTable = document.getElementById(`phases-table`);
 
         function updatePhaseRows() {
-            const newCount = parseInt(phasesCountInput.value) || 0;
-            const currentCount = phasesTable.children.length;
-
+            let newCount = parseInt(phasesCountInput.value) || 0;
+            let currentCount = phasesTable.children.length;
             for (let i = currentCount; i < newCount; i++) {
-                const row = document.createElement("tr");
+                let row = document.createElement("tr");
                 row.innerHTML = `
                 <td class="border px-4 py-2">${ i + 1 }</td>
                 <td class="border px-4 py-2">
