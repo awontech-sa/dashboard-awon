@@ -97,12 +97,8 @@
     </div>
   </section>
 
-  <section class="grid items-center font-['Tajawal'] mx-4 gap-y-4
-  laptop:grid-cols-2
-  desktop:grid-cols-2">
-    <div class="w-fit h-auto bg-white border-2 border-[#ECEEF6] rounded-md mx-6 px-4
-    laptop:w-auto laptop:h-auto
-    desktop:w-auto desktop:h-auto">
+  <section class="font-['Tajawal'] mx-4 gap-y-4">
+    <div class="w-auto h-auto bg-white border-2 border-[#ECEEF6] rounded-md mx-6 px-4">
       <div class="flex justify-between py-6">
         <p class="font-bold text-base">نسبة إنجاز المشاريع</p>
         {{-- <a href="" class="link text-blue-600">عرض الكل ←</a> --}}
