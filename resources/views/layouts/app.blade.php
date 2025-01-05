@@ -40,7 +40,7 @@
                                 <ul class="font-['Tajawal']">
                                     @foreach($projects as $project)
                                     <li>
-                                        <a href="{{ route('tech', $project->id) }}">
+                                        <a href="{{ route('login') }}">
                                             <x-far-folder class="text-gray-500 w-6" />
                                             <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                         </a>
@@ -115,7 +115,7 @@
                                                         <ul class="font-['Tajawal']">
                                                             @foreach($projects as $project)
                                                             <li>
-                                                                <a href="{{ route('tech', $project->id) }}">
+                                                                <a href="{{ route('login') }}">
                                                                     <x-far-folder class="text-gray-500 w-6" />
                                                                     <p class="text-black font-normal mt-2">{{ $project->p_name }}</p>
                                                                 </a>

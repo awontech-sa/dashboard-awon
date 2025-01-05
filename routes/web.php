@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/login', [AuthController::class, 'index'])->name('login');
 Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
 Route::post('/logout', [AuthController::class, 'logout'])->name('auth.logout');
-Route::get('/percentage-projects', [VisitorController::class, 'showPercentage'])->name('percentage');
+Route::get('/percentage-projects', [VisitorController::class, 'show'])->name('percentage');
 
 //start forgot password route
 Route::get('/forgot-password', [ForgotPasswordController::class, 'index'])->name('forgot.password');  // Show forgot password form
@@ -110,4 +110,3 @@ Route::name('employee.')->prefix('employee')->middleware('role')->group(function
 // end employee route
 
 Route::get('/', [VisitorController::class, 'index'])->name('home');
-Route::get('/{id}', [VisitorController::class, 'show'])->name('tech');
