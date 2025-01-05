@@ -37,7 +37,7 @@ class VisitorController extends Controller
         ]);
     }
 
-    public function show($id)
+    public function show()
     {
         $projects = Projects::all();
         if (!empty($projects)) {
