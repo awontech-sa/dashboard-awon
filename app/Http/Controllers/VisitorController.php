@@ -76,4 +76,17 @@ class VisitorController extends Controller
             'installment' => $installment,
         ]);
     }
+
+    public function showPercentage()
+    {
+        $projects = Projects::all();
+        if (!empty($projects)) {
+            $dashboard = Projects::with('stageOfProject')->take(4)->get();
+        }
+
+        return view('dashboard.percentage-projects', [
+            'projects' => $projects,
+            'dashboard' => $dashboard
+        ]);
+    }
 }
